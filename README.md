@@ -27,3 +27,10 @@
 1. **Clona el repositorio**:  
    ```bash
    git clone https://github.com/usuario/sgi.git
+2. Crea la base de datos en MySQL; el nombre es db_sgi
+3. **Configura tus variables de entorno**
+   ```powershell
+   $env:DB_URL="jdbc:mysql://localhost:3306/db_sgi
+   $env:DB_USER="mi_usuario"
+   $env:DB_PASS="mi_password"
+   
