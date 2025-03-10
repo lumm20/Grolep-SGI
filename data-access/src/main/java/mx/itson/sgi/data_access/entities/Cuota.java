@@ -2,6 +2,8 @@ package mx.itson.sgi.data_access.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,20 +20,26 @@ public class Cuota {
     private Long id;
     @Column(name = "monto_base")
     private Double montoBase;
-    @Column(name = "ciclo_escolar")
+
+    @ManyToOne
+    @JoinColumn(name = "ciclo_escolar")
     private CicloEscolar ciclo;
     
     @ManyToOne
     @JoinColumn(name = "matricula_alumno")
     private Alumno alumno;
 
+    @Enumerated(EnumType.STRING)
+    private ConceptoCuota concepto;
+
     public Cuota() {
     }
 
-    public Cuota(Double montoBase, CicloEscolar ciclo, Alumno alumno) {
+    public Cuota(Double montoBase, CicloEscolar ciclo, Alumno alumno, ConceptoCuota concepto) {
         this.montoBase = montoBase;
         this.ciclo = ciclo;
         this.alumno = alumno;
+        this.concepto = concepto;
     }
 
     public Long getId() {
@@ -69,5 +77,13 @@ public class Cuota {
     @Override
     public String toString() {
         return "{id=" + id + ", montoBase=" + montoBase + ", ciclo=" + ciclo + "}";
+    }
+
+    public ConceptoCuota getConcepto() {
+        return concepto;
+    }
+
+    public void setConcepto(ConceptoCuota concepto) {
+        this.concepto = concepto;
     }    
 }

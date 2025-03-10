@@ -2,10 +2,22 @@ package mx.itson.sgi.data_access.entities;
 
 import java.time.LocalDate;
 
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "ciclos_escolares")
 public class CicloEscolar {
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
+    
+    @Id
     private String id;
+    @Column(name = "fecha_inicio",nullable = false)
+    private LocalDate fechaInicio;
+    @Column(name = "fecha_fin",nullable = false)
+    private LocalDate fechaFin;
 
     public CicloEscolar(LocalDate fechaInicio, LocalDate fechaFin) {
         this.fechaInicio = fechaInicio;
@@ -32,4 +44,10 @@ public class CicloEscolar {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "{id=" + id + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + "}";
+    }
+
+    
 }

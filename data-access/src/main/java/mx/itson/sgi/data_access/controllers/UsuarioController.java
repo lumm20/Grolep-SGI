@@ -2,17 +2,22 @@ package mx.itson.sgi.data_access.controllers;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import mx.itson.sgi.data_access.entities.Usuario;
 import mx.itson.sgi.data_access.repositories.UsuarioRepository;
 import mx.itson.sgi.data_access.utilities.Security;
 
-
+@Service
 public class UsuarioController {
+    @Autowired
     private UsuarioRepository repository;
+    @Autowired
     private Security security;
     
     public boolean login(Usuario usuario){
-        Optional<Usuario> optional = repository.findByName(usuario.getNombre());
+        Optional<Usuario> optional = repository.findByNombre(usuario.getNombre());
         if(optional.isPresent()){
             Usuario usuarioEncontrado = optional.get();
             return security.authenticate(usuario.getContra(), usuarioEncontrado.getContra());
@@ -21,11 +26,23 @@ public class UsuarioController {
     }
 
     public Usuario findUser(String username){
-        Optional<Usuario> usuarioBuscado = repository.findUserByName(username);
+        Optional<Usuario> usuarioBuscado = repository.findUserByNombre(username);
         
         if(usuarioBuscado.isPresent()){
             return usuarioBuscado.get();
         }
         return null;
+    }
+
+    /**
+     * Registra un nuevo usuario codificando su contraseña antes de guardarla
+     * @param usuario Nuevo usuario con contraseña en texto plano
+     * @return Usuario creado
+     */
+    public Usuario registrarUsuario(Usuario usuario) {
+        String contraHasheada = security.encodePassword(usuario.getContra());
+        usuario.setContra(contraHasheada);
+        
+        return repository.save(usuario);
     }
 }

@@ -2,6 +2,8 @@ package mx.itson.sgi.data_access.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,13 +20,19 @@ public class Usuario {
     private String nombre;
     @Column(nullable = false)
     private String contra;
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Rol rol;
     private String correo;
     
     public Usuario(String nombre, String contra, Rol rol, String correo) {
         this.nombre = nombre;
         this.contra = contra;
+        this.rol = rol;
+        this.correo = correo;
+    }
+
+    public Usuario(String nombre, Rol rol, String correo) {
+        this.nombre = nombre;
         this.rol = rol;
         this.correo = correo;
     }
@@ -61,6 +69,11 @@ public class Usuario {
     }
     public void setCorreo(String correo) {
         this.correo = correo;
+    }
+
+    @Override
+    public String toString() {
+        return "{id=" + id + ", nombre=" + nombre + ", rol=" + rol + ", correo=" + correo + "}";
     }
 
 }

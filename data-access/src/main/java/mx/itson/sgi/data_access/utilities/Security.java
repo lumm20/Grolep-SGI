@@ -1,15 +1,17 @@
 package mx.itson.sgi.data_access.utilities;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Security {
     private BCryptPasswordEncoder encoder;
 
     public Security() {
-        this.encoder = new BCryptPasswordEncoder();
+        this.encoder = new BCryptPasswordEncoder(12);
     }
 
-    public String encode(String password)  {
+    public String encodePassword(String password)  {
         return encoder.encode(password);
     }
 

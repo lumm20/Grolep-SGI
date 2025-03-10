@@ -6,10 +6,12 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import mx.itson.sgi.data_access.utilities.BecaConverter;
 
 @Entity
 @Table(name = "alumnos")
@@ -19,7 +21,11 @@ public class Alumno {
     private String matricula;
     private String nombre;
     private String apellidos;
+
+    @Convert(converter = BecaConverter.class)
+    @Column(name = "tipo_beca")
     private Beca beca;
+    
     @Column(name = "telefono_padre")
     private String telefonoPadre;
     

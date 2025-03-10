@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -15,9 +17,9 @@ public class Pago {
 
     @Id
     private String folio;
-    @Column(name = "fecha_hora")
+    @Column(name = "fecha_hora",nullable=false)
     private LocalDateTime fechaHora;
-    @Column(name = "monto_total")
+    @Column(name = "monto_total",nullable=false)
     private Double montoTotal;
     @ManyToOne
     @JoinColumn(name = "id_cajero")
@@ -26,7 +28,9 @@ public class Pago {
     @ManyToOne
     @JoinColumn(name = "id_cuota")
     private Cuota cuota;
-
+    
+    @Column(name = "metodo_pago",nullable=false)
+    @Enumerated(EnumType.STRING)
     private MetodoPago metodoPago;
 
     public Pago() {
