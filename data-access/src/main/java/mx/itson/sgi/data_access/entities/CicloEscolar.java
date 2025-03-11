@@ -19,6 +19,8 @@ public class CicloEscolar {
     @Column(name = "fecha_fin",nullable = false)
     private LocalDate fechaFin;
 
+    public CicloEscolar(){}
+
     public CicloEscolar(LocalDate fechaInicio, LocalDate fechaFin) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;

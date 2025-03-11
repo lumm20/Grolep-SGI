@@ -1,7 +1,10 @@
 package mx.itson.sgi.data_access.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,9 +29,8 @@ public class Pago {
     @JoinColumn(name = "id_cajero")
     private Usuario cajero;
     
-    @ManyToOne
-    @JoinColumn(name = "id_cuota")
-    private Cuota cuota;
+    @OneToMany(mappedBy = "pago", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<DetallePago> detalles;
     
     @Column(name = "metodo_pago",nullable=false)
     @Enumerated(EnumType.STRING)
@@ -42,7 +45,7 @@ public class Pago {
         this.fechaHora = fechaHora;
         this.montoTotal = montoTotal;
         this.cajero = cajero;
-        this.cuota = cuota;
+        this.detalles = new ArrayList<>();
         this.metodoPago = metodoPago;
     }
 
@@ -71,12 +74,12 @@ public class Pago {
         this.cajero = cajero;
     }
 
-    public Cuota getCuota() {
-        return cuota;
+    public List<DetallePago> getDetalles() {
+        return detalles;
     }
 
-    public void setCuota(Cuota cuota) {
-        this.cuota = cuota;
+    public void setDetalles(List<DetallePago> detalles) {
+        this.detalles = detalles;
     }
 
     public MetodoPago getMetodoPago() {
