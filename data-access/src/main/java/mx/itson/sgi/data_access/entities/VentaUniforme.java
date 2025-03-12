@@ -4,34 +4,37 @@
  */
 package mx.itson.sgi.data_access.entities;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.Data;
 
 @Entity
-@Table(name = "ciclos_escolares")
+@Table(name = "ventas_uniformes")
 @Data
-public class CicloEscolar {
+public class VentaUniforme {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(nullable = false)
-    private LocalDate inicio;
+    private Integer cantidad;
     
-    @Column(nullable = false)
-    private LocalDate fin;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal precio;
     
-    @OneToMany(mappedBy = "cicloEscolar")
-    private List<Cuota> cuotas = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "uniforme_id", nullable = false)
+    private Uniforme uniforme;
+    
+    @ManyToOne
+    @JoinColumn(name = "venta_id", nullable = false)
+    private Venta venta;
 }

@@ -4,9 +4,12 @@
  */
 package mx.itson.sgi.data_access.entities;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,20 +21,23 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "ciclos_escolares")
+@Table(name = "compras")
 @Data
-public class CicloEscolar {
+public class Compra {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(nullable = false)
-    private LocalDate inicio;
+    private LocalDate fecha;
     
     @Column(nullable = false)
-    private LocalDate fin;
+    private LocalTime hora;
     
-    @OneToMany(mappedBy = "cicloEscolar")
-    private List<Cuota> cuotas = new ArrayList<>();
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal montoTotal;
+    
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
+    private List<CompraUniforme> comprasUniforme = new ArrayList<>();
 }

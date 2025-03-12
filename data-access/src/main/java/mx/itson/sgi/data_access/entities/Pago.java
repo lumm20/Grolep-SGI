@@ -1,93 +1,66 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package mx.itson.sgi.data_access.entities;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "pagos")
+@Data
 public class Pago {
-
+    
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal montoTotal;
+    
+    @Column(nullable = false, unique = true)
     private String folio;
-    @Column(name = "fecha_hora",nullable=false)
-    private LocalDateTime fechaHora;
-    @Column(name = "monto_total",nullable=false)
-    private Double montoTotal;
+    
+    @Column(nullable = false)
+    private LocalDate fecha;
+    
+    @Column(nullable = false)
+    private LocalTime hora;
+    
     @ManyToOne
-    @JoinColumn(name = "id_cajero")
-    private Usuario cajero;
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
     
-    @OneToMany(mappedBy = "pago", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
-    private List<DetallePago> detalles;
+    @ManyToOne
+    @JoinColumn(name = "matricula", nullable = false)
+    private Alumno alumno;
     
-    @Column(name = "metodo_pago",nullable=false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MetodoPago metodoPago;
-
-    public Pago() {
-    }
     
-    public Pago(String folio, LocalDateTime fechaHora, Double montoTotal,
-     Usuario cajero, Cuota cuota, MetodoPago metodoPago) {
-        this.folio = folio;
-        this.fechaHora = fechaHora;
-        this.montoTotal = montoTotal;
-        this.cajero = cajero;
-        this.detalles = new ArrayList<>();
-        this.metodoPago = metodoPago;
-    }
-
-    public String getFolio() {
-        return folio;
-    }
-    public void setFolio(String folio) {
-        this.folio = folio;
-    }
-    public LocalDateTime getFechaHora() {
-        return fechaHora;
-    }
-    public void setFechaHora(LocalDateTime fechaHora) {
-        this.fechaHora = fechaHora;
-    }
-    public Double getMontoTotal() {
-        return montoTotal;
-    }
-    public void setMontoTotal(Double montoTotal) {
-        this.montoTotal = montoTotal;
-    }
-    public Usuario getCajero() {
-        return cajero;
-    }
-    public void setCajero(Usuario cajero) {
-        this.cajero = cajero;
-    }
-
-    public List<DetallePago> getDetalles() {
-        return detalles;
-    }
-
-    public void setDetalles(List<DetallePago> detalles) {
-        this.detalles = detalles;
-    }
-
-    public MetodoPago getMetodoPago() {
-        return metodoPago;
-    }
-
-    public void setMetodoPago(MetodoPago metodoPago) {
-        this.metodoPago = metodoPago;
-    }
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Descuento descuento;
+    
+    @OneToMany(mappedBy = "pago", cascade = CascadeType.ALL)
+    private List<PagoCuota> pagosCuota = new ArrayList<>();
 }

@@ -8,7 +8,8 @@ package mx.itson.sgi.data_access.entities;
  *
  * @author skevi
  */
-public enum Rol {
-    ADMINISTRADOR,
-    CAJERO
+public enum Descuento {
+    PRIMER_PERIODO,
+    SEGUNDO_PERIODO,
+    NINGUNA
 }

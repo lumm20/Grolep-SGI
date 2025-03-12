@@ -21,7 +21,7 @@ public class DataAccessApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Usuario user = new Usuario("Luisa10", "moel10", Rol.ADMIN, "luisa@correo.com");
+		Usuario user = new Usuario(2, "moel10", "luisa@correo.com", "contrasena1", Rol.ADMINISTRADOR);
 		Usuario newUser = controller.registrarUsuario(user);
 		System.out.println(newUser);
 	}

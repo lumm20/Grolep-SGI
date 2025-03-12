@@ -1,4 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package mx.itson.sgi.data_access.entities;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,81 +17,34 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
-@Table(name ="cuotas")
+@Table(name = "cuotas")
+@Data
 public class Cuota {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "monto_base")
-    private Double montoBase;
-
-    @ManyToOne
-    @JoinColumn(name = "ciclo_escolar")
-    private CicloEscolar ciclo;
+    
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal monto;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Concepto concepto;
     
     @ManyToOne
-    @JoinColumn(name = "matricula_alumno")
+    @JoinColumn(name = "ciclo_escolar_id", nullable = false)
+    private CicloEscolar cicloEscolar;
+    
+    @ManyToOne
+    @JoinColumn(name = "alumno_id", nullable = false)
     private Alumno alumno;
-
-    @Enumerated(EnumType.STRING)
-    private ConceptoCuota concepto;
-
-    public Cuota() {
-    }
-
-    public Cuota(Double montoBase, CicloEscolar ciclo, Alumno alumno, ConceptoCuota concepto) {
-        this.montoBase = montoBase;
-        this.ciclo = ciclo;
-        this.alumno = alumno;
-        this.concepto = concepto;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Double getMontoBase() {
-        return montoBase;
-    }
-
-    public void setMontoBase(Double montoBase) {
-        this.montoBase = montoBase;
-    }
-
-    public CicloEscolar getCiclo() {
-        return ciclo;
-    }
-
-    public void setCiclo(CicloEscolar ciclo) {
-        this.ciclo = ciclo;
-    }
-
-    public Alumno getAlumno() {
-        return alumno;
-    }
-
-    public void setAlumno(Alumno alumno) {
-        this.alumno = alumno;
-    }
-
-    @Override
-    public String toString() {
-        return "{id=" + id + ", montoBase=" + montoBase + ", ciclo=" + ciclo + "}";
-    }
-
-    public ConceptoCuota getConcepto() {
-        return concepto;
-    }
-
-    public void setConcepto(ConceptoCuota concepto) {
-        this.concepto = concepto;
-    }    
+    
+    @OneToMany(mappedBy = "cuota")
+    private List<PagoCuota> pagosCuota = new ArrayList<>();
 }

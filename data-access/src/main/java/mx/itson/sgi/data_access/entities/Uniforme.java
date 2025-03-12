@@ -4,7 +4,7 @@
  */
 package mx.itson.sgi.data_access.entities;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.Column;
@@ -18,20 +18,29 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "ciclos_escolares")
+@Table(name = "uniformes")
 @Data
-public class CicloEscolar {
+public class Uniforme {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(nullable = false)
-    private LocalDate inicio;
+    private String nombreProducto;
     
     @Column(nullable = false)
-    private LocalDate fin;
+    private String talla;
     
-    @OneToMany(mappedBy = "cicloEscolar")
-    private List<Cuota> cuotas = new ArrayList<>();
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal precio;
+    
+    @Column(nullable = false)
+    private Integer existencias;
+    
+    @OneToMany(mappedBy = "uniforme")
+    private List<VentaUniforme> ventasUniforme = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "uniforme")
+    private List<CompraUniforme> comprasUniforme = new ArrayList<>();
 }

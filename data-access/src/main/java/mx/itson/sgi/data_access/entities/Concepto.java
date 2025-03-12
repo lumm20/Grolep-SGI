@@ -8,7 +8,11 @@ package mx.itson.sgi.data_access.entities;
  *
  * @author skevi
  */
-public enum Rol {
-    ADMINISTRADOR,
-    CAJERO
+public enum Concepto {
+    LIBROS,
+    EVENTOS,
+    ACADEMIAS,
+    UNIFORMES,
+    COLEGIATURA,
+    INSCRIPCION
 }

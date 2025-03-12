@@ -4,8 +4,9 @@
  */
 package mx.itson.sgi.data_access.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,46 +14,38 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.Data;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "pagos_cuotas")
 @Data
-public class Usuario {
+public class PagoCuota {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     
     @Column(nullable = false)
-    private String nombre;
-    
-    @Column(nullable = false, unique = true)
-    private String correo;
+    private LocalDate fecha;
     
     @Column(nullable = false)
-    private String contrasena;
+    private LocalTime hora;
+    
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal monto;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Rol rol;
+    private Descuento descuento;
     
-    @OneToMany(mappedBy = "usuario")
-    private List<Historial> historial = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "cuota_id", nullable = false)
+    private Cuota cuota;
     
-    @OneToMany(mappedBy = "usuario")
-    private List<Pago> pagos = new ArrayList<>();
-
-    public Usuario(Integer id, String nombre, String correo, String contrasena, Rol rol) {
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.contrasena = contrasena;
-        this.rol = rol;
-    }
-    
-    
+    @ManyToOne
+    @JoinColumn(name = "pago_id", nullable = false)
+    private Pago pago;
 }
