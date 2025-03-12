@@ -27,13 +27,10 @@
 1. **Clona el repositorio**:  
    ```bash
    git clone https://github.com/usuario/sgi.git
-2. Crea la base de datos en MySQL; el nombre es db_sgi
-3. **Configura tus variables de entorno**
-   Este proyecto usa variables de entorno para la conexión con la bd.  
-   Antes de ejecutar la aplicación tienes que ejecutar los siguientes comandos
-   en powershell:
-   ```powershell
-   $env:DB_URL="jdbc:mysql://localhost:3306/db_sgi
-   $env:DB_USER="mi_usuario"
-   $env:DB_PASS="mi_password"
+2. **Crea la base de datos en MySQL**
+   El nombre es db_sgi
+4. **Modifica el archivo .env**
+   La url se queda como está
+   El nombre de usuario y contraseña son con los que inicias
+   sesión en Workbench, el user por defecto es root
    
