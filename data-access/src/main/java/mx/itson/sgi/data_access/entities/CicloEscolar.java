@@ -2,6 +2,7 @@ package mx.itson.sgi.data_access.entities;
 
 import java.time.LocalDate;
 
+import com.google.gson.annotations.Expose;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ciclos_escolares")
 public class CicloEscolar {
-    
+    @Expose
     @Id
     private String id;
     @Column(name = "fecha_inicio",nullable = false)
@@ -20,6 +21,8 @@ public class CicloEscolar {
     private LocalDate fechaFin;
 
     public CicloEscolar(){}
+
+    public CicloEscolar(String id){this.id=id;}
 
     public CicloEscolar(LocalDate fechaInicio, LocalDate fechaFin) {
         this.fechaInicio = fechaInicio;

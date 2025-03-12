@@ -1,9 +1,14 @@
 package mx.itson.sgi.data_access.entities;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,30 +20,40 @@ import jakarta.persistence.Table;
 @Table(name ="cuotas")
 public class Cuota {
 
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Expose
     @Column(name = "monto_base")
     private Double montoBase;
 
+    @Expose
     @ManyToOne
     @JoinColumn(name = "ciclo_escolar")
     private CicloEscolar ciclo;
     
-    @ManyToOne
-    @JoinColumn(name = "matricula_alumno")
+    @Expose
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "matricula_alumno",referencedColumnName = "matricula", nullable = false)
     private Alumno alumno;
 
+    @Expose
     @Enumerated(EnumType.STRING)
     private ConceptoCuota concepto;
 
     public Cuota() {
     }
 
-    public Cuota(Double montoBase, CicloEscolar ciclo, Alumno alumno, ConceptoCuota concepto) {
+    public Cuota(Double montoBase, CicloEscolar ciclo, ConceptoCuota concepto) {
         this.montoBase = montoBase;
         this.ciclo = ciclo;
-        this.alumno = alumno;
+        this.concepto = concepto;
+    }
+
+    public Cuota(Double montoBase, ConceptoCuota concepto) {
+        this.montoBase = montoBase;
         this.concepto = concepto;
     }
 
@@ -76,7 +91,8 @@ public class Cuota {
 
     @Override
     public String toString() {
-        return "{id=" + id + ", montoBase=" + montoBase + ", ciclo=" + ciclo + "}";
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        return gson.toJson(this);
     }
 
     public ConceptoCuota getConcepto() {

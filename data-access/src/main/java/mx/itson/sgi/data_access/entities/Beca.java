@@ -11,11 +11,11 @@ public enum Beca {
 
     private Beca(int procentajeDescuento, String tipo){
         this.procentajeDescuento = procentajeDescuento;
-        this.tipo = tipo;
+        this.tipo = tipo.toUpperCase();
     }
 
     public String getTipo(){
-        return tipo;
+        return tipo.toUpperCase();
     }
 
     public int getProcentajeDescuento(){

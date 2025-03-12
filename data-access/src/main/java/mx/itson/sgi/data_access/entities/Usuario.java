@@ -1,5 +1,7 @@
 package mx.itson.sgi.data_access.entities;
 
+import com.google.gson.annotations.Expose;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,13 +15,16 @@ import jakarta.persistence.Table;
 @Table(name = "usuarios")
 public class Usuario {
 
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Expose
     @Column(nullable = false, unique = true)
     private String nombre;
     @Column(nullable = false)
     private String contra;
+    @Expose
     @Enumerated(EnumType.STRING)
     private Rol rol;
     private String correo;
@@ -37,6 +42,9 @@ public class Usuario {
         this.correo = correo;
     }
 
+    public Usuario(Long id){
+        this.id = id;
+    }
     public Usuario() {
     }
 

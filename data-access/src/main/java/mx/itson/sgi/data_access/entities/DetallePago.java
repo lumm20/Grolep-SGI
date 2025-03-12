@@ -1,5 +1,7 @@
 package mx.itson.sgi.data_access.entities;
 
+import com.google.gson.annotations.Expose;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,22 +18,27 @@ public class DetallePago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @ManyToOne
-    @JoinColumn(name ="folio_pago")
+    @JoinColumn(name ="folio_pago", referencedColumnName = "folio")
     private Pago pago;
+    
+    @Expose
     @ManyToOne
-    @JoinColumn(name ="id_cuota")
+    @JoinColumn(name ="id_cuota",referencedColumnName = "id")
     private Cuota cuota;
-    @Column(name = "monto_pagado", nullable = false)
+
+    @Expose
+    @Column(name = "monto_pagado")
     private Double montoPagado;
     
     public DetallePago() {
     }
     
-    public DetallePago(Pago pago, Cuota cuota, Double montoPagado) {
-        this.pago = pago;
+    public DetallePago(Cuota cuota,  Double montoPagado,Pago pago) {
         this.cuota = cuota;
         this.montoPagado = montoPagado;
+        this.pago = pago;
     }
 
     public Long getId() {

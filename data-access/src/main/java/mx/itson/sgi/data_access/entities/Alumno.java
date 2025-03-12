@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -17,9 +19,12 @@ import mx.itson.sgi.data_access.utilities.BecaConverter;
 @Table(name = "alumnos")
 public class Alumno {
 
+    @Expose
     @Id
     private String matricula;
+    @Expose
     private String nombre;
+    @Expose
     private String apellidos;
 
     @Convert(converter = BecaConverter.class)
@@ -29,7 +34,7 @@ public class Alumno {
     @Column(name = "telefono_padre")
     private String telefonoPadre;
     
-    @OneToMany(mappedBy = "alumno", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "alumno", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Cuota> cuotas;
 
     @Column(name = "fecha_nacimiento")
@@ -37,6 +42,11 @@ public class Alumno {
     
     public Alumno() {
         this.cuotas = new ArrayList<>();
+    }
+
+    
+    public Alumno(String matricula) {
+        this.matricula = matricula;
     }
 
     public Alumno(String matricula, String nombre, String apellidos, Beca beca, String telefonoPadre,
@@ -105,4 +115,12 @@ public class Alumno {
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
+    @Override
+    public String toString() {
+        return "{matricula=" + matricula + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefonoPadre="
+                + telefonoPadre + "}";
+    }
+
+    
 }

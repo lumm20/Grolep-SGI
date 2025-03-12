@@ -34,11 +34,6 @@ public class UsuarioController {
         return null;
     }
 
-    /**
-     * Registra un nuevo usuario codificando su contraseña antes de guardarla
-     * @param usuario Nuevo usuario con contraseña en texto plano
-     * @return Usuario creado
-     */
     public Usuario registrarUsuario(Usuario usuario) {
         String contraHasheada = security.encodePassword(usuario.getContra());
         usuario.setContra(contraHasheada);
