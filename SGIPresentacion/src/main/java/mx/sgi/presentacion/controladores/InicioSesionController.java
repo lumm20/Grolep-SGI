@@ -2,6 +2,7 @@ package mx.sgi.presentacion.controladores;
 
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import mx.sgi.presentacion.interfaces.IServicioUsuarios;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioUsuarios;
 import com.jfoenix.controls.JFXButton;
@@ -29,7 +30,7 @@ public class InicioSesionController implements Initializable{
     private JFXPasswordField psfContrasena;
 
 
-    private ServicioUsuarios servicioUsuarios;
+    private IServicioUsuarios servicioUsuarios;
     private Mediador mediador;
 
     /**
@@ -39,9 +40,10 @@ public class InicioSesionController implements Initializable{
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //iniciamos el servicio de usuarios
+        this.servicioUsuarios = new ServicioUsuarios();
 
         //iniciamos el servicio de usuarios con su instacia global
-        this.servicioUsuarios = ServicioUsuarios.getInstance();
         this.mediador = Mediador.getInstance();
     }
 
@@ -59,7 +61,7 @@ public class InicioSesionController implements Initializable{
             String contrena = psfContrasena.getText();
 
             //mandamos los datos al servicio
-            servicioUsuarios.procesarInicioSesion(id, contrena);
+            //servicioUsuarios.procesarInicioSesion(id, contrena);
 
             //hacemos el cambio de pantalla
             mediador.MostrarPantallaPrincipal();

@@ -15,7 +15,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import mx.sgi.presentacion.interfaces.IServicioAlumnos;
+import mx.sgi.presentacion.interfaces.IServicioCuotas;
 import mx.sgi.presentacion.mediador.Mediador;
+import mx.sgi.presentacion.servicios.ServicioAlumnos;
+import mx.sgi.presentacion.servicios.ServicioCuotas;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -123,6 +127,10 @@ public class PantallaPrincipalController implements Initializable {
 
     private Mediador mediador;
 
+    private IServicioAlumnos servicioAlumnos;
+
+    private IServicioCuotas  servicioCuotas;
+
     /**
      * Instancia estatica del controlador
      */
@@ -151,6 +159,10 @@ public class PantallaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.servicioAlumnos = new ServicioAlumnos();
+
+        servicioCuotas =  new ServicioCuotas();
 
         this.mediador = Mediador.getInstance();
 
@@ -287,24 +299,46 @@ public class PantallaPrincipalController implements Initializable {
      */
     @FXML
     public void registrarPago(){
-
+        mediador.abrirPantallaTicket();
     }
 
     //
     @FXML
     private void considerarColegiatura(){
 
+        if (cbxConsiderarColegiatura.isSelected()) {
+            txfMontoVencido.setText("");
+            txfMontoColegiatura.setText("");
+
+            //actualizamos el total
+            
+        }
+        else{
+            txfMontoVencido.setText(txfMontoVencido.getText());
+            txfMontoColegiatura.setText(txfMontoColegiatura.getText());
+
+            //actualizamos el total
+
+        }
+
     }
 
    @FXML
     private void considerarTodos(){
-        //por implementar
-    }
-
-    //muestra la pantalla de detalles de adeudo
-    @FXML
-    private void mostrarPantallaDetalles(){
-        mediador.abrirPantallaTicket();
+        if (cbxConsiderarCuotas.isSelected()) {
+            txfMontoInscripcion.setText("");
+            txfMontoLibros.setText("");
+            txfMontoEventos.setText("");
+            txfMontoAcademias.setText("");
+            txfMontoUniforme.setText("");
+        }
+        else {
+            txfMontoInscripcion.setText("");
+            txfMontoLibros.setText("");
+            txfMontoEventos.setText("");
+            txfMontoAcademias.setText("");
+            txfMontoUniforme.setText("");
+        }
     }
 
 }

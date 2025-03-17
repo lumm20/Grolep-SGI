@@ -1,6 +1,10 @@
 package mx.sgi.presentacion.servicios;
 
 import com.google.gson.Gson;
+import mx.itson.sgi.dto.UsuarioDTO;
+import mx.sgi.presentacion.interfaces.IServicioAlumnos;
+import mx.sgi.presentacion.interfaces.IServicioUsuarios;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -15,36 +19,24 @@ import java.net.http.HttpResponse;
  *
  * @author skevi
  */
-public class ServicioUsuarios {
+public class ServicioUsuarios implements IServicioUsuarios {
 
-    /**
-     * Instancia única (se inicializa de manera perezosa)
-     */
-    private static volatile ServicioUsuarios instancia;
-
+    // varibale para las peticiones
     private HttpClient client;
 
     /**
-     * Constructor privado para evitar instanciación externa
+     * Contructor que inicializa las variables de la clase
      */
-    private ServicioUsuarios() {
+    public ServicioUsuarios() {
+        // Inicializar HttpClient
+        this.client = HttpClient.newHttpClient();
     }
 
-    /**
-     * Método estático para obtener la única instancia
-     * @return instancia unica de la clase
-     */
-    public static synchronized ServicioUsuarios getInstance() {
-        if (instancia == null) {
-            instancia = new ServicioUsuarios();
-        }
-        return instancia;
-    }
 
     /**
      * metodo de ejemplo para la clase luego lo cambio
      */
-    public void procesarInicioSesion(String id, String Contrasena) {
+    public UsuarioDTO obtenerUsuario(String id, String Contrasena)  throws Exception{
 
         // Crear una solicitud GET
         //HttpRequest request = HttpRequest.newBuilder()
@@ -59,6 +51,7 @@ public class ServicioUsuarios {
         //        .join();
 
         System.out.println("este es el id" + id + "este contraseña" + Contrasena);
+        return null;
     }
 
     /**

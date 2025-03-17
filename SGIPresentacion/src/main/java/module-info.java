@@ -12,6 +12,12 @@ module mx.sgi.presentacion.main.sgipresentacion {
     requires com.google.gson;
     requires fontawesomefx;
     requires java.desktop;
+    requires mx.itson.sgi.dto;
+
+    // Dependencias de Spring Framework
+    requires spring.context;
+    requires spring.beans;
+    requires spring.core;
 
     opens mx.sgi.presentacion.main to javafx.fxml;
     exports mx.sgi.presentacion.main;
