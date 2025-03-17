@@ -14,5 +14,6 @@ public enum Concepto {
     ACADEMIAS,
     UNIFORMES,
     COLEGIATURA,
-    INSCRIPCION
+    INSCRIPCION,
+    PAGO_ATRASADO
 }

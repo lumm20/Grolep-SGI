@@ -44,6 +44,14 @@ public class Pago {
     
     @Column(nullable = false)
     private LocalTime hora;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MetodoPago metodoPago;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Descuento descuento;
     
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -52,14 +60,6 @@ public class Pago {
     @ManyToOne
     @JoinColumn(name = "matricula", nullable = false)
     private Alumno alumno;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private MetodoPago metodoPago;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Descuento descuento;
     
     @OneToMany(mappedBy = "pago", cascade = CascadeType.ALL)
     private List<PagoCuota> pagosCuota = new ArrayList<>();

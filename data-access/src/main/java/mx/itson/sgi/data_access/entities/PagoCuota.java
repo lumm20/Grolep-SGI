@@ -36,10 +36,10 @@ public class PagoCuota {
     
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal monto;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Descuento descuento;
+    private Concepto concepto;
     
     @ManyToOne
     @JoinColumn(name = "cuota_id", nullable = false)

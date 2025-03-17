@@ -26,6 +26,9 @@ public class Alumno {
     
     @Column(nullable = false)
     private String apellidoMaterno;
+
+    @Column(nullable = false)
+    private String numeroCelular;
     
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Venta> compras = new ArrayList<>();
