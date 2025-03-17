@@ -74,7 +74,7 @@ public class Mediador {
         }
     }
 
-    public void abrirPantallaTicket(){
+    public void abrirPantallaTicket() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/Ticket.fxml"));
             Parent root = loader.load();
@@ -86,13 +86,19 @@ public class Mediador {
             Stage nuevaVentana = new Stage();
             nuevaVentana.setTitle("GROLEP SGI v1.0");
             nuevaVentana.setScene(scene);
+
+            // (Opcional) Si deseas evitar que el usuario redimensione la ventana
+            nuevaVentana.setResizable(false);
+
+            // Mostrar la nueva ventana
             nuevaVentana.show();
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             System.err.println("Error al cargar la pantalla principal de confirmacion: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
 
 
 }

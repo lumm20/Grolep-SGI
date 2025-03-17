@@ -5,6 +5,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import mx.sgi.presentacion.mediador.Mediador;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -118,6 +121,8 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     private BorderPane borderPane;
 
+    private Mediador mediador;
+
     /**
      * Instancia estatica del controlador
      */
@@ -146,6 +151,8 @@ public class PantallaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.mediador = Mediador.getInstance();
 
         ObservableList<String> opciones = FXCollections.observableArrayList(
                 "Opción 1", "Opción 2", "Opción 3", "Opción 4"
@@ -296,9 +303,8 @@ public class PantallaPrincipalController implements Initializable {
 
     //muestra la pantalla de detalles de adeudo
     @FXML
-    private void mostrarDetalles(){
-        //por implementar
+    private void mostrarPantallaDetalles(){
+        mediador.abrirPantallaTicket();
     }
-
 
 }

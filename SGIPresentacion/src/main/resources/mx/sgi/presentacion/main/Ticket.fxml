@@ -1,14 +1,169 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="mx.sgi.presentacion.main.Ticket"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="760.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.TicketController">
+   <children>
+      <AnchorPane layoutX="17.0" layoutY="64.0" prefHeight="621.0" prefWidth="358.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
+         <children>
+            <Label layoutX="116.0" layoutY="14.0" text="Detalles de pago">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTotal" layoutX="86.0" layoutY="55.0" text="0.000000000000" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="157.0" layoutY="99.0" text="Total">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Separator layoutX="10.0" layoutY="144.0" prefHeight="0.0" prefWidth="337.0" style="-fx-background-color: #000000;" />
+            <Separator layoutX="10.0" layoutY="299.0" prefHeight="0.0" prefWidth="337.0" style="-fx-background-color: #000000;" />
+            <Label layoutX="27.0" layoutY="165.0" text="Folio:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFolio" layoutX="74.0" layoutY="165.0" prefHeight="20.0" prefWidth="262.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFecha" layoutX="81.0" layoutY="198.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblCliente" layoutX="88.0" layoutY="230.0" prefHeight="20.0" prefWidth="252.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMetodo" layoutX="95.0" layoutY="263.0" prefHeight="20.0" prefWidth="252.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="198.0" text="Fecha:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="230.0" text="Cliente:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="263.0" text="Metodo:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="321.0" text="Montos vencidos:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="353.0" text="Montos colegiatura:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="385.0" text="Montos inscripcion:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="418.0" text="Montos libros:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="452.0" text="Montos eventos:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="25.0" layoutY="488.0" text="Montos academias:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="525.0" text="Montos uniforme:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Separator layoutX="10.0" layoutY="563.0" prefHeight="0.0" prefWidth="337.0" style="-fx-background-color: #000000;" />
+            <Label layoutX="23.0" layoutY="584.0" text="Descuento:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMontoVencidos" layoutX="152.0" layoutY="321.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAdeudoColegiatura" layoutX="165.0" layoutY="353.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMontoInscripcion" layoutX="165.0" layoutY="385.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMontoILibros" layoutX="130.0" layoutY="418.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMontoIEventos" layoutX="143.0" layoutY="452.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMontoIAcademias" layoutX="158.0" layoutY="488.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblMontoUniforme" layoutX="158.0" layoutY="525.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDescuento" layoutX="104.0" layoutY="584.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <JFXButton layoutX="120.0" layoutY="702.0" onAction="#cancelar" prefHeight="44.0" prefWidth="133.0" ripplerFill="#d9d5d5" style="-fx-background-color: #3fea37; -fx-background-radius: 10px;" text="Confirmar">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="29.0" layoutY="14.0" onAction="#cancelar" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: #ea3636; -fx-background-radius: 10px;" text="Cancelar">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
 </AnchorPane>

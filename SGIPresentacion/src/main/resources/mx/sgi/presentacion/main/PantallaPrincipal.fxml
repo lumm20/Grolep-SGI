@@ -219,7 +219,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnRegistrar" layoutX="795.0" layoutY="511.0" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #63e336; -fx-background-radius: 10px;" text="Registrar">
+            <JFXButton fx:id="btnRegistrar" layoutX="795.0" layoutY="511.0" onAction="#mostrarPantallaDetalles" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #63e336; -fx-background-radius: 10px;" text="Registrar">
                <font>
                   <Font size="20.0" />
                </font>
