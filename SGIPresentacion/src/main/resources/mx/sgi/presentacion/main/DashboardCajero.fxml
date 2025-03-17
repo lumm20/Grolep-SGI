@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="boxCajero" fx:controller="mx.sgi.presentacion.controladores.DashboardCajeroController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="65.0" style="-fx-background-color: #2C3E50;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXButton fx:id="btnPagos" prefHeight="65.0" prefWidth="65.0" ripplerFill="#c1bebe" text="Pagos" textFill="WHITE">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </JFXButton>
+      <JFXButton fx:id="btnRegistros" prefHeight="65.0" prefWidth="65.0" ripplerFill="#c1bebe" text="Registros" textFill="WHITE" />
+      <JFXButton fx:id="btnUniformes" prefHeight="65.0" prefWidth="65.0" text="Uniformes" textFill="WHITE" />
+      <JFXButton prefHeight="65.0" prefWidth="65.0" text="Cuenta" textFill="WHITE" />
+   </children>
+</VBox>

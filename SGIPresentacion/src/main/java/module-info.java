@@ -10,6 +10,8 @@ module mx.sgi.presentacion.main.sgipresentacion {
     requires com.jfoenix;
     requires java.net.http;
     requires com.google.gson;
+    requires fontawesomefx;
+    requires java.desktop;
 
     opens mx.sgi.presentacion.main to javafx.fxml;
     exports mx.sgi.presentacion.main;

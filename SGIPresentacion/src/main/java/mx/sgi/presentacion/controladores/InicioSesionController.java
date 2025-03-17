@@ -1,6 +1,7 @@
 package mx.sgi.presentacion.controladores;
 
 import javafx.geometry.Pos;
+import javafx.stage.Stage;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioUsuarios;
 import com.jfoenix.controls.JFXButton;
@@ -62,6 +63,10 @@ public class InicioSesionController implements Initializable{
 
             //hacemos el cambio de pantalla
             mediador.MostrarPantallaPrincipal();
+
+            //cerramos la ventana de inicio de sesion
+            Stage stage = (Stage) txfID.getScene().getWindow(); // Obtener el Stage (ventana) actual
+            stage.close(); // Cerrar la ventana de inicio de sesiónS
 
         }
         catch(Exception ex){
