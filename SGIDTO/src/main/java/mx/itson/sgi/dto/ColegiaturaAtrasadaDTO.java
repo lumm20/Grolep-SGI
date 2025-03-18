@@ -10,4 +10,9 @@ public class ColegiaturaAtrasadaDTO {
     private BigDecimal monto;
     private LocalDate mes;
 
+    // Constructor
+    public ColegiaturaAtrasadaDTO(BigDecimal monto, LocalDate mes) {
+        this.monto = monto;
+        this.mes = mes;
+    }
 }

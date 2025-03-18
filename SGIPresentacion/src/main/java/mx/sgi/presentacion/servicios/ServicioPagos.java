@@ -20,7 +20,7 @@ public class ServicioPagos implements IServicioPagos {
 
     @Override
     public void registrarPago(PagoDTO pago)  throws Exception{
-
+        System.out.println(pago.toString());
     }
 
 

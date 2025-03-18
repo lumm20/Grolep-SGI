@@ -10,4 +10,11 @@ public class UsuarioDTO {
     private String nombre;
     private String correo;
 
+    // Constructor
+    public UsuarioDTO(UUID identificador, String nombre, String correo) {
+        this.identificador = identificador;
+        this.nombre = nombre;
+        this.correo = correo;
+    }
 }
+

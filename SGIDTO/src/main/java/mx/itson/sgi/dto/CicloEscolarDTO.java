@@ -17,7 +17,7 @@ public class CicloEscolarDTO {
 
     @Override
     public String toString() {
-        return String.format("%s %s", inicio + " - " + fin);
+        return inicio + " - " + fin;
     }
 
 }

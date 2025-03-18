@@ -16,6 +16,6 @@ public class PagoDTO {
     private String metodoPago;
     private String descuento;
     private AlumnoConsultaDTO alumno;
-    private UsuarioDTO usuairo;
+    private UsuarioDTO usuario;
 
 }

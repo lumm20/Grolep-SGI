@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.UUID;
 
 /**
  * Esta clase se encarga de iniciar conectar con servicios externos para
@@ -34,31 +35,14 @@ public class ServicioUsuarios implements IServicioUsuarios {
 
 
     /**
-     * metodo de ejemplo para la clase luego lo cambio
+     * devuelve un usuario basado en su ID y su contrasena, en el servidor
+     * se validara la sesion.
      */
     public UsuarioDTO obtenerUsuario(String id, String Contrasena)  throws Exception{
 
-        // Crear una solicitud GET
-        //HttpRequest request = HttpRequest.newBuilder()
-        //        .uri(URI.create("ejemplo"))
-        //        .build();
+        return new UsuarioDTO(UUID.randomUUID(), "Juan Pérez", "juan.perez@example.com");
 
-        // Enviar la solicitud y obtener la respuesta
-        //client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-        //        .thenApply(HttpResponse::body)
-        //        .thenApply(ServicioUsuarios::parseJson)  // Aquí puedes convertir el JSON en objetos Java
-        //        .thenAccept(System.out::println)  // Imprimir los resultados
-        //        .join();
-
-        System.out.println("este es el id" + id + "este contraseña" + Contrasena);
-        return null;
     }
 
-    /**
-     * Este metodo convierte de Json a DTO
-     */
-    //private static MyData parseJson(String json) {
-    //    Gson gson = new Gson();
-    //    return gson.fromJson(json, MyData.class);
-    //}
+
 }

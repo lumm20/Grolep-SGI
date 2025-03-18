@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
+import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
@@ -27,6 +28,7 @@ import mx.sgi.presentacion.servicios.ServicioCuotas;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -178,7 +180,10 @@ public class PantallaPrincipalController implements Initializable {
         this.servicioCicloEscolar = new ServicioCicloEscolar();
 
         //establecemos los ciclos escolares en el comboBox
-        //establecerCiclos();
+        establecerCiclos();
+
+        //cargamos los metodos de pago:
+        cargarMetodosDePago();
 
         //hacemos set de todos los listeners para cada campo
         setMontoVencidoListener();
@@ -288,6 +293,19 @@ public class PantallaPrincipalController implements Initializable {
     //ahora de aquí en adelante van los metodos para el procesamiento del pago
 
 
+    private void cargarMetodosDePago() {
+        // Definir la lista de métodos de pago
+        List<String> listaMetodosPago = Arrays.asList("Efectivo", "Tarjeta", "Transferencia");  // Ajusta según los métodos de pago
+
+        // Convertir la lista a un ObservableList
+        ObservableList<String> observableList = FXCollections.observableArrayList(listaMetodosPago);
+
+        // Establecer los items del ComboBox
+        cmbxMetodoPago.setItems(observableList);
+    }
+
+
+
     /**
      *
      */
@@ -304,6 +322,7 @@ public class PantallaPrincipalController implements Initializable {
         catch (Exception ex){
             System.out.println(ex.getMessage());
         }
+
     }
 
     /**
