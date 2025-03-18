@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import mx.itson.sgi.dto.*;
 import mx.sgi.presentacion.caches.AlumnoCache;
 import mx.sgi.presentacion.caches.PagoCache;
+import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
@@ -424,24 +425,49 @@ public class PantallaPrincipalController implements Initializable {
 
         try {
             //recolectamos todos los campos del pago y los guardamos en la cache
-            PagoDTO pago = PagoCache.getInstance();
 
-            pago.setMontoTotal(toBigDecimal(lblTotal.getText()));
-            pago.setFolio("AX123123DS942");
-            pago.setFecha(LocalDate.now());
-            pago.setHora(LocalTime.now());
-            pago.setMetodoPago(cmbxMetodoPago.getValue());
-            pago.setDescuento("Descuento por pago temprano");
-            pago.setAlumno(AlumnoCache.getInstance());
-            pago.setUsuario(UsuarioCache.getInstance());
+            TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+
+            BigDecimal montoTotal = toBigDecimal(lblTotal.getText());
+            String folio = "AX123123DS942";
+            LocalDate fecha = LocalDate.now();
+            LocalTime hora = LocalTime.now();
+            String metodoPago = cmbxMetodoPago.getValue();
+
+            BigDecimal montoVencidos = toBigDecimal(txfMontoVencido.getText());
+            BigDecimal montoColegiatura = toBigDecimal(txfMontoColegiatura.getText());
+            BigDecimal montoInscripcion = toBigDecimal(txfMontoInscripcion.getText());
+            BigDecimal montoLibros = toBigDecimal(txfMontoLibros.getText());
+            BigDecimal montoEventos = toBigDecimal(txfMontoEventos.getText());
+            BigDecimal montoAcademias = toBigDecimal(txfMontoAcademias.getText());
+            BigDecimal montoUniforme = toBigDecimal(txfMontoUniforme.getText());
+
+            String descuento = "Descuento por pago temprano";
+            AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
+            UsuarioDTO usuario = UsuarioCache.getInstance();
+
+            ticket.setMontoTotal(montoTotal);
+            ticket.setFolio(folio);
+            ticket.setFecha(fecha);
+            ticket.setHora(hora);
+            ticket.setMetodoPago(metodoPago);
+            ticket.setDescuento(descuento);
+            ticket.setAlumno(alumno);
+            ticket.setUsuario(usuario);
 
             mediador.abrirPantallaTicket();
+
         }
         catch (Exception ex){
 
         }
     }
 
+    /**
+     * @param valor
+     * @return
+     * @throws Exception
+     */
     private BigDecimal toBigDecimal(String valor) throws Exception {
         try{
             return new BigDecimal(valor).setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -451,10 +477,16 @@ public class PantallaPrincipalController implements Initializable {
         }
     }
 
+    /**
+     *
+     */
     private void validarDescuento(){
 
     }
 
+    /**
+     *
+     */
     private void generarFolio(){
 
     }
@@ -526,6 +558,11 @@ public class PantallaPrincipalController implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param textField
+     * @param label
+     */
     private void verificarFormato(TextField textField, Label label) {
         try {
 

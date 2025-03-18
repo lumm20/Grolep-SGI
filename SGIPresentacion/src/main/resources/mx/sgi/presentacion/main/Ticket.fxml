@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="760.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.TicketController">
    <children>
       <AnchorPane layoutX="17.0" layoutY="64.0" prefHeight="621.0" prefWidth="358.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
@@ -69,37 +68,37 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="27.0" layoutY="321.0" text="Montos vencidos:">
+            <Label layoutX="27.0" layoutY="321.0" text="Monto vencidos:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="27.0" layoutY="353.0" text="Montos colegiatura:">
+            <Label layoutX="27.0" layoutY="353.0" text="Monto colegiatura:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="27.0" layoutY="385.0" text="Montos inscripcion:">
+            <Label layoutX="27.0" layoutY="385.0" text="Monto inscripcion:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="418.0" text="Montos libros:">
+            <Label layoutX="25.0" layoutY="418.0" text="Monto libros:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="452.0" text="Montos eventos:">
+            <Label layoutX="25.0" layoutY="452.0" text="Monto eventos:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="25.0" layoutY="488.0" text="Montos academias:">
+            <Label layoutX="25.0" layoutY="488.0" text="Monto academias:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="28.0" layoutY="525.0" text="Montos uniforme:">
+            <Label layoutX="28.0" layoutY="525.0" text="Monto uniforme:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
