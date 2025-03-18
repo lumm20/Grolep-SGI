@@ -15,13 +15,20 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
+import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
+import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
 
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class PantallaPrincipalController implements Initializable {
@@ -44,7 +51,7 @@ public class PantallaPrincipalController implements Initializable {
     //de aqui en adelante se declaran los componentes que representan datos
 
     @FXML
-    Label lblMontoVencidos;
+    Label lblAdeudoVencido;
 
     @FXML
     Label  lblAdeudoColegiatura;
@@ -53,13 +60,13 @@ public class PantallaPrincipalController implements Initializable {
     Label lblCuotaInscripcion;
 
     @FXML
-    Label lblCuotaILibros;
+    Label lblCuotaLibros;
 
     @FXML
-    Label lblCuotaIEventos;
+    Label lblCuotaEventos;
 
     @FXML
-    Label lblCuotaIAcademias;
+    Label lblCuotaAcademias;
 
     @FXML
     Label lblUniforme;
@@ -89,10 +96,10 @@ public class PantallaPrincipalController implements Initializable {
     //Declaracion de los ComboBox
 
     @FXML
-    ComboBox<String> cmbxAlumnos;
+    ComboBox<AlumnoConsultaDTO> cmbxAlumnos;
 
     @FXML
-    ComboBox<String> cmbxCicloEscolar;
+    ComboBox<CicloEscolarDTO> cmbxCicloEscolar;
 
     @FXML
     ComboBox<String> cmbxMetodoPago;
@@ -131,6 +138,8 @@ public class PantallaPrincipalController implements Initializable {
 
     private IServicioCuotas  servicioCuotas;
 
+    private IServicioCicloEscolar servicioCicloEscolar;
+
     /**
      * Instancia estatica del controlador
      */
@@ -162,15 +171,14 @@ public class PantallaPrincipalController implements Initializable {
 
         this.servicioAlumnos = new ServicioAlumnos();
 
-        servicioCuotas =  new ServicioCuotas();
+        this.servicioCuotas =  new ServicioCuotas();
 
         this.mediador = Mediador.getInstance();
 
-        ObservableList<String> opciones = FXCollections.observableArrayList(
-                "Opción 1", "Opción 2", "Opción 3", "Opción 4"
-        );
+        this.servicioCicloEscolar = new ServicioCicloEscolar();
 
-        cmbxCicloEscolar.setItems(opciones);
+        //establecemos los ciclos escolares en el comboBox
+        //establecerCiclos();
 
         //hacemos set de todos los listeners para cada campo
         setMontoVencidoListener();
@@ -220,56 +228,49 @@ public class PantallaPrincipalController implements Initializable {
     // Método para el campo "Monto Vencido"
     private void setMontoVencidoListener() {
         txfMontoVencido.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Monto Vencido: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Monto Vencido"
+            verificarFormato(txfMontoVencido, lblAdeudoVencido);
         });
     }
 
     // Método para el campo "Monto Colegiatura"
     private void setMontoColegiaturaListener() {
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Monto Colegiatura: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Monto Colegiatura"
+            verificarFormato(txfMontoColegiatura, lblAdeudoColegiatura);
         });
     }
 
     // Método para el campo "Monto Inscripción"
     private void setMontoInscripcionListener() {
         txfMontoInscripcion.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Monto Inscripción: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Monto Inscripción"
+            verificarFormato(txfMontoInscripcion, lblCuotaInscripcion);
         });
     }
 
     // Método para el campo "Monto Libros"
     private void setMontoLibrosListener() {
         txfMontoLibros.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Monto Libros: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Monto Libros"
+            verificarFormato(txfMontoLibros, lblCuotaLibros);
         });
     }
 
     // Método para el campo "Monto Eventos"
     private void setMontoEventosListener() {
         txfMontoEventos.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Monto Eventos: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Monto Eventos"
+            verificarFormato(txfMontoEventos, lblCuotaEventos);
         });
     }
 
     // Método para el campo "Monto Academias"
     private void setMontoAcademiasListener() {
         txfMontoAcademias.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Monto Academias: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Monto Academias"
+            verificarFormato(txfMontoAcademias, lblCuotaAcademias);
         });
     }
 
     // Método para el campo "Monto Uniforme"
     private void setMontoUniformeListener() {
         txfMontoUniforme.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Monto Uniforme: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Monto Uniforme"
+            verificarFormato(txfMontoUniforme, lblUniforme);
         });
     }
 
@@ -285,6 +286,25 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     //ahora de aquí en adelante van los metodos para el procesamiento del pago
+
+
+    /**
+     *
+     */
+    private void establecerCiclos(){
+        try {
+
+            List<CicloEscolarDTO> listaCiclos = servicioCicloEscolar.obtenerCiclosEscolares();
+
+            ObservableList<CicloEscolarDTO> observableList = FXCollections.observableArrayList(listaCiclos);
+
+            cmbxCicloEscolar.setItems(observableList);
+
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 
     /**
      * aqui se consultaran las cuotas correspondientes al alumno que haya sido seleccionado
@@ -302,43 +322,122 @@ public class PantallaPrincipalController implements Initializable {
         mediador.abrirPantallaTicket();
     }
 
-    //
+    /**
+     *
+     */
     @FXML
-    private void considerarColegiatura(){
+    private void considerarColegiatura() {
+        boolean considerar = cbxConsiderarColegiatura.isSelected();
 
-        if (cbxConsiderarColegiatura.isSelected()) {
-            txfMontoVencido.setText("");
-            txfMontoColegiatura.setText("");
+        txfMontoVencido.setText(considerar ? lblAdeudoVencido.getText() : "");
+        txfMontoColegiatura.setText(considerar ? lblAdeudoColegiatura.getText() : "");
 
-            //actualizamos el total
-            
-        }
-        else{
-            txfMontoVencido.setText(txfMontoVencido.getText());
-            txfMontoColegiatura.setText(txfMontoColegiatura.getText());
-
-            //actualizamos el total
-
-        }
+        //actualizamos el total
+        actualizarTotal();
 
     }
 
-   @FXML
-    private void considerarTodos(){
-        if (cbxConsiderarCuotas.isSelected()) {
-            txfMontoInscripcion.setText("");
-            txfMontoLibros.setText("");
-            txfMontoEventos.setText("");
-            txfMontoAcademias.setText("");
-            txfMontoUniforme.setText("");
-        }
-        else {
-            txfMontoInscripcion.setText("");
-            txfMontoLibros.setText("");
-            txfMontoEventos.setText("");
-            txfMontoAcademias.setText("");
-            txfMontoUniforme.setText("");
+    /**
+     * actualizamos el total
+     */
+    @FXML
+    private void considerarTodos() {
+        boolean considerar = cbxConsiderarCuotas.isSelected();
+
+        Map<TextField, Label> campos = Map.of(
+                txfMontoInscripcion, lblCuotaInscripcion,
+                txfMontoLibros, lblCuotaLibros,
+                txfMontoEventos, lblCuotaEventos,
+                txfMontoAcademias, lblCuotaAcademias,
+                txfMontoUniforme, lblUniforme
+        );
+
+        campos.forEach((campo, etiqueta) -> campo.setText(considerar ? etiqueta.getText() : ""));
+
+        // Actualizamos el total
+        actualizarTotal();
+
+    }
+
+    /**
+     * Metodo que actualiza el campo para el total
+     */
+    private void actualizarTotal() {
+        BigDecimal total = BigDecimal.ZERO;
+
+        // Sumar los montos de cada campo
+        total = total.add(ParseBigDecimal(txfMontoVencido));
+        total = total.add(ParseBigDecimal(txfMontoColegiatura));
+        total = total.add(ParseBigDecimal(txfMontoInscripcion));
+        total = total.add(ParseBigDecimal(txfMontoLibros));
+        total = total.add(ParseBigDecimal(txfMontoEventos));
+        total = total.add(ParseBigDecimal(txfMontoAcademias));
+        total = total.add(ParseBigDecimal(txfMontoUniforme));
+
+        // Actualizar el total en la interfaz
+        lblTotal.setText(total.toString());
+    }
+
+    /**
+     * Método para parsear el texto a BigDecimal, devolviendo BigDecimal.ZERO si es vacío o no válido
+     */
+    private BigDecimal ParseBigDecimal(TextField textField) {
+        try {
+            return new BigDecimal(textField.getText().isEmpty() ? "0,00" : textField.getText());
+        } catch (NumberFormatException e) {
+            return new BigDecimal(0.00);
         }
     }
+
+    private void verificarFormato(TextField textField, Label label) {
+        try {
+
+            // Verificamos si el texto no está vacío y es un número válido
+            if (textField.getText().isEmpty()) {
+                // Si el campo está vacío, puedes manejarlo de la forma que prefieras, por ejemplo:
+                textField.setStyle("-fx-border-color: #000000;");
+                textField.setDisable(false);
+                return;  // Salir del método, ya que no queremos procesar el campo vacío
+            }
+
+            BigDecimal valorIngresado = new BigDecimal(textField.getText()); // valor del campo a evaluar
+            BigDecimal valorReal = new BigDecimal(label.getText()); // valor del campo indicador del monto
+            BigDecimal comparador = new BigDecimal(0); // valor a comparar
+
+            // Comparar si el valor ingresado es menor que 0
+            int comparacionMenor = valorIngresado.compareTo(comparador);
+            int comparacionMayor = valorIngresado.compareTo(valorReal);
+
+            // Si el número ingresado es negativo, aplicar estilo y deshabilitar el botón
+            if (comparacionMenor < 0) {
+                aplicarEstiloDeError(textField);
+            }
+            // Si el valor ingresado es mayor que el valor real, también aplica estilo de error
+            else if (comparacionMayor > 0) {
+                aplicarEstiloDeError(textField);
+            }
+            // Si el valor ingresado está dentro del rango esperado, aplicar estilo por defecto
+            else {
+                aplicarEstiloPorDefecto(textField);
+                actualizarTotal();
+            }
+        } catch (NumberFormatException ex) {
+            // Si el formato no es un número válido, aplicar el estilo de error
+            aplicarEstiloDeError(textField);
+        }
+    }
+
+    // Método auxiliar para aplicar estilo de error al botón
+    private void aplicarEstiloDeError(TextField textField) {
+        textField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+        btnRegistrar.setDisable(true);
+    }
+
+    // Método auxiliar para aplicar estilo por defecto al botón
+    private void aplicarEstiloPorDefecto(TextField textField) {
+        textField.setStyle("-fx-border-color: #000000;");
+        btnRegistrar.setDisable(false);
+    }
+
 
 }

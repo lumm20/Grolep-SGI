@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1150.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.PantallaPrincipalController">
    <left>
       <VBox prefHeight="540.0" prefWidth="65.0" style="-fx-background-color: #2C3E50;" BorderPane.alignment="CENTER">
@@ -35,7 +34,7 @@
                         <Font name="System Bold" size="21.0" />
                      </font>
                   </Label>
-                  <JFXCheckBox fx:id="cbxConsiderarCuotas" layoutX="487.0" layoutY="20.0" text="Considerar todos">
+                  <JFXCheckBox fx:id="cbxConsiderarCuotas" layoutX="487.0" layoutY="20.0" onAction="#considerarTodos" text="Considerar todos">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -82,7 +81,7 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaILibros" layoutX="239.0" layoutY="185.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
+                  <Label fx:id="lblCuotaLibros" layoutX="239.0" layoutY="185.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -92,12 +91,12 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaIEventos" layoutX="239.0" layoutY="240.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
+                  <Label fx:id="lblCuotaEventos" layoutX="239.0" layoutY="240.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaIAcademias" layoutX="239.0" layoutY="297.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
+                  <Label fx:id="lblCuotaAcademias" layoutX="239.0" layoutY="297.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
@@ -128,7 +127,7 @@
                      </font>
                   </JFXButton>
                   <Separator layoutX="12.0" layoutY="105.0" prefHeight="0.0" prefWidth="603.0" style="-fx-background-color: #000000;" />
-                  <JFXCheckBox fx:id="cbxConsiderarColegiatura" layoutX="527.0" layoutY="25.0" text="Considerar">
+                  <JFXCheckBox fx:id="cbxConsiderarColegiatura" layoutX="527.0" layoutY="25.0" onAction="#considerarColegiatura" text="Considerar">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -153,7 +152,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblMontoVencidos" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0.00000">
+                  <Label fx:id="lblAdeudoVencido" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0.00000">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -194,7 +193,7 @@
             </ComboBox>
             <AnchorPane layoutX="745.0" layoutY="131.0" prefHeight="333.0" prefWidth="270.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
                <children>
-                  <Label layoutX="62.0" layoutY="42.0" prefHeight="36.0" prefWidth="146.0" text="00000.00000" textFill="WHITE">
+                  <Label fx:id="lblTotal" layoutX="62.0" layoutY="42.0" prefHeight="36.0" prefWidth="146.0" text="00000.00000" textFill="WHITE">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -219,7 +218,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnRegistrar" layoutX="795.0" layoutY="511.0" onAction="#mostrarPantallaDetalles" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #63e336; -fx-background-radius: 10px;" text="Registrar">
+            <JFXButton fx:id="btnRegistrar" layoutX="795.0" layoutY="511.0" onAction="#registrarPago" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #63e336; -fx-background-radius: 10px;" text="Registrar">
                <font>
                   <Font size="20.0" />
                </font>

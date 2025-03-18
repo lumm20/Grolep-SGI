@@ -12,6 +12,15 @@ public class AlumnoConsultaDTO implements Serializable {
     private String apellidoMaterno;
     private String numeroCelular;
 
+    // Constructor
+    public AlumnoConsultaDTO(String matricula, String nombres, String apellidoPaterno, String apellidoMaterno, String numeroCelular) {
+        this.matricula = matricula;
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.numeroCelular = numeroCelular;
+    }
+
     @Override
     public String toString() {
         return String.format("%s %s %s, \"%s\"", nombres, apellidoPaterno, apellidoMaterno, numeroCelular);

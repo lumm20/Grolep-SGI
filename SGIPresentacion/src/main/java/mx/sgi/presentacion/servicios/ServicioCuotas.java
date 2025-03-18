@@ -1,5 +1,6 @@
 package mx.sgi.presentacion.servicios;
 
+import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotaDTO;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
@@ -27,8 +28,8 @@ public class ServicioCuotas implements IServicioCuotas {
      * @param matricula matricula del alumno
      */
     @Override
-    public List<CuotaDTO> obtenerCuotasAlumno(String matricula)  throws Exception{
-
+    public List<CuotaDTO> obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar)  throws Exception{
+        return null;
     }
 
     /**
@@ -36,8 +37,8 @@ public class ServicioCuotas implements IServicioCuotas {
      * @param matricula matricula matricula del alumno
      */
     @Override
-    public List<ColegiaturaAtrasadaDTO> obtenerColegiaturasAtrasadas(String matricula)  throws Exception{
-
+    public List<ColegiaturaAtrasadaDTO> obtenerColegiaturasAtrasadas(String matricula, CicloEscolarDTO cicloEscolar)  throws Exception{
+        return null;
     }
 
 }

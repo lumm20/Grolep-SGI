@@ -8,7 +8,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class ServicioAlumnos implements IServicioAlumnos {
 
@@ -30,34 +33,34 @@ public class ServicioAlumnos implements IServicioAlumnos {
      * @param nombre nombre del alumno a consultar
      */
     @Override
-    public void consultarAlumnos(String nombre) throws Exception{
-        try {
-            // Definir la URL para la solicitud HTTPS
-            URI uri = URI.create("https://api.ejemplo.com/alumnos?nombre=" + nombre);
+    public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception{
 
-            // Crear la solicitud HTTP GET
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(uri)
-                    .header("Accept", "application/json")
-                    .GET()
-                    .build();
+        // Creamos algunos alumnos simulados
+        List<AlumnoConsultaDTO>alumnosSimulados = new ArrayList<>();
+        alumnosSimulados.add(new AlumnoConsultaDTO("A001", "Juan", "Pérez", "López", "123456789"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A002", "Juan", "Martínez", "Gómez", "987654321"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A003", "Ana", "González", "Ruiz", "112233445"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A004", "Carlos", "Hernández", "Vargas", "998877665"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A005", "Juan", "Rodríguez", "Díaz", "556677889"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A006", "María", "Sánchez", "Pérez", "667788990"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A007", "Juan", "Torres", "Ramírez", "223344556"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A008", "José", "Lopez", "González", "123123123"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A009", "Juan", "Martínez", "Sánchez", "321321321"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A010", "Laura", "Gómez", "Fernández", "445566778"));
+        // Añadir más si se necesita
 
-            // Realizar la solicitud y manejar la respuesta
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        if (nombre == null || nombre.isEmpty()) {
 
-            if (response.statusCode() == 200) {
-                // Aquí puedes procesar la respuesta si la solicitud fue exitosa
-                System.out.println("Respuesta: " + response.body());
-            } else {
-                // Manejo de errores si la solicitud no fue exitosa
-                System.err.println("Error en la solicitud: " + response.statusCode());
-            }
-
-        } catch (Exception e) {
-            // Manejo de excepciones
-            e.printStackTrace();
         }
+
+        // Filtrar los alumnos que contienen el nombre en su campo "nombres"
+        return alumnosSimulados.stream()
+                .filter(alumno -> alumno.getNombres().toLowerCase().contains(nombre.toLowerCase()))
+                .limit(10) // Limitar a 10 alumnos
+                .collect(Collectors.toList());
     }
 
 
 }
+
+
