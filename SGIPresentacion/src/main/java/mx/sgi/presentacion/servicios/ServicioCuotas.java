@@ -27,21 +27,25 @@ public class ServicioCuotas implements IServicioCuotas {
     }
 
     @Override
-    public List<CuotaDTO> obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar) throws Exception {
+    public CuotaDTO obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar) throws Exception {
         // Simulación de obtención de datos (en un caso real, aquí iría la lógica de la consulta)
+        System.out.println("Valores que llegaron: " + matricula + " " + cicloEscolar);
 
-        List<CuotaDTO> cuotas = new ArrayList<>();
+        // Simulación de valores de adeudos
+        String adeudoVencido = "500.00"; // Total de adeudos vencidos
+        String adeudoColegiatura = "1000.00";
+        String adeudoInscripcion = "500.00";
+        String adeudoLibros = "700.00";
+        String adeudoEventos = "1200.00";
+        String adeudoAcademias = "400.00";
+        String adeudoUniformes = "800.00";
 
-        // Ejemplo de cuotas para el alumno con la matrícula indicada
-            cuotas.add(new CuotaDTO(new BigDecimal("100O.00"), "COLEGIATURA"));
-            cuotas.add(new CuotaDTO(new BigDecimal("500.00"), "INSCRIPCION"));
-            cuotas.add(new CuotaDTO(new BigDecimal("700.00"), "LIBROS"));
-            cuotas.add(new CuotaDTO(new BigDecimal("1200.00"), "EVENTOS"));
-            cuotas.add(new CuotaDTO(new BigDecimal("400.00"), "ACADEMIAS"));
-            cuotas.add(new CuotaDTO(new BigDecimal("800.00"), "UNIFORME"));
+        // Se crea un solo objeto CuotaDTO con todos los adeudos en sus respectivos campos
+        CuotaDTO cuota = new CuotaDTO(adeudoVencido, adeudoColegiatura, adeudoInscripcion,
+                adeudoLibros, adeudoEventos, adeudoAcademias, adeudoUniformes);
 
-
-        return cuotas;
+        // Se devuelve una lista con un solo elemento, ya que ahora CuotaDTO almacena todos los valores en un solo objeto
+        return cuota;
     }
 
     /**

@@ -25,7 +25,7 @@
       </VBox>
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-cell-size: 30px;" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane layoutX="47.0" layoutY="336.0" prefHeight="409.0" prefWidth="638.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
                <children>
@@ -81,36 +81,51 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaLibros" layoutX="239.0" layoutY="185.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
+                  <Label fx:id="lblCuotaLibros" alignment="CENTER" layoutX="217.0" layoutY="185.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaInscripcion" layoutX="239.0" layoutY="130.0" prefHeight="20.0" prefWidth="128.0" style="-fx-text-alignment: center;" text="00000.00000">
+                  <Label fx:id="lblCuotaInscripcion" alignment="CENTER" layoutX="217.0" layoutY="130.0" prefHeight="20.0" prefWidth="128.0" style="-fx-text-alignment: center;" text="0000.00">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaEventos" layoutX="239.0" layoutY="240.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
+                  <Label fx:id="lblCuotaEventos" alignment="CENTER" layoutX="217.0" layoutY="240.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaAcademias" layoutX="239.0" layoutY="297.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
+                  <Label fx:id="lblCuotaAcademias" alignment="CENTER" layoutX="217.0" layoutY="296.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblUniforme" layoutX="239.0" layoutY="353.0" prefHeight="20.0" prefWidth="128.0" text="00000.00000">
+                  <Label fx:id="lblUniforme" alignment="CENTER" layoutX="217.0" layoutY="352.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txfMontoInscripcion" layoutX="440.0" layoutY="128.0" prefHeight="26.0" prefWidth="158.0" />
-                  <TextField fx:id="txfMontoLibros" layoutX="440.0" layoutY="182.0" prefHeight="26.0" prefWidth="158.0" />
-                  <TextField fx:id="txfMontoEventos" layoutX="440.0" layoutY="237.0" prefHeight="26.0" prefWidth="158.0" />
-                  <TextField fx:id="txfMontoAcademias" layoutX="440.0" layoutY="294.0" prefHeight="26.0" prefWidth="158.0" />
-                  <TextField fx:id="txfMontoUniforme" layoutX="440.0" layoutY="350.0" prefHeight="26.0" prefWidth="158.0" />
+                  <TextField fx:id="txfMontoInscripcion" alignment="CENTER" layoutX="440.0" layoutY="128.0" prefHeight="26.0" prefWidth="158.0" style="-fx-border-color: #000000;">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField fx:id="txfMontoLibros" alignment="CENTER" layoutX="440.0" layoutY="182.0" prefHeight="26.0" prefWidth="158.0" style="-fx-border-color: #000000;">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField fx:id="txfMontoEventos" alignment="CENTER" layoutX="440.0" layoutY="237.0" prefHeight="26.0" prefWidth="158.0" style="-fx-border-color: #000000;">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField fx:id="txfMontoAcademias" alignment="CENTER" layoutX="440.0" layoutY="294.0" prefHeight="26.0" prefWidth="158.0" style="-fx-border-color: #000000;">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
+                  <TextField fx:id="txfMontoUniforme" alignment="CENTER" layoutX="440.0" layoutY="350.0" prefHeight="26.0" prefWidth="158.0" style="-fx-border-color: #000000;">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="47.0" layoutY="98.0" prefHeight="218.0" prefWidth="638.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
@@ -152,12 +167,15 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAdeudoVencido" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0.00000">
+                  <Label fx:id="lblAdeudoVencido" alignment="CENTER" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txfMontoVencido" layoutX="158.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" />
+                  <TextField fx:id="txfMontoVencido" alignment="CENTER" layoutX="158.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
                   <Label layoutX="344.0" layoutY="65.0" prefHeight="20.0" prefWidth="49.0" style="-fx-text-alignment: center;" text="Adeudo ">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -168,7 +186,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAdeudoColegiatura" layoutX="337.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0.00000">
+                  <Label fx:id="lblAdeudoColegiatura" alignment="CENTER" layoutX="337.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
@@ -183,17 +201,20 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txfMontoColegiatura" layoutX="471.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" />
+                  <TextField fx:id="txfMontoColegiatura" alignment="CENTER" layoutX="471.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
                </children>
             </AnchorPane>
-            <ComboBox fx:id="cmbxAlumnos" editable="true" layoutX="76.0" layoutY="24.0" prefHeight="42.0" prefWidth="580.0" promptText="Buesque a un alumno a pagar">
+            <ComboBox fx:id="cmbxAlumnos" editable="true" layoutX="76.0" layoutY="24.0" prefHeight="42.0" prefWidth="572.0" style="-fx-font-size: 15px; -fx-cell-size: 30px; -fx-background-radius: 15px;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </ComboBox>
             <AnchorPane layoutX="745.0" layoutY="131.0" prefHeight="333.0" prefWidth="270.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
                <children>
-                  <Label fx:id="lblTotal" layoutX="62.0" layoutY="42.0" prefHeight="36.0" prefWidth="146.0" text="00000.00000" textFill="WHITE">
+                  <Label fx:id="lblTotal" alignment="BASELINE_CENTER" layoutX="55.0" layoutY="41.0" prefHeight="36.0" prefWidth="146.0" text="00000.00000" textFill="WHITE">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -204,15 +225,18 @@
                      </font>
                   </Label>
                   <Separator layoutX="29.0" layoutY="140.0" prefHeight="0.0" prefWidth="199.0" style="-fx-background-color: #000000;" />
-                  <Label layoutX="29.0" layoutY="174.0" prefHeight="28.0" prefWidth="131.0" text="Metodo de pago:">
+                  <Label layoutX="22.0" layoutY="173.0" prefHeight="28.0" prefWidth="131.0" text="Metodo de pago:">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="cmbxMetodoPago" layoutX="31.0" layoutY="210.0" prefHeight="30.0" prefWidth="208.0" promptText="Seleccione un metodo de pago" />
+                  <ComboBox fx:id="cmbxMetodoPago" layoutX="22.0" layoutY="208.0" prefHeight="37.0" prefWidth="226.0" promptText="Seleccione un metodo de pago" style="-fx-font-size: 13px;" />
                </children>
             </AnchorPane>
-            <ComboBox fx:id="cmbxCicloEscolar" layoutX="827.0" layoutY="27.0" prefHeight="35.0" prefWidth="188.0" promptText="Seleccione el ciclo escolar" />
+            <ComboBox fx:id="cmbxCicloEscolar" layoutX="827.0" layoutY="27.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="35.0" prefWidth="188.0" promptText="Seleccione un ciclo" style="-fx-font-size: 15px;">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></ComboBox>
             <Label layoutX="706.0" layoutY="32.0" prefHeight="26.0" prefWidth="103.0" text="Ciclo Escolar:" textAlignment="CENTER">
                <font>
                   <Font name="System Bold" size="16.0" />
@@ -223,6 +247,11 @@
                   <Font size="20.0" />
                </font>
             </JFXButton>
+            <TextField fx:id="txfAlumnos" layoutX="75.0" layoutY="23.0" prefHeight="44.0" prefWidth="574.0" promptText="Escriba el nombre de un alumno" style="-fx-background-radius: 5px;">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </TextField>
          </children>
       </AnchorPane>
    </center>

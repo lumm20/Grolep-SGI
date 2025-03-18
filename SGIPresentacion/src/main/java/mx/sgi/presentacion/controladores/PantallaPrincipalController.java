@@ -3,21 +3,20 @@ package mx.sgi.presentacion.controladores;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import mx.itson.sgi.dto.AlumnoConsultaDTO;
-import mx.itson.sgi.dto.CicloEscolarDTO;
-import mx.itson.sgi.dto.MetodosPagoDTO;
+import javafx.stage.Stage;
+import mx.itson.sgi.dto.*;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
@@ -25,13 +24,11 @@ import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
+import org.springframework.beans.factory.annotation.InjectionMetadata;
 
 import java.math.BigDecimal;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class PantallaPrincipalController implements Initializable {
 
@@ -110,6 +107,9 @@ public class PantallaPrincipalController implements Initializable {
     //de aqui en adelante se declaran los componentes de entradas
 
     @FXML
+    TextField txfAlumnos;
+
+    @FXML
     TextField txfMontoVencido;
 
     @FXML
@@ -141,7 +141,6 @@ public class PantallaPrincipalController implements Initializable {
     private IServicioCuotas  servicioCuotas;
 
     private IServicioCicloEscolar servicioCicloEscolar;
-
     /**
      * Instancia estatica del controlador
      */
@@ -183,19 +182,14 @@ public class PantallaPrincipalController implements Initializable {
         establecerCiclos();
 
         //cargamos los metodos de pago:
-        cargarMetodosDePago();
+        establecerMetodosDePago();
 
-        //hacemos set de todos los listeners para cada campo
-        setMontoVencidoListener();
-        setMontoColegiaturaListener();
-        setMontoInscripcionListener();
-        setMontoLibrosListener();
-        setMontoEventosListener();
-        setMontoAcademiasListener();
-        setMontoUniformeListener();
+        //establecemos la configuracion para los campos de entrada
+        establecerListenersCamposDeEntrada();
 
-        //hacemos los set para los combo box
-        setAlumnosComboBoxListener();
+        //establecemos la configuracion para el buscador de alumnos
+        configurarFiltroAlumnos();
+
 
     }
 
@@ -230,70 +224,107 @@ public class PantallaPrincipalController implements Initializable {
 
     //de aqui en adelante comienzan los listeners para validaciones
 
-    // Método para el campo "Monto Vencido"
-    private void setMontoVencidoListener() {
+    /**
+     * establece la configuracion de cada listener para los campos de entrada.
+     */
+    private void establecerListenersCamposDeEntrada(){
+        // Método para el campo "Monto Vencido"
         txfMontoVencido.textProperty().addListener((observable, oldValue, newValue) -> {
             verificarFormato(txfMontoVencido, lblAdeudoVencido);
         });
-    }
 
-    // Método para el campo "Monto Colegiatura"
-    private void setMontoColegiaturaListener() {
+        // Método para el campo "Monto Colegiatura"
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
             verificarFormato(txfMontoColegiatura, lblAdeudoColegiatura);
         });
-    }
 
-    // Método para el campo "Monto Inscripción"
-    private void setMontoInscripcionListener() {
+        // Método para el campo "Monto Inscripción"
         txfMontoInscripcion.textProperty().addListener((observable, oldValue, newValue) -> {
             verificarFormato(txfMontoInscripcion, lblCuotaInscripcion);
         });
-    }
 
-    // Método para el campo "Monto Libros"
-    private void setMontoLibrosListener() {
+        // Método para el campo "Monto Libros"
         txfMontoLibros.textProperty().addListener((observable, oldValue, newValue) -> {
             verificarFormato(txfMontoLibros, lblCuotaLibros);
         });
-    }
 
-    // Método para el campo "Monto Eventos"
-    private void setMontoEventosListener() {
+        // Método para el campo "Monto Eventos"
         txfMontoEventos.textProperty().addListener((observable, oldValue, newValue) -> {
             verificarFormato(txfMontoEventos, lblCuotaEventos);
         });
-    }
 
-    // Método para el campo "Monto Academias"
-    private void setMontoAcademiasListener() {
+        // Método para el campo "Monto Academias"
         txfMontoAcademias.textProperty().addListener((observable, oldValue, newValue) -> {
             verificarFormato(txfMontoAcademias, lblCuotaAcademias);
         });
-    }
 
-    // Método para el campo "Monto Uniforme"
-    private void setMontoUniformeListener() {
+        //// Método para el campo "Monto Uniforme"
         txfMontoUniforme.textProperty().addListener((observable, oldValue, newValue) -> {
             verificarFormato(txfMontoUniforme, lblUniforme);
         });
-    }
 
+    }
 
     //de aqui en adelante comienzan los listeners para los combo box
 
-    // Método para el ComboBox "Alumnos"
-    private void setAlumnosComboBoxListener() {
-        cmbxAlumnos.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Alumno seleccionado: " + newValue);
-            // Agregar la lógica para manejar el cambio en "Alumnos"
+    /**
+     * establece la configuracion para la busqueda de alumnos.
+     */
+    private void configurarFiltroAlumnos() {
+
+        // Escuchar cambios en el texto del TextField
+        txfAlumnos.textProperty().addListener((observable, oldValue, newValue) -> {
+            // Llamar al servicio para obtener los alumnos que coinciden con el texto
+            actualizarOpcionesAlumnos(newValue);
         });
+
+        cmbxAlumnos.setOnAction(event -> {
+            AlumnoConsultaDTO alumnoSeleccionado = cmbxAlumnos.getValue();
+            if (alumnoSeleccionado != null && !cmbxAlumnos.getItems().isEmpty()) {
+                Platform.runLater(() -> {
+                    String texto = alumnoSeleccionado != null ? alumnoSeleccionado.toString() : "";
+                    txfAlumnos.setText(texto);
+                });
+                consultarCuotas();
+            }
+        });
+
     }
+
+    /**
+     * Método para actualizar la lista basada en el texto ingresado
+     */
+    private void actualizarOpcionesAlumnos(String filtro) {
+        try {
+
+            if (!filtro.isEmpty()){
+
+                List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.consultarAlumnos(filtro);
+
+                // Convertimos la lista en un ObservableList
+                ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections.observableArrayList(alumnosFiltrados);
+
+                cmbxAlumnos.visibleRowCountProperty().setValue(alumnosFiltrados.size());
+
+                // Actualizamos los ítems del ComboBox
+                cmbxAlumnos.setItems(listaObservable);
+
+                // Mostramos el dropdown con las opciones actualizadas
+                cmbxAlumnos.show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //ahora de aquí en adelante van los metodos para el procesamiento del pago
 
-
-    private void cargarMetodosDePago() {
+    /**
+     * Carga los metodos de pago existentes a su respectivo combo box
+     */
+    private void establecerMetodosDePago() {
         // Definir la lista de métodos de pago
         List<String> listaMetodosPago = Arrays.asList("Efectivo", "Tarjeta", "Transferencia");  // Ajusta según los métodos de pago
 
@@ -304,10 +335,8 @@ public class PantallaPrincipalController implements Initializable {
         cmbxMetodoPago.setItems(observableList);
     }
 
-
-
     /**
-     *
+     * Establece los ciclos escolares dentro de su respectivo comboBox
      */
     private void establecerCiclos(){
         try {
@@ -328,8 +357,52 @@ public class PantallaPrincipalController implements Initializable {
     /**
      * aqui se consultaran las cuotas correspondientes al alumno que haya sido seleccionado
      */
-    public void consultarCuotas() {
-        //pendiente
+    private void consultarCuotas() {
+        try{
+
+            List<CuotaDTO> cuotas;
+            List<ColegiaturaAtrasadaDTO>  colegiaturaAtrasadas;
+
+            if (cmbxCicloEscolar.getValue() == null &&  cmbxAlumnos.getValue() != null) {
+
+                System.out.println("Entre a la primera opcion");
+                cmbxCicloEscolar.getSelectionModel().select(0);
+                CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
+                String matricula = cmbxAlumnos.getValue().getMatricula();
+
+                establecerCuotas(matricula, cicloEscolar);
+            }
+            else if (cmbxCicloEscolar.getValue() != null && cmbxAlumnos.getValue() != null) {
+
+                System.out.println("Entre a la segunda opcion");
+                CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
+                String matricula = cmbxAlumnos.getValue().getMatricula();
+
+                establecerCuotas(matricula, cicloEscolar);
+            }
+
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
+        try {
+            CuotaDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, cicloEscolar);
+
+            lblAdeudoVencido.setText(cuotas.getAdeudoVencido());
+            lblAdeudoColegiatura.setText(cuotas.getAdeudoColegiatura());
+            lblCuotaInscripcion.setText(cuotas.getAdeudoInscripcion());
+            lblCuotaLibros.setText(cuotas.getAdeudoLibros());
+            lblCuotaEventos.setText(cuotas.getAdeudoEventos());
+            lblCuotaAcademias.setText(cuotas.getAdeudoAcademias());
+            lblUniforme.setText(cuotas.getAdeudoUniformes());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -446,16 +519,19 @@ public class PantallaPrincipalController implements Initializable {
         }
     }
 
-    // Método auxiliar para aplicar estilo de error al botón
+    /**
+     *  Método auxiliar para aplicar estilo de error al botón
+     */
     private void aplicarEstiloDeError(TextField textField) {
         textField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-        btnRegistrar.setDisable(true);
     }
 
-    // Método auxiliar para aplicar estilo por defecto al botón
-    private void aplicarEstiloPorDefecto(TextField textField) {
+    /**
+     * Método auxiliar para aplicar estilo por defecto al botón
+     *
+     */
+   private void aplicarEstiloPorDefecto(TextField textField) {
         textField.setStyle("-fx-border-color: #000000;");
-        btnRegistrar.setDisable(false);
     }
 
 

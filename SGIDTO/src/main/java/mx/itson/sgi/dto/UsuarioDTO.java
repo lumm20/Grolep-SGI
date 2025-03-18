@@ -10,6 +10,11 @@ public class UsuarioDTO {
     private String nombre;
     private String correo;
 
+    /**
+     * constructor vacio
+     */
+    public UsuarioDTO() {}
+
     // Constructor
     public UsuarioDTO(UUID identificador, String nombre, String correo) {
         this.identificador = identificador;

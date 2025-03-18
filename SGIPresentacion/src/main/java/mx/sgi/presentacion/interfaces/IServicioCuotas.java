@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IServicioCuotas {
 
-    public List<CuotaDTO> obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar)  throws Exception;
+    public CuotaDTO obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar)  throws Exception;
 
     public List<ColegiaturaAtrasadaDTO> obtenerColegiaturasAtrasadas(String matricula, CicloEscolarDTO cicloEscolar)  throws Exception;
 
