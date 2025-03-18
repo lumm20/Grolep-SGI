@@ -5,9 +5,9 @@ import mx.itson.sgi.dto.PagoDTO;
 
 public class AlumnoCache {
 
-    public static volatile AlumnoConsultaDTO  instance;
+    private static volatile AlumnoConsultaDTO  instance;
 
-    public static void limpiarAlumno() {
+    public static void limpiarCache() {
         AlumnoCache.instance = null;
     }
 

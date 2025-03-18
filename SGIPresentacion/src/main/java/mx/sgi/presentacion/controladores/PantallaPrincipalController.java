@@ -291,7 +291,9 @@ public class PantallaPrincipalController implements Initializable {
                     String texto = alumnoSeleccionado != null ? alumnoSeleccionado.toString() : "";
                     txfAlumnos.setText(texto);
                 });
-                consultarCuotas();
+                AlumnoCache.limpiarCache(); //limpiamos en caso de que hubiera otro alumno ocupando la instancia
+                AlumnoCache.setInstance(alumnoSeleccionado); //guardamos al alumno seleccionado en el cache
+                consultarCuotas(); //consultamos sus cuotas
             }
         });
 
@@ -323,7 +325,6 @@ public class PantallaPrincipalController implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     //ahora de aquí en adelante van los metodos para el procesamiento del pago
 
@@ -411,19 +412,25 @@ public class PantallaPrincipalController implements Initializable {
 
     }
 
+
     /**
      * Recolecta la informacion para el pago y la pasa al ticket al igual que abre
      * la pantalla del ticket
      */
     @FXML
     public void registrarPago(){
+        try {
+
+        if (AlumnoCache.getInstance().getMatricula() == null){
+            System.out.println("asegurese de seleccionar un alumno");
+            return;
+        }
 
         if (cmbxMetodoPago.getValue() == null){
             System.out.println("no lo selecciono el wey");
             return;
         }
 
-        try {
             //recolectamos todos los campos del pago y los guardamos en la cache
 
             TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
@@ -433,7 +440,6 @@ public class PantallaPrincipalController implements Initializable {
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
             String metodoPago = cmbxMetodoPago.getValue();
-
             BigDecimal montoVencidos = toBigDecimal(txfMontoVencido.getText());
             BigDecimal montoColegiatura = toBigDecimal(txfMontoColegiatura.getText());
             BigDecimal montoInscripcion = toBigDecimal(txfMontoInscripcion.getText());
@@ -441,7 +447,6 @@ public class PantallaPrincipalController implements Initializable {
             BigDecimal montoEventos = toBigDecimal(txfMontoEventos.getText());
             BigDecimal montoAcademias = toBigDecimal(txfMontoAcademias.getText());
             BigDecimal montoUniforme = toBigDecimal(txfMontoUniforme.getText());
-
             String descuento = "Descuento por pago temprano";
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
             UsuarioDTO usuario = UsuarioCache.getInstance();
@@ -451,15 +456,24 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setFecha(fecha);
             ticket.setHora(hora);
             ticket.setMetodoPago(metodoPago);
+            ticket.setMontoVencidos(montoVencidos);
+            ticket.setMontoColegiatura(montoColegiatura);
+            ticket.setMontoInscripcion(montoInscripcion);
+            ticket.setMontoLibros(montoLibros);
+            ticket.setMontoEventos(montoEventos);
+            ticket.setMontoAcademias(montoAcademias);
+            ticket.setMontoUniforme(montoUniforme);
             ticket.setDescuento(descuento);
             ticket.setAlumno(alumno);
             ticket.setUsuario(usuario);
+
+            System.out.println(ticket.toString());
 
             mediador.abrirPantallaTicket();
 
         }
         catch (Exception ex){
-
+            ex.printStackTrace();
         }
     }
 
@@ -470,7 +484,11 @@ public class PantallaPrincipalController implements Initializable {
      */
     private BigDecimal toBigDecimal(String valor) throws Exception {
         try{
-            return new BigDecimal(valor).setScale(2, BigDecimal.ROUND_HALF_UP);
+            String campo = valor;
+
+            campo = campo.equalsIgnoreCase("") ? "0" : valor;
+
+            return new BigDecimal(campo).setScale(2, BigDecimal.ROUND_HALF_UP);
         }
         catch (Exception ex){
             throw new Exception("Porfavor ingrese datos validos en todos los campos");
@@ -490,6 +508,9 @@ public class PantallaPrincipalController implements Initializable {
     private void generarFolio(){
 
     }
+
+
+
 
     /**
      *
