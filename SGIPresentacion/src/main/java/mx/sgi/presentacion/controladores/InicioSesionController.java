@@ -2,6 +2,8 @@ package mx.sgi.presentacion.controladores;
 
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
+import mx.itson.sgi.dto.UsuarioDTO;
+import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioUsuarios;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioUsuarios;
@@ -61,7 +63,10 @@ public class InicioSesionController implements Initializable{
             String contrena = psfContrasena.getText();
 
             //mandamos los datos al servicio
-            //servicioUsuarios.procesarInicioSesion(id, contrena);
+            UsuarioDTO usuario = servicioUsuarios.obtenerUsuario(id, contrena);
+
+            //guardamos al usuario en la instancia global
+            UsuarioCache.setInstance(usuario);
 
             //hacemos el cambio de pantalla
             mediador.MostrarPantallaPrincipal();
