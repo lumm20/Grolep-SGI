@@ -17,6 +17,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.*;
+import mx.sgi.presentacion.caches.AlumnoCache;
+import mx.sgi.presentacion.caches.PagoCache;
+import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
@@ -28,6 +31,8 @@ import org.springframework.beans.factory.annotation.InjectionMetadata;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class PantallaPrincipalController implements Initializable {
@@ -411,7 +416,47 @@ public class PantallaPrincipalController implements Initializable {
      */
     @FXML
     public void registrarPago(){
-        mediador.abrirPantallaTicket();
+
+        if (cmbxMetodoPago.getValue() == null){
+            System.out.println("no lo selecciono el wey");
+            return;
+        }
+
+        try {
+            //recolectamos todos los campos del pago y los guardamos en la cache
+            PagoDTO pago = PagoCache.getInstance();
+
+            pago.setMontoTotal(toBigDecimal(lblTotal.getText()));
+            pago.setFolio("AX123123DS942");
+            pago.setFecha(LocalDate.now());
+            pago.setHora(LocalTime.now());
+            pago.setMetodoPago(cmbxMetodoPago.getValue());
+            pago.setDescuento("Descuento por pago temprano");
+            pago.setAlumno(AlumnoCache.getInstance());
+            pago.setUsuario(UsuarioCache.getInstance());
+
+            mediador.abrirPantallaTicket();
+        }
+        catch (Exception ex){
+
+        }
+    }
+
+    private BigDecimal toBigDecimal(String valor) throws Exception {
+        try{
+            return new BigDecimal(valor).setScale(2, BigDecimal.ROUND_HALF_UP);
+        }
+        catch (Exception ex){
+            throw new Exception("Porfavor ingrese datos validos en todos los campos");
+        }
+    }
+
+    private void validarDescuento(){
+
+    }
+
+    private void generarFolio(){
+
     }
 
     /**

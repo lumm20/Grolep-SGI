@@ -12,6 +12,8 @@ public class AlumnoConsultaDTO implements Serializable {
     private String apellidoMaterno;
     private String numeroCelular;
 
+    public AlumnoConsultaDTO() {}
+
     // Constructor
     public AlumnoConsultaDTO(String matricula, String nombres, String apellidoPaterno, String apellidoMaterno, String numeroCelular) {
         this.matricula = matricula;

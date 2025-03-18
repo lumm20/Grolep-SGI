@@ -13,9 +13,13 @@ public class PagoDTO {
     private String folio;
     private LocalDate fecha;
     private LocalTime hora;
-    private String metodoPago;
-    private String descuento;
     private AlumnoConsultaDTO alumno;
+    private String metodoPago;
+
+    private String descuento;
+
+
+
     private UsuarioDTO usuario;
 
 }
