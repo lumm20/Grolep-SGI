@@ -5,12 +5,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.CuotasDTO;
+import mx.itson.sgi.dto.PagoCuotaDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.servicios.ServicioPagos;
 
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -35,7 +38,7 @@ public class TicketController implements Initializable {
     Label lblMontoVencidos;
 
     @FXML
-    Label  lblAdeudoColegiatura;
+    Label  lblMontoColegiatura;
 
     @FXML
     Label lblMontoInscripcion;
@@ -129,17 +132,67 @@ public class TicketController implements Initializable {
 
     }
 
-    private List<CuotasDTO> crearCuotas(){
+    private List<PagoCuotaDTO> crearCuotas(){
+
+        BigDecimal comparador = new BigDecimal(0.00);
+
         TicketRegistrarDTO ticket =  TicketRegistrarCache.getInstance();
 
-        List<CuotasDTO> cuotas;
+        List<PagoCuotaDTO> cuotas = new ArrayList<>();
 
-        if (ticket.getMontoVencidos()  != null) {
+        if (ticket.getMontoVencidos().compareTo(comparador) != 0) {
+            PagoCuotaDTO cuota = new PagoCuotaDTO();
 
+            cuota.setFecha(ticket.getFecha());
+            cuota.setHora(ticket.getHora());
+            cuota.setMonto(ticket.getMontoVencidos());
+            cuota.getConcepto();
+
+            cuotas.add(cuota);
+        }
+        if (ticket.getMontoColegiatura().compareTo(comparador) != 0) {
+            PagoCuotaDTO cuota = new PagoCuotaDTO();
+
+            cuota.setFecha(ticket.getFecha());
+            cuota.setHora(ticket.getHora());
+            cuota.setMonto(ticket.getMontoColegiatura());
+            cuota.getConcepto();
+
+            cuotas.add(cuota);
+        }
+        if (ticket.getMontoInscripcion().compareTo(comparador) != 0) {
+            PagoCuotaDTO cuota = new PagoCuotaDTO();
+
+            cuota.setFecha(ticket.getFecha());
+            cuota.setHora(ticket.getHora());
+            cuota.setMonto(ticket.getMontoInscripcion());
+            cuota.getConcepto();
+
+            cuotas.add(cuota);
+        }
+        if (ticket.getMontoLibros().compareTo(comparador) != 0) {
+            PagoCuotaDTO cuota = new PagoCuotaDTO();
+
+            cuota.setFecha(ticket.getFecha());
+            cuota.setHora(ticket.getHora());
+            cuota.setMonto(ticket.getMontoLibros());
+            cuota.getConcepto();
+
+            cuotas.add(cuota);
+        }
+        if (ticket.getMontoEventos().compareTo(comparador) != 0) {
+            PagoCuotaDTO cuota = new PagoCuotaDTO();
+
+            cuota.setFecha(ticket.getFecha());
+            cuota.setHora(ticket.getHora());
+            cuota.setMonto(ticket.getMontoLibros());
+            cuota.getConcepto();
+
+            cuotas.add(cuota);
         }
 
-
     }
+
 
     /**
      *

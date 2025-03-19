@@ -114,7 +114,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblAdeudoColegiatura" layoutX="165.0" layoutY="353.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
+            <Label fx:id="lblMontoColegiatura" layoutX="165.0" layoutY="353.0" prefHeight="20.0" prefWidth="168.0" text="texto de ejemplo">
                <font>
                   <Font size="14.0" />
                </font>
