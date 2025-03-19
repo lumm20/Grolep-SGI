@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.InicioSesionController">
+
+    <children>
+        <ImageView fitHeight="157.0" fitWidth="179.0" layoutX="171.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+
+        </ImageView>
+        <JFXButton fx:id="btnAcceder" layoutX="176.0" layoutY="505.0" prefHeight="48.0" prefWidth="147.0" ripplerFill="#d1ddd2" style="-fx-border-radius: 5; -fx-background-color: #24c838;" text="Acceder" onAction="#handleLogin" textFill="WHITE">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <font>
+                <Font size="18.0" />
+            </font></JFXButton>
+        <JFXTextField fx:id="txfID" labelFloat="true" layoutX="82.0" layoutY="300.0" prefHeight="38.0" prefWidth="354.0" promptText="Introduzca su ID">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <font>
+                <Font size="15.0" />
+            </font>
+        </JFXTextField>
+        <JFXPasswordField fx:id="psfContrasena" labelFloat="true" layoutX="82.0" layoutY="394.0" prefHeight="38.0" prefWidth="354.0" promptText="Introduzca su contraseña">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+            <font>
+                <Font size="15.0" />
+            </font>
+        </JFXPasswordField>
+        <ImageView fitHeight="38.0" fitWidth="18.0" layoutX="50.0" layoutY="315.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+
+        </ImageView>
+        <ImageView fitHeight="18.0" fitWidth="24.0" layoutX="50.0" layoutY="404.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+
+        </ImageView>
+        <Label layoutX="148.0" layoutY="206.0" text="Inicio de sesion">
+            <font>
+                <Font size="30.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>

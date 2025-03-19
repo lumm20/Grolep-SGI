@@ -20,7 +20,7 @@ public class UsuarioController {
         Optional<Usuario> optional = repository.findByNombre(usuario.getNombre());
         if(optional.isPresent()){
             Usuario usuarioEncontrado = optional.get();
-            return security.authenticate(usuario.getContra(), usuarioEncontrado.getContra());
+            return security.authenticate(usuario.getContrasena(), usuarioEncontrado.getContrasena());
         }
         return false;
     }
@@ -35,8 +35,8 @@ public class UsuarioController {
     }
 
     public Usuario registrarUsuario(Usuario usuario) {
-        String contraHasheada = security.encodePassword(usuario.getContra());
-        usuario.setContra(contraHasheada);
+        String contraHasheada = security.encodePassword(usuario.getContrasena());
+        usuario.setContrasena(contraHasheada);
         
         return repository.save(usuario);
     }

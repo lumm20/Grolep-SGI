@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.dto.AdeudoDTO;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
-import mx.itson.sgi.data_access.entities.ConceptoCuota;
+import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
 import mx.itson.sgi.data_access.repositories.CicloRepository;
 import mx.itson.sgi.data_access.repositories.CuotaRepository;
@@ -29,7 +29,7 @@ public class CuotaController {
         }
         return new ArrayList<Cuota>();
     }
-    public List<Cuota> obtenerCuotasPorConcepto(ConceptoCuota concepto){
+    public List<Cuota> obtenerCuotasPorConcepto(Concepto concepto){
         List<Cuota> cuotas = repository.findByConcepto(concepto);
         if(cuotas != null){
             return cuotas;
