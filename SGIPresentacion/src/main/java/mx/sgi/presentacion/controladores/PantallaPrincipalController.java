@@ -391,8 +391,10 @@ public class PantallaPrincipalController implements Initializable {
      * @param matricula Matricula del alumno
      * @param cicloEscolar Ciclo escolar a consultar.
      */
-    private void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
+    public void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
         try {
+            System.out.println("te la rifaste fernando");
+
             CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, cicloEscolar);
 
             lblAdeudoVencido.setText(cuotas.getAdeudoVencido());
@@ -413,7 +415,7 @@ public class PantallaPrincipalController implements Initializable {
      * Consulta los cuotas para cuando se selecciona un ciclo escolar distinto;
      */
     @FXML
-    public void ConsultarAdeudosConCicloEscolar(){
+    private void ConsultarAdeudosConCicloEscolar(){
         consultarCuotas();
     }
 
@@ -422,7 +424,7 @@ public class PantallaPrincipalController implements Initializable {
      * la pantalla del ticket
      */
     @FXML
-    public void registrarPago(){
+    private void registrarPago(){
         try {
 
         if (AlumnoCache.getInstance().getMatricula() == null){
@@ -454,6 +456,7 @@ public class PantallaPrincipalController implements Initializable {
             String descuento = "Descuento por pago temprano";
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
             UsuarioDTO usuario = UsuarioCache.getInstance();
+            CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
 
             ticket.setMontoTotal(montoTotal);
             ticket.setFolio(folio);
@@ -470,6 +473,7 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setDescuento(descuento);
             ticket.setAlumno(alumno);
             ticket.setUsuario(usuario);
+            ticket.setCiclo(cicloEscolar);
 
             System.out.println(ticket.toString());
 

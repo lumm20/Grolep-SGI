@@ -5,6 +5,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import mx.itson.sgi.dto.CicloEscolarDTO;
+import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.controladores.PantallaPrincipalController;
 
 import java.io.IOException;
@@ -46,7 +49,7 @@ public class Mediador {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/PantallaPrincipal.fxml"));
             Parent root = loader.load();
 
-            // Llamamos al controlador de la pantalla principal y le asignamos su dashboard
+            // Llamamos al controlador de la pantalla principal
             PantallaPrincipalController pantallaPrincipal = loader.getController();
 
             //asignamos el controlador a la instancia global
@@ -97,6 +100,17 @@ public class Mediador {
             System.err.println("Error al cargar la pantalla principal de confirmacion: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public void refrescarPantallaPagos(){
+        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+        PantallaPrincipalController pantallaPrincipal = PantallaPrincipalController.getInstance();
+
+        String matricula = ticket.getAlumno().getMatricula();
+        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
+
+        pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
+
     }
 
 

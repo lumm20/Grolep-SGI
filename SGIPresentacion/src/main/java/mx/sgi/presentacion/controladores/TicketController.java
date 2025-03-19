@@ -9,6 +9,7 @@ import mx.itson.sgi.dto.PagoCuotaDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
+import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioPagos;
 
 import java.math.BigDecimal;
@@ -60,9 +61,12 @@ public class TicketController implements Initializable {
 
     ServicioPagos servicioPagos;
 
+    Mediador mediador;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.servicioPagos = new ServicioPagos();
+        this.mediador = Mediador.getInstance();
 
         cargarInfoPago();
     }
@@ -134,6 +138,13 @@ public class TicketController implements Initializable {
 
             //registramos el pago
             servicioPagos.registrarPago(pago);
+
+            //refrescamos los pagos del alumno que pago
+            mediador.refrescarPantallaPagos();
+
+            //cerramos la pantalla
+            cancelar();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
