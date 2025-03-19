@@ -100,7 +100,7 @@ public class TicketController implements Initializable {
         lblCliente.setText(cliente);
         lblMetodo.setText(metodoPago);
         lblMontoVencidos.setText(montoVencidos);
-        lblAdeudoColegiatura.setText(montoColegiatura);
+        lblMontoColegiatura.setText(montoColegiatura);
         lblMontoInscripcion.setText(montoInscripcion);
         lblMontoILibros.setText(montoLibros);
         lblMontoIEventos.setText(montoEventos);
@@ -115,21 +115,28 @@ public class TicketController implements Initializable {
      */
     @FXML
     public void confirmarPago(){
+        try {
+            //intancia del ticket
+            TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
 
-        //intancia del ticket
-        TicketRegistrarDTO ticket =  TicketRegistrarCache.getInstance();
+            //nueva instancia para pago
+            PagoDTO pago = new PagoDTO();
 
-        //nueva instancia para pago
-        PagoDTO pago =  new PagoDTO();
+            pago.setMontoTotal(ticket.getMontoTotal());
+            pago.setFolio(ticket.getFolio());
+            pago.setFecha(ticket.getFecha());
+            pago.setHora(ticket.getHora());
+            pago.setAlumno(ticket.getAlumno());
+            pago.setMetodoPago(ticket.getMetodoPago());
+            pago.setCuotasPagadas(crearCuotas());
+            pago.setDescuento(ticket.getDescuento());
+            pago.setUsuario(ticket.getUsuario());
 
-        pago.setMontoTotal(ticket.getMontoTotal());
-        pago.setFolio(ticket.getFolio());
-        pago.setFecha(ticket.getFecha());
-        pago.setHora(ticket.getHora());
-        pago.setAlumno(ticket.getAlumno());
-        pago.setMetodoPago(ticket.getMetodoPago());
-        pago.setCuotasPagadas(crearCuotas());
-
+            //registramos el pago
+            servicioPagos.registrarPago(pago);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private List<PagoCuotaDTO> crearCuotas(){
@@ -185,12 +192,33 @@ public class TicketController implements Initializable {
 
             cuota.setFecha(ticket.getFecha());
             cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoLibros());
+            cuota.setMonto(ticket.getMontoEventos());
+            cuota.getConcepto();
+
+            cuotas.add(cuota);
+        }
+        if (ticket.getMontoAcademias().compareTo(comparador) != 0) {
+            PagoCuotaDTO cuota = new PagoCuotaDTO();
+
+            cuota.setFecha(ticket.getFecha());
+            cuota.setHora(ticket.getHora());
+            cuota.setMonto(ticket.getMontoAcademias());
+            cuota.getConcepto();
+
+            cuotas.add(cuota);
+        }
+        if (ticket.getMontoUniforme().compareTo(comparador) != 0) {
+            PagoCuotaDTO cuota = new PagoCuotaDTO();
+
+            cuota.setFecha(ticket.getFecha());
+            cuota.setHora(ticket.getHora());
+            cuota.setMonto(ticket.getMontoAcademias());
             cuota.getConcepto();
 
             cuotas.add(cuota);
         }
 
+        return cuotas;
     }
 
 
