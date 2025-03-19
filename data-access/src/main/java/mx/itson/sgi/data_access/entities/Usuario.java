@@ -33,10 +33,8 @@ public class Usuario {
     @Expose
     @Column(nullable = false, unique = true)
     private String nombre;
-    
-    @Column(nullable = false)
-    private String contra;
 
+    @Column(unique = true)
     private String correo;
     
     @Column(nullable = false)
@@ -58,9 +56,9 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public Usuario(String nombre, String contra, Rol rol, String correo) {
+    public Usuario(String nombre, String contrasena, Rol rol, String correo) {
         this.nombre = nombre;
-        this.contra = contra;
+        this.contrasena = contrasena;
         this.rol = rol;
         this.correo = correo;
     }

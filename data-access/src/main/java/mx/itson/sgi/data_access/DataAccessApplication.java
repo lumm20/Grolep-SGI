@@ -116,8 +116,7 @@ public class DataAccessApplication implements CommandLineRunner {
 		Alumno alumno = new Alumno("A20220004",
 		"Lucia","Ruiz Dorame",
 		Beca.DEPORTIVA,
-		"6441223344",
-		LocalDate.of(2015, 7, 12));
+		"6441223344");
 		List<Cuota> cuotas = new ArrayList<>();
 		Cuota c1 = new Cuota(2500.00, new CicloEscolar("23-24"),Concepto.INSCRIPCION);
 		Cuota c2 = new Cuota(1800.00, new CicloEscolar("23-24"),Concepto.COLEGIATURA);

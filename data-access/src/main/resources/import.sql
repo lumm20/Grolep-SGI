@@ -1,6 +1,6 @@
-INSERT INTO Usuarios ( nombre, contra, rol, correo) VALUES ('juan', 'admin123', 'admin', 'admin@escuela.edu');
-INSERT INTO Usuarios ( nombre, contra, rol, correo) VALUES ('jose', 'sec456', 'cajero', 'cajero@escuela.edu');
-INSERT INTO Usuarios ( nombre, contra, rol, correo) VALUES ('maria', 'dir789', 'admin', 'directora@escuela.edu');
+INSERT INTO Usuarios ( nombre, contrasena, rol, correo) VALUES ('juan', 'admin123', 'administrador', 'admin@escuela.edu');
+INSERT INTO Usuarios ( nombre, contrasena, rol, correo) VALUES ('jose', 'sec456', 'cajero', 'cajero@escuela.edu');
+INSERT INTO Usuarios ( nombre, contrasena, rol, correo) VALUES ('maria', 'dir789', 'administrador', 'directora@escuela.edu');
 
 INSERT INTO alumnos (matricula, nombre, apellidos, tipo_beca, telefono_padre) VALUES ('A20220001', 'Carlos', 'Rodríguez Vega', 'NINGUNA', '5551234567');
 INSERT INTO alumnos (matricula, nombre, apellidos, tipo_beca, telefono_padre) VALUES('A20220002', 'Ana', 'Martínez Soto', 'SEC', '5559876543');
