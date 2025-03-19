@@ -32,6 +32,12 @@ public class AdeudoDTO {
         this.adeudo = adeudo;
         setCuota();
     }
+    
+    public AdeudoDTO(Double montoBase, String conceptoCuota,  String cicloEscolar) {
+        this.conceptoCuota = conceptoCuota;
+        this.montoBase = montoBase;
+        this.cicloEscolar = cicloEscolar;
+    }
 
     public Long getId() {
         return id;
