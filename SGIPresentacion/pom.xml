@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>6.0.0</version> <!-- O la versión más reciente -->
+            <version>6.2.4</version> <!-- O la versión más reciente -->
         </dependency>
 
         <!-- Spring Beans -->
@@ -163,6 +163,10 @@
                             <mainClass>
                                 mx.sgi.presentacion.main.sgipresentacion/mx.sgi.presentacion.main.HelloApplication
                             </mainClass>
+                            <options>
+                                <option>--add-opens</option>
+                                <option>java.base/java.lang.reflect=com.jfoenix</option>
+                            </options>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
