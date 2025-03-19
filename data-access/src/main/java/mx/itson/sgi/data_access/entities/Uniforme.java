@@ -12,7 +12,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.Data;
@@ -26,21 +25,16 @@ public class Uniforme {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(name="nombre",nullable = false)
     private String nombreProducto;
     
     @Column(nullable = false)
     private String talla;
     
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal precio;
+    @Column(nullable = false)
+    private Double precio;
     
     @Column(nullable = false)
     private Integer existencias;
     
-    @OneToMany(mappedBy = "uniforme")
-    private List<VentaUniforme> ventasUniforme = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "uniforme")
-    private List<CompraUniforme> comprasUniforme = new ArrayList<>();
 }

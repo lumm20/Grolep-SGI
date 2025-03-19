@@ -4,17 +4,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import mx.itson.sgi.data_access.repositories.AlumnoRepository;
+import mx.itson.sgi.data_access.services.AlumnoService;
+import mx.itson.sgi.data_access.services.CuotaService;
+import mx.itson.sgi.data_access.services.PagoService;
+import mx.itson.sgi.data_access.services.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.itson.sgi.data_access.controllers.AlumnoController;
-import mx.itson.sgi.data_access.controllers.CuotaController;
-import mx.itson.sgi.data_access.controllers.PagoController;
-import mx.itson.sgi.data_access.controllers.UsuarioController;
 import mx.itson.sgi.data_access.dto.AdeudoDTO;
 import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.Beca;
@@ -30,22 +30,16 @@ import mx.itson.sgi.data_access.entities.Usuario;
 @SpringBootApplication
 public class DataAccessApplication implements CommandLineRunner {
 
-    private final AlumnoRepository alumnoRepository;
-
-
 	@Autowired
-	UsuarioController userController;
+	UsuarioService userController;
 
 	@Autowired
-	CuotaController cuotaController;
+	CuotaService cuotaController;
 	@Autowired
-	AlumnoController alumnoController;
+	AlumnoService alumnoController;
 	@Autowired
-	PagoController pagoController;
+	PagoService pagoController;
 
-    DataAccessApplication(AlumnoRepository alumnoRepository) {
-        this.alumnoRepository = alumnoRepository;
-    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(DataAccessApplication.class, args);

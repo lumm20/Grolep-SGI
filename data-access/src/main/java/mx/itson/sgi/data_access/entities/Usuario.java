@@ -47,8 +47,16 @@ public class Usuario {
     @Column(nullable = false)
     private Rol rol;
     
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "cajero")
     private List<Pago> pagos = new ArrayList<>();
+
+
+
+    public Usuario(String nombre, Rol rol, String correo) {
+        this.nombre = nombre;
+        this.rol = rol;
+        this.correo = correo;
+    }
 
     public Usuario(String nombre, String contra, Rol rol, String correo) {
         this.nombre = nombre;

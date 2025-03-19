@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import mx.itson.sgi.data_access.dto.AdeudoDTO;
 import mx.itson.sgi.data_access.entities.Alumno;
@@ -13,6 +14,7 @@ import mx.itson.sgi.data_access.entities.CicloEscolar;
 import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
 
+@Repository
 public interface CuotaRepository extends CrudRepository<Cuota,Long>{
 
     List<Cuota> findByAlumno_Matricula(String matriculaAlumno);

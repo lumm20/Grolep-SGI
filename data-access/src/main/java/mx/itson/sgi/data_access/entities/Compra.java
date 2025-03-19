@@ -4,18 +4,14 @@
  */
 package mx.itson.sgi.data_access.entities;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import jakarta.persistence.CascadeType;
+import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.Data;
@@ -29,15 +25,17 @@ public class Compra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false)
-    private LocalDate fecha;
+    @Column(name="fecha_hora",nullable = false)
+    private LocalDateTime fechaHora;
     
-    @Column(nullable = false)
-    private LocalTime hora;
-    
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal montoTotal;
-    
-    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL)
-    private List<CompraUniforme> comprasUniforme = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = false)
+    private Uniforme producto;
+
+    @Column(name="cantidad_producto", nullable = false)
+    private Integer cantidadProducto;
+
+    public double getMontoTotal(){
+        return producto.getPrecio()*cantidadProducto;
+    }
 }

@@ -1,4 +1,4 @@
-package mx.itson.sgi.data_access.controllers;
+package mx.itson.sgi.data_access.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ import mx.itson.sgi.data_access.entities.Pago;
 import mx.itson.sgi.data_access.repositories.PagoRepository;
 
 @Service
-public class PagoController {
+public class PagoService {
     @Autowired
     private PagoRepository repository;
 

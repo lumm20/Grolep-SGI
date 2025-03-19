@@ -4,7 +4,6 @@
  */
 package mx.itson.sgi.data_access.entities;
 
-import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,9 +15,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "ventas_uniformes")
+@Table(name = "detalles_compras")
 @Data
-public class VentaUniforme {
+public class DetalleCompra {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +26,11 @@ public class VentaUniforme {
     @Column(nullable = false)
     private Integer cantidad;
     
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal precio;
-    
     @ManyToOne
-    @JoinColumn(name = "uniforme_id", nullable = false)
+    @JoinColumn(name = "id_uniforme", nullable = false)
     private Uniforme uniforme;
     
     @ManyToOne
-    @JoinColumn(name = "venta_id", nullable = false)
-    private Venta venta;
+    @JoinColumn(name = "id_compra", nullable = false)
+    private Compra compra;
 }

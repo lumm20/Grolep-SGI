@@ -1,4 +1,4 @@
-package mx.itson.sgi.data_access.controllers;
+package mx.itson.sgi.data_access.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.repositories.AlumnoRepository;
 
 @Service
-public class AlumnoController {
+public class AlumnoService {
 
     @Autowired
     AlumnoRepository repository;

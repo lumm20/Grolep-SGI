@@ -1,4 +1,4 @@
-package mx.itson.sgi.data_access.controllers;
+package mx.itson.sgi.data_access.services;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import mx.itson.sgi.data_access.repositories.UsuarioRepository;
 import mx.itson.sgi.data_access.utilities.Security;
 
 @Service
-public class UsuarioController {
+public class UsuarioService {
     @Autowired
     private UsuarioRepository repository;
     @Autowired

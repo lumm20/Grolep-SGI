@@ -10,9 +10,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "detalles_pagos")
+@Data
 public class DetallePago {
 
     @Id
@@ -39,31 +41,6 @@ public class DetallePago {
         this.cuota = cuota;
         this.montoPagado = montoPagado;
         this.pago = pago;
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public Pago getPago() {
-        return pago;
-    }
-    public void setPago(Pago pago) {
-        this.pago = pago;
-    }
-    public Cuota getCuota() {
-        return cuota;
-    }
-    public void setCuota(Cuota cuota) {
-        this.cuota = cuota;
-    }
-    public Double getMontoPagado() {
-        return montoPagado;
-    }
-    public void setMontoPagado(Double montoPagado) {
-        this.montoPagado = montoPagado;
     }
 
     @Override

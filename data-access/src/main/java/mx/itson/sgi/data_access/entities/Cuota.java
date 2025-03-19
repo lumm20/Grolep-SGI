@@ -32,12 +32,12 @@ public class Cuota {
     private Long id;
 
     @Expose
-    @Column(name = "monto_base")
+    @Column(name = "monto_base", nullable = false)
     private Double montoBase;
 
     @Expose
     @ManyToOne
-    @JoinColumn(name = "ciclo_escolar")
+    @JoinColumn(name = "ciclo_escolar",nullable=false)
     private CicloEscolar ciclo;
     
     @Expose
@@ -47,6 +47,7 @@ public class Cuota {
 
     @Expose
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Concepto concepto;
 
     public Cuota() {

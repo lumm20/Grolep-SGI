@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Converter;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -23,17 +26,24 @@ public class Alumno {
     @Id
     private String matricula;
     @Expose
+    @Column(nullable = false)
     private String nombre;
     @Expose
+    @Column(nullable = false)
     private String apellidos;
+
+    @Column(name = "tipo_beca", nullable = false)
+    
+    private Beca beca;
 
     @OneToMany(mappedBy = "alumno", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Cuota> cuotas;
 
+    @Expose
     @Column(name="telefono_padre", nullable = false)
     private String telefonoPadre;
     
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
     private List<Venta> compras = new ArrayList<>();
       
     public Alumno(String matricula) {
@@ -49,9 +59,8 @@ public class Alumno {
 
     @Override
     public String toString() {
-        return "{matricula=" + matricula + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefonoPadre="
-                + telefonoPadre + "}";
+        Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+        return gson.toJson(this);
     }
-
     
 }

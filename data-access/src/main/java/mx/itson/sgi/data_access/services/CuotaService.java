@@ -1,4 +1,4 @@
-package mx.itson.sgi.data_access.controllers;
+package mx.itson.sgi.data_access.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import mx.itson.sgi.data_access.repositories.CicloRepository;
 import mx.itson.sgi.data_access.repositories.CuotaRepository;
 
 @Service
-public class CuotaController {
+public class CuotaService {
 
     @Autowired
     private CuotaRepository repository;
