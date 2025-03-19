@@ -39,7 +39,7 @@ public class PagoControlador {
     @PostMapping("/registrar")
     public ResponseEntity<TicketRegistrarDTO> registrarPago(@RequestBody PagoDTO pagoDTO) {
         try {
-        	//TicketRegistrarDTO ticket = registrarPago.registrarPago(pagoDTO);
+        	TicketRegistrarDTO ticket = registrarPago.registrarPago(pagoDTO);
         	System.out.println("prueba");
             return ResponseEntity.status(HttpStatus.CREATED).body(null);
         } catch (Exception e) {
