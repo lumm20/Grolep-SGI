@@ -1,24 +1,16 @@
 package mx.sgi.presentacion.controladores;
 
 import com.jfoenix.controls.JFXButton;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import mx.itson.sgi.dto.*;
 import mx.sgi.presentacion.caches.AlumnoCache;
-import mx.sgi.presentacion.caches.PagoCache;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
@@ -28,8 +20,6 @@ import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
-import org.springframework.beans.factory.annotation.InjectionMetadata;
-
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
@@ -367,7 +357,7 @@ public class PantallaPrincipalController implements Initializable {
     private void consultarCuotas() {
         try{
 
-            List<CuotaDTO> cuotas;
+            List<CuotasDTO> cuotas;
             List<ColegiaturaAtrasadaDTO>  colegiaturaAtrasadas;
 
             if (cmbxCicloEscolar.getValue() == null &&  cmbxAlumnos.getValue() != null) {
@@ -394,9 +384,16 @@ public class PantallaPrincipalController implements Initializable {
         }
     }
 
+    /**
+     * Establece las cuotas para el usuario elegido basandonos en el ciclo escolar
+     * y la matricula del alumno.
+     *
+     * @param matricula Matricula del alumno
+     * @param cicloEscolar Ciclo escolar a consultar.
+     */
     private void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
         try {
-            CuotaDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, cicloEscolar);
+            CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, cicloEscolar);
 
             lblAdeudoVencido.setText(cuotas.getAdeudoVencido());
             lblAdeudoColegiatura.setText(cuotas.getAdeudoColegiatura());
@@ -412,6 +409,13 @@ public class PantallaPrincipalController implements Initializable {
 
     }
 
+    /**
+     * Consulta los cuotas para cuando se selecciona un ciclo escolar distinto;
+     */
+    @FXML
+    public void ConsultarAdeudosConCicloEscolar(){
+        consultarCuotas();
+    }
 
     /**
      * Recolecta la informacion para el pago y la pasa al ticket al igual que abre
@@ -436,7 +440,7 @@ public class PantallaPrincipalController implements Initializable {
             TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
 
             BigDecimal montoTotal = toBigDecimal(lblTotal.getText());
-            String folio = "AX123123DS942";
+            String folio = generarFolio();
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
             String metodoPago = cmbxMetodoPago.getValue();
@@ -496,24 +500,41 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     /**
-     *
+     * Valida el tipo de descuento del alumno seleccionado y lo aplica al total
      */
     private void validarDescuento(){
 
     }
 
     /**
-     *
+     * Genera un folio aleatorio para el pago y garantizar su unicidad
      */
-    private void generarFolio(){
+    private String generarFolio(){
+        LocalDate fecha = LocalDate.now();
 
+        // Día de la semana (primera letra en mayúscula)
+        String diaSemana = fecha.getDayOfWeek().toString().substring(0, 1);
+
+        // Día del mes (2 dígitos)
+        String diaMes = String.format("%02d", fecha.getDayOfMonth());
+
+        // Mes del año (2 dígitos)
+        String mes = String.format("%02d", fecha.getMonthValue());
+
+        // Año (últimos 2 dígitos)
+        String anio = String.valueOf(fecha.getYear()).substring(2);
+
+        // Parte aleatoria del UUID (4 caracteres)
+        String parteUUID = UUID.randomUUID().toString().replace("-", "").substring(0, 4).toUpperCase();
+
+        // Construcción del folio
+        return diaSemana + diaMes + mes + anio + parteUUID;
     }
 
 
 
-
     /**
-     *
+     * Campo para considerar todos los campos correspondiente a la colegiatura
      */
     @FXML
     private void considerarColegiatura() {
@@ -553,7 +574,7 @@ public class PantallaPrincipalController implements Initializable {
      * Metodo que actualiza el campo para el total
      */
     private void actualizarTotal() {
-        BigDecimal total = BigDecimal.ZERO;
+        BigDecimal total = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         // Sumar los montos de cada campo
         total = total.add(ParseBigDecimal(txfMontoVencido));
@@ -580,9 +601,11 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     /**
+     * Verifica el formato de un campo de entrada y se cambia de color
+     * el borde de su componente en caso de no ser valido
      *
-     * @param textField
-     * @param label
+     * @param textField campo de texto a validar su contenido
+     * @param label campo que indica la cantidad total
      */
     private void verificarFormato(TextField textField, Label label) {
         try {

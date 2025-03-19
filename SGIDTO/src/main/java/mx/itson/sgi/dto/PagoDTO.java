@@ -16,7 +16,7 @@ public class PagoDTO {
     private LocalTime hora;
     private AlumnoConsultaDTO alumno;
     private String metodoPago;
-    private List<CuotaDTO> cuotasPagadas;
+    private List<PagoCuotaDTO> cuotasPagadas;
     private String descuento;
     private UsuarioDTO usuario;
 

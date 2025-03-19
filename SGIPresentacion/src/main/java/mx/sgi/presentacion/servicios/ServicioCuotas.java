@@ -2,9 +2,8 @@ package mx.sgi.presentacion.servicios;
 
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
-import mx.itson.sgi.dto.CuotaDTO;
+import mx.itson.sgi.dto.CuotasDTO;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.net.http.HttpClient;
@@ -27,7 +26,7 @@ public class ServicioCuotas implements IServicioCuotas {
     }
 
     @Override
-    public CuotaDTO obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar) throws Exception {
+    public CuotasDTO obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar) throws Exception {
         // Simulación de obtención de datos (en un caso real, aquí iría la lógica de la consulta)
         System.out.println("Valores que llegaron: " + matricula + " " + cicloEscolar);
 
@@ -41,7 +40,7 @@ public class ServicioCuotas implements IServicioCuotas {
         String adeudoUniformes = "800.00";
 
         // Se crea un solo objeto CuotaDTO con todos los adeudos en sus respectivos campos
-        CuotaDTO cuota = new CuotaDTO(adeudoVencido, adeudoColegiatura, adeudoInscripcion,
+        CuotasDTO cuota = new CuotasDTO(adeudoVencido, adeudoColegiatura, adeudoInscripcion,
                 adeudoLibros, adeudoEventos, adeudoAcademias, adeudoUniformes);
 
         // Se devuelve una lista con un solo elemento, ya que ahora CuotaDTO almacena todos los valores en un solo objeto
