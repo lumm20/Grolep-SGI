@@ -3,6 +3,7 @@ package mx.sgi.presentacion.servicios;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;
+import mx.itson.sgi.dto.DescuentoDTO;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
 
 import java.math.BigDecimal;
@@ -38,10 +39,12 @@ public class ServicioCuotas implements IServicioCuotas {
         String adeudoEventos = "1200.00";
         String adeudoAcademias = "400.00";
         String adeudoUniformes = "800.00";
+        String beca = "CIVICA";
+        DescuentoDTO descuento= new DescuentoDTO("Primer Periodo", new BigDecimal("300.00"));
 
         // Se crea un solo objeto CuotaDTO con todos los adeudos en sus respectivos campos
         CuotasDTO cuota = new CuotasDTO(adeudoVencido, adeudoColegiatura, adeudoInscripcion,
-                adeudoLibros, adeudoEventos, adeudoAcademias, adeudoUniformes);
+                adeudoLibros, adeudoEventos, adeudoAcademias, adeudoUniformes, beca, descuento);
 
         // Se devuelve una lista con un solo elemento, ya que ahora CuotaDTO almacena todos los valores en un solo objeto
         return cuota;

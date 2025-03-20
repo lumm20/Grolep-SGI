@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../SGIDTO/pom.xml" />
         <option value="$PROJECT_DIR$/../data-access/pom.xml" />
+        <option value="$PROJECT_DIR$/../SGINegocio/pom.xml" />
       </list>
     </option>
   </component>

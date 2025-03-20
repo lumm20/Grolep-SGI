@@ -25,7 +25,8 @@ public class TicketRegistrarDTO {
     private BigDecimal montoEventos;
     private BigDecimal montoAcademias;
     private BigDecimal montoUniforme;
-    private String descuento;
+    private String TipoDescuento;
+    private String montoDescuento;
     private UsuarioDTO usuario;
     private CicloEscolarDTO ciclo;
 

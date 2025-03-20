@@ -1,6 +1,8 @@
 package mx.sgi.presentacion.controladores;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -79,9 +81,6 @@ public class PantallaPrincipalController implements Initializable {
     Label lblTipoBeca;
 
     @FXML
-    Label lblDescuentoBeca;
-
-    @FXML
     Label lblTipoDescuento;
 
     @FXML
@@ -112,10 +111,11 @@ public class PantallaPrincipalController implements Initializable {
     ComboBox<AlumnoConsultaDTO> cmbxAlumnos;
 
     @FXML
-    ComboBox<CicloEscolarDTO> cmbxCicloEscolar;
+    JFXComboBox<CicloEscolarDTO> cmbxCicloEscolar;
 
     @FXML
-    ComboBox<String> cmbxMetodoPago;
+    JFXComboBox<String> cmbxMetodoPago;
+
 
 
     //de aqui en adelante se declaran los componentes de entradas
@@ -281,30 +281,44 @@ public class PantallaPrincipalController implements Initializable {
 
     //de aqui en adelante comienzan los listeners para los combo box
 
-    /**
-     * establece la configuracion para la busqueda de alumnos.
-     */
-    private void configurarFiltroAlumnos() {
 
-        // Escuchar cambios en el texto del TextField
-        txfAlumnos.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Llamar al servicio para obtener los alumnos que coinciden con el texto
-            actualizarOpcionesAlumnos(newValue);
+    private void configurarFiltroAlumnos() {
+        // Crear el temporizador para detectar cuando se deja de escribir
+        PauseTransition pause = new PauseTransition(Duration.millis(500)); // 500 ms de espera
+        pause.setOnFinished(event -> {
+            // Acción cuando el usuario ha dejado de escribir
+            // Reactivar el ComboBox después de que se haya dejado de escribir
+            cmbxAlumnos.setDisable(false);  // Reactivar ComboBox
+
+            String nuevoValor = txfAlumnos.getText();
+            actualizarOpcionesAlumnos(nuevoValor); // Actualizar las opciones de los alumnos
+
         });
 
+        // Detectar cuando el usuario escribe
+        txfAlumnos.setOnKeyTyped(event -> {
+            // Desactivar el ComboBox mientras se escribe
+            cmbxAlumnos.setDisable(true);  // Desactivar ComboBox
+
+            // Cancelar cualquier temporizador anterior (si el usuario sigue escribiendo)
+            pause.stop();
+            // Reiniciar el temporizador
+            pause.playFromStart();
+        });
+
+        // Configurar el ComboBox para manejar la selección
         cmbxAlumnos.setOnAction(event -> {
             AlumnoConsultaDTO alumnoSeleccionado = cmbxAlumnos.getValue();
             if (alumnoSeleccionado != null && !cmbxAlumnos.getItems().isEmpty()) {
                 Platform.runLater(() -> {
                     String texto = alumnoSeleccionado != null ? alumnoSeleccionado.toString() : "";
-                    txfAlumnos.setText(texto);
+                    txfAlumnos.setText(texto); // Actualizar el TextField con el alumno seleccionado
                 });
-                AlumnoCache.limpiarCache(); //limpiamos en caso de que hubiera otro alumno ocupando la instancia
-                AlumnoCache.setInstance(alumnoSeleccionado); //guardamos al alumno seleccionado en el cache
-                consultarCuotas(); //consultamos sus cuotas
+                AlumnoCache.limpiarCache(); // Limpiar el cache en caso de que hubiera otro alumno ocupando la instancia
+                AlumnoCache.setInstance(alumnoSeleccionado); // Guardar al alumno seleccionado en el cache
+                consultarCuotas(); // Consultar las cuotas del alumno seleccionado
             }
         });
-
     }
 
     /**
@@ -312,23 +326,19 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void actualizarOpcionesAlumnos(String filtro) {
         try {
-
             if (!filtro.isEmpty()){
-
                 List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.consultarAlumnos(filtro);
-
                 // Convertimos la lista en un ObservableList
                 ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections.observableArrayList(alumnosFiltrados);
-
-                cmbxAlumnos.visibleRowCountProperty().setValue(alumnosFiltrados.size());
-
                 // Actualizamos los ítems del ComboBox
-                cmbxAlumnos.setItems(listaObservable);
-
+                cmbxAlumnos.getItems().setAll(listaObservable);
                 // Mostramos el dropdown con las opciones actualizadas
+                cmbxAlumnos.hide();
                 cmbxAlumnos.show();
             }
-
+            else{
+                cmbxAlumnos.hide();
+            }
         } catch (Exception ex) {
             notificarError(ex.getMessage());
         }
@@ -418,31 +428,19 @@ public class PantallaPrincipalController implements Initializable {
             lblUniforme.setText(cuotas.getAdeudoUniformes());
 
             //establecemos la demas informacion del alumno
-            establecerInfoDescuentos();
+            String tipoBeca = cuotas.getBeca() != null ? cuotas.getBeca() : "No Aplica";
+
+            String TipoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getTipo() : "No Aplica";
+            String descuentoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getDescuento().toString() : "0.00";
+
+            lblTipoBeca.setText(tipoBeca);
+
+            lblTipoDescuento.setText(TipoDescuento);
+            lblDescuentoDescuento.setText(descuentoDescuento);
 
         } catch (Exception ex) {
             notificarError(ex.getMessage());
         }
-
-    }
-
-    /**
-     * Establece la informacion de la beca y descuento en pantalla
-     */
-    public void establecerInfoDescuentos(){
-        AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
-
-        String tipoBeca = alumno.getBeca() != null ? alumno.getBeca().getTipo() : "No Aplica";
-        String descuentoBeca =  alumno.getBeca() != null ? alumno.getBeca().getDescuento().toString() : "0.00";
-
-        String TipoDescuento = alumno.getDescuento() != null ? alumno.getDescuento().getTipo() : "No Aplica";
-        String descuentoDescuento = alumno.getDescuento() != null ? alumno.getDescuento().getDescuento().toString() : "0.00";
-
-        lblTipoBeca.setText(tipoBeca);
-        lblDescuentoBeca.setText(descuentoBeca);
-
-        lblTipoDescuento.setText(descuentoDescuento);
-        lblDescuentoDescuento.setText(descuentoDescuento);
 
     }
 
@@ -486,7 +484,9 @@ public class PantallaPrincipalController implements Initializable {
             BigDecimal montoEventos = toBigDecimal(txfMontoEventos.getText());
             BigDecimal montoAcademias = toBigDecimal(txfMontoAcademias.getText());
             BigDecimal montoUniforme = toBigDecimal(txfMontoUniforme.getText());
-            String descuento = "Descuento por pago temprano";
+
+            String tipoDescuento = "";
+
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
             UsuarioDTO usuario = UsuarioCache.getInstance();
             CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
@@ -504,7 +504,7 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setMontoEventos(montoEventos);
             ticket.setMontoAcademias(montoAcademias);
             ticket.setMontoUniforme(montoUniforme);
-            ticket.setDescuento(descuento);
+            ticket.setTipoDescuento(tipoDescuento);
             ticket.setAlumno(alumno);
             ticket.setUsuario(usuario);
             ticket.setCiclo(cicloEscolar);
@@ -609,13 +609,13 @@ public class PantallaPrincipalController implements Initializable {
 
 
         // Sumar los montos de cada campo
-        total = total.add(ParseBigDecimal(txfMontoVencido));
-
-        total = total.add(ParseBigDecimal(txfMontoInscripcion));
-        total = total.add(ParseBigDecimal(txfMontoLibros));
-        total = total.add(ParseBigDecimal(txfMontoEventos));
-        total = total.add(ParseBigDecimal(txfMontoAcademias));
-        total = total.add(ParseBigDecimal(txfMontoUniforme));
+        total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        total = total.add(validarDescuento());
+        total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
+        total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
+        total = total.add(ParseBigDecimal(txfMontoEventos.getText()));
+        total = total.add(ParseBigDecimal(txfMontoAcademias.getText()));
+        total = total.add(ParseBigDecimal(txfMontoUniforme.getText()));
 
         //if(lblAdeudoColegiatura.equals)
 
@@ -624,7 +624,7 @@ public class PantallaPrincipalController implements Initializable {
         lblTotal.setText(total.toString());
     }
 
-    private void validarDescuento(){
+    private BigDecimal validarDescuento(){
         if(!txfMontoColegiatura.getText().equalsIgnoreCase("")){
             if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")){
 
@@ -632,19 +632,23 @@ public class PantallaPrincipalController implements Initializable {
                 BigDecimal adeudo = new BigDecimal(lblAdeudoColegiatura.getText());
                 BigDecimal ingresado = new  BigDecimal(txfMontoColegiatura.getText());
 
-
-
+                if(ingresado.compareTo(adeudo) == 0){
+                    return adeudo.subtract(descuento);
+                }
+                else {
+                    return ParseBigDecimal(ingresado.toString());
+                }
             }
-            System.out.println("si hay entrada");
         }
+        return new BigDecimal("0.00");
     }
 
     /**
      * Método para parsear el texto a BigDecimal, devolviendo BigDecimal.ZERO si es vacío o no válido
      */
-    private BigDecimal ParseBigDecimal(TextField textField) {
+    private BigDecimal ParseBigDecimal(String text) {
         try {
-            return new BigDecimal(textField.getText().isEmpty() ? "0,00" : textField.getText());
+            return new BigDecimal(text.isEmpty() ? "0,00" : text);
         } catch (NumberFormatException e) {
             return new BigDecimal(0.00);
         }
