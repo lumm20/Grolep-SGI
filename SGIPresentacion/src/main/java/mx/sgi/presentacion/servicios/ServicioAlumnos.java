@@ -40,7 +40,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
      */
     @Override
     public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception {
-        String url = "API_URL" + nombre;
+        String url = "api/student?" + nombre;
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()

@@ -28,7 +28,7 @@ public class ServicioPagos implements IServicioPagos {
     public void registrarPago(PagoDTO pago) throws Exception {
         String json = gson.toJson(pago);
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("API_URL"))
+                .uri(URI.create("api/payment"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
