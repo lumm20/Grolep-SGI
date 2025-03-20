@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package controlador;
+package com.mycompany.sginegocio.controlador;
 
 import java.awt.List;
 
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import mx.itson.sgi.data_access.controllers.PagoController;
+import mx.itson.sgi.data_access.services.PagoService;
 import mx.itson.sgi.data_access.entities.Pago;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.TicketRegistrarDTO;

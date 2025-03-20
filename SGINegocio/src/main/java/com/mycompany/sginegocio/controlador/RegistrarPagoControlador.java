@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package controlador;
+package com.mycompany.sginegocio.controlador;
 
 import java.time.LocalDate;
 
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import mx.itson.sgi.data_access.controllers.PagoController;
+import mx.itson.sgi.data_access.services.PagoService;
 import mx.itson.sgi.data_access.entities.Pago;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.CuotaDTO;
@@ -29,28 +29,28 @@ import mx.itson.sgi.dto.TicketRegistrarDTO;
 @Service
 public class RegistrarPagoControlador {
 
-    private final PagoController pagoController;
+    private final PagoService pagoService;
 
-    public RegistrarPagoControlador(PagoController pagoController) {
-        this.pagoController = pagoController;
+    public RegistrarPagoControlador(PagoService pagoService) {
+        this.pagoService = pagoService;
     }
-       TicketRegistrarDTO registrarPago(PagoDTO pagoDTO) {
+    public TicketRegistrarDTO registrarPago(PagoDTO pagoDTO) {
         Pago pago = new Pago();
         pago.setFolio(pagoDTO.getFolio());
         pago.setFecha(pagoDTO.getFecha());
         pago.setMontoTotal(pagoDTO.getMonto());
-        pago.setAlumno(pagoDTO.getCajero());
-        pago.setAlumno(new Alumno(pagoDTO.getMatriculaAlumno()));
+        // pago.setAlumno(pagoDTO.getAlumno());
+        // pago.setAlumno(new Alumno(pagoDTO.getMatriculaAlumno()));
 
         // Delegar al PagoController para registrar el pago
-        Pago pagoRegistrado = pagoController.registrarPago(pago);
+        Pago pagoRegistrado = pagoService.registrarPago(pago);
 
         // Generar y retornar el comprobante
         TicketRegistrarDTO ticket = new TicketRegistrarDTO();
         ticket.setFolio(pagoRegistrado.getFolio());
         ticket.setFecha(pagoRegistrado.getFecha());
         ticket.setMonto(pagoRegistrado.getMontoTotal());
-        ticket.setCajero(pagoRegistrado.getCajero());
+        // ticket.setCajero(pagoRegistrado.getCajero());
         ticket.setMatriculaAlumno(pagoRegistrado.getAlumno().getMatricula());
         ticket.setMensaje("Pago registrado y comprobante generado exitosamente.");
         return ticket;
