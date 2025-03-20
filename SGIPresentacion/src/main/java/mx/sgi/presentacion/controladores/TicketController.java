@@ -14,6 +14,7 @@ import mx.sgi.presentacion.servicios.ServicioPagos;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -84,9 +85,7 @@ public class TicketController implements Initializable {
         String folio = ticketCache.getFolio().toString();
         String fecha = ticketCache.getFecha().toString();
 
-        String cliente = ticketCache.getAlumno().getNombres().concat(" ").
-                concat(ticketCache.getAlumno().getApellidoPaterno()).concat(" ").
-                concat(ticketCache.getAlumno().getApellidoMaterno());
+        String cliente = ticketCache.getAlumno().getNombre();
 
         String metodoPago = ticketCache.getMetodoPago();
         String montoVencidos = ticketCache.getMontoVencidos().toString();
@@ -96,7 +95,7 @@ public class TicketController implements Initializable {
         String montoEventos = ticketCache.getMontoEventos().toString();
         String montoAcademias = ticketCache.getMontoAcademias().toString();
         String montoUniforme = ticketCache.getMontoUniforme().toString();
-        String descuento = ticketCache.getDescuento().toString();
+        //String descuento = ticketCache.getDescuento().toString();
 
         lblTotal.setText(total);
         lblFolio.setText(ticketCache.getFolio().toString());
@@ -110,7 +109,7 @@ public class TicketController implements Initializable {
         lblMontoIEventos.setText(montoEventos);
         lblMontoIAcademias.setText(montoAcademias);
         lblMontoUniforme.setText(montoUniforme);
-        lblDescuento.setText(descuento);
+        //lblDescuento.setText(descuento);
 
     }
 
@@ -128,12 +127,12 @@ public class TicketController implements Initializable {
 
             pago.setMontoTotal(ticket.getMontoTotal());
             pago.setFolio(ticket.getFolio());
-            pago.setFecha(ticket.getFecha());
-            pago.setHora(ticket.getHora());
+            pago.setFecha(LocalDateTime.of(ticket.getFecha(), ticket.getHora()));
             pago.setAlumno(ticket.getAlumno());
             pago.setMetodoPago(ticket.getMetodoPago());
-            pago.setCuotasPagadas(crearCuotas());
-            pago.setDescuento(ticket.getDescuento());
+            pago.setCuotasPagadas(ticket.getDetalles());
+            //pago.setCuotasPagadas(crearCuotas());
+            //pago.setDescuento(ticket.getDescuento());
             pago.setUsuario(ticket.getUsuario());
 
             //registramos el pago
@@ -150,7 +149,8 @@ public class TicketController implements Initializable {
         }
     }
 
-    private List<PagoCuotaDTO> crearCuotas(){
+
+    /*private List<PagoCuotaDTO> crearCuotas(){
 
         BigDecimal comparador = new BigDecimal(0.00);
 
@@ -230,7 +230,7 @@ public class TicketController implements Initializable {
         }
 
         return cuotas;
-    }
+    }*/
 
 
     /**

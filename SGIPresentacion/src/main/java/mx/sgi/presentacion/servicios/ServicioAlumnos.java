@@ -37,16 +37,16 @@ public class ServicioAlumnos implements IServicioAlumnos {
 
         // Creamos algunos alumnos simulados
         List<AlumnoConsultaDTO>alumnosSimulados = new ArrayList<>();
-        alumnosSimulados.add(new AlumnoConsultaDTO("A001", "Juan", "Pérez", "López", "123456789"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A002", "Kevin", "Martínez", "Gómez", "987654321"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A003", "Ana", "González", "Ruiz", "112233445"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A004", "Carlos", "Hernández", "Vargas", "998877665"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A005", "Pedro", "Rodríguez", "Díaz", "556677889"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A006", "María", "Sánchez", "Pérez", "667788990"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A007", "Itzel", "Torres", "Ramírez", "223344556"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A008", "Alondra", "Lopez", "González", "123123123"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A009", "Juan", "Martínez", "Sánchez", "321321321"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A010", "Laura", "Gómez", "Fernández", "445566778"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A001", "Juan Pérez López", "123456789"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A002", "Kevin Martínez Gómez", "987654321"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A003", "Ana González Ruiz", "112233445"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A004", "Carlos Hernández Vargas", "998877665"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A005", "Pedro Rodríguez Díaz", "556677889"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A006", "María Sánchez Pérez", "667788990"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A007", "Itzel Torres Ramírez", "223344556"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A008", "Alondra Lopez González", "123123123"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A009", "Juan Martínez Sánchez", "321321321"));
+        alumnosSimulados.add(new AlumnoConsultaDTO("A010", "Laura Gómez Fernández", "445566778"));
         // Añadir más si se necesita
 
         if (nombre == null || nombre.isEmpty()) {
@@ -55,7 +55,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
 
         // Filtrar los alumnos que contienen el nombre en su campo "nombres"
         return alumnosSimulados.stream()
-                .filter(alumno -> alumno.getNombres().toLowerCase().contains(nombre.toLowerCase()))
+                .filter(alumno -> alumno.getNombre().toLowerCase().contains(nombre.toLowerCase()))
                 .limit(10) // Limitar a 10 alumnos
                 .collect(Collectors.toList());
     }

@@ -441,18 +441,18 @@ public class PantallaPrincipalController implements Initializable {
 
             TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
 
-            BigDecimal montoTotal = toBigDecimal(lblTotal.getText());
+            Double montoTotal = Double.parseDouble(lblTotal.getText());
             String folio = generarFolio();
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
             String metodoPago = cmbxMetodoPago.getValue();
-            BigDecimal montoVencidos = toBigDecimal(txfMontoVencido.getText());
-            BigDecimal montoColegiatura = toBigDecimal(txfMontoColegiatura.getText());
-            BigDecimal montoInscripcion = toBigDecimal(txfMontoInscripcion.getText());
-            BigDecimal montoLibros = toBigDecimal(txfMontoLibros.getText());
-            BigDecimal montoEventos = toBigDecimal(txfMontoEventos.getText());
-            BigDecimal montoAcademias = toBigDecimal(txfMontoAcademias.getText());
-            BigDecimal montoUniforme = toBigDecimal(txfMontoUniforme.getText());
+            Double montoVencidos = Double.parseDouble(txfMontoVencido.getText());
+            Double montoColegiatura = Double.parseDouble(txfMontoColegiatura.getText());
+            Double montoInscripcion = Double.parseDouble(txfMontoInscripcion.getText());
+            Double montoLibros = Double.parseDouble(txfMontoLibros.getText());
+            Double montoEventos = Double.parseDouble(txfMontoEventos.getText());
+            Double montoAcademias = Double.parseDouble(txfMontoAcademias.getText());
+            Double montoUniforme = Double.parseDouble(txfMontoUniforme.getText());
             String descuento = "Descuento por pago temprano";
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
             UsuarioDTO usuario = UsuarioCache.getInstance();
@@ -470,7 +470,7 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setMontoEventos(montoEventos);
             ticket.setMontoAcademias(montoAcademias);
             ticket.setMontoUniforme(montoUniforme);
-            ticket.setDescuento(descuento);
+            ticket.setMontoDescuento(descuento);
             ticket.setAlumno(alumno);
             ticket.setUsuario(usuario);
             ticket.setCiclo(cicloEscolar);
