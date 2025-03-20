@@ -101,7 +101,7 @@ public class InicioSesionController implements Initializable{
                 .title("Error de inicio de sesion")
                 .text(mensaje)
                 .graphic(null)
-                .position(Pos.BASELINE_RIGHT)
+                .position(Pos.TOP_RIGHT)
                 .hideAfter(Duration.seconds(5))
                 .show();
     }

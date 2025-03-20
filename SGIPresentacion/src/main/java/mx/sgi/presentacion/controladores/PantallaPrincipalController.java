@@ -6,9 +6,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import mx.itson.sgi.dto.*;
 import mx.sgi.presentacion.caches.AlumnoCache;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
@@ -20,6 +22,8 @@ import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
+import org.controlsfx.control.Notifications;
+
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
@@ -311,8 +315,8 @@ public class PantallaPrincipalController implements Initializable {
                 cmbxAlumnos.show();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            notificarError(ex.getMessage());
         }
     }
 
@@ -355,8 +359,6 @@ public class PantallaPrincipalController implements Initializable {
      * aqui se consultaran las cuotas correspondientes al alumno que haya sido seleccionado
      */
     private void consultarCuotas() {
-        try{
-
             List<CuotasDTO> cuotas;
             List<ColegiaturaAtrasadaDTO>  colegiaturaAtrasadas;
 
@@ -378,10 +380,6 @@ public class PantallaPrincipalController implements Initializable {
                 establecerCuotas(matricula, cicloEscolar);
             }
 
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -393,7 +391,7 @@ public class PantallaPrincipalController implements Initializable {
      */
     public void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
         try {
-            System.out.println("te la rifaste fernando");
+            System.out.println("se consultaron las cuotas");
 
             CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, cicloEscolar);
 
@@ -405,8 +403,8 @@ public class PantallaPrincipalController implements Initializable {
             lblCuotaAcademias.setText(cuotas.getAdeudoAcademias());
             lblUniforme.setText(cuotas.getAdeudoUniformes());
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            notificarError(ex.getMessage());
         }
 
     }
@@ -424,17 +422,15 @@ public class PantallaPrincipalController implements Initializable {
      * la pantalla del ticket
      */
     @FXML
-    private void registrarPago(){
+    private void registrarPago() throws Exception{
         try {
 
         if (AlumnoCache.getInstance().getMatricula() == null){
-            System.out.println("asegurese de seleccionar un alumno");
-            return;
+            throw new Exception("asegurese de seleccionar un alumno");
         }
 
         if (cmbxMetodoPago.getValue() == null){
-            System.out.println("no lo selecciono el wey");
-            return;
+            throw new Exception("asegurese de seleccionar un metodo de pago");
         }
 
             //recolectamos todos los campos del pago y los guardamos en la cache
@@ -481,7 +477,7 @@ public class PantallaPrincipalController implements Initializable {
 
         }
         catch (Exception ex){
-            ex.printStackTrace();
+            notificarError(ex.getMessage());
         }
     }
 
@@ -619,6 +615,7 @@ public class PantallaPrincipalController implements Initializable {
                 // Si el campo está vacío, puedes manejarlo de la forma que prefieras, por ejemplo:
                 textField.setStyle("-fx-border-color: #000000;");
                 textField.setDisable(false);
+                actualizarTotal();
                 return;  // Salir del método, ya que no queremos procesar el campo vacío
             }
 
@@ -664,5 +661,15 @@ public class PantallaPrincipalController implements Initializable {
         textField.setStyle("-fx-border-color: #000000;");
     }
 
+
+    private void notificarError(String mensaje){
+        Notifications.create()
+                .title("Error de inicio de sesion")
+                .text(mensaje)
+                .graphic(null)
+                .position(Pos.TOP_RIGHT)
+                .hideAfter(Duration.seconds(5))
+                .show();
+    }
 
 }
