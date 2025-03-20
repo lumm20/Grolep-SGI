@@ -75,6 +75,18 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     Label lblTotal;
 
+    @FXML
+    Label lblTipoBeca;
+
+    @FXML
+    Label lblDescuentoBeca;
+
+    @FXML
+    Label lblTipoDescuento;
+
+    @FXML
+    Label lblDescuentoDescuento;
+
 
     //declaracion de los checkBoxes
 
@@ -237,7 +249,7 @@ public class PantallaPrincipalController implements Initializable {
 
         // Método para el campo "Monto Colegiatura"
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
-            verificarFormato(txfMontoColegiatura, lblAdeudoColegiatura);
+                verificarFormato(txfMontoColegiatura, lblAdeudoColegiatura);
         });
 
         // Método para el campo "Monto Inscripción"
@@ -405,9 +417,32 @@ public class PantallaPrincipalController implements Initializable {
             lblCuotaAcademias.setText(cuotas.getAdeudoAcademias());
             lblUniforme.setText(cuotas.getAdeudoUniformes());
 
+            //establecemos la demas informacion del alumno
+            establecerInfoDescuentos();
+
         } catch (Exception ex) {
             notificarError(ex.getMessage());
         }
+
+    }
+
+    /**
+     * Establece la informacion de la beca y descuento en pantalla
+     */
+    public void establecerInfoDescuentos(){
+        AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
+
+        String tipoBeca = alumno.getBeca() != null ? alumno.getBeca().getTipo() : "No Aplica";
+        String descuentoBeca =  alumno.getBeca() != null ? alumno.getBeca().getDescuento().toString() : "0.00";
+
+        String TipoDescuento = alumno.getDescuento() != null ? alumno.getDescuento().getTipo() : "No Aplica";
+        String descuentoDescuento = alumno.getDescuento() != null ? alumno.getDescuento().getDescuento().toString() : "0.00";
+
+        lblTipoBeca.setText(tipoBeca);
+        lblDescuentoBeca.setText(descuentoBeca);
+
+        lblTipoDescuento.setText(descuentoDescuento);
+        lblDescuentoDescuento.setText(descuentoDescuento);
 
     }
 
@@ -456,6 +491,7 @@ public class PantallaPrincipalController implements Initializable {
             UsuarioDTO usuario = UsuarioCache.getInstance();
             CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
 
+
             ticket.setMontoTotal(montoTotal);
             ticket.setFolio(folio);
             ticket.setFecha(fecha);
@@ -499,13 +535,6 @@ public class PantallaPrincipalController implements Initializable {
         catch (Exception ex){
             throw new Exception("Porfavor ingrese datos validos en todos los campos");
         }
-    }
-
-    /**
-     * Valida el tipo de descuento del alumno seleccionado y lo aplica al total
-     */
-    private void validarDescuento(){
-
     }
 
     /**
@@ -578,17 +607,36 @@ public class PantallaPrincipalController implements Initializable {
     private void actualizarTotal() {
         BigDecimal total = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
 
+
         // Sumar los montos de cada campo
         total = total.add(ParseBigDecimal(txfMontoVencido));
-        total = total.add(ParseBigDecimal(txfMontoColegiatura));
+
         total = total.add(ParseBigDecimal(txfMontoInscripcion));
         total = total.add(ParseBigDecimal(txfMontoLibros));
         total = total.add(ParseBigDecimal(txfMontoEventos));
         total = total.add(ParseBigDecimal(txfMontoAcademias));
         total = total.add(ParseBigDecimal(txfMontoUniforme));
 
+        //if(lblAdeudoColegiatura.equals)
+
+
         // Actualizar el total en la interfaz
         lblTotal.setText(total.toString());
+    }
+
+    private void validarDescuento(){
+        if(!txfMontoColegiatura.getText().equalsIgnoreCase("")){
+            if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")){
+
+                BigDecimal descuento = new BigDecimal(lblDescuentoDescuento.getText());
+                BigDecimal adeudo = new BigDecimal(lblAdeudoColegiatura.getText());
+                BigDecimal ingresado = new  BigDecimal(txfMontoColegiatura.getText());
+
+
+
+            }
+            System.out.println("si hay entrada");
+        }
     }
 
     /**
@@ -664,6 +712,10 @@ public class PantallaPrincipalController implements Initializable {
     }
 
 
+    /**
+     * Lanza notificacion flotante indicando algun error
+     * @param mensaje mensaje a mostrar en la notificacion
+     */
     private void notificarError(String mensaje){
         Notifications.create()
                 .title("Error de inicio de sesion")

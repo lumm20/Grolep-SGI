@@ -192,7 +192,7 @@
                      </font></TextField>
                   <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="270.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../SGIPresentacion/iconos/payments.png" />
+                        <Image url="@../../../../../../../../iconos/logo.png" />
                      </image>
                   </ImageView>
                </children>
@@ -297,7 +297,7 @@
                   <ComboBox fx:id="cmbxMetodoPago" layoutX="32.0" layoutY="429.0" prefHeight="37.0" prefWidth="226.0" promptText="Seleccione un metodo de pago" style="-fx-font-size: 13px;" />
                   <Separator layoutX="12.0" layoutY="248.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #000000;" />
                   <Separator layoutX="12.0" layoutY="365.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #000000;" />
-                  <Label layoutX="78.0" layoutY="179.0" prefHeight="28.0" prefWidth="225.0" text="No aplica">
+                  <Label fx:id="lblTipoBeca" layoutX="78.0" layoutY="179.0" prefHeight="28.0" prefWidth="225.0" text="No aplica">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -317,7 +317,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="121.0" layoutY="208.0" prefHeight="28.0" prefWidth="122.0" text="0.00">
+                  <Label fx:id="lblDescuentoBeca" layoutX="121.0" layoutY="208.0" prefHeight="28.0" prefWidth="122.0" text="0.00">
                      <font>
                         <Font size="15.0" />
                      </font>
@@ -342,12 +342,12 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="90.0" layoutY="303.0" prefHeight="28.0" prefWidth="225.0" text="No aplica">
+                  <Label fx:id="lblTipoDescuento" layoutX="90.0" layoutY="303.0" prefHeight="28.0" prefWidth="225.0" text="No aplica">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="135.0" layoutY="331.0" prefHeight="28.0" prefWidth="134.0" text="0.00">
+                  <Label fx:id="lblDescuentoDescuento" layoutX="135.0" layoutY="331.0" prefHeight="28.0" prefWidth="134.0" text="0.00">
                      <font>
                         <Font size="15.0" />
                      </font>

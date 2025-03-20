@@ -11,8 +11,6 @@ public class AlumnoConsultaDTO implements Serializable {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String numeroCelular;
-    private BecaDTO beca;
-    private DescuentoDTO descuento;
 
     /**
      * constructor vacio

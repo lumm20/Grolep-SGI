@@ -5,13 +5,15 @@ import lombok.Data;
 @Data
 public class CuotasDTO {
 
-    String adeudoVencido; //este es un total de los adeudos vencidos osea todos los meses que debe
-    String adeudoColegiatura;
-    String adeudoInscripcion;
-    String adeudoLibros;
-    String adeudoEventos;
-    String adeudoAcademias;
-    String adeudoUniformes;
+    private String adeudoVencido; //este es un total de los adeudos vencidos osea todos los meses que debe
+    private String adeudoColegiatura;
+    private String adeudoInscripcion;
+    private String adeudoLibros;
+    private String adeudoEventos;
+    private String adeudoAcademias;
+    private String adeudoUniformes;
+    private BecaDTO beca;
+    private DescuentoDTO descuento;
 
     // Constructor con todos los campos
     public CuotasDTO(String adeudoVencido, String adeudoColegiatura, String adeudoInscripcion,
