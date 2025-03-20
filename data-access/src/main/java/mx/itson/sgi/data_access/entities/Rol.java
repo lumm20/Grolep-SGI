@@ -9,6 +9,6 @@ package mx.itson.sgi.data_access.entities;
  * @author skevi
  */
 public enum Rol {
-    ADMINISTRADOR,
+    ADMIN,
     CAJERO
 }
