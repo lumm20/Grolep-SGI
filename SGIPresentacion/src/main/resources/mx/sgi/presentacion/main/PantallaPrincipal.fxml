@@ -233,7 +233,7 @@
                   <ComboBox fx:id="cmbxMetodoPago" layoutX="22.0" layoutY="208.0" prefHeight="37.0" prefWidth="226.0" promptText="Seleccione un metodo de pago" style="-fx-font-size: 13px;" />
                </children>
             </AnchorPane>
-            <ComboBox fx:id="cmbxCicloEscolar" layoutX="827.0" layoutY="27.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="35.0" prefWidth="188.0" promptText="Seleccione un ciclo" style="-fx-font-size: 15px;">
+            <ComboBox fx:id="cmbxCicloEscolar" layoutX="827.0" layoutY="27.0" nodeOrientation="LEFT_TO_RIGHT" onAction="#ConsultarAdeudosConCicloEscolar" prefHeight="35.0" prefWidth="188.0" promptText="Seleccione un ciclo" style="-fx-font-size: 15px;">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></ComboBox>

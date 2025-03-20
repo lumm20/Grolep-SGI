@@ -14,7 +14,7 @@ public class PagoDTO {
     private String folio;
     private LocalDateTime fecha;
     private AlumnoConsultaDTO alumno;
-    private MetodosPagoDTO metodoPago;
+    private String metodoPago;
     private List<DetallePagoDTO> cuotasPagadas;
     private String descuento;
     private UsuarioDTO usuario;
@@ -23,7 +23,7 @@ public class PagoDTO {
     }
 
 
-    public PagoDTO(Double montoTotal, AlumnoConsultaDTO alumno, MetodosPagoDTO metodoPago,
+    public PagoDTO(Double montoTotal, AlumnoConsultaDTO alumno, String metodoPago,
             List<DetallePagoDTO> cuotasPagadas, String descuento, UsuarioDTO usuario) {
         this.montoTotal = montoTotal;
         this.alumno = alumno;
@@ -35,7 +35,7 @@ public class PagoDTO {
 
 
     public PagoDTO(Double montoTotal, String folio, LocalDateTime fecha, AlumnoConsultaDTO alumno,
-            MetodosPagoDTO metodoPago, List<DetallePagoDTO> cuotasPagadas, String descuento, UsuarioDTO usuario) {
+            String metodoPago, List<DetallePagoDTO> cuotasPagadas, String descuento, UsuarioDTO usuario) {
         this.montoTotal = montoTotal;
         this.folio = folio;
         this.fecha = fecha;
