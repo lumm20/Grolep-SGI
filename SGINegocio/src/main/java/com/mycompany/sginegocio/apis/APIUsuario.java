@@ -12,10 +12,7 @@ import com.mycompany.sginegocio.controlador.UsuarioControlador;
 import com.mycompany.sginegocio.excepciones.UserException;
 
 import mx.itson.sgi.dto.UsuarioDTO;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("api/users")
@@ -43,7 +40,6 @@ public class APIUsuario {
     @PostMapping("/register")
     public ResponseEntity<?> registrar(@RequestBody UsuarioDTO usuario){
         try {
-            System.out.println("hola");
             System.out.println("usuario: "+usuario.getNombre());
             controlador.registrarUsuario(usuario);
             return ResponseEntity.ok().build();

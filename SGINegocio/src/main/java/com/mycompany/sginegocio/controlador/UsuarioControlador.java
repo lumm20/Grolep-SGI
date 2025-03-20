@@ -46,8 +46,9 @@ public class UsuarioControlador {
             System.out.println("--------------------");
             System.out.println("--------------------");
             System.out.println("--------------------");
+        }else{
+            throw new UserException("Empty field", UserException.EMPTY_FIELD);
         }
-        throw new UserException("Empty field", UserException.EMPTY_FIELD);
     }
 
     private void validateUserFields(UsuarioDTO usuario)throws UserException {

@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.entities.Rol;
@@ -15,7 +18,7 @@ import mx.itson.sgi.dto.RolDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
 
 @Service
-public class UsuarioService {
+public class UsuarioService{
     @Autowired
     private UsuarioRepository repository;
     @Autowired
@@ -25,8 +28,6 @@ public class UsuarioService {
         Optional<Usuario> optional = repository.findByNombre(usuario.getNombre());
         if(optional.isPresent()){
             Usuario usuarioEncontrado = optional.get();
-            String passEncoded= security.encodePassword(usuario.getContra());
-            usuario.setContra(passEncoded);
             if (security.authenticate(usuario.getContra(), usuarioEncontrado.getContrasena())){
                 UsuarioDTO loggedDTO = findUser(usuario.getNombre());
                 return loggedDTO;
@@ -64,4 +65,5 @@ public class UsuarioService {
         }
         return dtos;
     }
+
 }
