@@ -22,12 +22,9 @@ public class AlumnoConsultaDTO implements Serializable {
      *
      * @param matricula
      * @param nombres
-     * @param apellidoPaterno
-     * @param apellidoMaterno
      * @param numeroCelular
      */
-    public AlumnoConsultaDTO(String matricula, String nombres, String apellidoPaterno,
-                             String apellidoMaterno, String numeroCelular) {
+    public AlumnoConsultaDTO(String matricula, String nombres, String numeroCelular) {
         this.matricula = matricula;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
