@@ -3,10 +3,9 @@ package mx.sgi.presentacion.mediador;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.CicloEscolarDTO;
-import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.controladores.PantallaPrincipalController;
 

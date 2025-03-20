@@ -1,10 +1,13 @@
-package mx.itson.sgi.dto;
+package mx.itson.sgi.dto.vistas;
 
 import lombok.Data;
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.CicloEscolarDTO;
+import mx.itson.sgi.dto.UsuarioDTO;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 @Data
 public class TicketRegistrarDTO {

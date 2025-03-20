@@ -11,11 +11,25 @@ public class AlumnoConsultaDTO implements Serializable {
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String numeroCelular;
+    private BecaDTO beca;
+    private DescuentoDTO descuento;
 
+    /**
+     * constructor vacio
+     */
     public AlumnoConsultaDTO() {}
 
-    // Constructor
-    public AlumnoConsultaDTO(String matricula, String nombres, String apellidoPaterno, String apellidoMaterno, String numeroCelular) {
+    /**
+     * Constructor completo
+     *
+     * @param matricula
+     * @param nombres
+     * @param apellidoPaterno
+     * @param apellidoMaterno
+     * @param numeroCelular
+     */
+    public AlumnoConsultaDTO(String matricula, String nombres, String apellidoPaterno,
+                             String apellidoMaterno, String numeroCelular) {
         this.matricula = matricula;
         this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
