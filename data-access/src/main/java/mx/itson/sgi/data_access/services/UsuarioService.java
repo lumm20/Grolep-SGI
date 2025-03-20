@@ -37,6 +37,18 @@ public class UsuarioService{
         return null;
     }
 
+    public UsuarioDTO findUserById(Long id){
+        Optional<Usuario> usuarioBuscado = repository.findById(id);
+        
+        if(usuarioBuscado.isPresent()){
+            Usuario user = usuarioBuscado.get();
+            UsuarioDTO dto = new UsuarioDTO();
+            dto.setNombre(user.getNombre());
+            return dto;
+        }
+        return null;
+    }
+
     public UsuarioDTO findUser(String username){
         Optional<Usuario> usuarioBuscado = repository.findUserByNombre(username);
         

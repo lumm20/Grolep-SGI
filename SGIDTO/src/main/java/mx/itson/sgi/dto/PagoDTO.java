@@ -8,51 +8,45 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+@Data
 public class PagoDTO {
+    private Double montoTotal;
     private String folio;
     private LocalDateTime fecha;
-    private Double monto;
-    private UsuarioDTO cajero;
-    private String matriculaAlumno;
+    private AlumnoConsultaDTO alumno;
+    private MetodosPagoDTO metodoPago;
+    private List<DetallePagoDTO> cuotasPagadas;
+    private String descuento;
+    private UsuarioDTO usuario;
 
-    // Getters y setters
-    public String getFolio() {
-        return folio;
+    public PagoDTO() {
     }
 
-    public void setFolio(String folio) {
+
+    public PagoDTO(Double montoTotal, AlumnoConsultaDTO alumno, MetodosPagoDTO metodoPago,
+            List<DetallePagoDTO> cuotasPagadas, String descuento, UsuarioDTO usuario) {
+        this.montoTotal = montoTotal;
+        this.alumno = alumno;
+        this.metodoPago = metodoPago;
+        this.cuotasPagadas = cuotasPagadas;
+        this.descuento = descuento;
+        this.usuario = usuario;
+    }
+
+
+    public PagoDTO(Double montoTotal, String folio, LocalDateTime fecha, AlumnoConsultaDTO alumno,
+            MetodosPagoDTO metodoPago, List<DetallePagoDTO> cuotasPagadas, String descuento, UsuarioDTO usuario) {
+        this.montoTotal = montoTotal;
         this.folio = folio;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+        this.alumno = alumno;
+        this.metodoPago = metodoPago;
+        this.cuotasPagadas = cuotasPagadas;
+        this.descuento = descuento;
+        this.usuario = usuario;
     }
 
-    public Double getMonto() {
-        return monto;
-    }
+    
 
-    public void setMonto(Double monto) {
-        this.monto = monto;
-    }
-
-    public UsuarioDTO getCajero() {
-        return cajero;
-    }
-
-    public void setCajero(UsuarioDTO cajero) {
-        this.cajero = cajero;
-    }
-
-    public String getMatriculaAlumno() {
-        return matriculaAlumno;
-    }
-
-    public void setMatriculaAlumno(String matriculaAlumno) {
-        this.matriculaAlumno = matriculaAlumno;
-    }
+    
 }

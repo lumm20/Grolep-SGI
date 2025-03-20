@@ -8,16 +8,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Converter;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import mx.itson.sgi.data_access.utilities.BecaConverter;
 
 @Data
 @Entity
@@ -30,12 +29,9 @@ public class Alumno {
     @Expose
     @Column(nullable = false)
     private String nombre;
-    @Expose
-    @Column(nullable = false)
-    private String apellidos;
 
-    @Column(name = "tipo_beca", nullable = false)
-    @Convert(converter = BecaConverter.class)
+    @Embedded
+    @AttributeOverride(name = "tipo", column = @Column(name = "tipo_beca"))
     private Beca beca;
 
     @OneToMany(mappedBy = "alumno", cascade = {CascadeType.ALL}, orphanRemoval = true)
@@ -54,10 +50,15 @@ public class Alumno {
         this.matricula = matricula;
     }
 
-    public Alumno(String matricula, String nombre, String apellidos, Beca beca, String telefonoPadre) {
+    public Alumno(String matricula, String nombre, String telefonoPadre ){
         this.matricula = matricula;
         this.nombre = nombre;
-        this.apellidos = apellidos;
+        this.telefonoPadre = telefonoPadre;
+    }
+
+    public Alumno(String matricula, String nombre, Beca beca, String telefonoPadre) {
+        this.matricula = matricula;
+        this.nombre = nombre;
         this.beca = beca;
         this.telefonoPadre = telefonoPadre;
     }

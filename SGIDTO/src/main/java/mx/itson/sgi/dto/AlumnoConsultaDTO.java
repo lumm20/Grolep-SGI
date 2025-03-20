@@ -12,25 +12,21 @@ import lombok.Data;
 public class AlumnoConsultaDTO implements Serializable {
 
     private String matricula;
-    private String nombres;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private String numeroCelular;
+    private String nombre;
+    private String telefonoPadre;
 
     public AlumnoConsultaDTO() {}
 
     // Constructor
-    public AlumnoConsultaDTO(String matricula, String nombres, String apellidoPaterno, String apellidoMaterno, String numeroCelular) {
+    public AlumnoConsultaDTO(String matricula, String nombre, String telefonoPadre) {
         this.matricula = matricula;
-        this.nombres = nombres;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.numeroCelular = numeroCelular;
+        this.nombre = nombre;
+        this.telefonoPadre = telefonoPadre;
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s %s, \"%s\"", nombres, apellidoPaterno, apellidoMaterno, numeroCelular);
+        return String.format("%s %s %s, \"%s\"",matricula, nombre, telefonoPadre);
     }
 
 }

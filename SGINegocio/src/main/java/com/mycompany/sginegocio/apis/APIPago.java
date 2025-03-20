@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.sginegocio.controlador.PagoControlador;
+import com.mycompany.sginegocio.excepciones.PaymentException;
 
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.TicketRegistrarDTO;
@@ -21,14 +22,13 @@ public class APIPago {
     PagoControlador controlador;
 
     @PostMapping
-    public ResponseEntity<TicketRegistrarDTO> registrarPago(@RequestBody PagoDTO pagoDTO) {
+    public ResponseEntity<?> registrarPago(@RequestBody PagoDTO pagoDTO) {
         try {
         	TicketRegistrarDTO ticket = controlador.registrarPago(pagoDTO);
         	System.out.println("prueba");
-            return ResponseEntity.status(HttpStatus.CREATED).body(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.CREATED).body(ticket);
+        } catch (PaymentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

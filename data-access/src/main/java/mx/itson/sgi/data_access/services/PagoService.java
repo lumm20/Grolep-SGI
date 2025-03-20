@@ -11,8 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.entities.Alumno;
+import mx.itson.sgi.data_access.entities.MetodoPago;
 import mx.itson.sgi.data_access.entities.Pago;
+import mx.itson.sgi.data_access.entities.Usuario;
 import mx.itson.sgi.data_access.repositories.PagoRepository;
+import mx.itson.sgi.dto.MetodosPagoDTO;
+import mx.itson.sgi.dto.PagoDTO;
+import mx.itson.sgi.dto.RolDTO;
+import mx.itson.sgi.dto.UsuarioDTO;
 
 @Service
 public class PagoService {
@@ -45,26 +51,24 @@ public class PagoService {
         return new ArrayList<Pago>();
     }
 
-    public Pago registrarPago(Pago pago){
-        Pago pagoRegistrado = repository.save(pago);
-        return pagoRegistrado;
+    public void registrarPago(PagoDTO pagoDTO){
+        MetodoPago metodo;
+        if(pagoDTO.getMetodoPago().equals(MetodosPagoDTO.Efectivo)){
+            metodo = MetodoPago.EFECTIVO;
+        }else if(pagoDTO.getMetodoPago().equals(MetodosPagoDTO.Tarjeta)){
+            metodo = MetodoPago.TARJETA;
+        }else{
+            metodo = MetodoPago.TRANSFERENCIA;
+        }
+        Usuario cajero = new Usuario(pagoDTO.getUsuario().getId());
+        Alumno alumno = new Alumno(pagoDTO.getAlumno().getMatricula());
+        Pago pago = new Pago(pagoDTO.getFolio(), pagoDTO.getFecha(), pagoDTO.getMontoTotal(),cajero, metodo,alumno);
+
+        repository.save(pago);
+        
     }
     
-    /**
-     * Genera un folio único para un pago con el formato: PYYYYMMDDXXXXX
-     * Donde YYYYMMDD es la fecha actual y XXXXX es un numero secuencial
-     * 
-     * @return String con el folio generado
-     */
-    public String generarFolio() {
-        Long lastNumber = repository.count();
-        LocalDate fechaActual = LocalDate.of(2023, 1, 1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
-        String fechaFormateada = fechaActual.format(formatter);
-
-        Long nuevoNumero = lastNumber + 1;
-
-        String numeroFormateado = String.format("%05d", nuevoNumero);
-        return "P".concat(fechaFormateada).concat(numeroFormateado);
+    public long getCantidadPagos(){
+        return repository.count();
     }
 }

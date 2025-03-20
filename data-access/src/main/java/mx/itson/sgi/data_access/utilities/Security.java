@@ -25,7 +25,7 @@ public class Security {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/users/register", "api/users/login").permitAll()
+                .requestMatchers("/api/users/register", "api/users/login","api/students","api/payment").permitAll()
                 .anyRequest().authenticated())
             .userDetailsService(details)
             .httpBasic(withDefaults());

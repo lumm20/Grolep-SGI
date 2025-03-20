@@ -9,9 +9,16 @@ import java.time.LocalTime;
 @Data
 public class DetallePagoDTO {
 
-	private Long id;
-	private PagoDTO pago;
-	private CuotaDTO cuota;
+	private String conceptoCuota;
 	private Double montoPagado;
+
+
+	public DetallePagoDTO() {
+	}
+	
+	public DetallePagoDTO(String conceptoCuota, Double montoPagado) {
+		this.conceptoCuota = conceptoCuota;
+		this.montoPagado = montoPagado;
+	}
 
 }

@@ -1,24 +1,24 @@
 package mx.itson.sgi.data_access.entities;
 
-public enum Beca {
-    DEPORTIVA(50,"deportiva"),
-    SEC(50,"sec"),
-    CIVICA(50,"civica"),
-    NINGUNA(0,"ninguna");
-    
-    private final int procentajeDescuento;
-    private final String tipo;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.Data;
 
-    private Beca(int procentajeDescuento, String tipo){
-        this.procentajeDescuento = procentajeDescuento;
-        this.tipo = tipo.toUpperCase();
+@Data
+@Embeddable
+public class Beca {
+
+    @Enumerated(EnumType.STRING)
+    private TipoBeca tipo;
+    private Double porcentajeDescuento;
+
+    public Beca() {
     }
 
-    public String getTipo(){
-        return tipo.toUpperCase();
+    public Beca(TipoBeca tipo, Double porcentajeDescuento) {
+        this.tipo = tipo;
+        this.porcentajeDescuento = porcentajeDescuento;
     }
 
-    public int getProcentajeDescuento(){
-        return procentajeDescuento;
-    }
 }

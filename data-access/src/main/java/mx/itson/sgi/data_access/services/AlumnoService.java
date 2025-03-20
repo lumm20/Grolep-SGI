@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.repositories.AlumnoRepository;
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
 
 @Service
 public class AlumnoService {
@@ -16,16 +17,36 @@ public class AlumnoService {
     @Autowired
     AlumnoRepository repository;
 
-    public Alumno registrarAlumno(Alumno alumno){
-        return repository.save(alumno);
+    public Alumno registrarAlumno(AlumnoConsultaDTO alumno){
+
+        Alumno alumnoEntity = new Alumno(alumno.getMatricula(), alumno.getNombre(), null, null);
+        return repository.save(alumnoEntity);
     }
 
-    public Alumno buscarAlumnoPorMatricula(String matricula){
+    public AlumnoConsultaDTO buscarAlumnoPorMatricula(String matricula){
         Optional<Alumno> optional = repository.findById(matricula);
         if(optional.isPresent()){
-            return optional.get();
+            Alumno alumno = optional.get();
+            AlumnoConsultaDTO dto = new AlumnoConsultaDTO();
+            dto.setMatricula(alumno.getMatricula());
+            dto.setNombre(alumno.getNombre());
+            dto.setTelefonoPadre(alumno.getTelefonoPadre());
+            return dto;
         }
         return null;
+    }
+
+    public List<AlumnoConsultaDTO> buscarAlumnosPorNombre(String nombre){
+        List<Alumno> alumnos = repository.encontrarAlumnosConNombre(nombre);
+        List<AlumnoConsultaDTO> dtos = new ArrayList<>();
+        for (Alumno alumno : alumnos) {
+            AlumnoConsultaDTO dto = new AlumnoConsultaDTO();
+            dto.setMatricula(alumno.getMatricula());
+            dto.setNombre(alumno.getNombre());
+            dto.setTelefonoPadre(alumno.getTelefonoPadre());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     public List<Alumno> buscarAlumnoPorPadre(String telefonoPadre){
