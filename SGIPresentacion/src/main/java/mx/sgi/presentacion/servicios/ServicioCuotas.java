@@ -11,6 +11,7 @@ import java.net.http.HttpClient;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class ServicioCuotas implements IServicioCuotas {
@@ -28,27 +29,25 @@ public class ServicioCuotas implements IServicioCuotas {
 
     @Override
     public CuotasDTO obtenerCuotasAlumno(String matricula, CicloEscolarDTO cicloEscolar) throws Exception {
-        // Simulación de obtención de datos (en un caso real, aquí iría la lógica de la consulta)
+        // Simulación de obtención de datos
         System.out.println("Valores que llegaron: " + matricula + " " + cicloEscolar);
 
-        // Simulación de valores de adeudos
-        String adeudoVencido = "500.00"; // Total de adeudos vencidos
-        String adeudoColegiatura = "1000.00";
-        String adeudoInscripcion = "500.00";
-        String adeudoLibros = "700.00";
-        String adeudoEventos = "1200.00";
-        String adeudoAcademias = "400.00";
-        String adeudoUniformes = "800.00";
-        String beca = "CIVICA";
-        DescuentoDTO descuento= new DescuentoDTO("Primer Periodo", new BigDecimal("300.00"));
+        List<CuotasDTO> listaCuotas = new ArrayList<>();
 
-        // Se crea un solo objeto CuotaDTO con todos los adeudos en sus respectivos campos
-        CuotasDTO cuota = new CuotasDTO(adeudoVencido, adeudoColegiatura, adeudoInscripcion,
-                adeudoLibros, adeudoEventos, adeudoAcademias, adeudoUniformes, beca, descuento);
+        // Creación de varias cuotas simuladas con diferentes valores
+        listaCuotas.add(new CuotasDTO("500.00", "1000.00", "500.00", "700.00", "1200.00", "400.00", "800.00", "CIVICA", new DescuentoDTO("Primer Periodo", new BigDecimal("300.00"))));
+        listaCuotas.add(new CuotasDTO("200.00", "800.00", "400.00", "600.00", "1000.00", "350.00", "750.00", "DEPORTIVA", new DescuentoDTO("Segundo Periodo", new BigDecimal("250.00"))));
+        listaCuotas.add(new CuotasDTO("0.00", "900.00", "300.00", "500.00", "1100.00", "450.00", "700.00", null, new DescuentoDTO("Primer Periodo", new BigDecimal("400.00"))));
+        listaCuotas.add(new CuotasDTO("100.00", "950.00", "350.00", "550.00", "1150.00", "375.00", "725.00", "SEC", new DescuentoDTO("Segundo Periodo", new BigDecimal("350.00"))));
+        listaCuotas.add(new CuotasDTO("600.00", "1100.00", "600.00", "750.00", "1300.00", "500.00", "850.00", null, new DescuentoDTO("Primer Periodo", new BigDecimal("320.00"))));
+        listaCuotas.add(new CuotasDTO("450.00", "1025.00", "525.00", "675.00", "1250.00", "425.00", "775.00", "SEC", new DescuentoDTO("Segundo Periodo", new BigDecimal("280.00"))));
+        listaCuotas.add(new CuotasDTO("300.00", "975.00", "475.00", "625.00", "1205.00", "390.00", "740.00", null, new DescuentoDTO("Primer Periodo", new BigDecimal("330.00"))));
 
-        // Se devuelve una lista con un solo elemento, ya que ahora CuotaDTO almacena todos los valores en un solo objeto
-        return cuota;
+        // Selección aleatoria de una cuota
+        Random random = new Random();
+        return listaCuotas.get(random.nextInt(listaCuotas.size()));
     }
+
 
     /**
      * Metodo que obtiene las colegiaturas atrasadas de un alumno, solo se pueden
