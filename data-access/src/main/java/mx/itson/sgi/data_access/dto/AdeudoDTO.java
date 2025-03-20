@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 
 import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
-import mx.itson.sgi.data_access.entities.ConceptoCuota;
+import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
 
 public class AdeudoDTO {
@@ -58,26 +58,26 @@ public class AdeudoDTO {
     public Cuota getCuota() {return cuota;}
 
     public void setCuota() {
-        ConceptoCuota concepto=null;
+        Concepto concepto=null;
         String conceptoLowerCase = conceptoCuota.toLowerCase();
         switch (conceptoLowerCase) {
             case "academias":
-                concepto = ConceptoCuota.ACADEMIAS;
+                concepto = Concepto.ACADEMIAS;
                 break;
             case "uniformes":
-                concepto = ConceptoCuota.UNIFORMES;
+                concepto = Concepto.UNIFORMES;
                 break;
             case "libros":
-                concepto = ConceptoCuota.LIBROS;
+                concepto = Concepto.LIBROS;
                 break;
             case "inscripcion":
-                concepto = ConceptoCuota.INSCRIPCION;
+                concepto = Concepto.INSCRIPCION;
                 break;
             case "eventos":
-                concepto = ConceptoCuota.EVENTOS;
+                concepto = Concepto.EVENTOS;
                 break;
             case "colegiatura":
-                concepto = ConceptoCuota.COLEGIATURA;
+                concepto = Concepto.COLEGIATURA;
                 break;
         }
         cuota =new Cuota(montoBase,  new CicloEscolar(cicloEscolar), concepto);
@@ -97,10 +97,10 @@ public class AdeudoDTO {
     public void setCicloEscolar(String cicloEscolar) {
         this.cicloEscolar = cicloEscolar;
     }
-    public String getConceptoCuota() {
+    public String getConcepto() {
         return conceptoCuota;
     }
-    public void setConceptoCuota(String conceptoCuota) {
+    public void setConcepto(String conceptoCuota) {
         this.conceptoCuota = conceptoCuota;
     }
     public Double getAdeudo() {

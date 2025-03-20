@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  *
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.mycompany.sginegocio", "controlador","mx.itson.sgi.data_access"})
+@ComponentScan(basePackages = {"com.mycompany.sginegocio","mx.itson.sgi.data_access"})
 public class SGINegocio {
 	public static void main(String[] args) {
 	        SpringApplication.run(SGINegocio.class, args);

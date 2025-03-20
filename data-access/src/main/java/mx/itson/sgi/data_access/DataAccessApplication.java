@@ -4,22 +4,22 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import mx.itson.sgi.data_access.repositories.AlumnoRepository;
+import mx.itson.sgi.data_access.services.AlumnoService;
+import mx.itson.sgi.data_access.services.CuotaService;
+import mx.itson.sgi.data_access.services.PagoService;
+import mx.itson.sgi.data_access.services.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
-import mx.itson.sgi.data_access.controllers.AlumnoController;
-import mx.itson.sgi.data_access.controllers.CuotaController;
-import mx.itson.sgi.data_access.controllers.PagoController;
-import mx.itson.sgi.data_access.controllers.UsuarioController;
 import mx.itson.sgi.data_access.dto.AdeudoDTO;
 import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.Beca;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
-import mx.itson.sgi.data_access.entities.ConceptoCuota;
+import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
 import mx.itson.sgi.data_access.entities.DetallePago;
 import mx.itson.sgi.data_access.entities.MetodoPago;
@@ -30,22 +30,16 @@ import mx.itson.sgi.data_access.entities.Usuario;
 @SpringBootApplication
 public class DataAccessApplication implements CommandLineRunner {
 
-    private final AlumnoRepository alumnoRepository;
-
-
 	@Autowired
-	UsuarioController userController;
+	UsuarioService userController;
 
 	@Autowired
-	CuotaController cuotaController;
+	CuotaService cuotaController;
 	@Autowired
-	AlumnoController alumnoController;
+	AlumnoService alumnoController;
 	@Autowired
-	PagoController pagoController;
+	PagoService pagoController;
 
-    DataAccessApplication(AlumnoRepository alumnoRepository) {
-        this.alumnoRepository = alumnoRepository;
-    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(DataAccessApplication.class, args);
@@ -110,7 +104,7 @@ public class DataAccessApplication implements CommandLineRunner {
 		CicloEscolar ciclo = cuotaController.obtenerCicloEscolarPorId("24-25");
 		Alumno alumno = alumnoController.buscarAlumnoPorMatricula("A20220002");
 		if (alumno != null) {
-			Cuota nuevaCuota = new Cuota(2500.00, ConceptoCuota.INSCRIPCION);
+			Cuota nuevaCuota = new Cuota(2500.00, Concepto.INSCRIPCION);
 			nuevaCuota.setAlumno(alumno);
 			nuevaCuota.setCiclo(ciclo);
 			cuotaController.agregarCuota(nuevaCuota);
@@ -122,12 +116,11 @@ public class DataAccessApplication implements CommandLineRunner {
 		Alumno alumno = new Alumno("A20220004",
 		"Lucia","Ruiz Dorame",
 		Beca.DEPORTIVA,
-		"6441223344",
-		LocalDate.of(2015, 7, 12));
+		"6441223344");
 		List<Cuota> cuotas = new ArrayList<>();
-		Cuota c1 = new Cuota(2500.00, new CicloEscolar("23-24"),ConceptoCuota.INSCRIPCION);
-		Cuota c2 = new Cuota(1800.00, new CicloEscolar("23-24"),ConceptoCuota.COLEGIATURA);
-		Cuota c3 = new Cuota(2000.00, new CicloEscolar("23-24"),ConceptoCuota.UNIFORMES);
+		Cuota c1 = new Cuota(2500.00, new CicloEscolar("23-24"),Concepto.INSCRIPCION);
+		Cuota c2 = new Cuota(1800.00, new CicloEscolar("23-24"),Concepto.COLEGIATURA);
+		Cuota c3 = new Cuota(2000.00, new CicloEscolar("23-24"),Concepto.UNIFORMES);
 		cuotas.add(c1);
 		cuotas.add(c2);
 		cuotas.add(c3);
@@ -143,7 +136,7 @@ public class DataAccessApplication implements CommandLineRunner {
 	}
 
 	private void registrarUsuario() {
-		Usuario user = new Usuario("Luisa10", "moel10", Rol.ADMIN,
+		Usuario user = new Usuario("Luisa10", "moel10", Rol.ADMINISTRADOR,
 		"luisa@correo.com");
 		Usuario newUser = userController.registrarUsuario(user);
 		System.out.println(newUser);

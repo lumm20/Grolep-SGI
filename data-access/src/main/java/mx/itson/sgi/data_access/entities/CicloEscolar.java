@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package mx.itson.sgi.data_access.entities;
 
 import java.time.LocalDate;
@@ -9,8 +13,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "ciclos_escolares")
+@Data
 public class CicloEscolar {
     @Expose
     @Id
@@ -29,30 +36,10 @@ public class CicloEscolar {
         this.fechaFin = fechaFin;
         this.id = fechaInicio.getYear() + "-" + fechaFin.getYear();
     }
-
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
-    }
-    public void setFechaInicio(LocalDate fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-    public void setFechaFin(LocalDate fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    
     @Override
     public String toString() {
         return "{id=" + id + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + "}";
     }
-
     
 }
