@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import mx.itson.sgi.dto.UsuarioDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioUsuarios;
-import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;

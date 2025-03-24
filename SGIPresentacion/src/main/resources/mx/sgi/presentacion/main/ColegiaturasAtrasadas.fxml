@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="560.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.ColegiaturasAtrasadasController">
+   <children>
+      <AnchorPane layoutX="115.0" layoutY="23.0" prefHeight="62.0" prefWidth="435.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
+         <children>
+            <Label alignment="CENTER" layoutX="36.0" layoutY="8.0" prefHeight="46.0" prefWidth="387.0" text="Detalles de adeudo en colegiatura">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Separator layoutX="45.0" layoutY="104.0" prefHeight="0.0" prefWidth="578.0" style="-fx-background-color: #000000;">
+         <effect>
+            <Blend />
+         </effect>
+      </Separator>
+      <Label alignment="CENTER" layoutX="87.0" layoutY="142.0" prefHeight="22.0" prefWidth="106.0" text="Mes">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Separator layoutX="44.0" layoutY="195.0" prefHeight="0.0" prefWidth="578.0" style="-fx-background-color: #000000;">
+         <effect>
+            <Blend />
+         </effect>
+      </Separator>
+      <Label fx:id="lblMes1" alignment="CENTER" layoutX="70.0" layoutY="241.0" prefHeight="30.0" prefWidth="140.0" text="Mes 1">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="279.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Adeudo">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="280.0" layoutY="157.0" prefHeight="3.0" prefWidth="106.0" text="acumulado">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="476.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Monto">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="476.0" layoutY="157.0" prefHeight="22.0" prefWidth="106.0" text="Pagado">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMes2" alignment="CENTER" layoutX="70.0" layoutY="311.0" prefHeight="30.0" prefWidth="140.0" text="Mes 2">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblMes3" alignment="CENTER" layoutX="70.0" layoutY="381.0" prefHeight="26.0" prefWidth="140.0" text="Mes 3">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+      <Separator layoutX="45.0" layoutY="432.0" prefHeight="0.0" prefWidth="578.0" style="-fx-background-color: #000000;">
+         <effect>
+            <Blend />
+         </effect>
+      </Separator>
+      <Label fx:id="lblAdeudoAcumulado1" alignment="CENTER" layoutX="269.0" layoutY="243.0" prefHeight="26.0" prefWidth="130.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbllMontoPagado1" alignment="CENTER" layoutX="467.0" layoutY="243.0" prefHeight="26.0" prefWidth="123.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAdeudoAcumulado2" alignment="CENTER" layoutX="269.0" layoutY="311.0" prefHeight="26.0" prefWidth="130.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbllMontoPagado2" alignment="CENTER" layoutX="467.0" layoutY="311.0" prefHeight="26.0" prefWidth="123.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblAdeudoAcumulado3" alignment="CENTER" layoutX="268.0" layoutY="379.0" prefHeight="26.0" prefWidth="130.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbllMontoPagado3" alignment="CENTER" layoutX="467.0" layoutY="379.0" prefHeight="26.0" prefWidth="123.0" text="0.00">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="256.0" layoutY="458.0" prefHeight="30.0" prefWidth="246.0" text="Total adeudo acumulado:">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblTotal" layoutX="509.0" layoutY="458.0" prefHeight="30.0" prefWidth="123.0" text="0.00">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

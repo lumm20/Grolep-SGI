@@ -7,12 +7,14 @@ import lombok.Data;
 @Data
 public class ColegiaturaAtrasadaDTO {
 
-    private BigDecimal monto;
-    private LocalDate mes;
+    private final LocalDate mes;
+    private final BigDecimal adeudoAcumulado;
+    private  final BigDecimal montoPagado;
 
     // Constructor
-    public ColegiaturaAtrasadaDTO(BigDecimal monto, LocalDate mes) {
-        this.monto = monto;
+    public ColegiaturaAtrasadaDTO(LocalDate mes,  BigDecimal adeudoAcumulado, BigDecimal montoPagado) {
         this.mes = mes;
+        this.adeudoAcumulado = adeudoAcumulado;
+        this.montoPagado = montoPagado;
     }
 }

@@ -6,7 +6,6 @@ import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.BecaDTO;
 import mx.itson.sgi.dto.DescuentoDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.net.URI;

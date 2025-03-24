@@ -76,6 +76,31 @@ public class Mediador {
         }
     }
 
+    public void mostrarPantallaColegiaturasAtrasadas(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/ColegiaturasAtrasadas.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+
+            // Crear un nuevo Stage (ventana)
+            Stage nuevaVentana = new Stage();
+            nuevaVentana.setTitle("Detalles colegiaturas atrasadas");
+            nuevaVentana.setScene(scene);
+
+            // (Opcional) Si deseas evitar que el usuario redimensione la ventana
+            nuevaVentana.setResizable(false);
+
+            // Mostrar la nueva ventana
+            nuevaVentana.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla principal de ticket: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
     public void abrirPantallaTicket() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/Ticket.fxml"));
@@ -96,7 +121,7 @@ public class Mediador {
             nuevaVentana.show();
 
         } catch (IOException e) {
-            System.err.println("Error al cargar la pantalla principal de confirmacion: " + e.getMessage());
+            System.err.println("Error al cargar la pantalla principal de ticket: " + e.getMessage());
             e.printStackTrace();
         }
     }

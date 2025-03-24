@@ -14,11 +14,6 @@ module mx.sgi.presentacion.main.sgipresentacion {
     requires java.desktop;
     requires mx.itson.sgi.dto;
 
-    // Dependencias de Spring Framework
-    requires spring.context;
-    requires spring.beans;
-    requires spring.core;
-
     opens mx.sgi.presentacion.main to javafx.fxml;
     exports mx.sgi.presentacion.main;
     exports mx.sgi.presentacion.controladores;

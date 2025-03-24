@@ -17,6 +17,7 @@ import mx.itson.sgi.dto.*;
 import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.AlumnoCache;
+import mx.sgi.presentacion.caches.CicloEscolarCache;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
@@ -316,6 +317,10 @@ public class PantallaPrincipalController implements Initializable {
                 });
                 AlumnoCache.limpiarCache(); // Limpiar el cache en caso de que hubiera otro alumno ocupando la instancia
                 AlumnoCache.setInstance(alumnoSeleccionado); // Guardar al alumno seleccionado en el cache
+
+                CicloEscolarCache.limpiarCache();
+                CicloEscolarCache.setInstance(cmbxCicloEscolar.getValue());
+
                 consultarCuotas(); // Consultar las cuotas del alumno seleccionado
             }
         });
@@ -449,6 +454,8 @@ public class PantallaPrincipalController implements Initializable {
      */
     @FXML
     private void ConsultarAdeudosConCicloEscolar(){
+        CicloEscolarCache.limpiarCache();
+        CicloEscolarCache.setInstance(cmbxCicloEscolar.getValue());
         consultarCuotas();
     }
 
@@ -715,6 +722,13 @@ public class PantallaPrincipalController implements Initializable {
         textField.setStyle("-fx-border-color: #000000;");
     }
 
+
+    @FXML
+    private void mostrarPantallaColegiaturasAtrasadas(){
+       if(AlumnoCache.getInstance() != null){
+           mediador.mostrarPantallaColegiaturasAtrasadas();
+       }
+    }
 
     /**
      * Lanza notificacion flotante indicando algun error

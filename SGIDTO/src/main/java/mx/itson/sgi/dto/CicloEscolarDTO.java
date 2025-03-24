@@ -9,6 +9,8 @@ public class CicloEscolarDTO {
     private LocalDate inicio;
     private LocalDate fin;
 
+    public CicloEscolarDTO(){}
+
     // Constructor
     public CicloEscolarDTO(LocalDate inicio, LocalDate fin) {
         this.inicio = inicio;

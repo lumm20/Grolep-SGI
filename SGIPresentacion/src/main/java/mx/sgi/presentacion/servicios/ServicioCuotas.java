@@ -64,9 +64,9 @@ public class ServicioCuotas implements IServicioCuotas {
         // Aquí agregarías la lógica real para consultar las colegiaturas atrasadas
         // Usamos un ejemplo con datos simulados
         // Agregamos tres colegiaturas atrasadas simuladas
-        colegiaturasAtrasadas.add(new ColegiaturaAtrasadaDTO(new BigDecimal("1500.00"), LocalDate.of(2024, 1, 15)));
-        colegiaturasAtrasadas.add(new ColegiaturaAtrasadaDTO(new BigDecimal("1800.00"), LocalDate.of(2024, 2, 15)));
-        colegiaturasAtrasadas.add(new ColegiaturaAtrasadaDTO(new BigDecimal("1200.00"), LocalDate.of(2024, 3, 15)));
+        colegiaturasAtrasadas.add(new ColegiaturaAtrasadaDTO(LocalDate.of(2024, 1, 15), new BigDecimal("1000.00"), new BigDecimal("500.00")));
+        colegiaturasAtrasadas.add(new ColegiaturaAtrasadaDTO(LocalDate.of(2024, 2, 15), new BigDecimal("700.00"), new BigDecimal("800")));
+        colegiaturasAtrasadas.add(new ColegiaturaAtrasadaDTO(LocalDate.of(2024, 3, 15), new BigDecimal("300.00"), new BigDecimal("1200.00")));
 
         return colegiaturasAtrasadas;
     }
