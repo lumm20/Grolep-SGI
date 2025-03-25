@@ -7,5 +7,6 @@ import java.util.List;
 public interface IServicioAlumnos {
 
     public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception;
+    public List<AlumnoConsultaDTO> buscarAlumnos(String nombre) ;
 
 }

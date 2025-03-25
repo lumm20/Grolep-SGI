@@ -26,9 +26,9 @@ import lombok.Data;
 @Data
 public class Cuota {
 
-    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private Long id;
 
     @Expose

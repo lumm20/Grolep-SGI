@@ -11,10 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.entities.Alumno;
+import mx.itson.sgi.data_access.entities.CicloEscolar;
+import mx.itson.sgi.data_access.entities.Concepto;
+import mx.itson.sgi.data_access.entities.Cuota;
+import mx.itson.sgi.data_access.entities.DetallePago;
 import mx.itson.sgi.data_access.entities.MetodoPago;
 import mx.itson.sgi.data_access.entities.Pago;
 import mx.itson.sgi.data_access.entities.Usuario;
 import mx.itson.sgi.data_access.repositories.PagoRepository;
+import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.RolDTO;
@@ -24,6 +29,8 @@ import mx.itson.sgi.dto.UsuarioDTO;
 public class PagoService {
     @Autowired
     private PagoRepository repository;
+    @Autowired
+    private CuotaService cuotaService;
 
     public Pago obtenerPagoPorFolio(String folio){
         Optional<Pago> pago = repository.findById(folio);
@@ -60,14 +67,32 @@ public class PagoService {
         }else{
             metodo = MetodoPago.TRANSFERENCIA;
         }
-        Usuario cajero = new Usuario(pagoDTO.getUsuario().getId());
+        Usuario cajero = new Usuario(pagoDTO.getIdUsuario());
         Alumno alumno = new Alumno(pagoDTO.getAlumno().getMatricula());
         Pago pago = new Pago(pagoDTO.getFolio(), pagoDTO.getFecha(), pagoDTO.getMontoTotal(),cajero, metodo,alumno);
-
+        CicloEscolar ciclo = new CicloEscolar(pagoDTO.getIdCicloEscolar());
+        List<DetallePagoDTO> detallesDTO = pagoDTO.getCuotasPagadas();
+        List<DetallePago> detalles = convertirDetallesPagos(detallesDTO, alumno,ciclo, pago);
+        pago.setDetalles(detalles);
         repository.save(pago);
         
     }
     
+    private List<DetallePago> convertirDetallesPagos(List<DetallePagoDTO> dtos,Alumno alumno, CicloEscolar ciclo, Pago pago){
+        List<DetallePago> detalles = new ArrayList<>();
+        Cuota cuota;
+        Concepto concepto;
+        for (DetallePagoDTO dto : dtos) {
+            concepto = Concepto.valueOf(dto.getConceptoCuota());
+            cuota = cuotaService.obtenerCuotaPorAlumnoConceptoCiclo(alumno, concepto, ciclo);
+            System.out.println("-------------------");
+            System.out.println(cuota);
+            System.out.println("-------------------");
+            detalles.add(new DetallePago(cuota, dto.getMontoPagado(),pago));
+        }
+        return detalles;
+    }
+
     public long getCantidadPagos(){
         return repository.count();
     }

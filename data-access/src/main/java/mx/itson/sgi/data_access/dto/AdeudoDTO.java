@@ -15,9 +15,9 @@ public class AdeudoDTO {
     private String cicloEscolar;
     private String conceptoCuota;
     private Double montoBase;
-    @Expose
+    //@Expose
     private Double adeudo;
-    @Expose
+    //@Expose
     private Cuota cuota;
 
     public AdeudoDTO() {

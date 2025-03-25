@@ -13,6 +13,7 @@ import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
 import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
+import mx.itson.sgi.dto.CuotaConsultadaDTO;
 
 @Repository
 public interface CuotaRepository extends CrudRepository<Cuota,Long>{
@@ -22,7 +23,9 @@ public interface CuotaRepository extends CrudRepository<Cuota,Long>{
     Optional<Cuota> findByAlumno_MatriculaAndConcepto(Alumno alumno, Concepto concepto);
     Optional<Cuota> findByAlumnoAndConceptoAndCiclo(Alumno alumno,Concepto concepto, CicloEscolar ciclo);
     @Query(value = "call sp_obtener_adeudos()",nativeQuery = true)
-    List<AdeudoDTO> findCuotasConAdeudo();
+    List<Object[]> findCuotasConAdeudo();
     @Query(value = "call sp_obtener_adeudos_alumno(:matricula,:ciclo)",nativeQuery = true)
-    List<AdeudoDTO> findCuotasConAdeudoPorAlumno(@Param("matricula")String alumno, @Param("ciclo")String ciclo);
+    List<Object[]> findCuotasConAdeudoPorAlumno(@Param("matricula")String alumno, @Param("ciclo")String ciclo);
+    @Query(value = "call sp_obtener_cuotas_alumno(:matricula,:ciclo)",nativeQuery = true)
+    List<Object[]> findCuotasPorAlumno(@Param("matricula")String alumno, @Param("ciclo")String ciclo);
 }

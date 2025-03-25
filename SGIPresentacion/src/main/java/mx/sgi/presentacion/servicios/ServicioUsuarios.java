@@ -1,16 +1,15 @@
 package mx.sgi.presentacion.servicios;
 
 import com.google.gson.Gson;
+
+import mx.itson.sgi.dto.RolDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
-import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioUsuarios;
-import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.UUID;
 
 /**
  * Esta clase se encarga de iniciar conectar con servicios externos para
@@ -40,8 +39,27 @@ public class ServicioUsuarios implements IServicioUsuarios {
      */
     public UsuarioDTO obtenerUsuario(String id, String Contrasena)  throws Exception{
 
-        return new UsuarioDTO(UUID.randomUUID(), "Juan Pérez", "juan.perez@example.com");
+        return new UsuarioDTO( 1L,"Juan Pérez", "juan.perez@example.com",RolDTO.ADMIN);
 
+    }
+
+    public UsuarioDTO login(String nombre, String password) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/SGI/api/users/login"))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(new UsuarioDTO(nombre, password))))
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() == 200) {
+                return new Gson().fromJson(response.body(), UsuarioDTO.class);
+            }
+            System.out.println(response.body());
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 

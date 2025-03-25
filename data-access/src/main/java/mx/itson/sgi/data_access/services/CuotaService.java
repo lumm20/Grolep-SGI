@@ -3,16 +3,20 @@ package mx.itson.sgi.data_access.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.dto.AdeudoDTO;
+import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
 import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
 import mx.itson.sgi.data_access.repositories.CicloRepository;
 import mx.itson.sgi.data_access.repositories.CuotaRepository;
+import mx.itson.sgi.dto.CuotaConsultadaDTO;
+import mx.itson.sgi.dto.CuotasDTO;
 
 @Service
 public class CuotaService {
@@ -22,12 +26,32 @@ public class CuotaService {
     @Autowired
 	CicloRepository cicloRepository;
 
-    public List<Cuota> obtenerCuotasPorAlumno(String matriculaAlumno){
-        List<Cuota> cuotas = repository.findByAlumno_Matricula(matriculaAlumno);
-        if(cuotas != null){
-            return cuotas;
+    public Cuota obtenerCuotaPorAlumnoConceptoCiclo(Alumno matriculaAlumno, Concepto concepto, CicloEscolar ciclo){
+        Optional<Cuota> optional = repository.findByAlumnoAndConceptoAndCiclo(matriculaAlumno, concepto, ciclo);
+        if(optional.isPresent()){
+            Cuota cuota = optional.get();
+            System.out.println(cuota);
+            return cuota;
         }
-        return new ArrayList<Cuota>();
+        return null;
+    }
+
+    public List<CuotaConsultadaDTO> obtenerCuotasPorAlumno(String matriculaAlumno, String cicloEscolar){
+        List<Object[]> cuotas = repository.findCuotasPorAlumno(matriculaAlumno, cicloEscolar);
+        List<CuotaConsultadaDTO> dto = new ArrayList<>();
+        if(cuotas != null){
+            dto = cuotas.stream().map(cuota -> new CuotaConsultadaDTO(
+                (Long)cuota[0],
+                (String)cuota[1],
+                (String)cuota[2],
+                (String)cuota[3],
+                (Double)cuota[4],
+                (Double)cuota[5]
+            )).collect(Collectors.toList());
+            
+            return dto;
+        }
+        return null;
     }
     public List<Cuota> obtenerCuotasPorConcepto(Concepto concepto){
         List<Cuota> cuotas = repository.findByConcepto(concepto);
@@ -38,14 +62,41 @@ public class CuotaService {
     }
 
     public List<AdeudoDTO> obtenerCuotasConAdeudos(){
-        List<AdeudoDTO> adeudos = repository.findCuotasConAdeudo();
-        if(adeudos != null) return adeudos;
+        List<Object[]> adeudos = repository.findCuotasConAdeudo();
+        
+        if(adeudos != null){
+            List<AdeudoDTO> dtos = new ArrayList<>();
+            adeudos.stream().forEach(a->{
+                dtos.add(new AdeudoDTO(
+                    (Double)a[0],
+                    (Long)a[1],
+                    (String)a[2],
+                    (String)a[3],
+                    (String)a[4],
+                    (Double)a[5]
+                ));
+            });
+            return dtos;
+        }
         return new ArrayList<AdeudoDTO>();
     }
 
     public List<AdeudoDTO> obtenerCuotasConAdeudosPorAlumno(String matriculaAlumno, String ciclo){
-        List<AdeudoDTO> adeudos = repository.findCuotasConAdeudoPorAlumno(matriculaAlumno, ciclo);
-        if(adeudos != null) return adeudos;
+        List<Object[]> adeudos = repository.findCuotasConAdeudoPorAlumno(matriculaAlumno, ciclo);
+        List<AdeudoDTO> dtos = new ArrayList<>();
+        if(adeudos != null){
+            adeudos.stream().forEach(a->{
+                dtos.add(new AdeudoDTO(
+                    (Double)a[0],
+                    (Long)a[1],
+                    (String)a[2],
+                    (String)a[3],
+                    (String)a[4],
+                    (Double)a[5]
+                ));
+            });
+            return dtos;
+        }
         return new ArrayList<AdeudoDTO>();
     }
 

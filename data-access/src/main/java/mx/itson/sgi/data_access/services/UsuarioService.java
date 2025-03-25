@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.entities.Rol;
@@ -55,7 +52,8 @@ public class UsuarioService{
         if(usuarioBuscado.isPresent()){
             Usuario user = usuarioBuscado.get();
             RolDTO rol = (user.getRol().equals(Rol.ADMIN) ? RolDTO.ADMIN:RolDTO.CAJERO);
-            UsuarioDTO dto = new UsuarioDTO(user.getNombre(), user.getCorreo(), rol);
+            System.out.println(user);
+            UsuarioDTO dto = new UsuarioDTO(user.getId(),user.getNombre(), user.getCorreo(), rol);
             return dto;
         }
         return null;
@@ -73,7 +71,7 @@ public class UsuarioService{
         List<UsuarioDTO> dtos = new ArrayList<>();
         for (Usuario usuario : usuarios) {
             RolDTO rol = (usuario.getRol().equals(Rol.ADMIN) ? RolDTO.ADMIN : RolDTO.CAJERO);
-            dtos.add(new UsuarioDTO(usuario.getNombre(), usuario.getCorreo(), rol));
+            dtos.add(new UsuarioDTO(usuario.getId(),usuario.getNombre(), usuario.getCorreo(), rol));
         }
         return dtos;
     }

@@ -7,6 +7,7 @@ package mx.itson.sgi.data_access.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 
 import jakarta.persistence.Column;
@@ -26,17 +27,19 @@ import lombok.Data;
 @Data
 public class Usuario {
 
-    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private Long id;
     @Expose
     @Column(nullable = false, unique = true)
     private String nombre;
 
+    @Expose
     @Column(unique = true)
     private String correo;
     
+    @Expose
     @Column(nullable = false)
     private String contrasena;
     
@@ -50,7 +53,8 @@ public class Usuario {
 
 
 
-    public Usuario(String nombre, Rol rol, String correo) {
+    public Usuario(Long id,String nombre, Rol rol, String correo) {
+        this.id = id;
         this.nombre = nombre;
         this.rol = rol;
         this.correo = correo;
@@ -71,6 +75,6 @@ public class Usuario {
     
     @Override
     public String toString(){
-        return "{id}";
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(this);
     }
 }

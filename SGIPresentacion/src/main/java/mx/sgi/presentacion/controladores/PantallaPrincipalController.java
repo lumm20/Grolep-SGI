@@ -1,15 +1,43 @@
 package mx.sgi.presentacion.controladores;
 
+import java.math.BigDecimal;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.UUID;
+
+import org.controlsfx.control.Notifications;
+
 import com.jfoenix.controls.JFXButton;
+
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import mx.itson.sgi.dto.*;
+import javafx.util.Duration;
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.CicloEscolarDTO;
+import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
+import mx.itson.sgi.dto.CuotaConsultadaDTO;
+import mx.itson.sgi.dto.CuotasDTO;
+import mx.itson.sgi.dto.DetallePagoDTO;
+import mx.itson.sgi.dto.MetodosPagoDTO;
+import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.itson.sgi.dto.UsuarioDTO;
 import mx.sgi.presentacion.caches.AlumnoCache;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.caches.UsuarioCache;
@@ -20,11 +48,6 @@ import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.*;
 
 public class PantallaPrincipalController implements Initializable {
 
@@ -295,20 +318,24 @@ public class PantallaPrincipalController implements Initializable {
     private void actualizarOpcionesAlumnos(String filtro) {
         try {
 
-            if (!filtro.isEmpty()){
+            if (!filtro.isEmpty() && !filtro.isBlank() && filtro.matches("^[a-zA-Z\\s]+$")){
+                filtro = filtro.trim();
+                // List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.consultarAlumnos(filtro);
+                List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.buscarAlumnos(filtro);
 
-                List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.consultarAlumnos(filtro);
-
-                // Convertimos la lista en un ObservableList
-                ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections.observableArrayList(alumnosFiltrados);
-
-                cmbxAlumnos.visibleRowCountProperty().setValue(alumnosFiltrados.size());
-
-                // Actualizamos los ítems del ComboBox
-                cmbxAlumnos.setItems(listaObservable);
-
-                // Mostramos el dropdown con las opciones actualizadas
-                cmbxAlumnos.show();
+                if(alumnosFiltrados != null && alumnosFiltrados.size()>0){
+                    System.out.println("alumnos :"+alumnosFiltrados);
+                    // Convertimos la lista en un ObservableList
+                    ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections.observableArrayList(alumnosFiltrados);
+                    
+                    cmbxAlumnos.visibleRowCountProperty().setValue(alumnosFiltrados.size());
+    
+                    // Actualizamos los ítems del ComboBox
+                    cmbxAlumnos.setItems(listaObservable);
+    
+                    // Mostramos el dropdown con las opciones actualizadas
+                    cmbxAlumnos.show();
+                }
             }
 
         } catch (Exception e) {
@@ -394,21 +421,108 @@ public class PantallaPrincipalController implements Initializable {
     public void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
         try {
             System.out.println("te la rifaste fernando");
+            String idCiclo = "24-25";
+            CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, idCiclo);
 
-            CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, cicloEscolar);
+            //  for (CuotaConsultadaDTO cu : cuotas) {
+            //     System.out.println(cu);
+            //     String concepto= cu.getConcepto();
+            //     Double adeudo = cu.getAdeudo();
+            //     switch (concepto) {
+            //         case "COLEGIATURA":
+            //             lblAdeudoColegiatura.setText(adeudo.toString());
+            //             txfMontoColegiatura.setId(cu.getId().toString());
+            //             break;
+            //         case "UNIFORMES":
+            //             lblUniforme.setText(adeudo.toString());
+            //             txfMontoUniforme.setId(cu.getId().toString());
+            //             break;
+            //         case "LIBROS":
+            //             lblCuotaLibros.setText(adeudo.toString());
+            //             txfMontoLibros.setId(cu.getId().toString());
+            //             break;
+            //         case "INSCRIPCION":
+            //             lblCuotaInscripcion.setText(adeudo.toString());
+            //             txfMontoInscripcion.setId(cu.getId().toString());
+            //             break;
+            //         case "ACADEMIAS":
+            //             lblCuotaAcademias.setText(adeudo.toString());
+            //             txfMontoAcademias.setId(cu.getId().toString());
+            //             break;
+            //         case "EVENTOS":
+            //             lblCuotaEventos.setText(adeudo.toString());
+            //             txfMontoEventos.setId(cu.getId().toString());
+            //             break;
+            //     }
+            // }
 
-            lblAdeudoVencido.setText(cuotas.getAdeudoVencido());
-            lblAdeudoColegiatura.setText(cuotas.getAdeudoColegiatura());
-            lblCuotaInscripcion.setText(cuotas.getAdeudoInscripcion());
-            lblCuotaLibros.setText(cuotas.getAdeudoLibros());
-            lblCuotaEventos.setText(cuotas.getAdeudoEventos());
-            lblCuotaAcademias.setText(cuotas.getAdeudoAcademias());
-            lblUniforme.setText(cuotas.getAdeudoUniformes());
+            lblAdeudoVencido.setText(cuotas.getAdeudoVencido().toString());
+            lblAdeudoColegiatura.setText(cuotas.getAdeudoColegiatura().toString());
+            lblCuotaInscripcion.setText(cuotas.getAdeudoInscripcion().toString());
+            lblCuotaLibros.setText(cuotas.getAdeudoLibros().toString());
+            lblCuotaEventos.setText(cuotas.getAdeudoEventos().toString());
+            lblCuotaAcademias.setText(cuotas.getAdeudoAcademias().toString());
+            lblUniforme.setText(cuotas.getAdeudoUniformes().toString());
+
+            disableTxfields(cuotas);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void disableTxfields(CuotasDTO cuotas){
+        if(cuotas.getAdeudoVencido() == 0.0){
+            txfMontoVencido.setDisable(true);
+        }
+        if(cuotas.getAdeudoAcademias() == 0.0){
+            txfMontoAcademias.setDisable(true);
+        }
+        if(cuotas.getAdeudoColegiatura() == 0.0){
+            txfMontoColegiatura.setDisable(true);
+        }
+        if(cuotas.getAdeudoEventos() == 0.0){
+            txfMontoEventos.setDisable(true);
+        }
+        if(cuotas.getAdeudoInscripcion() == 0.0){
+            txfMontoInscripcion.setDisable(true);
+        }
+        if(cuotas.getAdeudoUniformes() == 0.0){
+            txfMontoUniforme.setDisable(true);
+        }
+        if(cuotas.getAdeudoLibros() == 0.0){
+            txfMontoLibros.setDisable(true);
+        }
+    }
+
+    private void cleanup(){
+        txfMontoVencido.setDisable(false);
+        txfMontoAcademias.setDisable(false);
+        txfMontoColegiatura.setDisable(false);
+        txfMontoEventos.setDisable(false);
+        txfMontoInscripcion.setDisable(false);
+        txfMontoUniforme.setDisable(false);
+        txfMontoLibros.setDisable(false);
+
+        txfMontoVencido.setText("");
+        txfMontoAcademias.setText("");
+        txfMontoColegiatura.setText("");
+        txfMontoEventos.setText("");
+        txfMontoInscripcion.setText("");
+        txfMontoUniforme.setText("");
+        txfMontoLibros.setText("");
+
+        lblAdeudoVencido.setText("");
+        lblAdeudoColegiatura.setText("");
+        lblCuotaInscripcion.setText("");
+        lblCuotaLibros.setText("");
+        lblCuotaEventos.setText("");
+        lblCuotaAcademias.setText("");
+        lblUniforme.setText("");
+        lblTotal.setText("");
+        cmbxAlumnos.getSelectionModel().clearSelection();
+        cmbxMetodoPago.getSelectionModel().clearSelection();
     }
 
     /**
@@ -419,6 +533,28 @@ public class PantallaPrincipalController implements Initializable {
         consultarCuotas();
     }
 
+    private void showError(String mensaje){
+        Notifications.create()
+                .title("Error en el registro de pago")
+                .text(mensaje)
+                .graphic(null)
+                .position(Pos.BASELINE_RIGHT)
+                .hideAfter(Duration.seconds(5))
+                .show();
+    }
+
+    private boolean validateEmptyFields(){
+        TextField[] textFields = {txfMontoVencido, txfMontoColegiatura, txfMontoInscripcion,
+             txfMontoLibros, txfMontoEventos, txfMontoAcademias, txfMontoUniforme};
+        
+        for (TextField textField : textFields) {
+            if (!textField.isDisabled() && textField.getText().isBlank()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Recolecta la informacion para el pago y la pasa al ticket al igual que abre
      * la pantalla del ticket
@@ -427,17 +563,21 @@ public class PantallaPrincipalController implements Initializable {
     private void registrarPago(){
         try {
 
-        if (AlumnoCache.getInstance().getMatricula() == null){
-            System.out.println("asegurese de seleccionar un alumno");
-            return;
-        }
+            if (AlumnoCache.getInstance().getMatricula() == null) {
+                showError("Debe haber un alumno seleccionado");
+                return;
+            }
 
-        if (cmbxMetodoPago.getValue() == null){
-            System.out.println("no lo selecciono el wey");
-            return;
-        }
-
-            //recolectamos todos los campos del pago y los guardamos en la cache
+            if (cmbxMetodoPago.getValue() == null) {
+                showError("Debe seleccionar un metodo de pago");
+                return;
+            }
+            Double total = Double.parseDouble(lblTotal.getText());
+            if(total <= 0.0){
+                showError("Debe ingresar, al menos, un monto a pagar");
+                return;
+            }
+            // recolectamos todos los campos del pago y los guardamos en la cache
 
             TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
 
@@ -445,42 +585,66 @@ public class PantallaPrincipalController implements Initializable {
             String folio = generarFolio();
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
-            String metodoPago = cmbxMetodoPago.getValue();
-            Double montoVencidos = Double.parseDouble(txfMontoVencido.getText());
-            Double montoColegiatura = Double.parseDouble(txfMontoColegiatura.getText());
-            Double montoInscripcion = Double.parseDouble(txfMontoInscripcion.getText());
-            Double montoLibros = Double.parseDouble(txfMontoLibros.getText());
-            Double montoEventos = Double.parseDouble(txfMontoEventos.getText());
-            Double montoAcademias = Double.parseDouble(txfMontoAcademias.getText());
-            Double montoUniforme = Double.parseDouble(txfMontoUniforme.getText());
+            MetodosPagoDTO metodoPago = MetodosPagoDTO.valueOf(cmbxMetodoPago.getValue());
+            Double montoVencidos = (txfMontoVencido.getText().isBlank() ? 0.0
+                    : Double.parseDouble(txfMontoVencido.getText()));
+            Double montoColegiatura = (txfMontoColegiatura.getText().isBlank() ? 0.0
+                    : Double.parseDouble(txfMontoColegiatura.getText()));
+            Double montoInscripcion = (txfMontoInscripcion.getText().isBlank() ? 0.0
+                    : Double.parseDouble(txfMontoInscripcion.getText()));
+            Double montoLibros = (txfMontoLibros.getText().isBlank() ? 0.0
+                    : Double.parseDouble(txfMontoLibros.getText()));
+            Double montoEventos = (txfMontoEventos.getText().isBlank() ? 0.0
+                    : Double.parseDouble(txfMontoEventos.getText()));
+            Double montoAcademias = (txfMontoAcademias.getText().isBlank() ? 0.0
+                    : Double.parseDouble(txfMontoAcademias.getText()));
+            Double montoUniforme = (txfMontoUniforme.getText().isBlank() ? 0.0
+                    : Double.parseDouble(txfMontoUniforme.getText()));
             String descuento = "Descuento por pago temprano";
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
             UsuarioDTO usuario = UsuarioCache.getInstance();
             CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
+            cicloEscolar.setId("24-25");
+            Map<String, Double> cuotas = new HashMap<>();
+            cuotas.put("VENCIDOS", montoVencidos);
+            cuotas.put("COLEGIATURA", montoColegiatura);
+            cuotas.put("INSCRIPCION", montoInscripcion);
+            cuotas.put("LIBROS", montoLibros);
+            cuotas.put("EVENTOS", montoEventos);
+            cuotas.put("ACADEMIAS", montoAcademias);
+            cuotas.put("UNIFORME", montoUniforme);
+
+            List<DetallePagoDTO> detalles = new ArrayList<>();
+
+            cuotas.forEach((concepto, monto) -> {
+                if (monto > 0) {
+                    detalles.add(new DetallePagoDTO(concepto, monto));
+                }
+            });
 
             ticket.setMontoTotal(montoTotal);
             ticket.setFolio(folio);
             ticket.setFecha(fecha);
             ticket.setHora(hora);
             ticket.setMetodoPago(metodoPago);
-            ticket.setMontoVencidos(montoVencidos);
-            ticket.setMontoColegiatura(montoColegiatura);
-            ticket.setMontoInscripcion(montoInscripcion);
-            ticket.setMontoLibros(montoLibros);
-            ticket.setMontoEventos(montoEventos);
-            ticket.setMontoAcademias(montoAcademias);
-            ticket.setMontoUniforme(montoUniforme);
-            ticket.setMontoDescuento(descuento);
+            ticket.setDetalles(detalles);
+            // ticket.setMontoVencidos(montoVencidos);
+            // ticket.setMontoColegiatura(montoColegiatura);
+            // ticket.setMontoInscripcion(montoInscripcion);
+            // ticket.setMontoLibros(montoLibros);
+            // ticket.setMontoEventos(montoEventos);
+            // ticket.setMontoAcademias(montoAcademias);
+            // ticket.setMontoUniforme(montoUniforme);
+            // ticket.setMontoDescuento(descuento);
             ticket.setAlumno(alumno);
-            ticket.setUsuario(usuario);
+            ticket.setIdUsuario(usuario.getId());
             ticket.setCiclo(cicloEscolar);
 
             System.out.println(ticket.toString());
 
             mediador.abrirPantallaTicket();
 
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

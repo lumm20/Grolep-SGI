@@ -6,15 +6,23 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 @Data
 public class TicketRegistrarDTO {
 
+    @Expose
     private Double montoTotal;
+    @Expose
     private String folio;
+    @Expose(deserialize = false)
     private LocalDate fecha;
+    @Expose(deserialize = false)
     private LocalTime hora;
+    @Expose
     private AlumnoConsultaDTO alumno;
-    private String metodoPago;
+    @Expose
+    private MetodosPagoDTO metodoPago;
     private Double montoVencidos;
     private Double montoColegiatura;
     private Double montoInscripcion;
@@ -24,10 +32,13 @@ public class TicketRegistrarDTO {
     private Double montoUniforme;
     private String TipoDescuento;
     private String montoDescuento;
-    private UsuarioDTO usuario;
+    @Expose
+    private Long idUsuario;
+    @Expose
     private CicloEscolarDTO ciclo;
 	// private String mensaje;
 
+    @Expose
     private List<DetallePagoDTO> detalles;
 
     public TicketRegistrarDTO() {

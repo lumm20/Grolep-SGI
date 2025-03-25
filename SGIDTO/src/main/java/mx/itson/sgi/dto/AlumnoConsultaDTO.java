@@ -5,12 +5,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
 
 import lombok.Data;
 
 @Data
 public class AlumnoConsultaDTO implements Serializable {
 
+    @Expose
     private String matricula;
     private String nombre;
     private String telefonoPadre;
@@ -26,7 +28,7 @@ public class AlumnoConsultaDTO implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s, \"%s\"",matricula, nombre, telefonoPadre);
+        return getMatricula() + ", " + getNombre() + ", " + getTelefonoPadre();
     }
 
 }

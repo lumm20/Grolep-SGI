@@ -26,6 +26,7 @@ public class APIUsuario {
         UsuarioDTO user;
         try {
             user = controlador.login(usuario);
+            System.out.println(user);
             return ResponseEntity.ok().body(user);
         } catch (UserException e) {
             if(e.getType() == UserException.USER_NOT_FOUND){

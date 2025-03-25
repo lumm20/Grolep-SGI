@@ -5,18 +5,18 @@ import lombok.Data;
 @Data
 public class CuotasDTO {
 
-    String adeudoVencido; //este es un total de los adeudos vencidos osea todos los meses que debe
-    String adeudoColegiatura;
-    String adeudoInscripcion;
-    String adeudoLibros;
-    String adeudoEventos;
-    String adeudoAcademias;
-    String adeudoUniformes;
+    Double adeudoVencido = 0.0; //este es un total de los adeudos vencidos osea todos los meses que debe
+    Double adeudoColegiatura = 0.0;
+    Double adeudoInscripcion = 0.0;
+    Double adeudoLibros = 0.0;
+    Double adeudoEventos = 0.0;
+    Double adeudoAcademias = 0.0;
+    Double adeudoUniformes = 0.0;
 
     // Constructor con todos los campos
-    public CuotasDTO(String adeudoVencido, String adeudoColegiatura, String adeudoInscripcion,
-                     String adeudoLibros, String adeudoEventos, String adeudoAcademias,
-                     String adeudoUniformes) {
+    public CuotasDTO(Double adeudoVencido, Double adeudoColegiatura, Double adeudoInscripcion,
+                     Double adeudoLibros, Double adeudoEventos, Double adeudoAcademias,
+                     Double adeudoUniformes) {
         this.adeudoVencido = adeudoVencido;
         this.adeudoColegiatura = adeudoColegiatura;
         this.adeudoInscripcion = adeudoInscripcion;
@@ -26,7 +26,7 @@ public class CuotasDTO {
         this.adeudoUniformes = adeudoUniformes;
     }
     
-    public CuotaDTO() {
+    public CuotasDTO() {
     	
     }
 

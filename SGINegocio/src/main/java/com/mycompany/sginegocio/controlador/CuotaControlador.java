@@ -4,73 +4,65 @@
 
 package com.mycompany.sginegocio.controlador;
 
-import java.time.LocalDate;
-
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.services.CuotaService;
-import mx.itson.sgi.data_access.dto.AdeudoDTO;
-import mx.itson.sgi.data_access.entities.CicloEscolar;
-import mx.itson.sgi.data_access.entities.Cuota;
+import mx.itson.sgi.dto.CicloEscolarDTO;
+import mx.itson.sgi.dto.CuotaConsultadaDTO;
+import mx.itson.sgi.dto.CuotasDTO;
 
 /**
  *
  */
-@RestController
-@RequestMapping("/SGI/cuotas")
+@Service
 public class CuotaControlador {
-
-    private final CuotaService cuotaService;
-
-    public CuotaControlador(CuotaService cuotaService) {
-        this.cuotaService = cuotaService;
-    }
-
-    @GetMapping("/obtenerCuotas/{matricula}")
-    public ResponseEntity<?> obtenerCuotasConAdeudosPorAlumno(
-            @PathVariable String matricula,
-            @RequestParam LocalDate fechaInicio,
-            @RequestParam LocalDate fechaFin
-    ) {
-        try {
-            System.out.println("Buscando ciclo escolar para fechas: " + fechaInicio + " - " + fechaFin);
-            CicloEscolar cicloEscolar = cuotaService.obtenerCicloEscolarPorFechas(new CicloEscolar(fechaInicio, fechaFin));
-            
-            if (cicloEscolar == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    
+    @Autowired
+    private CuotaService cuotaService;
+    
+    public CuotasDTO obtenerCuotasPorAlumno(String matricula, String cicloEscolar){
+        List<CuotaConsultadaDTO> cuotas = cuotaService.obtenerCuotasPorAlumno(matricula, cicloEscolar);
+        if(cuotas != null && !cuotas.isEmpty()){
+            CuotasDTO cuotasDTO = new CuotasDTO();
+            for (CuotaConsultadaDTO cu : cuotas) {
+                System.out.println(cu);
+                String concepto= cu.getConcepto();
+                Double adeudo = cu.getAdeudo();
+                switch (concepto) {
+                    case "COLEGIATURA":
+                        cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
+                        cuotasDTO.setAdeudoVencido(adeudo);
+                        break;
+                    case "UNIFORMES":
+                        cuotasDTO.setAdeudoUniformes(adeudo);
+                        break;
+                    case "LIBROS":
+                        cuotasDTO.setAdeudoLibros(adeudo);
+                        break;
+                    case "INSCRIPCION":
+                        cuotasDTO.setAdeudoInscripcion(adeudo);
+                        break;
+                    case "ACADEMIAS":
+                        cuotasDTO.setAdeudoAcademias(adeudo);    
+                        break;
+                    case "EVENTOS":
+                        cuotasDTO.setAdeudoEventos(adeudo);
+                        break;
+                }
             }
-            
-            System.out.println("Ciclo escolar encontrado: " + cicloEscolar.getId());
-            List<AdeudoDTO> adeudos = cuotaService.obtenerCuotasConAdeudosPorAlumno(matricula, cicloEscolar.getId());
-            return ResponseEntity.ok(adeudos);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null
-            );
+            return cuotasDTO;
         }
+        return null;
     }
 
-    @PostMapping("/registrar")
-    public ResponseEntity<Void> registrarCuota(@RequestBody Cuota cuota) {
-        try {
-            cuotaService.agregarCuota(cuota);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+    // public CicloEscolarDTO obtenerCicloEscolar(String idCiclo){
+    //     if(idCiclo != null && !idCiclo.isBlank() && idCiclo.matches("2[]")){
+    //         return cuotaService.obtenerCicloEscolar(idCiclo);
+    //     }
+    // }
 }
 
 

@@ -5,6 +5,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.CuotasDTO;
+import mx.itson.sgi.dto.DetallePagoDTO;
+import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoCuotaDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.TicketRegistrarDTO;
@@ -16,7 +18,9 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class TicketController implements Initializable {
@@ -82,33 +86,38 @@ public class TicketController implements Initializable {
 
         //recogemos todos los datos del ticket
         String total = ticketCache.getMontoTotal().toString();
-        String folio = ticketCache.getFolio().toString();
-        String fecha = ticketCache.getFecha().toString();
 
         String cliente = ticketCache.getAlumno().getNombre();
 
-        String metodoPago = ticketCache.getMetodoPago();
-        String montoVencidos = ticketCache.getMontoVencidos().toString();
-        String montoColegiatura = ticketCache.getMontoColegiatura().toString();
-        String montoInscripcion = ticketCache.getMontoInscripcion().toString();
-        String montoLibros = ticketCache.getMontoLibros().toString();
-        String montoEventos = ticketCache.getMontoEventos().toString();
-        String montoAcademias = ticketCache.getMontoAcademias().toString();
-        String montoUniforme = ticketCache.getMontoUniforme().toString();
+        List<DetallePagoDTO> detalles = ticketCache.getDetalles();
+        Map<String, Double> mapaDetalles = new HashMap<>();
+
+        for (DetallePagoDTO detalle : detalles) {
+            mapaDetalles.put(detalle.getConceptoCuota(), detalle.getMontoPagado());
+        }
+
+        MetodosPagoDTO metodoPago = ticketCache.getMetodoPago();
+        // String montoVencidos = ticketCache.getMontoVencidos().toString();
+        // String montoColegiatura = ticketCache.getMontoColegiatura().toString();
+        // String montoInscripcion = ticketCache.getMontoInscripcion().toString();
+        // String montoLibros = ticketCache.getMontoLibros().toString();
+        // String montoEventos = ticketCache.getMontoEventos().toString();
+        // String montoAcademias = ticketCache.getMontoAcademias().toString();
+        // String montoUniforme = ticketCache.getMontoUniforme().toString();
         //String descuento = ticketCache.getDescuento().toString();
 
         lblTotal.setText(total);
-        lblFolio.setText(ticketCache.getFolio().toString());
+        lblFolio.setText(ticketCache.getFolio());
         lblFecha.setText(ticketCache.getFecha().toString());
         lblCliente.setText(cliente);
-        lblMetodo.setText(metodoPago);
-        lblMontoVencidos.setText(montoVencidos);
-        lblMontoColegiatura.setText(montoColegiatura);
-        lblMontoInscripcion.setText(montoInscripcion);
-        lblMontoILibros.setText(montoLibros);
-        lblMontoIEventos.setText(montoEventos);
-        lblMontoIAcademias.setText(montoAcademias);
-        lblMontoUniforme.setText(montoUniforme);
+        lblMetodo.setText(metodoPago.toString().toLowerCase());
+        //lblMontoVencidos.setText(mapaDetalles.get("Vencidos").toString());
+        lblMontoColegiatura.setText(mapaDetalles.get("Colegiatura")!= null ? mapaDetalles.get("Colegiatura").toString() : "0.00");
+        lblMontoInscripcion.setText(mapaDetalles.get("Inscripcion")!= null ? mapaDetalles.get("Inscripcion").toString() : "0.00");
+        lblMontoILibros.setText(mapaDetalles.get("Libros")!= null ? mapaDetalles.get("Libros").toString() : "0.00");
+        lblMontoIEventos.setText(mapaDetalles.get("Eventos")!= null ? mapaDetalles.get("Eventos").toString() : "0.00");
+        lblMontoIAcademias.setText(mapaDetalles.get("Academias")!= null ? mapaDetalles.get("Academias").toString() : "0.00");
+        lblMontoUniforme.setText(mapaDetalles.get("Uniforme")!= null ? mapaDetalles.get("Uniforme").toString() : "0.00");
         //lblDescuento.setText(descuento);
 
     }
@@ -127,13 +136,14 @@ public class TicketController implements Initializable {
 
             pago.setMontoTotal(ticket.getMontoTotal());
             pago.setFolio(ticket.getFolio());
-            pago.setFecha(LocalDateTime.of(ticket.getFecha(), ticket.getHora()));
+            // pago.setFecha(LocalDateTime.of(ticket.getFecha(), ticket.getHora()));
             pago.setAlumno(ticket.getAlumno());
             pago.setMetodoPago(ticket.getMetodoPago());
             pago.setCuotasPagadas(ticket.getDetalles());
             //pago.setCuotasPagadas(crearCuotas());
             //pago.setDescuento(ticket.getDescuento());
-            pago.setUsuario(ticket.getUsuario());
+            pago.setIdCicloEscolar(ticket.getCiclo().getId());
+            pago.setIdUsuario(ticket.getIdUsuario());
 
             //registramos el pago
             servicioPagos.registrarPago(pago);

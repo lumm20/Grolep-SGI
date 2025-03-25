@@ -63,13 +63,15 @@ public class InicioSesionController implements Initializable{
             String contrena = psfContrasena.getText();
 
             //mandamos los datos al servicio
-            UsuarioDTO usuario = servicioUsuarios.obtenerUsuario(id, contrena);
+            // UsuarioDTO usuario = servicioUsuarios.obtenerUsuario(id, contrena);
+            UsuarioDTO usuario = servicioUsuarios.login(id, contrena);
 
             //guardamos al usuario en la instancia global
             UsuarioCache.setInstance(usuario);
 
             //hacemos el cambio de pantalla
             mediador.MostrarPantallaPrincipal();
+            
 
             //cerramos la ventana de inicio de sesion
             Stage stage = (Stage) txfID.getScene().getWindow(); // Obtener el Stage (ventana) actual

@@ -4,6 +4,9 @@ import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -24,6 +27,25 @@ public class ServicioAlumnos implements IServicioAlumnos {
     public ServicioAlumnos() {
         // Inicializar HttpClient
         this.client = HttpClient.newHttpClient();
+    }
+
+    public List<AlumnoConsultaDTO> buscarAlumnos(String nombre){
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/SGI/api/students?matricula=" + nombre))
+                .GET()
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() == 200) {
+                System.out.println(response.body());
+                return new Gson().fromJson(response.body(), new TypeToken<List<AlumnoConsultaDTO>>(){}.getType());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;       
+        
     }
 
     /**

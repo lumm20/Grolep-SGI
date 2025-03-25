@@ -37,17 +37,21 @@ public class PagoControlador {
         String folio = generarFolio();
 
         validatePaymentFields(pago);
-        UsuarioDTO cajero = validateCashier(pago.getUsuario().getId());
+        UsuarioDTO cajero = validateCashier(pago.getIdUsuario());
         AlumnoConsultaDTO alumno = validateStudent(pago.getAlumno().getMatricula());
 
         pago.setFecha(LocalDateTime.now());
         pago.setFolio(folio);
         service.registrarPago(pago);
 
-        TicketRegistrarDTO ticket = new TicketRegistrarDTO(folio, pago.getFecha(), 
-        pago.getCuotasPagadas(), pago.getMontoTotal(), 
-        cajero.getNombre(),alumno.getNombre());
-
+        TicketRegistrarDTO ticket = new TicketRegistrarDTO();
+        ticket.setFolio(folio);
+        // ticket.setFecha(pago.getFecha().toLocalDate());
+        // ticket.setHora(pago.getFecha().toLocalTime());
+        ticket.setAlumno(alumno);
+        ticket.setDetalles(pago.getCuotasPagadas());
+        ticket.setMontoTotal(pago.getMontoTotal());
+        ticket.setIdUsuario(cajero.getId());
         return ticket;
     }
 
@@ -63,10 +67,10 @@ public class PagoControlador {
         if(pago.getMetodoPago() == null){
             msj = "No payment method selected";
         }
-        if(pago.getAlumno() == null || pago.getAlumno().getMatricula().isBlank()){
+        if(pago.getAlumno() == null || pago.getAlumno().getMatricula() == null || pago.getAlumno().getMatricula().isBlank()){
             msj = "No student selected";
         }
-        if(pago.getUsuario() == null || pago.getUsuario().getId() == 0){
+        if(pago.getIdUsuario() <= 0){
             msj = "No cashier selected";
         }
         if(msj != null){
