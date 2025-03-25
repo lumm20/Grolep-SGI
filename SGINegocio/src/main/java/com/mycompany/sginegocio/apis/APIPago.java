@@ -12,7 +12,7 @@ import com.mycompany.sginegocio.controlador.PagoControlador;
 import com.mycompany.sginegocio.excepciones.PaymentException;
 
 import mx.itson.sgi.dto.PagoDTO;
-import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 
 @RestController
 @RequestMapping("/api/payment")

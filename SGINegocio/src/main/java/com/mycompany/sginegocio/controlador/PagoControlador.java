@@ -19,7 +19,7 @@ import mx.itson.sgi.data_access.services.PagoService;
 import mx.itson.sgi.data_access.services.UsuarioService;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.PagoDTO;
-import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
 
 
