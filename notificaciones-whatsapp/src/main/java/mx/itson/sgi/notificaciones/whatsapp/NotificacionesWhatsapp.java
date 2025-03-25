@@ -25,14 +25,15 @@ public class NotificacionesWhatsapp {
     public void enviarPeticion(String json) {
         try (HttpClient http = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI("https://graph.facebook.com/v13.0/<PHONE_ID>/messages"))
-                    .header("Authorization", "Bearer EAAOSGJzVMCwBO5lLlsiJ7pwebh6F5GqMwDxujBqGESJ3XqZCWxYj3s7D0gcP5OtjgnedlS8kyfu6X2BhEn7W9Goe8yA0cuW1e2p7K1XcCZBtUsRR3bkmrbLPPNINMpjvrXZA7JLggOdCC2KFB2PUnDCLrl21QbTuZAzZB6ZBVSul0K4J2CqclfMLOVeW4o76qYXuYuPXx3BB9DsNQ68UNTAXA17pOQu72vvBuSHHRR")
+                    .uri(new URI("https://graph.facebook.com/v22.0/561402587064064/messages"))
+                    .header("Authorization", "Bearer <Bearer Token>")
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = http.send(request, BodyHandlers.ofString());
+            
+            logger.log(Level.INFO, json);
             logger.log(Level.INFO, response.body());
-
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
@@ -44,6 +45,8 @@ public class NotificacionesWhatsapp {
         
         Map<String, Object> template = new HashMap<>();
         Map<String, Object> language = new HashMap<>();
+        
+        ArrayList<Map<String, Object>> components = new ArrayList<>();
         
         ArrayList<Map<String, String>> parameters = new ArrayList<>();
         Map<String, String> nombreMap = new HashMap<>();
@@ -62,16 +65,21 @@ public class NotificacionesWhatsapp {
         parameters.add(costoMap);
         parameters.add(conceptoMap);
         parameters.add(nombreAlumnoMap);
+        
+         Map<String, Object> body = new HashMap<>();
+         body.put("type", "body");
+         body.put("parameters", parameters);
 
+        components.add(body);
         language.put("code", "es_MX");
         template.put("name", "confirmacion_de_pago");
         template.put("language", language);
-        template.put("parameeters", parameters);
+        template.put("components", components);
 
         mensaje.put("messaging_product", "whatsapp");
         mensaje.put("recipient_type", "individual");
         mensaje.put("to", "+52" + numero);
-        mensaje.put("type", "whatsapp");
+        mensaje.put("type", "template");
         mensaje.put("template", template);
         Gson gson = new Gson();
 

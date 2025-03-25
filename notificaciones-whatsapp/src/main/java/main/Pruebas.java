@@ -13,7 +13,7 @@ public class Pruebas {
      */
     public static void main(String[] args) {
         NotificacionesWhatsapp notificaciones = new NotificacionesWhatsapp();
-        notificaciones.enviarNotificacion("Fernando", "$900", "la colegiatura", "Andrea", "6442114892");
+        notificaciones.enviarNotificacion("Fernando", "$900", "la colegiatura", "Pedro", "6442114892");
 
     }
     

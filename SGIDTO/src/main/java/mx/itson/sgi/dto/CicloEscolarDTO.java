@@ -25,7 +25,7 @@ public class CicloEscolarDTO {
 
     @Override
     public String toString() {
-        return inicio + " - " + fin;
+        return inicio.getYear() + " - " + fin.getYear();
     }
 
 }

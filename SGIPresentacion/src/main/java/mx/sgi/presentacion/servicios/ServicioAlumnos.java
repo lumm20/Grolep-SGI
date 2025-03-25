@@ -1,12 +1,14 @@
 package mx.sgi.presentacion.servicios;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.BecaDTO;
+import mx.itson.sgi.dto.DescuentoDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -20,6 +22,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
 
     // varibale para las peticiones
     private HttpClient client;
+    private Gson gson;
 
     /**
      * Contructor que inicializa las variables de la clase
@@ -27,6 +30,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
     public ServicioAlumnos() {
         // Inicializar HttpClient
         this.client = HttpClient.newHttpClient();
+        this.gson = new Gson();
     }
 
     public List<AlumnoConsultaDTO> buscarAlumnos(String nombre){
@@ -49,39 +53,26 @@ public class ServicioAlumnos implements IServicioAlumnos {
     }
 
     /**
-     * consulta a los alumnos por su nombre, unicamente trae los primeros 10
-     * alumnos que coinciden con el nombre.
+     * consulta a la API a los alumnos por su nombre.
      *
      * @param nombre nombre del alumno a consultar
      */
     @Override
-    public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception{
+    public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception {
+        String url = "api/student?" + nombre;
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .GET()
+                .build();
 
-        // Creamos algunos alumnos simulados
-        List<AlumnoConsultaDTO>alumnosSimulados = new ArrayList<>();
-        alumnosSimulados.add(new AlumnoConsultaDTO("A001", "Juan Pérez López", "123456789"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A002", "Kevin Martínez Gómez", "987654321"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A003", "Ana González Ruiz", "112233445"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A004", "Carlos Hernández Vargas", "998877665"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A005", "Pedro Rodríguez Díaz", "556677889"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A006", "María Sánchez Pérez", "667788990"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A007", "Itzel Torres Ramírez", "223344556"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A008", "Alondra Lopez González", "123123123"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A009", "Juan Martínez Sánchez", "321321321"));
-        alumnosSimulados.add(new AlumnoConsultaDTO("A010", "Laura Gómez Fernández", "445566778"));
-        // Añadir más si se necesita
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (nombre == null || nombre.isEmpty()) {
-
+        if (response.statusCode() == 200) {
+            return gson.fromJson(response.body(), new TypeToken<List<AlumnoConsultaDTO>>() {}.getType());
+        } else {
+            throw new Exception("Error en la consulta: " + response.statusCode() + " - " + response.body());
         }
-
-        // Filtrar los alumnos que contienen el nombre en su campo "nombres"
-        return alumnosSimulados.stream()
-                .filter(alumno -> alumno.getNombre().toLowerCase().contains(nombre.toLowerCase()))
-                .limit(10) // Limitar a 10 alumnos
-                .collect(Collectors.toList());
     }
-
 
 }
 

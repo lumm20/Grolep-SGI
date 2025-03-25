@@ -14,21 +14,34 @@ public class AlumnoConsultaDTO implements Serializable {
 
     @Expose
     private String matricula;
-    private String nombre;
-    private String telefonoPadre;
+    private String nombres;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
+    private String numeroCelular;
 
+    /**
+     * constructor vacio
+     */
     public AlumnoConsultaDTO() {}
 
-    // Constructor
-    public AlumnoConsultaDTO(String matricula, String nombre, String telefonoPadre) {
+    /**
+     * Constructor completo
+     *
+     * @param matricula
+     * @param nombres
+     * @param numeroCelular
+     */
+    public AlumnoConsultaDTO(String matricula, String nombres, String numeroCelular) {
         this.matricula = matricula;
-        this.nombre = nombre;
-        this.telefonoPadre = telefonoPadre;
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.numeroCelular = numeroCelular;
     }
 
     @Override
     public String toString() {
-        return getMatricula() + ", " + getNombre() + ", " + getTelefonoPadre();
+        return String.format("%s %s %s, \"%s\"", nombres, apellidoPaterno, apellidoMaterno, numeroCelular);
     }
 
 }

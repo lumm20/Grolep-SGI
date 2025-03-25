@@ -1,8 +1,12 @@
-package mx.itson.sgi.dto;
+package mx.itson.sgi.dto.vistas;
 
 import lombok.Data;
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.CicloEscolarDTO;
+import mx.itson.sgi.dto.DetallePagoDTO;
+import mx.itson.sgi.dto.MetodosPagoDTO;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 

@@ -12,6 +12,8 @@ public class CuotasDTO {
     Double adeudoEventos = 0.0;
     Double adeudoAcademias = 0.0;
     Double adeudoUniformes = 0.0;
+    String beca;
+    DescuentoDTO descuento;
 
     // Constructor con todos los campos
     public CuotasDTO(Double adeudoVencido, Double adeudoColegiatura, Double adeudoInscripcion,
@@ -24,6 +26,20 @@ public class CuotasDTO {
         this.adeudoEventos = adeudoEventos;
         this.adeudoAcademias = adeudoAcademias;
         this.adeudoUniformes = adeudoUniformes;
+    }
+
+    public CuotasDTO(Double adeudoVencido, Double adeudoColegiatura, Double adeudoInscripcion,
+                     Double adeudoLibros, Double adeudoEventos, Double adeudoAcademias,
+                     Double adeudoUniformes, String beca, DescuentoDTO descuento) {
+        this.adeudoVencido = adeudoVencido;
+        this.adeudoColegiatura = adeudoColegiatura;
+        this.adeudoInscripcion = adeudoInscripcion;
+        this.adeudoLibros = adeudoLibros;
+        this.adeudoEventos = adeudoEventos;
+        this.adeudoAcademias = adeudoAcademias;
+        this.adeudoUniformes = adeudoUniformes;
+        this.beca = beca;
+        this.descuento = descuento;
     }
     
     public CuotasDTO() {

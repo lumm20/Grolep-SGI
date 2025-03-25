@@ -15,7 +15,9 @@ import java.util.UUID;
 import org.controlsfx.control.Notifications;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,12 +34,11 @@ import javafx.util.Duration;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
-import mx.itson.sgi.dto.CuotaConsultadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
-import mx.itson.sgi.dto.TicketRegistrarDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
+import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.AlumnoCache;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.caches.UsuarioCache;
@@ -92,6 +93,15 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     Label lblTotal;
 
+    @FXML
+    Label lblTipoBeca;
+
+    @FXML
+    Label lblTipoDescuento;
+
+    @FXML
+    Label lblDescuentoDescuento;
+
 
     //declaracion de los checkBoxes
 
@@ -117,10 +127,11 @@ public class PantallaPrincipalController implements Initializable {
     ComboBox<AlumnoConsultaDTO> cmbxAlumnos;
 
     @FXML
-    ComboBox<CicloEscolarDTO> cmbxCicloEscolar;
+    JFXComboBox<CicloEscolarDTO> cmbxCicloEscolar;
 
     @FXML
-    ComboBox<String> cmbxMetodoPago;
+    JFXComboBox<String> cmbxMetodoPago;
+
 
 
     //de aqui en adelante se declaran los componentes de entradas
@@ -254,7 +265,7 @@ public class PantallaPrincipalController implements Initializable {
 
         // Método para el campo "Monto Colegiatura"
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
-            verificarFormato(txfMontoColegiatura, lblAdeudoColegiatura);
+                verificarFormato(txfMontoColegiatura, lblAdeudoColegiatura);
         });
 
         // Método para el campo "Monto Inscripción"
@@ -286,30 +297,44 @@ public class PantallaPrincipalController implements Initializable {
 
     //de aqui en adelante comienzan los listeners para los combo box
 
-    /**
-     * establece la configuracion para la busqueda de alumnos.
-     */
-    private void configurarFiltroAlumnos() {
 
-        // Escuchar cambios en el texto del TextField
-        txfAlumnos.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Llamar al servicio para obtener los alumnos que coinciden con el texto
-            actualizarOpcionesAlumnos(newValue);
+    private void configurarFiltroAlumnos() {
+        // Crear el temporizador para detectar cuando se deja de escribir
+        PauseTransition pause = new PauseTransition(Duration.millis(500)); // 500 ms de espera
+        pause.setOnFinished(event -> {
+            // Acción cuando el usuario ha dejado de escribir
+            // Reactivar el ComboBox después de que se haya dejado de escribir
+            cmbxAlumnos.setDisable(false);  // Reactivar ComboBox
+
+            String nuevoValor = txfAlumnos.getText();
+            actualizarOpcionesAlumnos(nuevoValor); // Actualizar las opciones de los alumnos
+
         });
 
+        // Detectar cuando el usuario escribe
+        txfAlumnos.setOnKeyTyped(event -> {
+            // Desactivar el ComboBox mientras se escribe
+            cmbxAlumnos.setDisable(true);  // Desactivar ComboBox
+
+            // Cancelar cualquier temporizador anterior (si el usuario sigue escribiendo)
+            pause.stop();
+            // Reiniciar el temporizador
+            pause.playFromStart();
+        });
+
+        // Configurar el ComboBox para manejar la selección
         cmbxAlumnos.setOnAction(event -> {
             AlumnoConsultaDTO alumnoSeleccionado = cmbxAlumnos.getValue();
             if (alumnoSeleccionado != null && !cmbxAlumnos.getItems().isEmpty()) {
                 Platform.runLater(() -> {
                     String texto = alumnoSeleccionado != null ? alumnoSeleccionado.toString() : "";
-                    txfAlumnos.setText(texto);
+                    txfAlumnos.setText(texto); // Actualizar el TextField con el alumno seleccionado
                 });
-                AlumnoCache.limpiarCache(); //limpiamos en caso de que hubiera otro alumno ocupando la instancia
-                AlumnoCache.setInstance(alumnoSeleccionado); //guardamos al alumno seleccionado en el cache
-                consultarCuotas(); //consultamos sus cuotas
+                AlumnoCache.limpiarCache(); // Limpiar el cache en caso de que hubiera otro alumno ocupando la instancia
+                AlumnoCache.setInstance(alumnoSeleccionado); // Guardar al alumno seleccionado en el cache
+                consultarCuotas(); // Consultar las cuotas del alumno seleccionado
             }
         });
-
     }
 
     /**
@@ -324,22 +349,18 @@ public class PantallaPrincipalController implements Initializable {
                 List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.buscarAlumnos(filtro);
 
                 if(alumnosFiltrados != null && alumnosFiltrados.size()>0){
-                    System.out.println("alumnos :"+alumnosFiltrados);
-                    // Convertimos la lista en un ObservableList
                     ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections.observableArrayList(alumnosFiltrados);
-                    
-                    cmbxAlumnos.visibleRowCountProperty().setValue(alumnosFiltrados.size());
-    
-                    // Actualizamos los ítems del ComboBox
-                    cmbxAlumnos.setItems(listaObservable);
-    
+                // Actualizamos los ítems del ComboBox
+                    cmbxAlumnos.getItems().setAll(listaObservable);
                     // Mostramos el dropdown con las opciones actualizadas
+                    cmbxAlumnos.hide();
                     cmbxAlumnos.show();
                 }
+            }else{
+                cmbxAlumnos.hide();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            notificarError(ex.getMessage());
         }
     }
 
@@ -382,8 +403,6 @@ public class PantallaPrincipalController implements Initializable {
      * aqui se consultaran las cuotas correspondientes al alumno que haya sido seleccionado
      */
     private void consultarCuotas() {
-        try{
-
             List<CuotasDTO> cuotas;
             List<ColegiaturaAtrasadaDTO>  colegiaturaAtrasadas;
 
@@ -405,10 +424,6 @@ public class PantallaPrincipalController implements Initializable {
                 establecerCuotas(matricula, cicloEscolar);
             }
 
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -466,8 +481,19 @@ public class PantallaPrincipalController implements Initializable {
 
             disableTxfields(cuotas);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            //establecemos la demas informacion del alumno
+            String tipoBeca = cuotas.getBeca() != null ? cuotas.getBeca() : "No Aplica";
+
+            String TipoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getTipo() : "No Aplica";
+            String descuentoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getDescuento().toString() : "0.00";
+
+            lblTipoBeca.setText(tipoBeca);
+
+            lblTipoDescuento.setText(TipoDescuento);
+            lblDescuentoDescuento.setText(descuentoDescuento);
+
+        } catch (Exception ex) {
+            notificarError(ex.getMessage());
         }
 
     }
@@ -560,7 +586,7 @@ public class PantallaPrincipalController implements Initializable {
      * la pantalla del ticket
      */
     @FXML
-    private void registrarPago(){
+    private void registrarPago() throws Exception{
         try {
 
             if (AlumnoCache.getInstance().getMatricula() == null) {
@@ -622,6 +648,7 @@ public class PantallaPrincipalController implements Initializable {
                 }
             });
 
+
             ticket.setMontoTotal(montoTotal);
             ticket.setFolio(folio);
             ticket.setFecha(fecha);
@@ -644,8 +671,9 @@ public class PantallaPrincipalController implements Initializable {
 
             mediador.abrirPantallaTicket();
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        }
+        catch (Exception ex){
+            notificarError(ex.getMessage());
         }
     }
 
@@ -665,13 +693,6 @@ public class PantallaPrincipalController implements Initializable {
         catch (Exception ex){
             throw new Exception("Porfavor ingrese datos validos en todos los campos");
         }
-    }
-
-    /**
-     * Valida el tipo de descuento del alumno seleccionado y lo aplica al total
-     */
-    private void validarDescuento(){
-
     }
 
     /**
@@ -744,25 +765,48 @@ public class PantallaPrincipalController implements Initializable {
     private void actualizarTotal() {
         BigDecimal total = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
 
+
         // Sumar los montos de cada campo
-        total = total.add(ParseBigDecimal(txfMontoVencido));
-        total = total.add(ParseBigDecimal(txfMontoColegiatura));
-        total = total.add(ParseBigDecimal(txfMontoInscripcion));
-        total = total.add(ParseBigDecimal(txfMontoLibros));
-        total = total.add(ParseBigDecimal(txfMontoEventos));
-        total = total.add(ParseBigDecimal(txfMontoAcademias));
-        total = total.add(ParseBigDecimal(txfMontoUniforme));
+        total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        total = total.add(validarDescuento());
+        total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
+        total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
+        total = total.add(ParseBigDecimal(txfMontoEventos.getText()));
+        total = total.add(ParseBigDecimal(txfMontoAcademias.getText()));
+        total = total.add(ParseBigDecimal(txfMontoUniforme.getText()));
+
+        //if(lblAdeudoColegiatura.equals)
+
 
         // Actualizar el total en la interfaz
         lblTotal.setText(total.toString());
     }
 
+    private BigDecimal validarDescuento(){
+        if(!txfMontoColegiatura.getText().equalsIgnoreCase("")){
+            if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")){
+
+                BigDecimal descuento = new BigDecimal(lblDescuentoDescuento.getText());
+                BigDecimal adeudo = new BigDecimal(lblAdeudoColegiatura.getText());
+                BigDecimal ingresado = new  BigDecimal(txfMontoColegiatura.getText());
+
+                if(ingresado.compareTo(adeudo) == 0){
+                    return adeudo.subtract(descuento);
+                }
+                else {
+                    return ParseBigDecimal(ingresado.toString());
+                }
+            }
+        }
+        return new BigDecimal("0.00");
+    }
+
     /**
      * Método para parsear el texto a BigDecimal, devolviendo BigDecimal.ZERO si es vacío o no válido
      */
-    private BigDecimal ParseBigDecimal(TextField textField) {
+    private BigDecimal ParseBigDecimal(String text) {
         try {
-            return new BigDecimal(textField.getText().isEmpty() ? "0,00" : textField.getText());
+            return new BigDecimal(text.isEmpty() ? "0,00" : text);
         } catch (NumberFormatException e) {
             return new BigDecimal(0.00);
         }
@@ -783,6 +827,7 @@ public class PantallaPrincipalController implements Initializable {
                 // Si el campo está vacío, puedes manejarlo de la forma que prefieras, por ejemplo:
                 textField.setStyle("-fx-border-color: #000000;");
                 textField.setDisable(false);
+                actualizarTotal();
                 return;  // Salir del método, ya que no queremos procesar el campo vacío
             }
 
@@ -828,5 +873,19 @@ public class PantallaPrincipalController implements Initializable {
         textField.setStyle("-fx-border-color: #000000;");
     }
 
+
+    /**
+     * Lanza notificacion flotante indicando algun error
+     * @param mensaje mensaje a mostrar en la notificacion
+     */
+    private void notificarError(String mensaje){
+        Notifications.create()
+                .title("Error de inicio de sesion")
+                .text(mensaje)
+                .graphic(null)
+                .position(Pos.TOP_RIGHT)
+                .hideAfter(Duration.seconds(5))
+                .show();
+    }
 
 }

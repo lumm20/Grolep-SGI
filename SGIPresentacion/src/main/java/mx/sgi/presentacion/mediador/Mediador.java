@@ -10,7 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.CicloEscolarDTO;
-import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.controladores.PantallaPrincipalController;
 

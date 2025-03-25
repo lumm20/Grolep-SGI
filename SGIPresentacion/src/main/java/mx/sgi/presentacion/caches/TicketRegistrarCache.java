@@ -1,6 +1,6 @@
 package mx.sgi.presentacion.caches;
 
-import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 
 public class TicketRegistrarCache {
 

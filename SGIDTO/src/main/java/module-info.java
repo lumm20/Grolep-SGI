@@ -4,4 +4,5 @@ module mx.itson.sgi.dto {
     requires com.google.gson;
     exports mx.itson.sgi.dto;
     opens mx.itson.sgi.dto to com.google.gson;
+    exports mx.itson.sgi.dto.vistas;
 }

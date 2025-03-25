@@ -9,7 +9,7 @@ import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoCuotaDTO;
 import mx.itson.sgi.dto.PagoDTO;
-import mx.itson.sgi.dto.TicketRegistrarDTO;
+import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioPagos;
@@ -87,7 +87,7 @@ public class TicketController implements Initializable {
         //recogemos todos los datos del ticket
         String total = ticketCache.getMontoTotal().toString();
 
-        String cliente = ticketCache.getAlumno().getNombre();
+        String cliente = ticketCache.getAlumno().getNombres();
 
         List<DetallePagoDTO> detalles = ticketCache.getDetalles();
         Map<String, Double> mapaDetalles = new HashMap<>();
@@ -141,9 +141,9 @@ public class TicketController implements Initializable {
             pago.setMetodoPago(ticket.getMetodoPago());
             pago.setCuotasPagadas(ticket.getDetalles());
             //pago.setCuotasPagadas(crearCuotas());
-            //pago.setDescuento(ticket.getDescuento());
             pago.setIdCicloEscolar(ticket.getCiclo().getId());
             pago.setIdUsuario(ticket.getIdUsuario());
+            pago.setDescuento(ticket.getTipoDescuento());
 
             //registramos el pago
             servicioPagos.registrarPago(pago);

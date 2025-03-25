@@ -1,6 +1,5 @@
 package mx.sgi.presentacion.servicios;
 
-import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 
 public class ServicioCuotas implements IServicioCuotas {
@@ -69,6 +67,7 @@ public class ServicioCuotas implements IServicioCuotas {
         // // Se devuelve una lista con un solo elemento, ya que ahora CuotaDTO almacena todos los valores en un solo objeto
         // return cuota;
     }
+
 
     /**
      * Metodo que obtiene las colegiaturas atrasadas de un alumno, solo se pueden
