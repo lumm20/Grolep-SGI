@@ -30,7 +30,7 @@ public class AlumnoService {
             AlumnoConsultaDTO dto = new AlumnoConsultaDTO();
             dto.setMatricula(alumno.getMatricula());
             dto.setNombre(alumno.getNombre());
-            dto.setTelefonoPadre(alumno.getTelefonoPadre());
+            dto.setNumeroCelular(alumno.getTelefonoPadre());
             return dto;
         }
         return null;
@@ -43,7 +43,7 @@ public class AlumnoService {
             AlumnoConsultaDTO dto = new AlumnoConsultaDTO();
             dto.setMatricula(alumno.getMatricula());
             dto.setNombre(alumno.getNombre());
-            dto.setTelefonoPadre(alumno.getTelefonoPadre());
+            dto.setNumeroCelular(alumno.getTelefonoPadre());
             dtos.add(dto);
         }
         return dtos;

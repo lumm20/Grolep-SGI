@@ -66,16 +66,21 @@ public class InicioSesionController implements Initializable{
             // UsuarioDTO usuario = servicioUsuarios.obtenerUsuario(id, contrena);
             UsuarioDTO usuario = servicioUsuarios.login(id, contrena);
 
-            //guardamos al usuario en la instancia global
-            UsuarioCache.setInstance(usuario);
-
-            //hacemos el cambio de pantalla
-            mediador.MostrarPantallaPrincipal();
-            
-
-            //cerramos la ventana de inicio de sesion
-            Stage stage = (Stage) txfID.getScene().getWindow(); // Obtener el Stage (ventana) actual
-            stage.close(); // Cerrar la ventana de inicio de sesiónS
+            if(usuario != null){
+                //guardamos al usuario en la instancia global
+                UsuarioCache.setInstance(usuario);
+    
+                //hacemos el cambio de pantalla
+                mediador.MostrarPantallaPrincipal();
+                
+    
+                //cerramos la ventana de inicio de sesion
+                Stage stage = (Stage) txfID.getScene().getWindow(); // Obtener el Stage (ventana) actual
+                stage.close(); // Cerrar la ventana de inicio de sesiónS
+                
+            }else{
+                error("Credenciales incorrectas");
+            }
 
         }
         catch(Exception ex){

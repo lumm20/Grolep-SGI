@@ -14,9 +14,7 @@ public class AlumnoConsultaDTO implements Serializable {
 
     @Expose
     private String matricula;
-    private String nombres;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
+    private String nombre;
     private String numeroCelular;
 
     /**
@@ -31,17 +29,15 @@ public class AlumnoConsultaDTO implements Serializable {
      * @param nombres
      * @param numeroCelular
      */
-    public AlumnoConsultaDTO(String matricula, String nombres, String numeroCelular) {
+    public AlumnoConsultaDTO(String matricula, String nombre, String numeroCelular) {
         this.matricula = matricula;
-        this.nombres = nombres;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+        this.nombre = nombre;
         this.numeroCelular = numeroCelular;
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s %s, \"%s\"", nombres, apellidoPaterno, apellidoMaterno, numeroCelular);
+        return String.format("%s, \"%s\"", nombre, numeroCelular);
     }
 
 }

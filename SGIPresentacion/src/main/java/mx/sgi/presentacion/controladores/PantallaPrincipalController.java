@@ -348,6 +348,7 @@ public class PantallaPrincipalController implements Initializable {
                 // List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.consultarAlumnos(filtro);
                 List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.buscarAlumnos(filtro);
 
+                System.out.println("Alumnos filtrados: " + alumnosFiltrados);
                 if(alumnosFiltrados != null && alumnosFiltrados.size()>0){
                     ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections.observableArrayList(alumnosFiltrados);
                 // Actualizamos los ítems del ComboBox
@@ -403,8 +404,6 @@ public class PantallaPrincipalController implements Initializable {
      * aqui se consultaran las cuotas correspondientes al alumno que haya sido seleccionado
      */
     private void consultarCuotas() {
-            List<CuotasDTO> cuotas;
-            List<ColegiaturaAtrasadaDTO>  colegiaturaAtrasadas;
 
             if (cmbxCicloEscolar.getValue() == null &&  cmbxAlumnos.getValue() != null) {
 
@@ -439,38 +438,6 @@ public class PantallaPrincipalController implements Initializable {
             String idCiclo = "24-25";
             CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, idCiclo);
 
-            //  for (CuotaConsultadaDTO cu : cuotas) {
-            //     System.out.println(cu);
-            //     String concepto= cu.getConcepto();
-            //     Double adeudo = cu.getAdeudo();
-            //     switch (concepto) {
-            //         case "COLEGIATURA":
-            //             lblAdeudoColegiatura.setText(adeudo.toString());
-            //             txfMontoColegiatura.setId(cu.getId().toString());
-            //             break;
-            //         case "UNIFORMES":
-            //             lblUniforme.setText(adeudo.toString());
-            //             txfMontoUniforme.setId(cu.getId().toString());
-            //             break;
-            //         case "LIBROS":
-            //             lblCuotaLibros.setText(adeudo.toString());
-            //             txfMontoLibros.setId(cu.getId().toString());
-            //             break;
-            //         case "INSCRIPCION":
-            //             lblCuotaInscripcion.setText(adeudo.toString());
-            //             txfMontoInscripcion.setId(cu.getId().toString());
-            //             break;
-            //         case "ACADEMIAS":
-            //             lblCuotaAcademias.setText(adeudo.toString());
-            //             txfMontoAcademias.setId(cu.getId().toString());
-            //             break;
-            //         case "EVENTOS":
-            //             lblCuotaEventos.setText(adeudo.toString());
-            //             txfMontoEventos.setId(cu.getId().toString());
-            //             break;
-            //     }
-            // }
-
             lblAdeudoVencido.setText(cuotas.getAdeudoVencido().toString());
             lblAdeudoColegiatura.setText(cuotas.getAdeudoColegiatura().toString());
             lblCuotaInscripcion.setText(cuotas.getAdeudoInscripcion().toString());
@@ -501,6 +468,7 @@ public class PantallaPrincipalController implements Initializable {
     private void disableTxfields(CuotasDTO cuotas){
         if(cuotas.getAdeudoVencido() == 0.0){
             txfMontoVencido.setDisable(true);
+            txfMontoColegiatura.setDisable(true);
         }
         if(cuotas.getAdeudoAcademias() == 0.0){
             txfMontoAcademias.setDisable(true);
