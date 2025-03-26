@@ -75,6 +75,7 @@ public class InicioSesionController implements Initializable{
             UsuarioDTO usuario = servicioUsuarios.login(id, contrena);
 
             System.out.println(usuario.toString());
+
             if(usuario != null){
                 //guardamos al usuario en la instancia global
                 UsuarioCache.setInstance(usuario);

@@ -88,8 +88,6 @@ public class ColegiaturasAtrasadasController implements Initializable {
             List<ColegiaturaAtrasadaDTO> atrasados = servicioCuotas.
                     obtenerColegiaturasAtrasadas(matricula, cicloEscolar);
 
-            BigDecimal total = BigDecimal.ZERO;
-
             //cargamos los datos en la pantalla
             if (atrasados.get(0) != null) {
                 lblMes1.setVisible(true);
@@ -102,8 +100,6 @@ public class ColegiaturasAtrasadasController implements Initializable {
                 lblAdeudoAcumulado1.setText(colegiatura.getAdeudoAcumulado().toString());
                 lbllMontoPagado1.setText(colegiatura.getMontoPagado().toString());
 
-                BigDecimal nuevoTotal = colegiatura.getAdeudoAcumulado();
-                total.add(nuevoTotal);
             }
             if (atrasados.get(1) != null) {
                 lblMes2.setVisible(true);
@@ -116,8 +112,6 @@ public class ColegiaturasAtrasadasController implements Initializable {
                 lblAdeudoAcumulado2.setText(colegiatura.getAdeudoAcumulado().toString());
                 lbllMontoPagado2.setText(colegiatura.getMontoPagado().toString());
 
-                BigDecimal nuevoTotal = colegiatura.getAdeudoAcumulado();
-                total.add(nuevoTotal);
             }
             if (atrasados.get(2) != null) {
                 lblMes3.setVisible(true);
@@ -130,9 +124,14 @@ public class ColegiaturasAtrasadasController implements Initializable {
                 lblAdeudoAcumulado3.setText(colegiatura.getAdeudoAcumulado().toString());
                 lbllMontoPagado3.setText(colegiatura.getMontoPagado().toString());
 
-                BigDecimal nuevoTotal = colegiatura.getAdeudoAcumulado();
-                total.add(nuevoTotal);
             }
+
+            BigDecimal adeudo1 = new BigDecimal(lblAdeudoAcumulado1.getText());
+            BigDecimal adeudo2 = new BigDecimal(lblAdeudoAcumulado2.getText());
+            BigDecimal adeudo3 = new BigDecimal(lblAdeudoAcumulado3.getText());
+
+            BigDecimal total = adeudo1.add(adeudo2).add(adeudo3);
+            lblTotal.setText(total.toString());
 
         } catch (Exception e) {
             notificarError(e.getMessage());

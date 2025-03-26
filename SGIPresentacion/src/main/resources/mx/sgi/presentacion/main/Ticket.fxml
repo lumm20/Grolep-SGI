@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="760.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.TicketController">
    <children>
-      <AnchorPane layoutX="17.0" layoutY="64.0" prefHeight="621.0" prefWidth="358.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
+      <AnchorPane layoutX="15.0" layoutY="26.0" prefHeight="645.0" prefWidth="358.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
          <children>
             <Label layoutX="116.0" layoutY="14.0" text="Detalles de pago">
                <font>
@@ -149,20 +149,30 @@
                   <Font size="14.0" />
                </font>
             </Label>
+            <JFXButton layoutX="10.0" layoutY="12.0" onAction="#cancelar" prefHeight="20.0" prefWidth="74.0" style="-fx-background-color: #ea3636; -fx-background-radius: 10px;" text="Cancelar">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <Label layoutX="23.0" layoutY="612.0" text="Total descuento:">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblDescuento1" layoutX="139.0" layoutY="612.0" prefHeight="20.0" prefWidth="110.0" text="texto de ejemplo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <JFXButton layoutX="120.0" layoutY="702.0" onAction="#confirmarPago" prefHeight="44.0" prefWidth="133.0" ripplerFill="#d9d5d5" style="-fx-background-color: #3fea37; -fx-background-radius: 10px;" text="Confirmar">
          <font>
             <Font size="14.0" />
          </font>
-      </JFXButton>
-      <JFXButton layoutX="29.0" layoutY="14.0" onAction="#cancelar" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: #ea3636; -fx-background-radius: 10px;" text="Cancelar">
-         <font>
-            <Font size="14.0" />
-         </font>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
       </JFXButton>
    </children>
 </AnchorPane>

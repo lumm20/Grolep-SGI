@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="dbca36db-e0f0-4134-b5ab-140db4cd77e7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/ColegiaturasAtrasadasController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/ColegiaturasAtrasadasController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/InicioSesionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/InicioSesionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/main/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/main/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/Ticket.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/Ticket.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../data-access/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../data-access/.env" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +111,7 @@
       <option name="presentableId" value="Default" />
       <updated>1742406540406</updated>
       <workItem from="1742406541482" duration="4799000" />
-      <workItem from="1743025737745" duration="1470000" />
+      <workItem from="1743025737745" duration="3535000" />
     </task>
     <servers />
   </component>
