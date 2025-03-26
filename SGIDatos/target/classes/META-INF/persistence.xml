@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_2_1.xsd"
+             version="3.1">
+
+    <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+
+        <class>mx.sgi.datos.entidades.Alumno</class>
+        <class>mx.sgi.datos.entidades.CicloEscolar</class>
+        <class>mx.sgi.datos.entidades.ColegiaturaAtrasada</class>
+        <class>mx.sgi.datos.entidades.Cuota</class>
+        <class>mx.sgi.datos.entidades.Descuento</class>
+        <class>mx.sgi.datos.entidades.Historial</class>
+        <class>mx.sgi.datos.entidades.Pago</class>
+        <class>mx.sgi.datos.entidades.Pagocuota</class>
+        <class>mx.sgi.datos.entidades.Usuario</class>
+
+        <properties>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sgi"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.user" value="root"/>
+            <property name="jakarta.persistence.jdbc.password" value="Saymyname15"/>
+        </properties>
+
+    </persistence-unit>
+</persistence>
+
+

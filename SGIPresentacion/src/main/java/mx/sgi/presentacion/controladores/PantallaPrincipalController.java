@@ -434,7 +434,7 @@ public class PantallaPrincipalController implements Initializable {
      */
     public void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
         try {
-            System.out.println("te la rifaste fernando");
+
             String idCiclo = "24-25";
             CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, idCiclo);
 
@@ -451,18 +451,37 @@ public class PantallaPrincipalController implements Initializable {
             //establecemos la demas informacion del alumno
             String tipoBeca = cuotas.getBeca() != null ? cuotas.getBeca() : "No Aplica";
 
-            String TipoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getTipo() : "No Aplica";
-            String descuentoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getDescuento().toString() : "0.00";
-
             lblTipoBeca.setText(tipoBeca);
 
-            lblTipoDescuento.setText(TipoDescuento);
-            lblDescuentoDescuento.setText(descuentoDescuento);
 
         } catch (Exception ex) {
             notificarError(ex.getMessage());
         }
 
+    }
+
+    /**
+     * Algun dia lo cambiamos por una implementacion real
+     */
+    private void establecerDescuentos(){
+
+        int diaActual = LocalDate.now().getDayOfMonth();
+
+        //descuento para la primer semana
+        if (diaActual <= 7){
+            lblTipoDescuento.setText("Primer periodo");
+            lblDescuentoDescuento.setText("400.00");
+        }
+        //descuento para la segunda semana
+        else if (diaActual > 7 && diaActual <= 14) {
+            lblTipoDescuento.setText("Segundo periodo");
+            lblDescuentoDescuento.setText("200.00");
+        }
+        //descuento para la tercer semana en adelante
+        else{
+            lblTipoDescuento.setText("No aplica");
+            lblDescuentoDescuento.setText("0.0");
+        }
     }
 
     private void disableTxfields(CuotasDTO cuotas){

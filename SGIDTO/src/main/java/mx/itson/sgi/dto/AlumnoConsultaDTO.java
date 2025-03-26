@@ -26,7 +26,7 @@ public class AlumnoConsultaDTO implements Serializable {
      * Constructor completo
      *
      * @param matricula
-     * @param nombres
+     * @param nombre
      * @param numeroCelular
      */
     public AlumnoConsultaDTO(String matricula, String nombre, String numeroCelular) {

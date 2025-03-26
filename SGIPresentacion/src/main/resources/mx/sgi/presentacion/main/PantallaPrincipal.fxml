@@ -191,11 +191,6 @@
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
-                  <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="270.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../../../iconos/logo.png" />
-                     </image>
-                  </ImageView>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="47.0" layoutY="98.0" prefHeight="218.0" prefWidth="638.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
@@ -277,7 +272,7 @@
                      </font></TextField>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="723.0" layoutY="98.0" prefHeight="517.0" prefWidth="324.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
+            <AnchorPane layoutX="723.0" layoutY="119.0" prefHeight="433.0" prefWidth="324.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
                <children>
                   <Label fx:id="lblTotal" alignment="BASELINE_CENTER" layoutX="42.0" layoutY="20.0" prefHeight="51.0" prefWidth="206.0" text="0.00" textFill="WHITE">
                      <font>
@@ -290,54 +285,38 @@
                      </font>
                   </Label>
                   <Separator layoutX="14.0" layoutY="129.0" prefHeight="0.0" prefWidth="296.0" style="-fx-background-color: #000000;" />
-                  <Separator layoutX="10.0" layoutY="222.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #000000;" />
-                  <Separator layoutX="12.0" layoutY="365.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #000000;" />
-                  <Label fx:id="lblTipoBeca" layoutX="78.0" layoutY="179.0" prefHeight="28.0" prefWidth="225.0" text="No aplica">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="26.0" layoutY="145.0" prefHeight="28.0" prefWidth="43.0" text="Beca">
+                  <Separator layoutX="12.0" layoutY="291.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #000000;" />
+                  <Label layoutX="21.0" layoutY="154.0" prefHeight="28.0" prefWidth="247.0" text="Descuento tentativo aplicable:">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </Label>
-                  <Label layoutX="37.0" layoutY="179.0" prefHeight="28.0" prefWidth="43.0" text="Tipo:">
+                  <Label layoutX="42.0" layoutY="196.0" prefHeight="28.0" prefWidth="43.0" text="Tipo:">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="20.0" layoutY="245.0" prefHeight="28.0" prefWidth="247.0" text="Descuento tentativo aplicable:">
-                     <font>
-                        <Font name="System Bold" size="17.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="47.0" layoutY="282.0" prefHeight="28.0" prefWidth="43.0" text="Tipo:">
+                  <Label layoutX="42.0" layoutY="239.0" prefHeight="28.0" prefWidth="81.0" text="Descuento:">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="48.0" layoutY="317.0" prefHeight="28.0" prefWidth="81.0" text="Descuento:">
+                  <Label layoutX="20.0" layoutY="313.0" prefHeight="28.0" prefWidth="234.0" text="Seleccione un metodo de pago:">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Label layoutX="28.0" layoutY="391.0" prefHeight="28.0" prefWidth="234.0" text="Seleccione un metodo de pago:">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblTipoDescuento" layoutX="89.0" layoutY="282.0" prefHeight="28.0" prefWidth="225.0" text="No aplica">
+                  <Label fx:id="lblTipoDescuento" layoutX="85.0" layoutY="196.0" prefHeight="28.0" prefWidth="225.0" text="No aplica">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblDescuentoDescuento" layoutX="131.0" layoutY="317.0" prefHeight="28.0" prefWidth="167.0" text="0.00">
+                  <Label fx:id="lblDescuentoDescuento" layoutX="131.0" layoutY="239.0" prefHeight="28.0" prefWidth="167.0" text="0.00">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="cmbxMetodoPago" layoutX="28.0" layoutY="428.0" prefHeight="40.0" prefWidth="218.0" promptText="Seleccione un metodo de pago" style="-fx-background-color: #d2d8d2; -fx-font-size: 13px;" visibleRowCount="3">
+                  <JFXComboBox fx:id="cmbxMetodoPago" layoutX="28.0" layoutY="350.0" prefHeight="40.0" prefWidth="218.0" promptText="Seleccione un metodo de pago" style="-fx-background-color: #d2d8d2; -fx-font-size: 13px;" visibleRowCount="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -349,7 +328,7 @@
                   <Font name="System Bold" size="16.0" />
                </font>
             </Label>
-            <JFXButton fx:id="btnRegistrar" layoutX="800.0" layoutY="638.0" onAction="#registrarPago" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #63e336; -fx-background-radius: 10px;" text="Registrar">
+            <JFXButton fx:id="btnRegistrar" layoutX="793.0" layoutY="583.0" onAction="#registrarPago" prefHeight="58.0" prefWidth="169.0" style="-fx-background-color: #63e336; -fx-background-radius: 10px;" text="Registrar">
                <font>
                   <Font size="20.0" />
                </font>

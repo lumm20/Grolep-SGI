@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="SGIPresentacion" />
         <module name="data-access" />
+        <module name="SGINegocio" />
         <module name="SGIDTO" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SGINegocio" options="-parameters" />
       <module name="data-access" options="-parameters" />
     </option>
   </component>
