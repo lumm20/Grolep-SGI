@@ -1,6 +1,7 @@
 package mx.sgi.datos.entidades;
 
 import jakarta.persistence.*;
+import mx.sgi.datos.enumeradores.Rol;
 
 @Entity
 @Table(name = "usuarios")
@@ -18,8 +19,8 @@ public class Usuario {
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
 
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "rol", nullable = false)
-    private String rol;
+    private Rol rol;
 
 }

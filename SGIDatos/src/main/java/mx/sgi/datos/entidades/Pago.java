@@ -1,6 +1,7 @@
 package mx.sgi.datos.entidades;
 
 import jakarta.persistence.*;
+import mx.sgi.datos.enumeradores.TipoDescuento;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "pago")
 public class Pago {
+
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
@@ -31,9 +33,9 @@ public class Pago {
     @Column(name = "metodoPago", nullable = false)
     private String metodoPago;
 
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_descuento", nullable = false)
-    private String tipoDescuento;
+    private TipoDescuento tipoDescuento;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

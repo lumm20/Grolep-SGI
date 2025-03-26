@@ -1,6 +1,7 @@
 package mx.sgi.datos.entidades;
 
 import jakarta.persistence.*;
+import mx.sgi.datos.enumeradores.Concepto;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -24,9 +25,9 @@ public class Pagocuota {
     @Column(name = "monto", nullable = false, precision = 10, scale = 2)
     private BigDecimal monto;
 
-    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "concepto", nullable = false)
-    private String concepto;
+    private Concepto concepto;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

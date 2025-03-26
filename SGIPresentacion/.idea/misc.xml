@@ -6,14 +6,9 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/../SGIDTO/pom.xml" />
-        <option value="$PROJECT_DIR$/../data-access/pom.xml" />
         <option value="$PROJECT_DIR$/../SGINegocio/pom.xml" />
+        <option value="$PROJECT_DIR$/../SGIDatos/pom.xml" />
       </list>
-    </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/../data-access/pom.xml" />
-      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_23" default="true" project-jdk-name="openjdk-23" project-jdk-type="JavaSDK">

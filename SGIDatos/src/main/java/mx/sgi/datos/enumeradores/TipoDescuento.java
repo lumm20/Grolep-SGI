@@ -8,7 +8,7 @@ package mx.sgi.datos.enumeradores;
  *
  * @author skevi
  */
-public enum Descuento {
+public enum TipoDescuento {
     PRIMER_PERIODO,
     SEGUNDO_PERIODO,
     NINGUNA
