@@ -14,6 +14,8 @@ public class CicloEscolarDTO {
     private LocalDate inicio;
     private LocalDate fin;
 
+    public CicloEscolarDTO(){}
+
     public CicloEscolarDTO(String id){
         this.id = id;
     }
