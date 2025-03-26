@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbca36db-e0f0-4134-b5ab-140db4cd77e7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/caches/CicloEscolarCache.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/ColegiaturasAtrasadasController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/ColegiaturasAtrasadas.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/CicloEscolarDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/CicloEscolarDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCuotas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCuotas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
