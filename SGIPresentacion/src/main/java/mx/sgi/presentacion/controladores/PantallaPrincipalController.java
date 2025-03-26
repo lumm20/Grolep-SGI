@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+import mx.sgi.presentacion.caches.CicloEscolarCache;
 import org.controlsfx.control.Notifications;
 
 import com.jfoenix.controls.JFXButton;
@@ -413,6 +414,9 @@ public class PantallaPrincipalController implements Initializable {
                 CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
                 String matricula = cmbxAlumnos.getValue().getMatricula();
 
+                CicloEscolarCache.limpiarCache();
+                CicloEscolarCache.setInstance(cicloEscolar);
+
                 establecerCuotas(matricula, cicloEscolar);
             }
             else if (cmbxCicloEscolar.getValue() != null && cmbxAlumnos.getValue() != null) {
@@ -420,6 +424,9 @@ public class PantallaPrincipalController implements Initializable {
                 System.out.println("Entre a la segunda opcion");
                 CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
                 String matricula = cmbxAlumnos.getValue().getMatricula();
+
+                CicloEscolarCache.limpiarCache();
+                CicloEscolarCache.setInstance(cicloEscolar);
 
                 establecerCuotas(matricula, cicloEscolar);
             }
@@ -544,6 +551,8 @@ public class PantallaPrincipalController implements Initializable {
      */
     @FXML
     private void ConsultarAdeudosConCicloEscolar(){
+        CicloEscolarCache.limpiarCache();
+        CicloEscolarCache.setInstance(cmbxCicloEscolar.getValue());
         consultarCuotas();
     }
 
@@ -874,6 +883,19 @@ public class PantallaPrincipalController implements Initializable {
                 .position(Pos.TOP_RIGHT)
                 .hideAfter(Duration.seconds(5))
                 .show();
+    }
+
+    /**
+     * Muestra la ventana de detalles
+     */
+    @FXML
+    public void mostrarDetalles(){
+        if (AlumnoCache.getInstance() != null){
+            mediador.mostrarPantallaColegiaturasAtrasadas();
+        }
+        else {
+            notificarError("Selecione un alumno primero");
+        }
     }
 
 }

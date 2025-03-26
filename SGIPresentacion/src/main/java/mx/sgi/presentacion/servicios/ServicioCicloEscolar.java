@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicioCicloEscolar implements IServicioCicloEscolar {
+public class    ServicioCicloEscolar implements IServicioCicloEscolar {
 
     // varibale para las peticiones
     private HttpClient client;

@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbca36db-e0f0-4134-b5ab-140db4cd77e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCuotas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCuotas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/mediador/Mediador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/mediador/Mediador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCicloEscolar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCicloEscolar.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
