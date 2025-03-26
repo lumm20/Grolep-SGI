@@ -54,6 +54,7 @@ public class InicioSesionController implements Initializable{
         this.mediador = Mediador.getInstance();
 
         //cargarIconos();
+
     }
 
     /**
@@ -73,6 +74,7 @@ public class InicioSesionController implements Initializable{
             // UsuarioDTO usuario = servicioUsuarios.obtenerUsuario(id, contrena);
             UsuarioDTO usuario = servicioUsuarios.login(id, contrena);
 
+            System.out.println(usuario.toString());
             if(usuario != null){
                 //guardamos al usuario en la instancia global
                 UsuarioCache.setInstance(usuario);
@@ -85,14 +87,11 @@ public class InicioSesionController implements Initializable{
                 Stage stage = (Stage) txfID.getScene().getWindow(); // Obtener el Stage (ventana) actual
                 stage.close(); // Cerrar la ventana de inicio de sesiónS
                 
-            }else{
-                error("Credenciales incorrectas");
             }
 
         }
         catch(Exception ex){
             error(ex.getMessage());
-            ex.printStackTrace();
         }
 
     }

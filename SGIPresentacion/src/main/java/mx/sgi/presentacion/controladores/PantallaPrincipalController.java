@@ -890,7 +890,7 @@ public class PantallaPrincipalController implements Initializable {
      */
     @FXML
     public void mostrarDetalles(){
-        if (AlumnoCache.getInstance() != null){
+        if (AlumnoCache.getInstance().getNombre() != null){
             mediador.mostrarPantallaColegiaturasAtrasadas();
         }
         else {

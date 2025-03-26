@@ -201,7 +201,7 @@
                      </font>
                   </Label>
                   <Separator layoutX="14.0" layoutY="56.0" prefHeight="3.0" prefWidth="606.0" style="-fx-background-color: #000000;" />
-                  <JFXButton fx:id="btnDetalles" layoutX="24.0" layoutY="172.0" prefHeight="31.0" prefWidth="102.0" style="-fx-background-color: #E6E0E9; -fx-background-radius: 15px;" text="Ver detalles">
+                  <JFXButton fx:id="btnDetalles" layoutX="24.0" layoutY="172.0" onMouseClicked="#mostrarDetalles" prefHeight="31.0" prefWidth="102.0" style="-fx-background-color: #E6E0E9; -fx-background-radius: 15px;" text="Ver detalles">
                      <font>
                         <Font size="14.0" />
                      </font>
