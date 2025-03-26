@@ -20,25 +20,25 @@ public class Alumno {
 
     @Column(nullable = false)
     private String nombres;
-    
+
     @Column(nullable = false)
     private String apellidoPaterno;
-    
+
     @Column(nullable = false)
     private String apellidoMaterno;
 
     @Column(nullable = false)
     private String numeroCelular;
-    
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Venta> compras = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<ColegiaturaAtrasada> colegiaturasAtrasadas = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Pago> pagos = new ArrayList<>();
-    
+
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Cuota> cuotas = new ArrayList<>();
 
