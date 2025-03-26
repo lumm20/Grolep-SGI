@@ -220,7 +220,8 @@ public class PantallaPrincipalController implements Initializable {
         //establecemos la configuracion para el buscador de alumnos
         configurarFiltroAlumnos();
 
-
+        //establecemos el descuento
+        establecerDescuento();
     }
 
     /**
@@ -463,7 +464,7 @@ public class PantallaPrincipalController implements Initializable {
     /**
      * Algun dia lo cambiamos por una implementacion real
      */
-    private void establecerDescuentos(){
+    private void establecerDescuento(){
 
         int diaActual = LocalDate.now().getDayOfMonth();
 
