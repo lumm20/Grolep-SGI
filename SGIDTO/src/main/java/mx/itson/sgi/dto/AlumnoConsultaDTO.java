@@ -8,8 +8,6 @@ public class AlumnoConsultaDTO implements Serializable {
 
     private String matricula;
     private String nombres;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
     private String numeroCelular;
 
     /**

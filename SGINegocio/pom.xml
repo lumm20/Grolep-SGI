@@ -7,8 +7,20 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <exec.mainClass>com.mycompany.sginegocio.SGINegocio</exec.mainClass>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
+        <exec.mainClass>mx.sgi.negocio.SGINegocio</exec.mainClass>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>mx.sgi.datos</groupId>
+            <artifactId>SGIDatos</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.itson.sgi.dto</groupId>
+            <artifactId>SGIDTO</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
