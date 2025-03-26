@@ -5,10 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbca36db-e0f0-4134-b5ab-140db4cd77e7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../SGIDTO/target/classes/mx/itson/sgi/dto/vistas/TicketRegistrarDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../SGIDTO/target/classes/mx/itson/sgi/dto/vistas/TicketRegistrarDTO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/mediador/Mediador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/mediador/Mediador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCicloEscolar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/servicios/ServicioCicloEscolar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/add_circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/add_circle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/logout.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/logout.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/manage_accounts.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/manage_accounts.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/padlock.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/padlock.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/payments.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/payments.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/storefront.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/storefront.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iconos/user.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/iconos/user.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/InicioSesionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/InicioSesionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/TicketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/TicketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/IniciarSesion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/IniciarSesion.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,6 +64,13 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\skevi\Documents\GitHub\Grolep-SGI\SGIPresentacion\src\main\resources\mx\sgi\presentacion\main\iconos" />
+      <recent name="C:\Users\skevi\Documents\GitHub\Grolep-SGI\SGIPresentacion\src\main\resources\mx.sgi.presentacion.iconos" />
+      <recent name="C:\Users\skevi\Documents\GitHub\Grolep-SGI\SGIPresentacion\src\main\resources\mx\sgi\presentacion\main" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.HelloApplication">
     <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="mx.sgi.presentacion.main.HelloApplication" />

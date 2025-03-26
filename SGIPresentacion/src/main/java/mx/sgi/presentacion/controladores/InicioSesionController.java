@@ -1,6 +1,8 @@
 package mx.sgi.presentacion.controladores;
 
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.UsuarioDTO;
 import mx.sgi.presentacion.caches.UsuarioCache;
@@ -31,6 +33,9 @@ public class InicioSesionController implements Initializable{
     @FXML
     private JFXPasswordField psfContrasena;
 
+    @FXML
+    ImageView imgLogoEscuela;
+
 
     private IServicioUsuarios servicioUsuarios;
     private Mediador mediador;
@@ -47,6 +52,8 @@ public class InicioSesionController implements Initializable{
 
         //iniciamos el servicio de usuarios con su instacia global
         this.mediador = Mediador.getInstance();
+
+        //cargarIconos();
     }
 
     /**
@@ -111,6 +118,17 @@ public class InicioSesionController implements Initializable{
                 .position(Pos.TOP_RIGHT)
                 .hideAfter(Duration.seconds(5))
                 .show();
+    }
+
+    private void cargarIconos(){
+        try {
+            Image image = new Image(getClass().getResource("/mx/sgi/presentacion/iconos/logo.png").toExternalForm());
+            imgLogoEscuela = new ImageView(image);
+
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
     }
 
 }

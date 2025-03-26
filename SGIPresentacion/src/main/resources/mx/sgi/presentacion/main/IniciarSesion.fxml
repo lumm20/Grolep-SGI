@@ -14,8 +14,10 @@
 <AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.InicioSesionController">
 
     <children>
-        <ImageView fitHeight="157.0" fitWidth="179.0" layoutX="171.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
-
+        <ImageView fx:id="imgLogoEscuela" fitHeight="157.0" fitWidth="179.0" layoutX="171.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@iconos/logo.png" />
+            </image>
         </ImageView>
         <JFXButton fx:id="btnAcceder" layoutX="176.0" layoutY="505.0" prefHeight="48.0" prefWidth="147.0" ripplerFill="#d1ddd2" style="-fx-border-radius: 5; -fx-background-color: #24c838;" text="Acceder" onAction="#handleLogin" textFill="WHITE">
             <cursor>
@@ -41,10 +43,14 @@
             </font>
         </JFXPasswordField>
         <ImageView fitHeight="38.0" fitWidth="18.0" layoutX="50.0" layoutY="315.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-
+            <image>
+                <Image url="@iconos/user.png" />
+            </image>
         </ImageView>
         <ImageView fitHeight="18.0" fitWidth="24.0" layoutX="50.0" layoutY="404.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-
+            <image>
+                <Image url="@iconos/padlock.png" />
+            </image>
         </ImageView>
         <Label layoutX="148.0" layoutY="206.0" text="Inicio de sesion">
             <font>

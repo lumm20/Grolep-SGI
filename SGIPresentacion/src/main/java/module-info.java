@@ -2,6 +2,7 @@ module mx.sgi.presentacion.main.sgipresentacion {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires javafx.graphics;
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
@@ -13,8 +14,6 @@ module mx.sgi.presentacion.main.sgipresentacion {
     requires fontawesomefx;
     requires java.desktop;
     requires mx.itson.sgi.dto;
-
-    // Dependencias de Spring Framework
     requires spring.context;
     requires spring.beans;
     requires spring.core;

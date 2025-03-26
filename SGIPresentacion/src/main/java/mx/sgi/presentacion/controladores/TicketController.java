@@ -87,7 +87,7 @@ public class TicketController implements Initializable {
         //recogemos todos los datos del ticket
         String total = ticketCache.getMontoTotal().toString();
 
-        String cliente = ticketCache.getAlumno().getNombres();
+        String cliente = ticketCache.getAlumno().getNombre();
 
         List<DetallePagoDTO> detalles = ticketCache.getDetalles();
         Map<String, Double> mapaDetalles = new HashMap<>();
