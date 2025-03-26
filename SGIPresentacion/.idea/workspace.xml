@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbca36db-e0f0-4134-b5ab-140db4cd77e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/AlumnoConsultaDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/AlumnoConsultaDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/CuotasDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/CuotasDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="dbca36db-e0f0-4134-b5ab-140db4cd77e7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
