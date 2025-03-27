@@ -64,6 +64,9 @@ public class TicketController implements Initializable {
     @FXML
     Label lblDescuento;
 
+    @FXML
+    Label lblMontoDescuento;
+
     ServicioPagos servicioPagos;
 
     Mediador mediador;
@@ -118,7 +121,8 @@ public class TicketController implements Initializable {
         lblMontoIEventos.setText(mapaDetalles.get("Eventos")!= null ? mapaDetalles.get("Eventos").toString() : "0.00");
         lblMontoIAcademias.setText(mapaDetalles.get("Academias")!= null ? mapaDetalles.get("Academias").toString() : "0.00");
         lblMontoUniforme.setText(mapaDetalles.get("Uniforme")!= null ? mapaDetalles.get("Uniforme").toString() : "0.00");
-        //lblDescuento.setText(descuento);
+        lblDescuento.setText(ticketCache.getTipoDescuento());
+        lblMontoDescuento.setText(ticketCache.getMontoDescuento());
 
     }
 

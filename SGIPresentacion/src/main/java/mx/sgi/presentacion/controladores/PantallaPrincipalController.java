@@ -645,6 +645,9 @@ public class PantallaPrincipalController implements Initializable {
                 }
             });
 
+            String tipoDescuento = lblTipoDescuento.getText();
+            String montoDescuento = lblDescuentoDescuento.getText();
+
 
             ticket.setMontoTotal(montoTotal);
             ticket.setFolio(folio);
@@ -663,6 +666,8 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setAlumno(alumno);
             ticket.setIdUsuario(usuario.getId());
             ticket.setCiclo(cicloEscolar);
+            ticket.setTipoDescuento(tipoDescuento);
+            ticket.setMontoTotal(montoTotal);
 
             System.out.println(ticket.toString());
 

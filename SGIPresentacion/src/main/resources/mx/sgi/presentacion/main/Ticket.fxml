@@ -162,7 +162,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="lblDescuento1" layoutX="139.0" layoutY="612.0" prefHeight="20.0" prefWidth="110.0" text="texto de ejemplo">
+            <Label fx:id="lblMontoDescuento" layoutX="139.0" layoutY="612.0" prefHeight="20.0" prefWidth="110.0" text="texto de ejemplo">
                <font>
                   <Font size="14.0" />
                </font>

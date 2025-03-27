@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="560.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.ColegiaturasAtrasadasController">
     <children>
         <AnchorPane layoutX="115.0" layoutY="23.0" prefHeight="62.0" prefWidth="435.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
@@ -110,7 +109,7 @@
         </Label>
         <Label fx:id="lblTotal" layoutX="509.0" layoutY="458.0" prefHeight="30.0" prefWidth="123.0" text="0.00">
             <font>
-                <Font name="System Bold" size="17.0" />
+                <Font size="20.0" />
             </font>
         </Label>
     </children>
