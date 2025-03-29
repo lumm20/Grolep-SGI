@@ -11,8 +11,8 @@ public class CicloEscolarDTO {
 
     @Expose
     private String id;
-    private LocalDate inicio;
-    private LocalDate fin;
+    private String inicio;
+    private String fin;
 
     public CicloEscolarDTO(){}
 
@@ -20,14 +20,14 @@ public class CicloEscolarDTO {
         this.id = id;
     }
     // Constructor
-    public CicloEscolarDTO(LocalDate inicio, LocalDate fin) {
+    public CicloEscolarDTO(String inicio, String fin) {
         this.inicio = inicio;
         this.fin = fin;
     }
 
     @Override
     public String toString() {
-        return inicio.getYear() + " - " + fin.getYear();
+        return inicio + " - " + fin;
     }
 
 }

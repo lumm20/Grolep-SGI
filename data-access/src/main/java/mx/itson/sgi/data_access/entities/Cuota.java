@@ -64,6 +64,9 @@ public class Cuota {
         this.concepto = concepto;
     }
 
+    public Cuota(Double montoBase){
+        this.montoBase = montoBase;
+    }
     @Override
     public String toString() {
         Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();

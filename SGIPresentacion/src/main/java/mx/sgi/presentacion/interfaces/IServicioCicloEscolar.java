@@ -7,5 +7,6 @@ import java.util.List;
 public interface IServicioCicloEscolar {
 
     public List<CicloEscolarDTO>obtenerCiclosEscolares() throws Exception;
+    public CicloEscolarDTO obtenerCicloEscolarActual() ;
 
 }

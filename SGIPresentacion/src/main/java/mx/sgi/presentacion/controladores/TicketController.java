@@ -2,7 +2,15 @@ package mx.sgi.presentacion.controladores;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
@@ -16,12 +24,16 @@ import mx.sgi.presentacion.servicios.ServicioPagos;
 
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import com.jfoenix.controls.JFXButton;
 
 public class TicketController implements Initializable {
 
@@ -41,31 +53,28 @@ public class TicketController implements Initializable {
     Label lblMetodo;
 
     @FXML
-    Label lblMontoVencidos;
-
-    @FXML
-    Label  lblMontoColegiatura;
-
-    @FXML
-    Label lblMontoInscripcion;
-
-    @FXML
-    Label lblMontoILibros;
-
-    @FXML
-    Label lblMontoIEventos;
-
-    @FXML
-    Label lblMontoIAcademias;
-
-    @FXML
-    Label lblMontoUniforme;
-
-    @FXML
     Label lblDescuento;
 
     @FXML
     Label lblMontoDescuento;
+
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private VBox conceptosContainer;
+    @FXML
+    private AnchorPane ticketContentPane;
+    @FXML
+    private Separator separadorDetalleTicket;
+    @FXML
+    private Separator separadorDescuento;
+    @FXML
+    private JFXButton btnConfirmar;
+    
+    @FXML
+    private AnchorPane footerPane;
+    private double posYActual = 310.0; 
+    private NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.of("es", "MX"));
 
     ServicioPagos servicioPagos;
 
@@ -76,9 +85,64 @@ public class TicketController implements Initializable {
         this.servicioPagos = new ServicioPagos();
         this.mediador = Mediador.getInstance();
 
+        if (conceptosContainer != null) {
+            conceptosContainer.getChildren().clear();
+        }
         cargarInfoPago();
     }
 
+
+    public void generarConceptos(Map<String, Double> conceptos) {
+        conceptosContainer.getChildren().clear();
+        
+        for (Map.Entry<String, Double> concepto : conceptos.entrySet()) {
+            double valor = concepto.getValue();
+            if (valor > 0) {
+                agregarConcepto(concepto.getKey(), valor);
+            }
+        }
+        ajustarCampoDescuento();
+    }
+    
+    
+    private void agregarConcepto(String nombreConcepto, double valor) {
+        HBox conceptoHBox = new HBox();
+        conceptoHBox.setSpacing(10);
+        conceptoHBox.setPrefHeight(32.0);
+        
+        Label lblNombreConcepto = new Label("Monto para " + nombreConcepto.toLowerCase() + ":");
+        lblNombreConcepto.setFont(Font.font("System", FontWeight.BOLD, 14.0));
+        
+        HBox.setHgrow(lblNombreConcepto, Priority.ALWAYS);
+        
+        Label lblValorConcepto = new Label(formatoMoneda.format(valor));
+        lblValorConcepto.setFont(Font.font("System", 14.0));
+        
+        conceptoHBox.getChildren().addAll(lblNombreConcepto, lblValorConcepto);        
+        conceptosContainer.getChildren().add(conceptoHBox);
+    }
+
+    private void ajustarCampoDescuento() {
+
+        boolean hayConceptos = !conceptosContainer.getChildren().isEmpty();
+        
+        separadorDescuento.setVisible(hayConceptos);
+        lblDescuento.getParent().getParent().setVisible(hayConceptos);
+        
+        ajustarTamanioTicket();
+    }
+
+    private void ajustarTamanioTicket() {
+        double alturaConceptos = conceptosContainer.getChildren().size() * 32.0 + 400.0; 
+        double alturaMinima = 440.0;
+        double nuevaAlturaTicket = Math.max(alturaMinima, alturaConceptos);
+
+        ticketContentPane.setPrefHeight(nuevaAlturaTicket);
+        double posBtn = nuevaAlturaTicket + 30.0;
+        AnchorPane.setTopAnchor(btnConfirmar, posBtn);
+        
+        rootPane.setPrefHeight(posBtn + 70.0);
+    }
 
     /**
      * aqui se carga cada campo del pago en el ticket
@@ -99,31 +163,17 @@ public class TicketController implements Initializable {
             mapaDetalles.put(detalle.getConceptoCuota(), detalle.getMontoPagado());
         }
 
+        
         MetodosPagoDTO metodoPago = ticketCache.getMetodoPago();
-        // String montoVencidos = ticketCache.getMontoVencidos().toString();
-        // String montoColegiatura = ticketCache.getMontoColegiatura().toString();
-        // String montoInscripcion = ticketCache.getMontoInscripcion().toString();
-        // String montoLibros = ticketCache.getMontoLibros().toString();
-        // String montoEventos = ticketCache.getMontoEventos().toString();
-        // String montoAcademias = ticketCache.getMontoAcademias().toString();
-        // String montoUniforme = ticketCache.getMontoUniforme().toString();
-        //String descuento = ticketCache.getDescuento().toString();
-
         lblTotal.setText(total);
         lblFolio.setText(ticketCache.getFolio());
         lblFecha.setText(ticketCache.getFecha().toString());
         lblCliente.setText(cliente);
         lblMetodo.setText(metodoPago.toString().toLowerCase());
-        //lblMontoVencidos.setText(mapaDetalles.get("Vencidos").toString());
-        lblMontoColegiatura.setText(mapaDetalles.get("Colegiatura")!= null ? mapaDetalles.get("Colegiatura").toString() : "0.00");
-        lblMontoInscripcion.setText(mapaDetalles.get("Inscripcion")!= null ? mapaDetalles.get("Inscripcion").toString() : "0.00");
-        lblMontoILibros.setText(mapaDetalles.get("Libros")!= null ? mapaDetalles.get("Libros").toString() : "0.00");
-        lblMontoIEventos.setText(mapaDetalles.get("Eventos")!= null ? mapaDetalles.get("Eventos").toString() : "0.00");
-        lblMontoIAcademias.setText(mapaDetalles.get("Academias")!= null ? mapaDetalles.get("Academias").toString() : "0.00");
-        lblMontoUniforme.setText(mapaDetalles.get("Uniforme")!= null ? mapaDetalles.get("Uniforme").toString() : "0.00");
         lblDescuento.setText(ticketCache.getTipoDescuento());
         lblMontoDescuento.setText(ticketCache.getMontoDescuento());
-
+        
+        generarConceptos(mapaDetalles);
     }
 
     /**
@@ -162,89 +212,6 @@ public class TicketController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
-    /*private List<PagoCuotaDTO> crearCuotas(){
-
-        BigDecimal comparador = new BigDecimal(0.00);
-
-        TicketRegistrarDTO ticket =  TicketRegistrarCache.getInstance();
-
-        List<PagoCuotaDTO> cuotas = new ArrayList<>();
-
-        if (ticket.getMontoVencidos().compareTo(comparador) != 0) {
-            PagoCuotaDTO cuota = new PagoCuotaDTO();
-
-            cuota.setFecha(ticket.getFecha());
-            cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoVencidos());
-            cuota.getConcepto();
-
-            cuotas.add(cuota);
-        }
-        if (ticket.getMontoColegiatura().compareTo(comparador) != 0) {
-            PagoCuotaDTO cuota = new PagoCuotaDTO();
-
-            cuota.setFecha(ticket.getFecha());
-            cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoColegiatura());
-            cuota.getConcepto();
-
-            cuotas.add(cuota);
-        }
-        if (ticket.getMontoInscripcion().compareTo(comparador) != 0) {
-            PagoCuotaDTO cuota = new PagoCuotaDTO();
-
-            cuota.setFecha(ticket.getFecha());
-            cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoInscripcion());
-            cuota.getConcepto();
-
-            cuotas.add(cuota);
-        }
-        if (ticket.getMontoLibros().compareTo(comparador) != 0) {
-            PagoCuotaDTO cuota = new PagoCuotaDTO();
-
-            cuota.setFecha(ticket.getFecha());
-            cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoLibros());
-            cuota.getConcepto();
-
-            cuotas.add(cuota);
-        }
-        if (ticket.getMontoEventos().compareTo(comparador) != 0) {
-            PagoCuotaDTO cuota = new PagoCuotaDTO();
-
-            cuota.setFecha(ticket.getFecha());
-            cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoEventos());
-            cuota.getConcepto();
-
-            cuotas.add(cuota);
-        }
-        if (ticket.getMontoAcademias().compareTo(comparador) != 0) {
-            PagoCuotaDTO cuota = new PagoCuotaDTO();
-
-            cuota.setFecha(ticket.getFecha());
-            cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoAcademias());
-            cuota.getConcepto();
-
-            cuotas.add(cuota);
-        }
-        if (ticket.getMontoUniforme().compareTo(comparador) != 0) {
-            PagoCuotaDTO cuota = new PagoCuotaDTO();
-
-            cuota.setFecha(ticket.getFecha());
-            cuota.setHora(ticket.getHora());
-            cuota.setMonto(ticket.getMontoAcademias());
-            cuota.getConcepto();
-
-            cuotas.add(cuota);
-        }
-
-        return cuotas;
-    }*/
 
 
     /**

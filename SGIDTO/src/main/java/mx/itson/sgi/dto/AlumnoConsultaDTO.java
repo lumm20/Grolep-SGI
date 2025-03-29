@@ -21,6 +21,7 @@ public class AlumnoConsultaDTO implements Serializable {
      * constructor vacio
      */
     public AlumnoConsultaDTO() {}
+    public AlumnoConsultaDTO(String matricula) {this.matricula = matricula;}
 
     /**
      * Constructor completo

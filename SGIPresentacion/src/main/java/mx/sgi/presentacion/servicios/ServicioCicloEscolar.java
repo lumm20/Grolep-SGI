@@ -1,14 +1,21 @@
 package mx.sgi.presentacion.servicios;
 
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 
+import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class    ServicioCicloEscolar implements IServicioCicloEscolar {
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+public class ServicioCicloEscolar implements IServicioCicloEscolar {
 
     // varibale para las peticiones
     private HttpClient client;
@@ -39,13 +46,33 @@ public class    ServicioCicloEscolar implements IServicioCicloEscolar {
 
             // Crear y devolver la lista con los ciclos escolares
             List<CicloEscolarDTO> ciclosEscolares = new ArrayList<>();
-            ciclosEscolares.add(new CicloEscolarDTO(inicioCicloActual, finCicloActual));
-            ciclosEscolares.add(new CicloEscolarDTO(inicioCicloSiguiente, finCicloSiguiente));
+            // ciclosEscolares.add(new CicloEscolarDTO(inicioCicloActual, finCicloActual));
+            // ciclosEscolares.add(new CicloEscolarDTO(inicioCicloSiguiente, finCicloSiguiente));
 
             return ciclosEscolares;
         } catch (Exception ex) {
             throw new Exception("Error al obtener los ciclos escolares", ex);
         }
+    }
+
+
+    @Override
+    public CicloEscolarDTO obtenerCicloEscolarActual() {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/SGI/api/fees/actual-cycle"))
+                .GET()
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() == 200) {
+                System.out.println(response.body());
+                return new Gson().fromJson(response.body(), CicloEscolarDTO.class);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;   
     }
 
 }

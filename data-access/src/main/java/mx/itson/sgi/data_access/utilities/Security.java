@@ -27,7 +27,7 @@ public class Security {
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/users/register",
                  "api/users/login","api/students",
-                 "api/payment","api/fees").permitAll()
+                 "api/payment","api/fees","api/fees/actual-cycle","api/fees/debit-details").permitAll()
                 .anyRequest().authenticated())
             .userDetailsService(details)
             .httpBasic(withDefaults());

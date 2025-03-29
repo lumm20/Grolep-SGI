@@ -13,6 +13,8 @@ import java.util.ResourceBundle;
 import java.util.UUID;
 
 import mx.sgi.presentacion.caches.CicloEscolarCache;
+import mx.sgi.presentacion.caches.DetallesAdeudoCache;
+
 import org.controlsfx.control.Notifications;
 
 import com.jfoenix.controls.JFXButton;
@@ -36,6 +38,7 @@ import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;
+import mx.itson.sgi.dto.DetalleAdeudoDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
@@ -72,6 +75,9 @@ public class PantallaPrincipalController implements Initializable {
 
     @FXML
     Label lblAdeudoVencido;
+
+    @FXML
+    Label lblCicloEscolar;
 
     @FXML
     Label  lblAdeudoColegiatura;
@@ -208,7 +214,7 @@ public class PantallaPrincipalController implements Initializable {
         this.mediador = Mediador.getInstance();
 
         this.servicioCicloEscolar = new ServicioCicloEscolar();
-
+        txfMontoVencido.setDisable(true);
         //establecemos los ciclos escolares en el comboBox
         establecerCiclos();
 
@@ -388,12 +394,20 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void establecerCiclos(){
         try {
+            CicloEscolarDTO cicloEscolar = servicioCicloEscolar.obtenerCicloEscolarActual();
 
-            List<CicloEscolarDTO> listaCiclos = servicioCicloEscolar.obtenerCiclosEscolares();
+            if(cicloEscolar != null){
+                CicloEscolarCache.setInstance(cicloEscolar);
+                String anioInicio = cicloEscolar.getInicio().substring(0, 4);
+                String anioFin = cicloEscolar.getFin().substring(0, 4);
+                String cicloTxt = anioInicio + " - " + anioFin;
+                lblCicloEscolar.setText(cicloTxt);
+            }
+            // List<CicloEscolarDTO> listaCiclos = servicioCicloEscolar.obtenerCiclosEscolares();
 
-            ObservableList<CicloEscolarDTO> observableList = FXCollections.observableArrayList(listaCiclos);
+            // ObservableList<CicloEscolarDTO> observableList = FXCollections.observableArrayList(listaCiclos);
 
-            cmbxCicloEscolar.setItems(observableList);
+            // cmbxCicloEscolar.setItems(observableList);
 
         }
         catch (Exception ex){
@@ -407,29 +421,26 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void consultarCuotas() {
 
-            if (cmbxCicloEscolar.getValue() == null &&  cmbxAlumnos.getValue() != null) {
+            // if (cmbxCicloEscolar.getValue() == null &&  cmbxAlumnos.getValue() != null) {
 
                 System.out.println("Entre a la primera opcion");
-                cmbxCicloEscolar.getSelectionModel().select(0);
-                CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
+                // cmbxCicloEscolar.getSelectionModel().select(0);
+                CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
                 String matricula = cmbxAlumnos.getValue().getMatricula();
 
-                CicloEscolarCache.limpiarCache();
-                CicloEscolarCache.setInstance(cicloEscolar);
-
                 establecerCuotas(matricula, cicloEscolar);
-            }
-            else if (cmbxCicloEscolar.getValue() != null && cmbxAlumnos.getValue() != null) {
+            // }
+            // else if (cmbxCicloEscolar.getValue() != null && cmbxAlumnos.getValue() != null) {
 
-                System.out.println("Entre a la segunda opcion");
-                CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
-                String matricula = cmbxAlumnos.getValue().getMatricula();
+            //     System.out.println("Entre a la segunda opcion");
+            //     CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
+            //     String matricula = cmbxAlumnos.getValue().getMatricula();
 
-                CicloEscolarCache.limpiarCache();
-                CicloEscolarCache.setInstance(cicloEscolar);
+            //     CicloEscolarCache.limpiarCache();
+            //     CicloEscolarCache.setInstance(cicloEscolar);
 
-                establecerCuotas(matricula, cicloEscolar);
-            }
+            //     establecerCuotas(matricula, cicloEscolar);
+            // }
 
     }
 
@@ -443,7 +454,7 @@ public class PantallaPrincipalController implements Initializable {
     public void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
         try {
 
-            String idCiclo = "24-25";
+            String idCiclo = cicloEscolar.getId();
             CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, idCiclo);
 
             lblAdeudoVencido.setText(cuotas.getAdeudoVencido().toString());
@@ -459,7 +470,7 @@ public class PantallaPrincipalController implements Initializable {
             //establecemos la demas informacion del alumno
             String tipoBeca = cuotas.getBeca() != null ? cuotas.getBeca() : "No Aplica";
 
-            lblTipoBeca.setText(tipoBeca);
+            // lblTipoBeca.setText(tipoBeca);
 
 
         } catch (Exception ex) {
@@ -493,10 +504,10 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     private void disableTxfields(CuotasDTO cuotas){
-        if(cuotas.getAdeudoVencido() == 0.0){
-            txfMontoVencido.setDisable(true);
-            txfMontoColegiatura.setDisable(true);
-        }
+        // if(cuotas.getAdeudoVencido() == 0.0){
+        //     txfMontoVencido.setDisable(true);
+        //     txfMontoColegiatura.setDisable(true);
+        // }
         if(cuotas.getAdeudoAcademias() == 0.0){
             txfMontoAcademias.setDisable(true);
         }
@@ -561,21 +572,9 @@ public class PantallaPrincipalController implements Initializable {
                 .title("Error en el registro de pago")
                 .text(mensaje)
                 .graphic(null)
-                .position(Pos.BASELINE_RIGHT)
+                .position(Pos.TOP_RIGHT)
                 .hideAfter(Duration.seconds(5))
                 .show();
-    }
-
-    private boolean validateEmptyFields(){
-        TextField[] textFields = {txfMontoVencido, txfMontoColegiatura, txfMontoInscripcion,
-             txfMontoLibros, txfMontoEventos, txfMontoAcademias, txfMontoUniforme};
-        
-        for (TextField textField : textFields) {
-            if (!textField.isDisabled() && textField.getText().isBlank()) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -591,13 +590,14 @@ public class PantallaPrincipalController implements Initializable {
                 return;
             }
 
-            if (cmbxMetodoPago.getValue() == null) {
-                showError("Debe seleccionar un metodo de pago");
-                return;
-            }
             Double total = Double.parseDouble(lblTotal.getText());
             if(total <= 0.0){
                 showError("Debe ingresar, al menos, un monto a pagar");
+                return;
+            }
+            
+            if (cmbxMetodoPago.getValue() == null) {
+                showError("Debe seleccionar un metodo de pago");
                 return;
             }
             // recolectamos todos los campos del pago y los guardamos en la cache
@@ -626,8 +626,7 @@ public class PantallaPrincipalController implements Initializable {
             String descuento = "Descuento por pago temprano";
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
             UsuarioDTO usuario = UsuarioCache.getInstance();
-            CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
-            cicloEscolar.setId("24-25");
+            CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
             Map<String, Double> cuotas = new HashMap<>();
             cuotas.put("VENCIDOS", montoVencidos);
             cuotas.put("COLEGIATURA", montoColegiatura);
@@ -882,7 +881,7 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void notificarError(String mensaje){
         Notifications.create()
-                .title("Error de inicio de sesion")
+                .title("Ups!!")
                 .text(mensaje)
                 .graphic(null)
                 .position(Pos.TOP_RIGHT)
@@ -895,12 +894,22 @@ public class PantallaPrincipalController implements Initializable {
      */
     @FXML
     public void mostrarDetalles(){
-        if (AlumnoCache.getInstance().getNombre() != null){
-            mediador.mostrarPantallaColegiaturasAtrasadas();
-        }
-        else {
+
+        String idCiclo = CicloEscolarCache.getInstance().getId();
+        String matricula = AlumnoCache.getInstance().getMatricula();
+        System.out.println(idCiclo);
+        if (matricula != null){
+            List<DetalleAdeudoDTO> detalles = servicioCuotas.obtenerDetallesAdeudosColegiatura(matricula,idCiclo);
+            if(detalles != null){
+                DetallesAdeudoCache.setDetalles(detalles);
+                mediador.mostrarPantallaColegiaturasAtrasadas();
+            }else{
+                notificarError("Hubo un error en la busqueda de detalles");
+            }
+        }else {
             notificarError("Selecione un alumno primero");
         }
+        
     }
 
 }

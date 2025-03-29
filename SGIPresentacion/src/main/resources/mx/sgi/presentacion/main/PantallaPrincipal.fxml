@@ -333,11 +333,16 @@
                   <Font size="20.0" />
                </font>
             </JFXButton>
-            <JFXComboBox fx:id="cmbxCicloEscolar" layoutX="817.0" layoutY="25.0" onMouseClicked="#ConsultarAdeudosConCicloEscolar" prefHeight="40.0" prefWidth="146.0" promptText="Seleccione un ciclo" style="-fx-background-color: #d2d8d2; -fx-font-size: 13px;" visibleRowCount="2">
+            <Label fx:id = "lblCicloEscolar" layoutX="817.0" layoutY="35.0" prefHeight="26.0" prefWidth="103.0" textAlignment="CENTER">
+               <font>
+                  <Font name="System" size="16.0" />
+               </font>
+            </Label>
+            <!--JFXComboBox fx:id="cmbxCicloEscolar" layoutX="817.0" layoutY="25.0" onMouseClicked="#ConsultarAdeudosConCicloEscolar" prefHeight="40.0" prefWidth="146.0" promptText="Seleccione un ciclo" style="-fx-background-color: #d2d8d2; -fx-font-size: 13px;" visibleRowCount="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
-            </JFXComboBox>
+            </JFXComboBox-->
             <ComboBox fx:id="cmbxAlumnos" layoutX="52.0" layoutY="21.0" prefHeight="47.0" prefWidth="437.0" />
             <TextField fx:id="txfAlumnos" layoutX="46.0" layoutY="19.0" prefHeight="52.0" prefWidth="450.0" promptText="Escriba el nombre de un alumno" style="-fx-background-radius: 5px;">
                <font>

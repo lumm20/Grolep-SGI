@@ -1,8 +1,10 @@
 package mx.sgi.presentacion.servicios;
 
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;
+import mx.itson.sgi.dto.DetalleAdeudoDTO;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
 
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
 public class ServicioCuotas implements IServicioCuotas {
@@ -36,7 +39,7 @@ public class ServicioCuotas implements IServicioCuotas {
         System.out.println("Valores que llegaron: " + matricula + " " + cicloEscolar);
 
         HttpRequest request = HttpRequest.newBuilder().
-                            uri(URI.create("http://localhost:8080/SGI/api/fees?matricula="+matricula+"&cicloEscolar="
+                            uri(URI.create("http://localhost:8080/SGI/api/fees?matricula="+matricula+"&ciclo="
                             + cicloEscolar)).
                             GET().
                             build();
@@ -89,6 +92,25 @@ public class ServicioCuotas implements IServicioCuotas {
         colegiaturasAtrasadas.add(new ColegiaturaAtrasadaDTO(LocalDate.of(2024, 3, 15), new BigDecimal("300.00"), new BigDecimal("1200.00")));
 
         return colegiaturasAtrasadas;
+    }
+
+    @Override
+    public List<DetalleAdeudoDTO> obtenerDetallesAdeudosColegiatura(String matricula, String cicloEscolar) {
+        HttpRequest request = HttpRequest.newBuilder().
+                            uri(URI.create("http://localhost:8080/SGI/api/fees/debit-details?matricula="+matricula+"&ciclo="+cicloEscolar)).
+                            GET().
+                            build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() == 200) {
+                System.out.println(response.body());
+                return new Gson().fromJson(response.body(), new TypeToken<List<DetalleAdeudoDTO>>() {}.getType());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 
