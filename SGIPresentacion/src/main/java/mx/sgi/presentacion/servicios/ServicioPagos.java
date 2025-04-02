@@ -3,6 +3,7 @@ package mx.sgi.presentacion.servicios;
 import com.google.gson.Gson;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
+import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioPagos;
 
 import java.net.URI;
@@ -28,9 +29,11 @@ public class ServicioPagos implements IServicioPagos {
     @Override
     public void registrarPago(PagoDTO pago)  throws Exception{
         // System.out.println(pago);
+        String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/SGI/api/payment"))
                 .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
                 .POST(HttpRequest.BodyPublishers.ofString(new GsonBuilder().
                 excludeFieldsWithoutExposeAnnotation().create().toJson(pago)))
                 .build();

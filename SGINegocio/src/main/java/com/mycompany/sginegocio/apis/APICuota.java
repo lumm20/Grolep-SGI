@@ -17,7 +17,7 @@ import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.DetalleAdeudoDTO;
 
 @RestController
-@RequestMapping("/api/fees")
+@RequestMapping("/fees")
 public class APICuota {
 
     @Autowired

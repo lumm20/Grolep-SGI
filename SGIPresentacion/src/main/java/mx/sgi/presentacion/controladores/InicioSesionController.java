@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import mx.itson.sgi.dto.AuthenticationResponse;
 import mx.itson.sgi.dto.UsuarioDTO;
 import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioUsuarios;
@@ -72,13 +73,15 @@ public class InicioSesionController implements Initializable{
 
             //mandamos los datos al servicio
             // UsuarioDTO usuario = servicioUsuarios.obtenerUsuario(id, contrena);
-            UsuarioDTO usuario = servicioUsuarios.login(id, contrena);
+            // UsuarioDTO usuario = servicioUsuarios.login(id, contrena);
+            AuthenticationResponse usuario = servicioUsuarios.loginSec(id, contrena);
 
             System.out.println(usuario.toString());
 
-            if(usuario != null){
+            if(usuario.getToken() != null){
                 //guardamos al usuario en la instancia global
-                UsuarioCache.setInstance(usuario);
+                // UsuarioCache.setInstance(usuario);
+                UsuarioCache.setSession(usuario);
     
                 //hacemos el cambio de pantalla
                 mediador.MostrarPantallaPrincipal();
@@ -88,6 +91,8 @@ public class InicioSesionController implements Initializable{
                 Stage stage = (Stage) txfID.getScene().getWindow(); // Obtener el Stage (ventana) actual
                 stage.close(); // Cerrar la ventana de inicio de sesiónS
                 
+            }else{
+                error(usuario.getError());
             }
 
         }

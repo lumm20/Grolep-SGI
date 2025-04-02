@@ -5,7 +5,12 @@
 package mx.itson.sgi.data_access.entities;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
@@ -25,7 +30,7 @@ import lombok.Data;
 @Entity
 @Table(name = "usuarios")
 @Data
-public class Usuario {
+public class Usuario implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,8 +56,6 @@ public class Usuario {
     @OneToMany(mappedBy = "cajero")
     private List<Pago> pagos = new ArrayList<>();
 
-
-
     public Usuario(Long id,String nombre, Rol rol, String correo) {
         this.id = id;
         this.nombre = nombre;
@@ -76,5 +79,40 @@ public class Usuario {
     @Override
     public String toString(){
         return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(this);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_"+rol));
+    }
+
+    @Override
+    public String getPassword() {
+        return contrasena;
+    }
+
+    @Override
+    public String getUsername() {
+        return correo;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

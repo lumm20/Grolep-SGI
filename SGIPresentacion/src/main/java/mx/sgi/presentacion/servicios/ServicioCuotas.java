@@ -5,6 +5,7 @@ import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.DetalleAdeudoDTO;
+import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
 
 import java.math.BigDecimal;
@@ -37,11 +38,12 @@ public class ServicioCuotas implements IServicioCuotas {
     public CuotasDTO obtenerCuotasAlumno(String matricula, String cicloEscolar) throws Exception {
         // Simulación de obtención de datos (en un caso real, aquí iría la lógica de la consulta)
         System.out.println("Valores que llegaron: " + matricula + " " + cicloEscolar);
-
+        String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder().
                             uri(URI.create("http://localhost:8080/SGI/api/fees?matricula="+matricula+"&ciclo="
                             + cicloEscolar)).
                             GET().
+                            header("Authorization", "Bearer " + token).
                             build();
         HttpResponse<String> response = null;
         try {
@@ -96,9 +98,11 @@ public class ServicioCuotas implements IServicioCuotas {
 
     @Override
     public List<DetalleAdeudoDTO> obtenerDetallesAdeudosColegiatura(String matricula, String cicloEscolar) {
+        String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder().
                             uri(URI.create("http://localhost:8080/SGI/api/fees/debit-details?matricula="+matricula+"&ciclo="+cicloEscolar)).
                             GET().
+                            header("Authorization", "Bearer " + token).
                             build();
         HttpResponse<String> response = null;
         try {

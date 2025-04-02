@@ -3,6 +3,7 @@ package com.mycompany.sginegocio.apis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +16,14 @@ import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 
 @RestController
-@RequestMapping("/api/payment")
+@RequestMapping("/payment")
 public class APIPago {
 
     @Autowired
     PagoControlador controlador;
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> registrarPago(@RequestBody PagoDTO pagoDTO) {
         try {
         	TicketRegistrarDTO ticket = controlador.registrarPago(pagoDTO);

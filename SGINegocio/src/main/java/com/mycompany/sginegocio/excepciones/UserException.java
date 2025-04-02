@@ -7,6 +7,7 @@ public class UserException extends Exception {
     public static final int UNSUCCESFUL_SIGNIN = 3;
     public static final int USERNAME_CONFLICT = 4;
     public static final int EMAIL_CONFLICT = 5;
+    public static final int BAD_CREDENTIALS = 6;
     private int type;
 
     public UserException(String message, int type) {

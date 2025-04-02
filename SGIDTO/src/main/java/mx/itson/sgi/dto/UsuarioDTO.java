@@ -29,8 +29,8 @@ public class UsuarioDTO {
         this.rol=rol;
     }
 
-    public UsuarioDTO(String nombre, String contra){
-        this.nombre = nombre;
+    public UsuarioDTO(String correo, String contra){
+        this.correo = correo;
         this.contra = contra;
     }
 

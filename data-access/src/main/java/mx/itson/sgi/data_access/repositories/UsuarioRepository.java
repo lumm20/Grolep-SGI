@@ -16,6 +16,7 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
     @Query("select new Usuario(u.id,u.nombre, u.rol, u.correo) from Usuario u where u.nombre = ?1")
     Optional<Usuario> findUserByNombre(String nombre);
     Optional<Usuario> findByNombre(String nombre);
+    Optional<Usuario> findByCorreo(String correo);
     @Query("select new Usuario(u.id, u.nombre, u.rol, u.correo) from Usuario u")
     List<Usuario> findUsers();
 }

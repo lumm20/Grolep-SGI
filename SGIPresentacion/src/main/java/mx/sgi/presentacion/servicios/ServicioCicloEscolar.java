@@ -2,6 +2,7 @@ package mx.sgi.presentacion.servicios;
 
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
+import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 
 import java.net.URI;
@@ -58,9 +59,11 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
 
     @Override
     public CicloEscolarDTO obtenerCicloEscolarActual() {
+        String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/SGI/api/fees/actual-cycle"))
                 .GET()
+                .header("Authorization", "Bearer " + token)
                 .build();
         HttpResponse<String> response = null;
         try {

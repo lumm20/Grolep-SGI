@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.BecaDTO;
 import mx.itson.sgi.dto.DescuentoDTO;
+import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +35,11 @@ public class ServicioAlumnos implements IServicioAlumnos {
     }
 
     public List<AlumnoConsultaDTO> buscarAlumnos(String nombre){
+        String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/SGI/api/students?matricula=" + nombre))
                 .GET()
+                .header("Authorization", "Bearer " + token)
                 .build();
         HttpResponse<String> response = null;
         try {
@@ -60,9 +63,11 @@ public class ServicioAlumnos implements IServicioAlumnos {
     @Override
     public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception {
         String url = "api/student?" + nombre;
+        String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .GET()
+                .header("Authorization", "Bearer " + token)
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

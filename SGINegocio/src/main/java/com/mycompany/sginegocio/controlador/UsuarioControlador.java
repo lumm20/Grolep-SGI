@@ -3,12 +3,12 @@ package com.mycompany.sginegocio.controlador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.sginegocio.excepciones.UserException;
 
 import mx.itson.sgi.data_access.services.UsuarioService;
+import mx.itson.sgi.dto.AuthenticationResponse;
 import mx.itson.sgi.dto.UsuarioDTO;
 
 @Service
@@ -17,6 +17,16 @@ public class UsuarioControlador {
     @Autowired
     UsuarioService service;
 
+    public AuthenticationResponse loginSecure(UsuarioDTO usuario)throws UserException{
+        if(usuario.getCorreo() != null && usuario.getContra() != null){
+            AuthenticationResponse response = service.authenticate(usuario);
+            if(response.getToken() != null){
+                return response;
+            }
+            throw new UserException("Invalid credentials", UserException.BAD_CREDENTIALS);
+        }
+        throw new UserException("Empty field",UserException.EMPTY_FIELD);
+    }
     public UsuarioDTO login(UsuarioDTO usuario)throws UserException{
         if(usuario.getNombre() != null && usuario.getContra() != null){
             UsuarioDTO logged = service.login(usuario);
@@ -39,13 +49,6 @@ public class UsuarioControlador {
             if(user == null){
                 throw new UserException("Error while signing in", UserException.UNSUCCESFUL_SIGNIN);
             }
-            System.out.println("--------------------");
-            System.out.println("--------------------");
-            System.out.println("--------------------");
-            System.out.println("usuario: "+user.getNombre());
-            System.out.println("--------------------");
-            System.out.println("--------------------");
-            System.out.println("--------------------");
         }else{
             throw new UserException("Empty field", UserException.EMPTY_FIELD);
         }
