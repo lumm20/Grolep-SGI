@@ -54,7 +54,7 @@ public class APIUsuario {
     }
     
     @PostMapping("/register")
-    @PreAuthorize("hasRole(ROLE_ADMIN)")
+    // @PreAuthorize("hasRole(ROLE_ADMIN)")
     public ResponseEntity<?> registrar(@RequestBody UsuarioDTO usuario){
         try {
             controlador.registrarUsuario(usuario);
