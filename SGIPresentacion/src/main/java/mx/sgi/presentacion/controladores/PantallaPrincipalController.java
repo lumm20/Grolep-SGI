@@ -209,7 +209,7 @@ public class PantallaPrincipalController implements Initializable {
 
         this.servicioAlumnos = new ServicioAlumnos();
 
-        this.servicioCuotas =  new ServicioCuotas();
+        this.servicioCuotas =  ServicioCuotas.getInstance();
 
         this.mediador = Mediador.getInstance();
 
@@ -590,21 +590,20 @@ public class PantallaPrincipalController implements Initializable {
                 return;
             }
 
-            Double total = Double.parseDouble(lblTotal.getText());
+            double total = Double.parseDouble(lblTotal.getText());
+            
             if(total <= 0.0){
                 showError("Debe ingresar, al menos, un monto a pagar");
                 return;
             }
-            
             if (cmbxMetodoPago.getValue() == null) {
                 showError("Debe seleccionar un metodo de pago");
                 return;
             }
             // recolectamos todos los campos del pago y los guardamos en la cache
 
-            TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+            TicketRegistrarDTO ticket = new TicketRegistrarDTO();
 
-            Double montoTotal = Double.parseDouble(lblTotal.getText());
             String folio = generarFolio();
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
@@ -623,9 +622,9 @@ public class PantallaPrincipalController implements Initializable {
                     : Double.parseDouble(txfMontoAcademias.getText()));
             Double montoUniforme = (txfMontoUniforme.getText().isBlank() ? 0.0
                     : Double.parseDouble(txfMontoUniforme.getText()));
-            String descuento = "Descuento por pago temprano";
+            
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
-            UsuarioDTO usuario = UsuarioCache.getInstance();
+            UsuarioDTO usuario = new UsuarioDTO(UsuarioCache.getSession().getIdUsuario());
             CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
             Map<String, Double> cuotas = new HashMap<>();
             cuotas.put("VENCIDOS", montoVencidos);
@@ -637,38 +636,35 @@ public class PantallaPrincipalController implements Initializable {
             cuotas.put("UNIFORME", montoUniforme);
 
             List<DetallePagoDTO> detalles = new ArrayList<>();
-
-            cuotas.forEach((concepto, monto) -> {
-                if (monto > 0) {
-                    detalles.add(new DetallePagoDTO(concepto, monto));
-                }
-            });
-
+            
             String tipoDescuento = lblTipoDescuento.getText();
-            String montoDescuento = lblDescuentoDescuento.getText();
+            Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
+            
+            Double montoConDescuento =0.0;
+            for(Map.Entry<String,Double> cuota:cuotas.entrySet()){
+                if(cuota.getValue()>0.0){
+                    // if(cuota.getKey().equals("COLEGIATURA")){
+                    //     montoConDescuento = total-descuento;
+                    //     // Double montoAnterior = cuota.getValue();
+                    //     // cuota.setValue(montoAnterior-descuento);
+                    // }
+                    detalles.add(new DetallePagoDTO(cuota.getKey(), cuota.getValue()));
+                }
+            }
 
-
-            ticket.setMontoTotal(montoTotal);
+            ticket.setMontoTotal(montoConDescuento>0.0? montoConDescuento:total);
             ticket.setFolio(folio);
             ticket.setFecha(fecha);
             ticket.setHora(hora);
             ticket.setMetodoPago(metodoPago);
             ticket.setDetalles(detalles);
-            // ticket.setMontoVencidos(montoVencidos);
-            // ticket.setMontoColegiatura(montoColegiatura);
-            // ticket.setMontoInscripcion(montoInscripcion);
-            // ticket.setMontoLibros(montoLibros);
-            // ticket.setMontoEventos(montoEventos);
-            // ticket.setMontoAcademias(montoAcademias);
-            // ticket.setMontoUniforme(montoUniforme);
-            // ticket.setMontoDescuento(descuento);
             ticket.setAlumno(alumno);
             ticket.setIdUsuario(usuario.getId());
             ticket.setCiclo(cicloEscolar);
             ticket.setTipoDescuento(tipoDescuento);
-            ticket.setMontoTotal(montoTotal);
-
-            System.out.println(ticket.toString());
+            ticket.setMontoDescuento(descuento);
+            TicketRegistrarCache.setInstance(ticket);
+            System.out.println(TicketRegistrarCache.getInstance());
 
             mediador.abrirPantallaTicket();
 
@@ -775,7 +771,7 @@ public class PantallaPrincipalController implements Initializable {
         total = total.add(ParseBigDecimal(txfMontoEventos.getText()));
         total = total.add(ParseBigDecimal(txfMontoAcademias.getText()));
         total = total.add(ParseBigDecimal(txfMontoUniforme.getText()));
-
+        total = total.subtract(ParseBigDecimal(lblDescuentoDescuento.getText()));
         //if(lblAdeudoColegiatura.equals)
 
 

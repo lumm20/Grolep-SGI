@@ -140,6 +140,7 @@ public class CuotaService {
     }
 
     public List<DetalleAdeudoDTO> obtenerDetalleAdeudosColegiatura(String matricula, String idCiclo){
+        System.out.println("entre al servicio");
         List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
         List<DetalleAdeudoDTO> dtos = new ArrayList<>();
         if(detalles != null){

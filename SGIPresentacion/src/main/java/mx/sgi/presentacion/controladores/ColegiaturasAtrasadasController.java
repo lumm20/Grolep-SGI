@@ -64,7 +64,7 @@ public class ColegiaturasAtrasadasController implements Initializable {
     }
 
     private void iniciarInstancias(){
-        this.servicioCuotas = new ServicioCuotas();
+        this.servicioCuotas = ServicioCuotas.getInstance();
     }
 
     private void iniciarComponentesEnInvisible(){

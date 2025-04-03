@@ -73,7 +73,7 @@ public class UsuarioService{
         if(usuarioBuscado.isPresent()){
             Usuario user = usuarioBuscado.get();
             UsuarioDTO dto = new UsuarioDTO();
-            dto.setNombre(user.getNombre());
+            dto.setId(user.getId());
             return dto;
         }
         return null;

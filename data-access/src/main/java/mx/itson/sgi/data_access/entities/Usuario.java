@@ -62,6 +62,13 @@ public class Usuario implements UserDetails{
         this.rol = rol;
         this.correo = correo;
     }
+    public Usuario(Long id,String contrasena,  String correo,String nombre, Rol rol) {
+        this.id = id;
+        this.nombre = nombre;
+        this.contrasena = contrasena;
+        this.rol = rol;
+        this.correo = correo;
+    }
 
     public Usuario(String nombre, String contrasena, Rol rol, String correo) {
         this.nombre = nombre;

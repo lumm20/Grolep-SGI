@@ -23,21 +23,22 @@ import com.google.gson.reflect.TypeToken;
 
 public class ServicioCuotas implements IServicioCuotas {
 
-    // varibale para las peticiones
-    private HttpClient client;
+    private static ServicioCuotas instance;
+    private final HttpClient client;
 
-    /**
-     * Contructor que inicializa las variables de la clase
-     */
-    public ServicioCuotas() {
-        // Inicializar HttpClient
+    private ServicioCuotas() {
         this.client = HttpClient.newHttpClient();
+    }
+
+    public static synchronized ServicioCuotas getInstance(){
+        if(instance == null){
+            instance = new ServicioCuotas();
+        }
+        return instance;
     }
 
     @Override
     public CuotasDTO obtenerCuotasAlumno(String matricula, String cicloEscolar) throws Exception {
-        // Simulación de obtención de datos (en un caso real, aquí iría la lógica de la consulta)
-        System.out.println("Valores que llegaron: " + matricula + " " + cicloEscolar);
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder().
                             uri(URI.create("http://localhost:8080/SGI/api/fees?matricula="+matricula+"&ciclo="

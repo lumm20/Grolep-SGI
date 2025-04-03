@@ -19,6 +19,7 @@ public class UsuarioDTO {
      * constructor vacio
      */
     public UsuarioDTO() {}
+    public UsuarioDTO(Long id) {this.id=id;}
 
     // Constructor
     public UsuarioDTO(Long identificador, String nombre, String correo, String contra, RolDTO rol) {

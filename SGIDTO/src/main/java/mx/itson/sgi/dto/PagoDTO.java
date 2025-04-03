@@ -24,8 +24,11 @@ public class PagoDTO {
     private MetodosPagoDTO metodoPago;
     @Expose
     private List<DetallePagoDTO> cuotasPagadas;
-
-    private String descuento;
+    
+    @Expose
+    private String tipoDescuento;
+    @Expose
+    private Double montoDescuento;
     @Expose
     private String idCicloEscolar;
     @Expose
@@ -36,28 +39,31 @@ public class PagoDTO {
 
 
     public PagoDTO(Double montoTotal, AlumnoConsultaDTO alumno, MetodosPagoDTO metodoPago,
-            List<DetallePagoDTO> cuotasPagadas, String descuento, Long idUsuario, String idCicloEscolar) {
+            List<DetallePagoDTO> cuotasPagadas, String tipoDescuento, Long idUsuario, String idCicloEscolar,Double montoDescuento) {
         this.montoTotal = montoTotal;
         this.alumno = alumno;
         this.metodoPago = metodoPago;
         this.cuotasPagadas = cuotasPagadas;
-        this.descuento = descuento;
+        this.tipoDescuento = tipoDescuento;
         this.idUsuario = idUsuario;
         this.idCicloEscolar = idCicloEscolar;
+        this.montoDescuento= montoDescuento;
     }
 
 
     public PagoDTO(Double montoTotal, String folio, LocalDateTime fecha, AlumnoConsultaDTO alumno,
-            MetodosPagoDTO metodoPago, List<DetallePagoDTO> cuotasPagadas, String descuento, Long idUsuario, String idCicloEscolar) {
+            MetodosPagoDTO metodoPago, List<DetallePagoDTO> cuotasPagadas, String descuento, 
+            Long idUsuario, String idCicloEscolar, Double montoDescuento) {
         this.montoTotal = montoTotal;
         this.folio = folio;
         this.fecha = fecha;
         this.alumno = alumno;
         this.metodoPago = metodoPago;
         this.cuotasPagadas = cuotasPagadas;
-        this.descuento = descuento;
+        this.tipoDescuento = descuento;
         this.idUsuario = idUsuario;
         this.idCicloEscolar = idCicloEscolar;
+        this.montoDescuento = montoDescuento;
     }
 
     

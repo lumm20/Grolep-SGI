@@ -69,7 +69,8 @@ public class PagoService {
         }
         Usuario cajero = new Usuario(pagoDTO.getIdUsuario());
         Alumno alumno = new Alumno(pagoDTO.getAlumno().getMatricula());
-        Pago pago = new Pago(pagoDTO.getFolio(), pagoDTO.getFecha(), pagoDTO.getMontoTotal(),cajero, metodo,alumno);
+        Pago pago = new Pago(pagoDTO.getFolio(), pagoDTO.getFecha(), pagoDTO.getMontoTotal(),
+        cajero, metodo,alumno,pagoDTO.getMontoDescuento(),pagoDTO.getTipoDescuento());
         CicloEscolar ciclo = new CicloEscolar(pagoDTO.getIdCicloEscolar());
         List<DetallePagoDTO> detallesDTO = pagoDTO.getCuotasPagadas();
         List<DetallePago> detalles = convertirDetallesPagos(detallesDTO, alumno,ciclo, pago);

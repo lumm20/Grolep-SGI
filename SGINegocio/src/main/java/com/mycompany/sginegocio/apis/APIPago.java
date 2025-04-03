@@ -23,7 +23,7 @@ public class APIPago {
     PagoControlador controlador;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> registrarPago(@RequestBody PagoDTO pagoDTO) {
         try {
         	TicketRegistrarDTO ticket = controlador.registrarPago(pagoDTO);

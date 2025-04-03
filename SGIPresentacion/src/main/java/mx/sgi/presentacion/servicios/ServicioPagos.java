@@ -40,8 +40,13 @@ public class ServicioPagos implements IServicioPagos {
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("codigo: "+response.statusCode());
             if(response.statusCode() == 200) {
                 System.out.println("Pago registrado");
+            }else{
+                System.out.println(response.statusCode());
+                System.out.println(response.body());
+
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
