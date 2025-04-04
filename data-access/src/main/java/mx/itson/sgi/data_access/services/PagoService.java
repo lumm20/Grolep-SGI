@@ -99,7 +99,7 @@ public class PagoService {
         return repository.count();
     }
     public long getCantidadPagosMensualesAlumno(AlumnoConsultaDTO alumno, String ciclo){
-        return repository.countPagosMensuales(new Alumno(ciclo), new CicloEscolar(ciclo));
+        return repository.countPagosMensuales(new Alumno(alumno.getMatricula()), new CicloEscolar(ciclo));
     }
 
     public Double obtenerTotalPagadoColegiatura(AlumnoConsultaDTO alumno, String ciclo){

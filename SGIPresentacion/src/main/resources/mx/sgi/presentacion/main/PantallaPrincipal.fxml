@@ -222,12 +222,12 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="180.0" layoutY="65.0" prefHeight="20.0" prefWidth="68.0" style="-fx-text-alignment: center;" text="Adeudo de">
+                  <Label layoutX="190.0" layoutY="65.0" prefHeight="20.0" prefWidth="68.0" style="-fx-text-alignment: center;" text="Adeudo de">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="187.0" layoutY="85.0" prefHeight="20.0" prefWidth="53.0" style="-fx-text-alignment: center;" text="este mes">
+                  <Label layoutX="195.0" layoutY="85.0" prefHeight="20.0" prefWidth="53.0" style="-fx-text-alignment: center;" text="este mes">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -237,27 +237,27 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAdeudoActual" alignment="CENTER" layoutX="158.0" layoutY="118.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                  <Label fx:id="lblAdeudoActual" alignment="CENTER" layoutX="190.0" layoutY="118.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                      </Label>
-                  <Label layoutX="344.0" layoutY="65.0" prefHeight="20.0" prefWidth="49.0" style="-fx-text-alignment: center;" text="Monto para ">
+                  <Label layoutX="334.0" layoutY="65.0" prefHeight="20.0" prefWidth="72.0" style="-fx-text-alignment: center;" text="Adeudo con">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="336.0" layoutY="85.0" prefHeight="20.0" prefWidth="66.0" style="-fx-text-alignment: center;" text="colegiatura">
+                  <Label layoutX="339.0" layoutY="85.0" prefHeight="20.0" prefWidth="60.0" style="-fx-text-alignment: center;" text="descuento">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <!-- <Label fx:id="lblAdeudoColegiatura" alignment="CENTER" layoutX="337.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                  <Label fx:id="lblAdeudoConDescuento" alignment="CENTER" layoutX="335.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="507.0" layoutY="65.0" prefHeight="20.0" prefWidth="39.0" style="-fx-text-alignment: center;" text="Monto">
+                  <Label layoutX="492.0" layoutY="65.0" prefHeight="20.0" prefWidth="80.0" style="-fx-text-alignment: center;" text="Monto para">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -266,8 +266,8 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
-                  </Label> -->
-                  <TextField fx:id="txfMontoColegiatura" alignment="CENTER" layoutX="337.0" layoutY="121.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
+                  </Label>
+                  <TextField fx:id="txfMontoColegiatura" alignment="CENTER" layoutX="470.0" layoutY="121.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
                      <font>
                         <Font size="14.0" />
                      </font></TextField>
@@ -287,6 +287,16 @@
                   </Label>
                   <Separator layoutX="12.0" layoutY="226.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #000000;" />
                   <Label layoutX="17.0" layoutY="54.0" prefHeight="28.0" prefWidth="146.0" text="Descuento aplicado:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="17.0" layoutY="94.0" prefHeight="28.0" prefWidth="146.0" text="Tipo de descuento:">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblTipoDescuento" layoutX="140.0" layoutY="94.0" prefHeight="28.0" prefWidth="150.0" >
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>

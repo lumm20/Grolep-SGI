@@ -31,7 +31,7 @@ public interface PagoRepository extends CrudRepository<Pago,String>{
            "WHERE c.concepto = 'COLEGIATURA' " +
            "AND p.alumno = ?1 " +
            "AND c.ciclo = ?2 " +
-           "AND FUNCTION('MONTH', p.fechaHora) = FUNCTION('MONTH', CURRENT_DATE)")
+           "AND FUNCTION('MONTH', p.fecha) = FUNCTION('MONTH', CURRENT_DATE)")
     Long countPagosMensuales(@Param("alumno") Alumno alumno, @Param("ciclo") CicloEscolar ciclo);
 
 }
