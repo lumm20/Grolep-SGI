@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mycompany.sginegocio.controlador.PagoControlador;
 import com.mycompany.sginegocio.excepciones.PaymentException;
 
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/payment")
@@ -23,7 +27,7 @@ public class APIPago {
     PagoControlador controlador;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> registrarPago(@RequestBody PagoDTO pagoDTO) {
         try {
         	TicketRegistrarDTO ticket = controlador.registrarPago(pagoDTO);
@@ -33,4 +37,20 @@ public class APIPago {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping("/tuition/all")
+    public ResponseEntity<?> obtenerTotalPagadoColegiatura(@RequestParam String matricula, @RequestParam String ciclo) {
+        try {
+            Double totalPagado = controlador.obtenerTotalPagadoColegiatura(new AlumnoConsultaDTO(matricula), ciclo);
+            if(totalPagado == null || totalPagado == 0.0){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se ha encontrado el alumno o no tiene pagos registrados");
+            }
+            return ResponseEntity.ok(totalPagado);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("algo ha salido mal");
+        }
+
+    }
+    
 }

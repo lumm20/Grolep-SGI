@@ -6,9 +6,8 @@ package com.mycompany.sginegocio.controlador;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +64,7 @@ public class CuotaControlador {
     }
 
     public List<DetalleAdeudoDTO> obtenerDetallesAdeudo(String matricula, String idCiclo){
+        System.out.println("entre al metodo en controlador");
         List<DetalleAdeudoDTO> detalles = cuotaService.obtenerDetalleAdeudosColegiatura(matricula, idCiclo);
         if(detalles != null && !detalles.isEmpty()){
 
@@ -72,54 +72,34 @@ public class CuotaControlador {
             ha registrado ningun pago para la colegiatura de este mes, por lo tanto, se debe
             agregar como adeudo (el monto del adeudo seria el monto base de la colegiatura, porque no ha pagado nada)
             */
+            //obtener el mes inicial
+            LocalDate inicioAnio = LocalDate.of(2025, 1, 1);
             //obtener el mes actual
             LocalDate hoy = LocalDate.now();
-            Month mesActual = hoy.getMonth();
-            //verifica si en la lista de detalles se incluye un adeudo del mes actual
-            if(!detalles.contains(new DetalleAdeudoDTO(mesActual))) {
-                //si no lo contiene, se crea un detalle con el mes actual y el monto base de la colegiatura
-                //y se agrega a la lista
-                Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula));
-                detalles.add(new DetalleAdeudoDTO(mesActual, montoBase,0.0));
+            long mesesDiferencia = ChronoUnit.MONTHS.between(inicioAnio, hoy);
+            
+            Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula));
+            Month sigMes;
+            for(int i=0;i<=mesesDiferencia;i++){
+                sigMes = inicioAnio.plusMonths(i).getMonth();
+                if(!detalles.contains(new DetalleAdeudoDTO(sigMes))){
+                    detalles.add(new DetalleAdeudoDTO(sigMes, montoBase,0.0));
+                }
             }
 
             detalles.sort((d1,d2)->d2.getMesAdeudo().compareTo(d1.getMesAdeudo()));
+            System.out.println("detalles: "+ detalles);
             return detalles;
         }
         return null;
     }
 
-    /**
-     * Los meses se obtienen en ingles, por lo tanto, se debe de cambiar el nombre a español
-     * @param detalles lista de detalles obtenida de la base de datos
-     * @return la lista de detalles con los nombres de los meses actualizados
-     */
-    // private List<DetalleAdeudoDTO> cambiarNombreMeses(List<DetalleAdeudoDTO> detalles){
-    //     String mes;
-    //         for (DetalleAdeudoDTO detalle : detalles) {
-    //             mes = detalle.getMesAdeudo();
-    //             switch (mes) {
-    //                 case "January"->detalle.setMesAdeudo("Enero");
-    //                 case "February"->detalle.setMesAdeudo("Febrero");
-    //                 case "March"->detalle.setMesAdeudo("Marzo");
-    //                 case "April"->detalle.setMesAdeudo("Abril");
-    //                 case "May"->detalle.setMesAdeudo("Mayo");
-    //                 case "June"->detalle.setMesAdeudo("Junio");
-    //                 case "July"->detalle.setMesAdeudo("Julio");
-    //                 case "August"-> detalle.setMesAdeudo("Agosto");
-    //                 case "September"->detalle.setMesAdeudo("Septiembre");
-    //                 case "October"-> detalle.setMesAdeudo("Octubre");
-    //                 case "November"->detalle.setMesAdeudo("Noviembre");
-    //                 case "December"-> detalle.setMesAdeudo("Diciembre");
-    //             }
-    //         }
-
-    //     return detalles;
-    // }
-
     public CicloEscolarDTO obtenerCicloEscolarActual(){
         return cuotaService.obtenerCicloActual();
     }
-}
+    public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
+        return cuotaService.obtenerMontoTotalColegiaturas(matricula, ciclo);
+    }
 
+}
 

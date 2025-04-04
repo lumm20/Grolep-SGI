@@ -19,6 +19,7 @@ import mx.itson.sgi.data_access.entities.MetodoPago;
 import mx.itson.sgi.data_access.entities.Pago;
 import mx.itson.sgi.data_access.entities.Usuario;
 import mx.itson.sgi.data_access.repositories.PagoRepository;
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
@@ -69,7 +70,8 @@ public class PagoService {
         }
         Usuario cajero = new Usuario(pagoDTO.getIdUsuario());
         Alumno alumno = new Alumno(pagoDTO.getAlumno().getMatricula());
-        Pago pago = new Pago(pagoDTO.getFolio(), pagoDTO.getFecha(), pagoDTO.getMontoTotal(),cajero, metodo,alumno);
+        Pago pago = new Pago(pagoDTO.getFolio(), pagoDTO.getFecha(), pagoDTO.getMontoTotal(),
+        cajero, metodo,alumno,pagoDTO.getMontoDescuento(),pagoDTO.getTipoDescuento());
         CicloEscolar ciclo = new CicloEscolar(pagoDTO.getIdCicloEscolar());
         List<DetallePagoDTO> detallesDTO = pagoDTO.getCuotasPagadas();
         List<DetallePago> detalles = convertirDetallesPagos(detallesDTO, alumno,ciclo, pago);
@@ -95,5 +97,9 @@ public class PagoService {
 
     public long getCantidadPagos(){
         return repository.count();
+    }
+
+    public Double obtenerTotalPagadoColegiatura(AlumnoConsultaDTO alumno, String ciclo){
+        return repository.findTotalPagadoColegiatura(new Alumno(alumno.getMatricula()), new CicloEscolar(ciclo));
     }
 }

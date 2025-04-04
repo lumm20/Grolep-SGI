@@ -46,10 +46,20 @@ public class APICuota {
     public ResponseEntity<?> obtenerDetallesAdeudosPorEstudiante(
             @RequestParam String matricula,
             @RequestParam("ciclo") String idCiclo) {
-        List<DetalleAdeudoDTO> detalles = controlador.obtenerDetallesAdeudo(matricula,idCiclo);
+                System.out.println("llegue al endpoint");
+                List<DetalleAdeudoDTO> detalles = controlador.obtenerDetallesAdeudo(matricula,idCiclo);
+                System.out.println("me llegaron los dealltes en el endpoint");
+                System.out.println(detalles);
         if(detalles != null){
             return ResponseEntity.ok().body(detalles);
         }
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/tuition-tcharges")
+    public ResponseEntity<?> obtenerMontoTotalColegiaturas(
+            @RequestParam String matricula,
+            @RequestParam("ciclo") String idCiclo) {
+                double total = controlador.obtenerMontoTotalColegiaturas(matricula, idCiclo);
+            return ResponseEntity.ok().body(total);
     }
 }

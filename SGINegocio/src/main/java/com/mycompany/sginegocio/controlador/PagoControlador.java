@@ -33,12 +33,21 @@ public class PagoControlador {
     @Autowired
     UsuarioService usuarioService;
 
+    public Double obtenerTotalPagadoColegiatura(AlumnoConsultaDTO alumno, String ciclo){
+        return service.obtenerTotalPagadoColegiatura(alumno, ciclo);
+    }
+
     public TicketRegistrarDTO registrarPago(PagoDTO pago)throws PaymentException{
+        System.out.println("Pago "+pago);
         String folio = generarFolio();
+        System.out.println("folio: "+folio);
 
         validatePaymentFields(pago);
+        System.out.println("fields validated");
         UsuarioDTO cajero = validateCashier(pago.getIdUsuario());
+        System.out.println("cashier validated");
         AlumnoConsultaDTO alumno = validateStudent(pago.getAlumno().getMatricula());
+        System.out.println("student validated");
 
         pago.setFecha(LocalDateTime.now());
         pago.setFolio(folio);
@@ -58,24 +67,31 @@ public class PagoControlador {
 
     private void validatePaymentFields(PagoDTO pago)throws PaymentException{
         String msj = null;
+        System.out.println("en validacionnnn");
         if(pago.getCuotasPagadas() == null || pago.getCuotasPagadas().isEmpty()){
             msj = "No quotas selected";
         }
+        System.out.println("en validacionnnn");
         if(pago.getMontoTotal() <= 0){
             msj = "Invalid total amount";
         }
+        System.out.println("en validacionnnn");
         if(pago.getMetodoPago() == null){
             msj = "No payment method selected";
         }
+        System.out.println("en validacionnnn");
         if(pago.getAlumno() == null || pago.getAlumno().getMatricula() == null || pago.getAlumno().getMatricula().isBlank()){
             msj = "No student selected";
         }
+        System.out.println("en validacionnnn");
         if(pago.getIdUsuario() <= 0){
             msj = "No cashier selected";
         }
+        System.out.println("mensaje: "+msj);
         if(msj != null){
             throw new PaymentException(msj, PaymentException.EMPTY_FIELD);
         }
+        System.out.println("se acabo la validacionnn");
     }
 
     private UsuarioDTO validateCashier(long cashierId)throws PaymentException{

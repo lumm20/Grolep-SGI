@@ -140,6 +140,7 @@ public class CuotaService {
     }
 
     public List<DetalleAdeudoDTO> obtenerDetalleAdeudosColegiatura(String matricula, String idCiclo){
+        System.out.println("entre al servicio");
         List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
         List<DetalleAdeudoDTO> dtos = new ArrayList<>();
         if(detalles != null){
@@ -159,6 +160,11 @@ public class CuotaService {
     public Double obtenerMontoBaseColegiatura(AlumnoConsultaDTO alumno){
         Cuota cuota = repository.findMontoBaseColegiaturaAlumno(new Alumno(alumno.getMatricula()));
         return cuota.getMontoBase();
+    }
+    public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
+        Double total = 0.0;
+        repository.sp_monto_total_colegiaturas(matricula, ciclo, total);
+        return total;
     }
 }
 

@@ -21,9 +21,9 @@ INSERT INTO cuotas (monto_base, ciclo_escolar, matricula_alumno, concepto) VALUE
 INSERT INTO cuotas (monto_base, ciclo_escolar, matricula_alumno, concepto) VALUES (1500.00, '24-25', 'A20220003', 'COLEGIATURA');
 INSERT INTO cuotas (monto_base, ciclo_escolar, matricula_alumno, concepto) VALUES (2500,'24-25','A20220003','INSCRIPCION');
 
-INSERT INTO pagos (folio, fecha_hora, monto_total, id_cajero,matricula_alumno, metodo_pago) VALUES ('P20230001', '2025-01-10 09:15:30', 4300.00, 2,'A20220001', 'EFECTIVO');
-INSERT INTO pagos (folio, fecha_hora, monto_total, id_cajero, matricula_alumno,metodo_pago) VALUES('P20230002', '2025-01-11 10:25:45', 3350.00, 2,'A20220002', 'TARJETA');
-INSERT INTO pagos (folio, fecha_hora, monto_total, id_cajero, matricula_alumno,metodo_pago) VALUES('P20230003', '2025-01-05 14:30:20', 1800.00, 2,'A20220003','TRANSFERENCIA');
+INSERT INTO pagos (folio, fecha_hora, monto_total, id_cajero,matricula_alumno, metodo_pago,monto_descuento_aplicado,tipo_descuento_aplicado) VALUES ('P20230001', '2025-01-10 09:15:30', 4300.00, 2,'A20220001', 'EFECTIVO',0.0,"No aplica");
+INSERT INTO pagos (folio, fecha_hora, monto_total, id_cajero, matricula_alumno,metodo_pago,monto_descuento_aplicado,tipo_descuento_aplicado) VALUES('P20230002', '2025-01-11 10:25:45', 3350.00, 2,'A20220002', 'TARJETA',0.0,"No aplica");
+INSERT INTO pagos (folio, fecha_hora, monto_total, id_cajero, matricula_alumno,metodo_pago,monto_descuento_aplicado,tipo_descuento_aplicado) VALUES('P20230003', '2025-01-05 14:30:20', 1800.00, 2,'A20220003','TRANSFERENCIA',0.0,"No aplica");
 
 
 INSERT INTO detalles_pagos ( monto_pagado, id_cuota, folio_pago) VALUES (2500.00, 1, 'P20230001');

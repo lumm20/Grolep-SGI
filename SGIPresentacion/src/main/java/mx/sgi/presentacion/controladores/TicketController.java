@@ -20,6 +20,7 @@ import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.mediador.Mediador;
+import mx.sgi.presentacion.servicios.ServicioCuotas;
 import mx.sgi.presentacion.servicios.ServicioPagos;
 
 import java.math.BigDecimal;
@@ -85,7 +86,7 @@ public class TicketController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.servicioPagos = new ServicioPagos();
+        this.servicioPagos = ServicioPagos.getInstance();
         this.mediador = Mediador.getInstance();
 
         if (conceptosContainer != null) {
@@ -173,8 +174,8 @@ public class TicketController implements Initializable {
         lblCliente.setText(cliente);
         lblMetodo.setText(metodoPago.toString().toLowerCase());
         lblDescuento.setText(ticketCache.getTipoDescuento());
-        lblMontoDescuento.setText(ticketCache.getMontoDescuento());
         lblSubTotal.setText(ticketCache.getSubTotal());
+        lblMontoDescuento.setText(ticketCache.getMontoDescuento().toString());
         
         generarConceptos(mapaDetalles);
     }
@@ -193,15 +194,15 @@ public class TicketController implements Initializable {
 
             pago.setMontoTotal(ticket.getMontoTotal());
             pago.setFolio(ticket.getFolio());
-            // pago.setFecha(LocalDateTime.of(ticket.getFecha(), ticket.getHora()));
+           // pago.setFecha(LocalDateTime.of(ticket.getFecha(), ticket.getHora()));
             pago.setAlumno(ticket.getAlumno());
             pago.setMetodoPago(ticket.getMetodoPago());
             pago.setCuotasPagadas(ticket.getDetalles());
             //pago.setCuotasPagadas(crearCuotas());
             pago.setIdCicloEscolar(ticket.getCiclo().getId());
             pago.setIdUsuario(ticket.getIdUsuario());
-            pago.setDescuento(ticket.getTipoDescuento());
-
+            pago.setTipoDescuento(ticket.getTipoDescuento());
+            pago.setMontoDescuento(ticket.getMontoDescuento());
             //registramos el pago
             servicioPagos.registrarPago(pago);
 

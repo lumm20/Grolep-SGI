@@ -35,7 +35,7 @@ public class TicketRegistrarDTO {
     private Double montoAcademias;
     private Double montoUniforme;
     private String TipoDescuento;
-    private String montoDescuento;
+    private Double montoDescuento;
     @Expose
     private Long idUsuario;
     @Expose

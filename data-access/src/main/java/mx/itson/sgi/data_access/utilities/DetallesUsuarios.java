@@ -19,6 +19,7 @@ public class DetallesUsuarios implements UserDetailsService{
     public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
         Usuario usuario = repository.findByCorreo(correo)
             .orElseThrow(() -> new UsernameNotFoundException("User not found " + correo));
+            System.out.println("user found: "+usuario);
         return usuario;
     }
 }

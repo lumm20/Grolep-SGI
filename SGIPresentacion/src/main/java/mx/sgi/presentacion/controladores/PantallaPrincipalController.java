@@ -38,10 +38,12 @@ import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
+import mx.sgi.presentacion.interfaces.IServicioPagos;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
+import mx.sgi.presentacion.servicios.ServicioPagos;
 
 public class PantallaPrincipalController implements Initializable {
 
@@ -135,8 +137,8 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     TextField txfAlumnos;
 
-    @FXML
-    TextField txfMontoVencido;
+    // @FXML
+    // TextField txfMontoVencido;
 
     @FXML
     TextField txfMontoColegiatura;
@@ -165,6 +167,7 @@ public class PantallaPrincipalController implements Initializable {
     private IServicioAlumnos servicioAlumnos;
 
     private IServicioCuotas  servicioCuotas;
+    private IServicioPagos  servicioPagos;
 
     private IServicioCicloEscolar servicioCicloEscolar;
     /**
@@ -197,13 +200,14 @@ public class PantallaPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         this.servicioAlumnos = new ServicioAlumnos();
+        this.servicioPagos = ServicioPagos.getInstance();
 
-        this.servicioCuotas =  new ServicioCuotas();
+        this.servicioCuotas =  ServicioCuotas.getInstance();
 
         this.mediador = Mediador.getInstance();
 
         this.servicioCicloEscolar = new ServicioCicloEscolar();
-        txfMontoVencido.setDisable(true);
+        // txfMontoVencido.setDisable(true);
         //establecemos los ciclos escolares en el comboBox
         establecerCiclos();
 
@@ -256,9 +260,9 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void establecerListenersCamposDeEntrada(){
         // Método para el campo "Monto Vencido"
-        txfMontoVencido.textProperty().addListener((observable, oldValue, newValue) -> {
-            verificarFormato(txfMontoVencido, lblAdeudoVencido);
-        });
+        // txfMontoVencido.textProperty().addListener((observable, oldValue, newValue) -> {
+        //     verificarFormato(txfMontoVencido, lblAdeudoVencido);
+        // });
 
         // Método para el campo "Monto Colegiatura"
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -481,7 +485,7 @@ public class PantallaPrincipalController implements Initializable {
             DescuentoDTO descuento =  new DescuentoDTO();
 
             descuento.setTipo("Primer periodo");
-            descuento.setDescuento(BigDecimal.valueOf(400.00));
+            descuento.setDescuento(400.00);
 
             DescuentoCache.setInstance(descuento);
 
@@ -491,7 +495,7 @@ public class PantallaPrincipalController implements Initializable {
             DescuentoDTO descuento =  new DescuentoDTO();
 
             descuento.setTipo("Segundo periodo");
-            descuento.setDescuento(BigDecimal.valueOf(200.00));
+            descuento.setDescuento(200.00);
 
             DescuentoCache.setInstance(descuento);
         }
@@ -500,7 +504,7 @@ public class PantallaPrincipalController implements Initializable {
             DescuentoDTO descuento =  new DescuentoDTO();
 
             descuento.setTipo("No aplica");
-            descuento.setDescuento(BigDecimal.valueOf(0.00));
+            descuento.setDescuento(0.00);
 
             DescuentoCache.setInstance(descuento);
         }
@@ -533,7 +537,7 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     private void cleanup(){
-        txfMontoVencido.setDisable(false);
+        // txfMontoVencido.setDisable(false);
         txfMontoAcademias.setDisable(false);
         txfMontoColegiatura.setDisable(false);
         txfMontoEventos.setDisable(false);
@@ -541,7 +545,7 @@ public class PantallaPrincipalController implements Initializable {
         txfMontoUniforme.setDisable(false);
         txfMontoLibros.setDisable(false);
 
-        txfMontoVencido.setText("");
+        // txfMontoVencido.setText("");
         txfMontoAcademias.setText("");
         txfMontoColegiatura.setText("");
         txfMontoEventos.setText("");
@@ -594,27 +598,26 @@ public class PantallaPrincipalController implements Initializable {
                 return;
             }
 
-            Double total = Double.parseDouble(lblTotal.getText());
+            double total = Double.parseDouble(lblTotal.getText());
+            
             if(total <= 0.0){
                 showError("Debe ingresar, al menos, un monto a pagar");
                 return;
             }
-            
             if (cmbxMetodoPago.getValue() == null) {
                 showError("Debe seleccionar un metodo de pago");
                 return;
             }
             // recolectamos todos los campos del pago y los guardamos en la cache
 
-            TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+            TicketRegistrarDTO ticket = new TicketRegistrarDTO();
 
-            Double montoTotal = Double.parseDouble(lblTotal.getText());
             String folio = generarFolio();
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
             MetodosPagoDTO metodoPago = MetodosPagoDTO.valueOf(cmbxMetodoPago.getValue());
-            Double montoVencidos = (txfMontoVencido.getText().isBlank() ? 0.0
-                    : Double.parseDouble(txfMontoVencido.getText()));
+            // Double montoVencidos = (txfMontoVencido.getText().isBlank() ? 0.0
+            //         : Double.parseDouble(txfMontoVencido.getText()));
             Double montoColegiatura = (txfMontoColegiatura.getText().isBlank() ? 0.0
                     : Double.parseDouble(txfMontoColegiatura.getText()));
             Double montoInscripcion = (txfMontoInscripcion.getText().isBlank() ? 0.0
@@ -627,12 +630,12 @@ public class PantallaPrincipalController implements Initializable {
                     : Double.parseDouble(txfMontoAcademias.getText()));
             Double montoUniforme = (txfMontoUniforme.getText().isBlank() ? 0.0
                     : Double.parseDouble(txfMontoUniforme.getText()));
-            String descuento = "Descuento por pago temprano";
+            
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
-            UsuarioDTO usuario = UsuarioCache.getInstance();
+            UsuarioDTO usuario = new UsuarioDTO(UsuarioCache.getSession().getIdUsuario());
             CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
             Map<String, Double> cuotas = new HashMap<>();
-            cuotas.put("VENCIDOS", montoVencidos);
+            // cuotas.put("VENCIDOS", montoVencidos);
             cuotas.put("COLEGIATURA", montoColegiatura);
             cuotas.put("INSCRIPCION", montoInscripcion);
             cuotas.put("LIBROS", montoLibros);
@@ -641,34 +644,38 @@ public class PantallaPrincipalController implements Initializable {
             cuotas.put("UNIFORME", montoUniforme);
 
             List<DetallePagoDTO> detalles = new ArrayList<>();
-
-            cuotas.forEach((concepto, monto) -> {
-                if (monto > 0) {
-                    detalles.add(new DetallePagoDTO(concepto, monto));
+            
+            String tipoDescuento = lblTipoDescuento.getText();
+            Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
+            
+            Double montoConDescuento =0.0;
+            for(Map.Entry<String,Double> cuota:cuotas.entrySet()){
+                if(cuota.getValue()>0.0){
+                    // if(cuota.getKey().equals("COLEGIATURA")){
+                    //     montoConDescuento = total-descuento;
+                    //     // Double montoAnterior = cuota.getValue();
+                    //     // cuota.setValue(montoAnterior-descuento);
+                    // }
+                    detalles.add(new DetallePagoDTO(cuota.getKey(), cuota.getValue()));
                 }
-            });
+            }
 
-
-            ticket.setMontoTotal(montoTotal);
+            ticket.setMontoTotal(montoConDescuento>0.0? montoConDescuento:total);
             ticket.setFolio(folio);
             ticket.setFecha(fecha);
             ticket.setHora(hora);
             ticket.setMetodoPago(metodoPago);
             ticket.setDetalles(detalles);
-            // ticket.setMontoVencidos(montoVencidos);
-            // ticket.setMontoColegiatura(montoColegiatura);
-            // ticket.setMontoInscripcion(montoInscripcion);
-            // ticket.setMontoLibros(montoLibros);
-            // ticket.setMontoEventos(montoEventos);
-            // ticket.setMontoAcademias(montoAcademias);
-            // ticket.setMontoUniforme(montoUniforme);
-            // ticket.setMontoDescuento(descuento);
             ticket.setAlumno(alumno);
             ticket.setIdUsuario(usuario.getId());
             ticket.setCiclo(cicloEscolar);
             ticket.setSubTotal(lblSubTotal.toString());
 
             System.out.println(ticket.toString());
+            ticket.setTipoDescuento(tipoDescuento);
+            ticket.setMontoDescuento(descuento);
+            TicketRegistrarCache.setInstance(ticket);
+            System.out.println(TicketRegistrarCache.getInstance());
 
             mediador.abrirPantallaTicket();
 
@@ -730,7 +737,7 @@ public class PantallaPrincipalController implements Initializable {
     private void considerarColegiatura() {
         boolean considerar = cbxConsiderarColegiatura.isSelected();
 
-        txfMontoVencido.setText(considerar ? lblAdeudoVencido.getText() : "");
+        // txfMontoVencido.setText(considerar ? lblAdeudoVencido.getText() : "");
         txfMontoColegiatura.setText(considerar ? lblAdeudoColegiatura.getText() : "");
 
         //actualizamos el total
@@ -768,7 +775,7 @@ public class PantallaPrincipalController implements Initializable {
 
 
         // Sumar los montos de cada campo
-        total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        //total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
         total = total.add(ParseBigDecimal(txfMontoColegiatura.getText()));
         total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
         total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
@@ -787,7 +794,7 @@ public class PantallaPrincipalController implements Initializable {
         BigDecimal total = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         // Sumar los montos de cada campo
-        total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        //total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
         total = total.add(validarDescuento());
         total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
         total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
@@ -821,7 +828,7 @@ public class PantallaPrincipalController implements Initializable {
                     ticket.setTipoDescuento(DescuentoCache.getInstance().getTipo());
 
                     //guaramos en el ticket el descuento
-                    ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento().toString());
+                    ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento());
 
                     //retornamos el adeudo menos el descuento
                     return adeudo.subtract(descuento);
@@ -832,7 +839,7 @@ public class PantallaPrincipalController implements Initializable {
                     ticket.setTipoDescuento("No aplica");
 
                     //guaramos en el ticket el descuento
-                    ticket.setMontoDescuento("0.00");
+                    ticket.setMontoDescuento(0.00);
 
                     //hacemos invisible el descuento
                     lblDescuentoDescuento.setText("0.00");
@@ -944,6 +951,11 @@ public class PantallaPrincipalController implements Initializable {
         String matricula = AlumnoCache.getInstance().getMatricula();
         System.out.println(idCiclo);
         if (matricula != null){
+
+            double totalPagado = servicioPagos.obtenerTotalPagadoColegiatura(matricula, idCiclo);
+            
+
+
             List<DetalleAdeudoDTO> detalles = servicioCuotas.obtenerDetallesAdeudosColegiatura(matricula,idCiclo);
             if(detalles != null){
                 DetallesAdeudoCache.setDetalles(detalles);
