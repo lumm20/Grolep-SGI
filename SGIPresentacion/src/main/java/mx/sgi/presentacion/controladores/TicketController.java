@@ -83,7 +83,7 @@ public class TicketController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.servicioPagos = new ServicioPagos();
+        this.servicioPagos = ServicioPagos.getInstance();
         this.mediador = Mediador.getInstance();
 
         if (conceptosContainer != null) {

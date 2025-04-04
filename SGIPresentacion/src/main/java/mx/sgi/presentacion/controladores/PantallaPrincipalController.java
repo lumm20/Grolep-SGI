@@ -49,10 +49,12 @@ import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
+import mx.sgi.presentacion.interfaces.IServicioPagos;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
+import mx.sgi.presentacion.servicios.ServicioPagos;
 
 public class PantallaPrincipalController implements Initializable {
 
@@ -146,8 +148,8 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     TextField txfAlumnos;
 
-    @FXML
-    TextField txfMontoVencido;
+    // @FXML
+    // TextField txfMontoVencido;
 
     @FXML
     TextField txfMontoColegiatura;
@@ -176,6 +178,7 @@ public class PantallaPrincipalController implements Initializable {
     private IServicioAlumnos servicioAlumnos;
 
     private IServicioCuotas  servicioCuotas;
+    private IServicioPagos  servicioPagos;
 
     private IServicioCicloEscolar servicioCicloEscolar;
     /**
@@ -208,13 +211,14 @@ public class PantallaPrincipalController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         this.servicioAlumnos = new ServicioAlumnos();
+        this.servicioPagos = ServicioPagos.getInstance();
 
         this.servicioCuotas =  ServicioCuotas.getInstance();
 
         this.mediador = Mediador.getInstance();
 
         this.servicioCicloEscolar = new ServicioCicloEscolar();
-        txfMontoVencido.setDisable(true);
+        // txfMontoVencido.setDisable(true);
         //establecemos los ciclos escolares en el comboBox
         establecerCiclos();
 
@@ -267,9 +271,9 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void establecerListenersCamposDeEntrada(){
         // Método para el campo "Monto Vencido"
-        txfMontoVencido.textProperty().addListener((observable, oldValue, newValue) -> {
-            verificarFormato(txfMontoVencido, lblAdeudoVencido);
-        });
+        // txfMontoVencido.textProperty().addListener((observable, oldValue, newValue) -> {
+        //     verificarFormato(txfMontoVencido, lblAdeudoVencido);
+        // });
 
         // Método para el campo "Monto Colegiatura"
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -529,7 +533,7 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     private void cleanup(){
-        txfMontoVencido.setDisable(false);
+        // txfMontoVencido.setDisable(false);
         txfMontoAcademias.setDisable(false);
         txfMontoColegiatura.setDisable(false);
         txfMontoEventos.setDisable(false);
@@ -537,7 +541,7 @@ public class PantallaPrincipalController implements Initializable {
         txfMontoUniforme.setDisable(false);
         txfMontoLibros.setDisable(false);
 
-        txfMontoVencido.setText("");
+        // txfMontoVencido.setText("");
         txfMontoAcademias.setText("");
         txfMontoColegiatura.setText("");
         txfMontoEventos.setText("");
@@ -608,8 +612,8 @@ public class PantallaPrincipalController implements Initializable {
             LocalDate fecha = LocalDate.now();
             LocalTime hora = LocalTime.now();
             MetodosPagoDTO metodoPago = MetodosPagoDTO.valueOf(cmbxMetodoPago.getValue());
-            Double montoVencidos = (txfMontoVencido.getText().isBlank() ? 0.0
-                    : Double.parseDouble(txfMontoVencido.getText()));
+            // Double montoVencidos = (txfMontoVencido.getText().isBlank() ? 0.0
+            //         : Double.parseDouble(txfMontoVencido.getText()));
             Double montoColegiatura = (txfMontoColegiatura.getText().isBlank() ? 0.0
                     : Double.parseDouble(txfMontoColegiatura.getText()));
             Double montoInscripcion = (txfMontoInscripcion.getText().isBlank() ? 0.0
@@ -627,7 +631,7 @@ public class PantallaPrincipalController implements Initializable {
             UsuarioDTO usuario = new UsuarioDTO(UsuarioCache.getSession().getIdUsuario());
             CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
             Map<String, Double> cuotas = new HashMap<>();
-            cuotas.put("VENCIDOS", montoVencidos);
+            // cuotas.put("VENCIDOS", montoVencidos);
             cuotas.put("COLEGIATURA", montoColegiatura);
             cuotas.put("INSCRIPCION", montoInscripcion);
             cuotas.put("LIBROS", montoLibros);
@@ -726,7 +730,7 @@ public class PantallaPrincipalController implements Initializable {
     private void considerarColegiatura() {
         boolean considerar = cbxConsiderarColegiatura.isSelected();
 
-        txfMontoVencido.setText(considerar ? lblAdeudoVencido.getText() : "");
+        // txfMontoVencido.setText(considerar ? lblAdeudoVencido.getText() : "");
         txfMontoColegiatura.setText(considerar ? lblAdeudoColegiatura.getText() : "");
 
         //actualizamos el total
@@ -764,7 +768,7 @@ public class PantallaPrincipalController implements Initializable {
 
 
         // Sumar los montos de cada campo
-        total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        // total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
         total = total.add(validarDescuento());
         total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
         total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
@@ -895,6 +899,11 @@ public class PantallaPrincipalController implements Initializable {
         String matricula = AlumnoCache.getInstance().getMatricula();
         System.out.println(idCiclo);
         if (matricula != null){
+
+            double totalPagado = servicioPagos.obtenerTotalPagadoColegiatura(matricula, idCiclo);
+            
+
+
             List<DetalleAdeudoDTO> detalles = servicioCuotas.obtenerDetallesAdeudosColegiatura(matricula,idCiclo);
             if(detalles != null){
                 DetallesAdeudoCache.setDetalles(detalles);

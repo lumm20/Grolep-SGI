@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import mx.itson.sgi.data_access.entities.Alumno;
+import mx.itson.sgi.data_access.entities.CicloEscolar;
 import mx.itson.sgi.data_access.entities.Pago;
 import java.time.LocalDateTime;
 
@@ -17,5 +18,9 @@ public interface PagoRepository extends CrudRepository<Pago,String>{
     @Query("select p from Pago p where p.alumno = ?1")
     List<Pago> findPagosPorEstudiante(Alumno alumno);
 
+    // @Query(value = "call sp_total_pagado_colegiaturas(:matricula,:ciclo)",nativeQuery = true)
+    @Query("SELECT COALESCE(SUM(dp.montoPagado), 0) FROM DetallePago dp RIGHT JOIN dp.cuota c WHERE c.concepto = COLEGIATURA "+ 
+    "AND c.alumno = ?1 AND c.ciclo =?2")
+    Double findTotalPagadoColegiatura(Alumno alumno, CicloEscolar ciclo);
 
 }

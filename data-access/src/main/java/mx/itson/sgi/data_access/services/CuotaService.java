@@ -161,5 +161,10 @@ public class CuotaService {
         Cuota cuota = repository.findMontoBaseColegiaturaAlumno(new Alumno(alumno.getMatricula()));
         return cuota.getMontoBase();
     }
+    public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
+        Double total = 0.0;
+        repository.sp_monto_total_colegiaturas(matricula, ciclo, total);
+        return total;
+    }
 }
 

@@ -222,7 +222,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="180.0" layoutY="65.0" prefHeight="20.0" prefWidth="68.0" style="-fx-text-alignment: center;" text="Monto para">
+                  <!-- <Label layoutX="180.0" layoutY="65.0" prefHeight="20.0" prefWidth="68.0" style="-fx-text-alignment: center;" text="Monto para">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -231,42 +231,42 @@
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
-                  </Label>
+                  </Label> -->
                   <Label fx:id="lblAdeudoVencido" alignment="CENTER" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txfMontoVencido" alignment="CENTER" layoutX="158.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
+                  <!-- <TextField fx:id="txfMontoVencido" alignment="CENTER" layoutX="158.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
                      <font>
                         <Font size="14.0" />
-                     </font></TextField>
-                  <Label layoutX="344.0" layoutY="65.0" prefHeight="20.0" prefWidth="49.0" style="-fx-text-alignment: center;" text="Adeudo ">
+                     </font></TextField> -->
+                  <Label layoutX="180.0" layoutY="65.0" prefHeight="20.0" prefWidth="49.0" style="-fx-text-alignment: center;" text="Adeudo de">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="336.0" layoutY="85.0" prefHeight="20.0" prefWidth="66.0" style="-fx-text-alignment: center;" text="colegiatura">
+                  <Label layoutX="187.0" layoutY="85.0" prefHeight="20.0" prefWidth="66.0" style="-fx-text-alignment: center;" text="este mes">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAdeudoColegiatura" alignment="CENTER" layoutX="337.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                  <Label fx:id="lblAdeudoColegiatura" alignment="CENTER" layoutX="158.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label layoutX="507.0" layoutY="65.0" prefHeight="20.0" prefWidth="39.0" style="-fx-text-alignment: center;" text="Monto">
+                  <Label layoutX="344.0" layoutY="65.0" prefHeight="20.0" prefWidth="39.0" style="-fx-text-alignment: center;" text="Monto">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="494.0" layoutY="85.0" prefHeight="20.0" prefWidth="66.0" style="-fx-text-alignment: center;" text="colegiatura">
+                  <Label layoutX="336.0" layoutY="85.0" prefHeight="20.0" prefWidth="66.0" style="-fx-text-alignment: center;" text="a pagar">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txfMontoColegiatura" alignment="CENTER" layoutX="471.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
+                  <TextField fx:id="txfMontoColegiatura" alignment="CENTER" layoutX="337.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" style="-fx-border-color: #000000;">
                      <font>
                         <Font size="14.0" />
                      </font></TextField>

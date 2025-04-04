@@ -55,4 +55,11 @@ public class APICuota {
         }
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/tuition-tcharges")
+    public ResponseEntity<?> obtenerMontoTotalColegiaturas(
+            @RequestParam String matricula,
+            @RequestParam("ciclo") String idCiclo) {
+                double total = controlador.obtenerMontoTotalColegiaturas(matricula, idCiclo);
+            return ResponseEntity.ok().body(total);
+    }
 }

@@ -33,6 +33,10 @@ public class PagoControlador {
     @Autowired
     UsuarioService usuarioService;
 
+    public Double obtenerTotalPagadoColegiatura(AlumnoConsultaDTO alumno, String ciclo){
+        return service.obtenerTotalPagadoColegiatura(alumno, ciclo);
+    }
+
     public TicketRegistrarDTO registrarPago(PagoDTO pago)throws PaymentException{
         System.out.println("Pago "+pago);
         String folio = generarFolio();

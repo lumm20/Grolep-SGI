@@ -19,6 +19,7 @@ import mx.itson.sgi.data_access.entities.MetodoPago;
 import mx.itson.sgi.data_access.entities.Pago;
 import mx.itson.sgi.data_access.entities.Usuario;
 import mx.itson.sgi.data_access.repositories.PagoRepository;
+import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
@@ -96,5 +97,9 @@ public class PagoService {
 
     public long getCantidadPagos(){
         return repository.count();
+    }
+
+    public Double obtenerTotalPagadoColegiatura(AlumnoConsultaDTO alumno, String ciclo){
+        return repository.findTotalPagadoColegiatura(new Alumno(alumno.getMatricula()), new CicloEscolar(ciclo));
     }
 }

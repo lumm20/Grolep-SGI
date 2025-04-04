@@ -15,15 +15,18 @@ import com.google.gson.GsonBuilder;
 
 public class ServicioPagos implements IServicioPagos {
 
-    // varibale para las peticiones
-    private HttpClient client;
+    private static ServicioPagos instance;
+    private final HttpClient client;
 
-    /**
-     * Contructor que inicializa las variables de la clase
-     */
-    public ServicioPagos() {
-        // Inicializar HttpClient
+    private ServicioPagos() {
         this.client = HttpClient.newHttpClient();
+    }
+
+    public static synchronized ServicioPagos getInstance(){
+        if(instance == null){
+            instance = new ServicioPagos();
+        }
+        return instance;
     }
 
     @Override
@@ -51,6 +54,29 @@ public class ServicioPagos implements IServicioPagos {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    @Override
+    public double obtenerTotalPagadoColegiatura(String matricula, String ciclo) {
+        String token = UsuarioCache.getSession().getToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/SGI/api/payment/tuition/all?matricula="+matricula+"&ciclo="+ciclo))
+                .header("Authorization", "Bearer " + token)
+                .GET()
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() == 200) {
+                return Double.parseDouble(response.body());
+            }else{
+                System.out.println(response.statusCode());
+                System.out.println(response.body());
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return 0.0;
     }
 
 

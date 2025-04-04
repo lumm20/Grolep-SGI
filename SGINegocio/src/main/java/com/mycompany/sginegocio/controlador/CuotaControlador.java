@@ -94,37 +94,12 @@ public class CuotaControlador {
         return null;
     }
 
-    /**
-     * Los meses se obtienen en ingles, por lo tanto, se debe de cambiar el nombre a español
-     * @param detalles lista de detalles obtenida de la base de datos
-     * @return la lista de detalles con los nombres de los meses actualizados
-     */
-    // private List<DetalleAdeudoDTO> cambiarNombreMeses(List<DetalleAdeudoDTO> detalles){
-    //     String mes;
-    //         for (DetalleAdeudoDTO detalle : detalles) {
-    //             mes = detalle.getMesAdeudo();
-    //             switch (mes) {
-    //                 case "January"->detalle.setMesAdeudo("Enero");
-    //                 case "February"->detalle.setMesAdeudo("Febrero");
-    //                 case "March"->detalle.setMesAdeudo("Marzo");
-    //                 case "April"->detalle.setMesAdeudo("Abril");
-    //                 case "May"->detalle.setMesAdeudo("Mayo");
-    //                 case "June"->detalle.setMesAdeudo("Junio");
-    //                 case "July"->detalle.setMesAdeudo("Julio");
-    //                 case "August"-> detalle.setMesAdeudo("Agosto");
-    //                 case "September"->detalle.setMesAdeudo("Septiembre");
-    //                 case "October"-> detalle.setMesAdeudo("Octubre");
-    //                 case "November"->detalle.setMesAdeudo("Noviembre");
-    //                 case "December"-> detalle.setMesAdeudo("Diciembre");
-    //             }
-    //         }
-
-    //     return detalles;
-    // }
-
     public CicloEscolarDTO obtenerCicloEscolarActual(){
         return cuotaService.obtenerCicloActual();
     }
-}
+    public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
+        return cuotaService.obtenerMontoTotalColegiaturas(matricula, ciclo);
+    }
 
+}
 
