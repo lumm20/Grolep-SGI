@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class DescuentoDTO implements Serializable {
 
     String tipo; //indica que tipo de beca es
-    BigDecimal descuento; //indica cuanto descuento da
+    Double descuento; //indica cuanto descuento da
 
     public DescuentoDTO(){}
 
@@ -19,7 +19,7 @@ public class DescuentoDTO implements Serializable {
      * @param tipo
      * @param descuento
      */
-    public DescuentoDTO(String tipo,  BigDecimal descuento) {
+    public DescuentoDTO(String tipo,  Double descuento) {
         this.tipo = tipo;
         this.descuento = descuento;
     }
