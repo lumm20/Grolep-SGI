@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +27,7 @@ public class NotificacionesWhatsapp {
         try (HttpClient http = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://graph.facebook.com/v22.0/561402587064064/messages"))
-                    .header("Authorization", "Bearer <Bearer Token>")
+                    .header("Authorization", "Bearer EAAOSGJzVMCwBO8RH3ZBQuXBn3JzkyD0aoQgMUGhabOhHyyUTcdvBZCsXk7O1gZCUnehdgIoaLypUA1y4RoDIFqe1hbQJZAAhLhE1JLGblo5Tw34ZB1yOQgp57xazQfsj5TkwGHgo7VNyPEyMX25ByZAkWiY7TH5HXrGB8QSxK21dkUrC9nOYQHO8noegxsACylcZCZAVE0YdF2K7GGLmRjZB3VEyLzDHB6g8TwH8ZD")
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
@@ -37,56 +38,29 @@ public class NotificacionesWhatsapp {
         } catch (URISyntaxException | IOException | InterruptedException e) {
             logger.log(Level.SEVERE, e.getMessage());
         }
-
     }
 
-    public String crearJSON(String nombre, String costo, String concepto, String nombreAlumno, String numero) {
+    public String crearJSON(String folio, String monto, String conceptos, String nombreAlumno, String descuento, String subtotal, String metodoPago, String numero) {
         Map<String, Object> mensaje = new HashMap<>();
-        
-        Map<String, Object> template = new HashMap<>();
-        Map<String, Object> language = new HashMap<>();
-        
-        ArrayList<Map<String, Object>> components = new ArrayList<>();
-        
-        ArrayList<Map<String, String>> parameters = new ArrayList<>();
-        Map<String, String> nombreMap = new HashMap<>();
-        nombreMap.put("type", "text");
-        nombreMap.put("text", nombre);
-        Map<String, String> costoMap = new HashMap<>();
-        costoMap.put("type", "text");
-        costoMap.put("text", costo);
-        Map<String, String> conceptoMap = new HashMap<>();
-        conceptoMap.put("type", "text");
-        conceptoMap.put("text", concepto);
-        Map<String, String> nombreAlumnoMap = new HashMap<>();
-        nombreAlumnoMap.put("type", "text");
-        nombreAlumnoMap.put("text", nombreAlumno);
-        parameters.add(nombreMap);
-        parameters.add(costoMap);
-        parameters.add(conceptoMap);
-        parameters.add(nombreAlumnoMap);
-        
-         Map<String, Object> body = new HashMap<>();
-         body.put("type", "body");
-         body.put("parameters", parameters);
+        Map<String, Object> contenido = new HashMap<>();
 
-        components.add(body);
-        language.put("code", "es_MX");
-        template.put("name", "confirmacion_de_pago");
-        template.put("language", language);
-        template.put("components", components);
+        String texto = "Pago Recibido \n----------------------\nFolio del pago: " + folio + "\nAlumno: " + nombreAlumno  + "\nConceptos pagados: "
+                + conceptos  + "\nMétodo de pago: " + metodoPago + "\n----------------------\nSubtotal: " + subtotal + "\nMonto total: " + monto + "\nDescuento aplicado: " + descuento;
+
+        contenido.put("preview_url", "false");
+        contenido.put("body", texto);
 
         mensaje.put("messaging_product", "whatsapp");
         mensaje.put("recipient_type", "individual");
         mensaje.put("to", "+52" + numero);
-        mensaje.put("type", "template");
-        mensaje.put("template", template);
+        mensaje.put("type", "text");
+        mensaje.put("text", contenido);
         Gson gson = new Gson();
 
         return gson.toJson(mensaje);
     }
     
-    public void enviarNotificacion(String nombre, String costo, String concepto, String nombreAlumno, String numero) {
-        enviarPeticion(crearJSON(nombre, costo, concepto, nombreAlumno, numero));
+    public void enviarNotificacion(String folio, String costo, String conceptos, String nombreAlumno, String subtotal, String descuento, String metodoPago, String numero) {
+        enviarPeticion(crearJSON(folio, costo, conceptos, nombreAlumno, descuento, subtotal, metodoPago, numero));
     }
 }

@@ -84,6 +84,18 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>mx.itson.sgi</groupId>
+            <artifactId>notificaciones-whatsapp</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>mx.itson.sgi</groupId>
+            <artifactId>notificaciones-whatsapp</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <!-- Configuración del Build -->

@@ -8,7 +8,11 @@ package com.mycompany.sginegocio.controlador;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+import mx.itson.sgi.dto.DetallePagoDTO;
+import mx.itson.sgi.notificaciones.whatsapp.NotificacionesWhatsapp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,9 +65,27 @@ public class PagoControlador {
         ticket.setDetalles(pago.getCuotasPagadas());
         ticket.setMontoTotal(pago.getMontoTotal());
         ticket.setIdUsuario(cajero.getId());
+        enviarNotificacion(pago);
+
         return ticket;
     }
 
+    private void enviarNotificacion(PagoDTO pago) {
+        NotificacionesWhatsapp notificaciones = new NotificacionesWhatsapp();
+        String nombreAlumno = pago.getAlumno().getNombre();
+        String numeroCel = pago.getAlumno().getNumeroCelular();
+        String descuento = pago.getMontoDescuento().toString();
+        String monto = pago.getMontoTotal().toString();
+        String folio = pago.getFolio();
+        double subtotal = pago.getMontoTotal() + pago.getMontoDescuento();
+        List<DetallePagoDTO> detalles = pago.getCuotasPagadas();
+        String metodoPago = pago.getMetodoPago().toString();
+        StringBuilder cuotas = new StringBuilder();
+
+        for (DetallePagoDTO detalle : detalles) cuotas.append(detalle.getConceptoCuota() + " - " + detalle.getMontoPagado() + "\n");
+
+        notificaciones.enviarNotificacion(folio, monto, cuotas.toString(), nombreAlumno, Double.toString(subtotal), descuento, metodoPago, numeroCel);
+    }
 
     private void validatePaymentFields(PagoDTO pago)throws PaymentException{
         String msj = null;
