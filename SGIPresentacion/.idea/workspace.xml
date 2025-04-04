@@ -5,9 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbca36db-e0f0-4134-b5ab-140db4cd77e7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/caches/DescuentoCache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/DescuentoDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/DescuentoDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/vistas/TicketRegistrarDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SGIDTO/src/main/java/mx/itson/sgi/dto/vistas/TicketRegistrarDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/PantallaPrincipalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/ColegiaturasAtrasadas.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/ColegiaturasAtrasadas.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/TicketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mx/sgi/presentacion/controladores/TicketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/PantallaPrincipal.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/Ticket.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mx/sgi/presentacion/main/Ticket.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -109,7 +114,9 @@
       <updated>1742406540406</updated>
       <workItem from="1742406541482" duration="4799000" />
       <workItem from="1743025737745" duration="3730000" />
-      <workItem from="1743033008307" duration="955000" />
+      <workItem from="1743033008307" duration="2722000" />
+      <workItem from="1743679246581" duration="10790000" />
+      <workItem from="1743741750762" duration="3704000" />
     </task>
     <servers />
   </component>

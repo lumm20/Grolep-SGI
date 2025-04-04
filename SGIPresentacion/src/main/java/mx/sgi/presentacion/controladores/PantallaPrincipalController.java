@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
-import mx.sgi.presentacion.caches.CicloEscolarCache;
-import mx.sgi.presentacion.caches.DetallesAdeudoCache;
+import mx.itson.sgi.dto.*;
+import mx.sgi.presentacion.caches.*;
 
 import org.controlsfx.control.Notifications;
 
@@ -34,18 +34,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
-import mx.itson.sgi.dto.AlumnoConsultaDTO;
-import mx.itson.sgi.dto.CicloEscolarDTO;
-import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
-import mx.itson.sgi.dto.CuotasDTO;
-import mx.itson.sgi.dto.DetalleAdeudoDTO;
-import mx.itson.sgi.dto.DetallePagoDTO;
-import mx.itson.sgi.dto.MetodosPagoDTO;
-import mx.itson.sgi.dto.UsuarioDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
-import mx.sgi.presentacion.caches.AlumnoCache;
-import mx.sgi.presentacion.caches.TicketRegistrarCache;
-import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
@@ -101,7 +90,7 @@ public class PantallaPrincipalController implements Initializable {
     Label lblTotal;
 
     @FXML
-    Label lblTipoBeca;
+    Label lblSubTotal;
 
     @FXML
     Label lblTipoDescuento;
@@ -488,19 +477,34 @@ public class PantallaPrincipalController implements Initializable {
 
         //descuento para la primer semana
         if (diaActual <= 7){
-            lblTipoDescuento.setText("Primer periodo");
-            lblDescuentoDescuento.setText("400.00");
+
+            DescuentoDTO descuento =  new DescuentoDTO();
+
+            descuento.setTipo("Primer periodo");
+            descuento.setDescuento(BigDecimal.valueOf(400.00));
+
+            DescuentoCache.setInstance(descuento);
+
         }
         //descuento para la segunda semana
         else if (diaActual > 7 && diaActual <= 14) {
-            lblTipoDescuento.setText("Segundo periodo");
-            lblDescuentoDescuento.setText("200.00");
+            DescuentoDTO descuento =  new DescuentoDTO();
+
+            descuento.setTipo("Segundo periodo");
+            descuento.setDescuento(BigDecimal.valueOf(200.00));
+
+            DescuentoCache.setInstance(descuento);
         }
         //descuento para la tercer semana en adelante
         else{
-            lblTipoDescuento.setText("No aplica");
-            lblDescuentoDescuento.setText("0.0");
+            DescuentoDTO descuento =  new DescuentoDTO();
+
+            descuento.setTipo("No aplica");
+            descuento.setDescuento(BigDecimal.valueOf(0.00));
+
+            DescuentoCache.setInstance(descuento);
         }
+
     }
 
     private void disableTxfields(CuotasDTO cuotas){
@@ -644,9 +648,6 @@ public class PantallaPrincipalController implements Initializable {
                 }
             });
 
-            String tipoDescuento = lblTipoDescuento.getText();
-            String montoDescuento = lblDescuentoDescuento.getText();
-
 
             ticket.setMontoTotal(montoTotal);
             ticket.setFolio(folio);
@@ -665,8 +666,7 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setAlumno(alumno);
             ticket.setIdUsuario(usuario.getId());
             ticket.setCiclo(cicloEscolar);
-            ticket.setTipoDescuento(tipoDescuento);
-            ticket.setMontoTotal(montoTotal);
+            ticket.setSubTotal(lblSubTotal.toString());
 
             System.out.println(ticket.toString());
 
@@ -763,9 +763,28 @@ public class PantallaPrincipalController implements Initializable {
     /**
      * Metodo que actualiza el campo para el total
      */
-    private void actualizarTotal() {
+    private void actualizarSubTotal() {
         BigDecimal total = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
 
+
+        // Sumar los montos de cada campo
+        total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        total = total.add(ParseBigDecimal(txfMontoColegiatura.getText()));
+        total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
+        total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
+        total = total.add(ParseBigDecimal(txfMontoEventos.getText()));
+        total = total.add(ParseBigDecimal(txfMontoAcademias.getText()));
+        total = total.add(ParseBigDecimal(txfMontoUniforme.getText()));
+
+        // Actualizar el total en la interfaz
+        lblSubTotal.setText(total.toString());
+    }
+
+    /**
+     * actualiza el subtotal
+     */
+    private void actualizarTotal() {
+        BigDecimal total = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
 
         // Sumar los montos de cada campo
         total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
@@ -776,9 +795,6 @@ public class PantallaPrincipalController implements Initializable {
         total = total.add(ParseBigDecimal(txfMontoAcademias.getText()));
         total = total.add(ParseBigDecimal(txfMontoUniforme.getText()));
 
-        //if(lblAdeudoColegiatura.equals)
-
-
         // Actualizar el total en la interfaz
         lblTotal.setText(total.toString());
     }
@@ -787,14 +803,41 @@ public class PantallaPrincipalController implements Initializable {
         if(!txfMontoColegiatura.getText().equalsIgnoreCase("")){
             if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")){
 
+                TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+
                 BigDecimal descuento = new BigDecimal(lblDescuentoDescuento.getText());
                 BigDecimal adeudo = new BigDecimal(lblAdeudoColegiatura.getText());
                 BigDecimal ingresado = new  BigDecimal(txfMontoColegiatura.getText());
 
                 if(ingresado.compareTo(adeudo) == 0){
+
+                    //hacemos visible el descuento
+                    lblDescuentoDescuento.setText(DescuentoCache.getInstance().getDescuento().toString());
+
+                    //marcamos como verde la orilla del campo
+                    txfMontoColegiatura.setStyle("-fx-border-color: #66b328; -fx-border-width: 2px;");
+
+                    //guardamos en el ticket el tipo de descuento
+                    ticket.setTipoDescuento(DescuentoCache.getInstance().getTipo());
+
+                    //guaramos en el ticket el descuento
+                    ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento().toString());
+
+                    //retornamos el adeudo menos el descuento
                     return adeudo.subtract(descuento);
                 }
                 else {
+
+                    //guardamos en el ticket el tipo de descuento
+                    ticket.setTipoDescuento("No aplica");
+
+                    //guaramos en el ticket el descuento
+                    ticket.setMontoDescuento("0.00");
+
+                    //hacemos invisible el descuento
+                    lblDescuentoDescuento.setText("0.00");
+
+                    //retornamos el adeudo
                     return ParseBigDecimal(ingresado.toString());
                 }
             }
@@ -829,6 +872,7 @@ public class PantallaPrincipalController implements Initializable {
                 textField.setStyle("-fx-border-color: #000000;");
                 textField.setDisable(false);
                 actualizarTotal();
+                actualizarSubTotal();
                 return;  // Salir del método, ya que no queremos procesar el campo vacío
             }
 
@@ -852,6 +896,7 @@ public class PantallaPrincipalController implements Initializable {
             else {
                 aplicarEstiloPorDefecto(textField);
                 actualizarTotal();
+                actualizarSubTotal();
             }
         } catch (NumberFormatException ex) {
             // Si el formato no es un número válido, aplicar el estilo de error

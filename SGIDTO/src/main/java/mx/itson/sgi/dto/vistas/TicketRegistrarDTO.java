@@ -40,8 +40,8 @@ public class TicketRegistrarDTO {
     private Long idUsuario;
     @Expose
     private CicloEscolarDTO ciclo;
-	// private String mensaje;
-
+    @Expose
+    private String subTotal;
     @Expose
     private List<DetallePagoDTO> detalles;
 

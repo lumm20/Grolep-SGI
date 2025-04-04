@@ -59,6 +59,9 @@ public class TicketController implements Initializable {
     Label lblMontoDescuento;
 
     @FXML
+    Label lblSubTotal;
+
+    @FXML
     private AnchorPane rootPane;
     @FXML
     private VBox conceptosContainer;
@@ -162,7 +165,6 @@ public class TicketController implements Initializable {
         for (DetallePagoDTO detalle : detalles) {
             mapaDetalles.put(detalle.getConceptoCuota(), detalle.getMontoPagado());
         }
-
         
         MetodosPagoDTO metodoPago = ticketCache.getMetodoPago();
         lblTotal.setText(total);
@@ -172,6 +174,7 @@ public class TicketController implements Initializable {
         lblMetodo.setText(metodoPago.toString().toLowerCase());
         lblDescuento.setText(ticketCache.getTipoDescuento());
         lblMontoDescuento.setText(ticketCache.getMontoDescuento());
+        lblSubTotal.setText(ticketCache.getSubTotal());
         
         generarConceptos(mapaDetalles);
     }
@@ -224,7 +227,7 @@ public class TicketController implements Initializable {
 
         //cerramos la ventana
         Stage stage = (Stage) lblTotal.getScene().getWindow(); // Obtener el Stage (ventana) actual
-        stage.close(); // Cerrar la ventana de inicio de sesiónS
+        stage.close(); // Cerrar la ventana de inicio de sesión
     }
 
 }
