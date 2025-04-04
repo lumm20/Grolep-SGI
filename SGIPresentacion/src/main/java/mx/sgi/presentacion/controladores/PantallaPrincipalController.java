@@ -645,8 +645,8 @@ public class PantallaPrincipalController implements Initializable {
 
             List<DetallePagoDTO> detalles = new ArrayList<>();
             
-            String tipoDescuento = lblTipoDescuento.getText();
-            Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
+            // String tipoDescuento = lblTipoDescuento.getText();
+            // Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
             
             Double montoConDescuento =0.0;
             for(Map.Entry<String,Double> cuota:cuotas.entrySet()){
@@ -669,11 +669,11 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setAlumno(alumno);
             ticket.setIdUsuario(usuario.getId());
             ticket.setCiclo(cicloEscolar);
-            ticket.setSubTotal(lblSubTotal.toString());
+            ticket.setSubTotal(lblSubTotal.getText().toString());
 
             System.out.println(ticket.toString());
-            ticket.setTipoDescuento(tipoDescuento);
-            ticket.setMontoDescuento(descuento);
+            ticket.setTipoDescuento(DescuentoCache.getInstance().getTipo());
+            ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento());
             TicketRegistrarCache.setInstance(ticket);
             System.out.println(TicketRegistrarCache.getInstance());
 
@@ -796,6 +796,7 @@ public class PantallaPrincipalController implements Initializable {
         // Sumar los montos de cada campo
         //total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
         total = total.add(validarDescuento());
+        total = total.add(ParseBigDecimal(txfMontoColegiatura.getText()));
         total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
         total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
         total = total.add(ParseBigDecimal(txfMontoEventos.getText()));
