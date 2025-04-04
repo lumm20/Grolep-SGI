@@ -79,5 +79,28 @@ public class ServicioPagos implements IServicioPagos {
         return 0.0;
     }
 
+    @Override
+    public long obtenerPagosDeColegiaturaDelMes(String matricula, String ciclo) {
+        String token = UsuarioCache.getSession().getToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8080/SGI/api/payment/tuition/all-monthly?matricula="+matricula+"&ciclo="+ciclo))
+                .header("Authorization", "Bearer " + token)
+                .GET()
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.statusCode() == 200) {
+                return Long.parseLong(response.body());
+            }else{
+                System.out.println(response.statusCode());
+                System.out.println(response.body());
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return 0L;
+    }
+
 
 }

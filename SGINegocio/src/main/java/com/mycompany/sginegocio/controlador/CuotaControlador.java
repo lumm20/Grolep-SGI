@@ -38,7 +38,11 @@ public class CuotaControlador {
                 Double adeudo = cu.getAdeudo();
                 switch (concepto) {
                     case "COLEGIATURA":
-                        cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
+                        if(adeudo >=cu.getMontoBase()){
+                            cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
+                        }else{
+                            cuotasDTO.setAdeudoColegiatura(cu.getMontoBase()-adeudo);
+                        }
                         cuotasDTO.setAdeudoVencido(adeudo);
                         break;
                     case "UNIFORMES":
@@ -68,28 +72,29 @@ public class CuotaControlador {
         List<DetalleAdeudoDTO> detalles = cuotaService.obtenerDetalleAdeudosColegiatura(matricula, idCiclo);
         if(detalles != null && !detalles.isEmpty()){
 
+            return detalles;
             /*si en la lista de detalles no se incluye el mes actual, significa que no se
             ha registrado ningun pago para la colegiatura de este mes, por lo tanto, se debe
             agregar como adeudo (el monto del adeudo seria el monto base de la colegiatura, porque no ha pagado nada)
             */
             //obtener el mes inicial
-            LocalDate inicioAnio = LocalDate.of(2025, 1, 1);
-            //obtener el mes actual
-            LocalDate hoy = LocalDate.now();
-            long mesesDiferencia = ChronoUnit.MONTHS.between(inicioAnio, hoy);
+            // LocalDate inicioAnio = LocalDate.of(2025, 1, 1);
+            // //obtener el mes actual
+            // LocalDate hoy = LocalDate.now();
+            // long mesesDiferencia = ChronoUnit.MONTHS.between(inicioAnio, hoy);
             
-            Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula));
-            Month sigMes;
-            for(int i=0;i<=mesesDiferencia;i++){
-                sigMes = inicioAnio.plusMonths(i).getMonth();
-                if(!detalles.contains(new DetalleAdeudoDTO(sigMes))){
-                    detalles.add(new DetalleAdeudoDTO(sigMes, montoBase,0.0));
-                }
-            }
+            // Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula));
+            // Month sigMes;
+            // for(int i=0;i<=mesesDiferencia;i++){
+            //     sigMes = inicioAnio.plusMonths(i).getMonth();
+            //     if(!detalles.contains(new DetalleAdeudoDTO(sigMes))){
+            //         detalles.add(new DetalleAdeudoDTO(sigMes, montoBase,0.0));
+            //     }
+            // }
 
-            detalles.sort((d1,d2)->d2.getMesAdeudo().compareTo(d1.getMesAdeudo()));
-            System.out.println("detalles: "+ detalles);
-            return detalles;
+            // detalles.sort((d1,d2)->d2.getMesAdeudo().compareTo(d1.getMesAdeudo()));
+            // System.out.println("detalles: "+ detalles);
+            // return detalles;
         }
         return null;
     }

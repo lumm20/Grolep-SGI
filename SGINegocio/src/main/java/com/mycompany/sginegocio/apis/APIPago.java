@@ -52,5 +52,19 @@ public class APIPago {
         }
 
     }
+    @GetMapping("/tuition/all-monthly")
+    public ResponseEntity<?> obtenerCantidadPagosMensuales(@RequestParam String matricula, @RequestParam String ciclo) {
+        try {
+            Long cantidadPagos = controlador.getCantidadPagosMensuales(new AlumnoConsultaDTO(matricula), ciclo);
+            if(cantidadPagos == null || cantidadPagos == 0){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se ha encontrado el alumno o no tiene pagos registrados");
+            }
+            return ResponseEntity.ok(cantidadPagos);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body("algo ha salido mal");
+        }
+
+    }
     
 }

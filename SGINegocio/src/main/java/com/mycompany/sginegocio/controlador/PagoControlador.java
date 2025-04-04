@@ -41,6 +41,10 @@ public class PagoControlador {
         return service.obtenerTotalPagadoColegiatura(alumno, ciclo);
     }
 
+    public Long getCantidadPagosMensuales(AlumnoConsultaDTO alumno, String ciclo){
+        return service.getCantidadPagosMensualesAlumno(alumno, ciclo);
+    }
+
     public TicketRegistrarDTO registrarPago(PagoDTO pago)throws PaymentException{
         System.out.println("Pago "+pago);
         String folio = generarFolio();

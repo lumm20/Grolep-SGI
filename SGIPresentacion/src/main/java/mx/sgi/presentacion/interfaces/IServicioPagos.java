@@ -6,5 +6,6 @@ public interface IServicioPagos {
 
     public void registrarPago(PagoDTO pago)  throws Exception;
     public double obtenerTotalPagadoColegiatura(String matricula,String ciclo);
+    public long obtenerPagosDeColegiaturaDelMes(String matricula,String ciclo);
 
 }

@@ -66,12 +66,11 @@ public class PantallaPrincipalController implements Initializable {
 
     @FXML
     Label lblAdeudoVencido;
+    @FXML
+    Label lblAdeudoActual;
 
     @FXML
     Label lblCicloEscolar;
-
-    @FXML
-    Label  lblAdeudoColegiatura;
 
     @FXML
     Label lblCuotaInscripcion;
@@ -118,6 +117,9 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     JFXButton btnRegistrar;
 
+    @FXML
+    JFXButton btnLimpiarFiltroAlumnos;
+
 
     //Declaracion de los ComboBox
 
@@ -157,6 +159,7 @@ public class PantallaPrincipalController implements Initializable {
 
     @FXML
     TextField txfMontoUniforme;
+
 
 
     @FXML
@@ -253,6 +256,15 @@ public class PantallaPrincipalController implements Initializable {
     }
     */
 
+    @FXML
+    private void limpiarFiltroAlumnos(){
+        txfAlumnos.setText("");
+        cmbxAlumnos.getSelectionModel().clearSelection();
+        cmbxAlumnos.getItems().clear();
+        cmbxAlumnos.hide();
+        cleanup();
+    }
+
     //de aqui en adelante comienzan los listeners para validaciones
 
     /**
@@ -266,7 +278,7 @@ public class PantallaPrincipalController implements Initializable {
 
         // Método para el campo "Monto Colegiatura"
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
-                verificarFormato(txfMontoColegiatura, lblAdeudoColegiatura);
+                verificarFormato(txfMontoColegiatura, lblAdeudoVencido);
         });
 
         // Método para el campo "Monto Inscripción"
@@ -325,6 +337,7 @@ public class PantallaPrincipalController implements Initializable {
 
         // Configurar el ComboBox para manejar la selección
         cmbxAlumnos.setOnAction(event -> {
+            cleanup();
             AlumnoConsultaDTO alumnoSeleccionado = cmbxAlumnos.getValue();
             if (alumnoSeleccionado != null && !cmbxAlumnos.getItems().isEmpty()) {
                 Platform.runLater(() -> {
@@ -451,7 +464,7 @@ public class PantallaPrincipalController implements Initializable {
             CuotasDTO cuotas = servicioCuotas.obtenerCuotasAlumno(matricula, idCiclo);
 
             lblAdeudoVencido.setText(cuotas.getAdeudoVencido().toString());
-            lblAdeudoColegiatura.setText(cuotas.getAdeudoColegiatura().toString());
+            lblAdeudoActual.setText(cuotas.getAdeudoColegiatura().toString());
             lblCuotaInscripcion.setText(cuotas.getAdeudoInscripcion().toString());
             lblCuotaLibros.setText(cuotas.getAdeudoLibros().toString());
             lblCuotaEventos.setText(cuotas.getAdeudoEventos().toString());
@@ -477,37 +490,37 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void establecerDescuento(){
 
-        int diaActual = LocalDate.now().getDayOfMonth();
-
-        //descuento para la primer semana
-        if (diaActual <= 7){
-
-            DescuentoDTO descuento =  new DescuentoDTO();
-
-            descuento.setTipo("Primer periodo");
-            descuento.setDescuento(400.00);
-
-            DescuentoCache.setInstance(descuento);
-
+        DescuentoDTO descuento =  new DescuentoDTO();
+        AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
+        if(alumno == null){
+            DescuentoCache.limpiarCache();
+            return;
         }
-        //descuento para la segunda semana
-        else if (diaActual > 7 && diaActual <= 14) {
-            DescuentoDTO descuento =  new DescuentoDTO();
+        String matricula = alumno.getMatricula();
 
-            descuento.setTipo("Segundo periodo");
-            descuento.setDescuento(200.00);
-
-            DescuentoCache.setInstance(descuento);
+        String tipoDesc = "No aplica";
+        Double montoDesc = 0.00;
+        long cantidadPagosDelMes = servicioPagos.obtenerPagosDeColegiaturaDelMes(matricula, CicloEscolarCache.getInstance().getId());
+        if(cantidadPagosDelMes == 0){
+            int diaActual = LocalDate.now().getDayOfMonth();
+    
+    
+            //descuento para la primer semana
+            if (diaActual <= 7){
+                tipoDesc = "Primer periodo";
+                montoDesc = 400.00;
+            }
+            //descuento para la segunda semana
+            else if (diaActual > 7 && diaActual <= 14) {
+                tipoDesc = "Segundo periodo";
+                montoDesc = 200.00;
+            }
         }
-        //descuento para la tercer semana en adelante
-        else{
-            DescuentoDTO descuento =  new DescuentoDTO();
-
-            descuento.setTipo("No aplica");
-            descuento.setDescuento(0.00);
-
-            DescuentoCache.setInstance(descuento);
-        }
+        descuento.setTipo(tipoDesc);
+        descuento.setDescuento(montoDesc);
+        lblTipoDescuento.setText(tipoDesc);
+        lblDescuentoDescuento.setText(String.valueOf(montoDesc));
+        DescuentoCache.setInstance(descuento);
 
     }
 
@@ -553,14 +566,14 @@ public class PantallaPrincipalController implements Initializable {
         txfMontoUniforme.setText("");
         txfMontoLibros.setText("");
 
-        lblAdeudoVencido.setText("");
-        lblAdeudoColegiatura.setText("");
-        lblCuotaInscripcion.setText("");
-        lblCuotaLibros.setText("");
-        lblCuotaEventos.setText("");
-        lblCuotaAcademias.setText("");
-        lblUniforme.setText("");
-        lblTotal.setText("");
+        lblAdeudoVencido.setText("0000.00");
+        lblAdeudoActual.setText("0000.00");
+        lblCuotaInscripcion.setText("0000.00");
+        lblCuotaLibros.setText("0000.00");
+        lblCuotaEventos.setText("0000.00");
+        lblCuotaAcademias.setText("0000.00");
+        lblUniforme.setText("0000.00");
+        lblTotal.setText("0000.00");
         cmbxAlumnos.getSelectionModel().clearSelection();
         cmbxMetodoPago.getSelectionModel().clearSelection();
     }
@@ -645,8 +658,8 @@ public class PantallaPrincipalController implements Initializable {
 
             List<DetallePagoDTO> detalles = new ArrayList<>();
             
-            // String tipoDescuento = lblTipoDescuento.getText();
-            // Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
+            String tipoDescuento = lblTipoDescuento.getText();
+            Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
             
             Double montoConDescuento =0.0;
             for(Map.Entry<String,Double> cuota:cuotas.entrySet()){
@@ -738,7 +751,7 @@ public class PantallaPrincipalController implements Initializable {
         boolean considerar = cbxConsiderarColegiatura.isSelected();
 
         // txfMontoVencido.setText(considerar ? lblAdeudoVencido.getText() : "");
-        txfMontoColegiatura.setText(considerar ? lblAdeudoColegiatura.getText() : "");
+        txfMontoColegiatura.setText(considerar ? lblAdeudoVencido.getText() : "");
 
         //actualizamos el total
         actualizarTotal();
@@ -814,7 +827,7 @@ public class PantallaPrincipalController implements Initializable {
                 TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
 
                 BigDecimal descuento = new BigDecimal(lblDescuentoDescuento.getText());
-                BigDecimal adeudo = new BigDecimal(lblAdeudoColegiatura.getText());
+                BigDecimal adeudo = new BigDecimal(lblAdeudoActual.getText());
                 BigDecimal ingresado = new  BigDecimal(txfMontoColegiatura.getText());
 
                 if(ingresado.compareTo(adeudo) == 0){
@@ -953,13 +966,9 @@ public class PantallaPrincipalController implements Initializable {
         System.out.println(idCiclo);
         if (matricula != null){
 
-            double totalPagado = servicioPagos.obtenerTotalPagadoColegiatura(matricula, idCiclo);
-            
-
-
             List<DetalleAdeudoDTO> detalles = servicioCuotas.obtenerDetallesAdeudosColegiatura(matricula,idCiclo);
             if(detalles != null){
-                DetallesAdeudoCache.setDetalles(detalles);
+                DetallesAdeudoCache.getInstance().setDetalles(detalles);
                 mediador.mostrarPantallaColegiaturasAtrasadas();
             }else{
                 notificarError("Hubo un error en la busqueda de detalles");

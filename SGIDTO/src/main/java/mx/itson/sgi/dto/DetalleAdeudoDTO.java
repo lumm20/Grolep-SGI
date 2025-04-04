@@ -10,7 +10,7 @@ public class DetalleAdeudoDTO {
     private Double montoAdeudo;
     private Double montoPagado;
 
-    public DetalleAdeudoDTO(Month mesAdeudo, Double montoAdeudo, Double montoPagado) {
+    public DetalleAdeudoDTO(Month mesAdeudo, Double montoPagado, Double montoAdeudo) {
         this.mesAdeudo = mesAdeudo;
         this.montoAdeudo = montoAdeudo;
         this.montoPagado = montoPagado;
