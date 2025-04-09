@@ -14,7 +14,9 @@ public class AlumnoConsultaDTO implements Serializable {
 
     @Expose
     private String matricula;
+    @Expose
     private String nombre;
+    @Expose
     private String numeroCelular;
 
     /**
