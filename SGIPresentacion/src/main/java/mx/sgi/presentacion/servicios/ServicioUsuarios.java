@@ -37,7 +37,7 @@ public class ServicioUsuarios implements IServicioUsuarios {
      */
     public UsuarioDTO obtenerUsuario(String id, String Contrasena)  throws Exception{
 
-        String uuid = "1";
+        String uuid = "3f22c5f2-5c73-41a4-9677-3d4f6c7d1018";
         return new UsuarioDTO(UUID.fromString(uuid), "Juan Pérez", "juan.perez@example.com");
 
     }

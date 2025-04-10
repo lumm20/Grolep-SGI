@@ -34,7 +34,15 @@ public class ServicioAlumnos implements IServicioAlumnos {
      */
     @Override
     public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception {
-        return null;
+        AlumnoConsultaDTO alumno = new AlumnoConsultaDTO();
+        alumno.setMatricula("A1234567");
+        alumno.setNombres("Juan Pérez López");
+        alumno.setNumeroCelular("555-123-4567");
+
+        List<AlumnoConsultaDTO> alumnos = new ArrayList<>();
+        alumnos.add(alumno);
+
+        return alumnos;
     }
 
 }

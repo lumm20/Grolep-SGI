@@ -146,27 +146,27 @@
                         <Font size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaLibros" alignment="CENTER" layoutX="217.0" layoutY="183.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                  <Label fx:id="lblCuotaLibros" alignment="CENTER" layoutX="217.0" layoutY="183.0" prefHeight="20.0" prefWidth="128.0" text="0.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaInscripcion" alignment="CENTER" layoutX="217.0" layoutY="128.0" prefHeight="20.0" prefWidth="128.0" style="-fx-text-alignment: center;" text="0000.00">
+                  <Label fx:id="lblCuotaInscripcion" alignment="CENTER" layoutX="217.0" layoutY="128.0" prefHeight="20.0" prefWidth="128.0" style="-fx-text-alignment: center;" text="0.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaEventos" alignment="CENTER" layoutX="217.0" layoutY="238.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                  <Label fx:id="lblCuotaEventos" alignment="CENTER" layoutX="217.0" layoutY="238.0" prefHeight="20.0" prefWidth="128.0" text="0.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblCuotaAcademias" alignment="CENTER" layoutX="217.0" layoutY="295.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                  <Label fx:id="lblCuotaAcademias" alignment="CENTER" layoutX="217.0" layoutY="295.0" prefHeight="20.0" prefWidth="128.0" text="0.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblUniforme" alignment="CENTER" layoutX="217.0" layoutY="351.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                  <Label fx:id="lblUniforme" alignment="CENTER" layoutX="217.0" layoutY="351.0" prefHeight="20.0" prefWidth="128.0" text="0.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -201,7 +201,7 @@
                      </font>
                   </Label>
                   <Separator layoutX="14.0" layoutY="56.0" prefHeight="3.0" prefWidth="606.0" style="-fx-background-color: #000000;" />
-                  <JFXButton fx:id="btnDetalles" layoutX="24.0" layoutY="172.0" onMouseClicked="#mostrarPantallaColegiaturasAtrasadas" prefHeight="31.0" prefWidth="102.0" style="-fx-background-color: #E6E0E9; -fx-background-radius: 15px;" text="Ver detalles">
+                  <JFXButton fx:id="btnDetalles" layoutX="24.0" layoutY="172.0" onMouseClicked="#mostrarPantallaDetalles" prefHeight="31.0" prefWidth="102.0" style="-fx-background-color: #E6E0E9; -fx-background-radius: 15px;" text="Ver detalles">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -232,7 +232,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAdeudoVencido" alignment="CENTER" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                  <Label fx:id="lblAdeudoVencido" alignment="CENTER" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -251,7 +251,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblAdeudoColegiatura" alignment="CENTER" layoutX="337.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                  <Label fx:id="lblAdeudoColegiatura" alignment="CENTER" layoutX="337.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0.00">
                      <font>
                         <Font name="System Bold" size="16.0" />
                      </font>
@@ -328,7 +328,7 @@
                   <Font size="20.0" />
                </font>
             </JFXButton>
-            <JFXComboBox fx:id="cmbxCicloEscolar" layoutX="817.0" layoutY="25.0" onMouseClicked="#ConsultarAdeudosConCicloEscolar" prefHeight="40.0" prefWidth="146.0" promptText="Seleccione un ciclo" style="-fx-background-color: #d2d8d2; -fx-font-size: 13px;" visibleRowCount="2">
+            <JFXComboBox fx:id="cmbxCicloEscolar" layoutX="817.0" layoutY="25.0" onAction="#ConsultarAdeudosConCicloEscolar" prefHeight="40.0" prefWidth="146.0" promptText="Seleccione un ciclo" style="-fx-background-color: #d2d8d2; -fx-font-size: 13px;" visibleRowCount="2">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -339,7 +339,7 @@
                   <Font size="15.0" />
                </font>
             </TextField>
-            <JFXButton layoutX="522.0" layoutY="25.0" prefHeight="38.0" prefWidth="135.0" style="-fx-background-radius: 15px; -fx-background-color: #c8c5c5;" text="Limpiar">
+            <JFXButton layoutX="522.0" layoutY="25.0" onMouseClicked="#limpiarCampos" prefHeight="38.0" prefWidth="135.0" style="-fx-background-radius: 15px; -fx-background-color: #c8c5c5;" text="Limpiar">
                <font>
                   <Font size="15.0" />
                </font>

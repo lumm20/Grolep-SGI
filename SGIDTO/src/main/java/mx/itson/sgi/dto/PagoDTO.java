@@ -10,14 +10,16 @@ import java.util.List;
 @Data
 public class PagoDTO {
 
-    private BigDecimal montoTotal;
     private String folio;
     private LocalDate fecha;
     private LocalTime hora;
+    private UsuarioDTO usuario;
     private AlumnoConsultaDTO alumno;
     private String metodoPago;
     private List<PagoCuotaDTO> cuotasPagadas;
-    private String descuento;
-    private UsuarioDTO usuario;
+    private String tipoDescuento;
+    private BigDecimal descuento;
+    private BigDecimal subTotal;
+    private BigDecimal montoTotal;
 
 }

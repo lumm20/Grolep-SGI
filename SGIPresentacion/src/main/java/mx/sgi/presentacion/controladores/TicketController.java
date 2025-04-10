@@ -20,47 +20,53 @@ import java.util.ResourceBundle;
 public class TicketController implements Initializable {
 
     @FXML
-    Label lblTotal;
+    private Label lblFolio;
 
     @FXML
-    Label lblFolio;
+    private Label lblFecha;
 
     @FXML
-    Label lblFecha;
+    private Label lblCliente;
 
     @FXML
-    Label lblCliente;
+    private Label lblMetodo;
 
     @FXML
-    Label lblMetodo;
+    private Label lblMontoVencidos;
 
     @FXML
-    Label lblMontoVencidos;
+    private Label  lblMontoColegiatura;
 
     @FXML
-    Label  lblMontoColegiatura;
+    private Label lblMontoInscripcion;
 
     @FXML
-    Label lblMontoInscripcion;
+    private Label lblMontoILibros;
 
     @FXML
-    Label lblMontoILibros;
+    private Label lblMontoIEventos;
 
     @FXML
-    Label lblMontoIEventos;
+    private Label lblMontoIAcademias;
 
     @FXML
-    Label lblMontoIAcademias;
+    private Label lblMontoUniforme;
 
     @FXML
-    Label lblMontoUniforme;
+    private Label lblTipoDescuento;
 
     @FXML
-    Label lblDescuento;
+    private Label lblDescuento;
 
-    ServicioPagos servicioPagos;
+    @FXML
+    private Label lblSubTotal;
 
-    Mediador mediador;
+    @FXML
+    private Label lblTotal;
+
+    private ServicioPagos servicioPagos;
+
+    private Mediador mediador;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -91,7 +97,9 @@ public class TicketController implements Initializable {
         String montoEventos = ticketCache.getMontoEventos().toString();
         String montoAcademias = ticketCache.getMontoAcademias().toString();
         String montoUniforme = ticketCache.getMontoUniforme().toString();
-        String descuento = ticketCache.getTipoDescuento();
+        String tipoDescuento = ticketCache.getTipoDescuento();
+        String descuento = ticketCache.getDescuento().toString();
+        String subTotal = ticketCache.getSubTotal().toString();
 
         lblTotal.setText(total);
         lblFolio.setText(ticketCache.getFolio().toString());
@@ -105,7 +113,9 @@ public class TicketController implements Initializable {
         lblMontoIEventos.setText(montoEventos);
         lblMontoIAcademias.setText(montoAcademias);
         lblMontoUniforme.setText(montoUniforme);
+        lblTipoDescuento.setText(tipoDescuento);
         lblDescuento.setText(descuento);
+        lblSubTotal.setText(subTotal);
 
     }
 
@@ -121,14 +131,16 @@ public class TicketController implements Initializable {
             //nueva instancia para pago
             PagoDTO pago = new PagoDTO();
 
-            pago.setMontoTotal(ticket.getMontoTotal());
             pago.setFolio(ticket.getFolio());
             pago.setFecha(ticket.getFecha());
             pago.setHora(ticket.getHora());
             pago.setAlumno(ticket.getAlumno());
             pago.setMetodoPago(ticket.getMetodoPago());
             pago.setCuotasPagadas(crearCuotas());
-            pago.setDescuento(ticket.getTipoDescuento());
+            pago.setTipoDescuento(ticket.getTipoDescuento());
+            pago.setDescuento(ticket.getDescuento());
+            pago.setSubTotal(ticket.getSubTotal());
+            pago.setMontoTotal(ticket.getMontoTotal());
             pago.setUsuario(ticket.getUsuario());
 
             //registramos el pago
