@@ -33,27 +33,21 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
     @Override
     public List<CicloEscolarDTO> obtenerCiclosEscolares() throws Exception {
         try {
-            // Obtener la fecha actual
-            LocalDate fechaActual = LocalDate.now();
-
-            // Suponiendo que el ciclo escolar tiene una duración de un año
-            // Ciclo escolar actual
-            LocalDate inicioCicloActual = LocalDate.of(fechaActual.getYear(), 9, 1); // Inicio del ciclo escolar actual (1 de septiembre)
-            LocalDate finCicloActual = inicioCicloActual.plusMonths(9); // Fin del ciclo escolar actual (agregamos 9 meses)
-
-            // Ciclo escolar siguiente
-            LocalDate inicioCicloSiguiente = inicioCicloActual.plusYears(1); // El siguiente ciclo empieza en septiembre del año siguiente
-            LocalDate finCicloSiguiente = inicioCicloSiguiente.plusMonths(9); // Fin del ciclo siguiente (agregamos 9 meses)
-
-            // Crear y devolver la lista con los ciclos escolares
-            List<CicloEscolarDTO> ciclosEscolares = new ArrayList<>();
-            // ciclosEscolares.add(new CicloEscolarDTO(inicioCicloActual, finCicloActual));
-            // ciclosEscolares.add(new CicloEscolarDTO(inicioCicloSiguiente, finCicloSiguiente));
-
-            return ciclosEscolares;
+            String token = UsuarioCache.getSession().getToken();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080/SGI/api/fees/all-cycles"))
+                    .GET()
+                    .header("Authorization", "Bearer " + token)
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                System.out.println(response.body());
+                return new Gson().fromJson(response.body(), new TypeToken<List<CicloEscolarDTO>>() {}.getType());
+            }
         } catch (Exception ex) {
             throw new Exception("Error al obtener los ciclos escolares", ex);
         }
+        return null;
     }
 
 

@@ -27,7 +27,7 @@ public class CicloEscolarDTO {
 
     @Override
     public String toString() {
-        return inicio + " - " + fin;
+        return inicio.substring(0,4) + " - " + fin.substring(0,4);
     }
 
 }

@@ -42,11 +42,19 @@ public class APICuota {
         }
         return ResponseEntity.notFound().build();
     }
+    @GetMapping("/all-cycles")
+    public ResponseEntity<?> obtenerCiclosEscolares(){
+        List<CicloEscolarDTO> ciclo = controlador.obtenerCiclosEscolares();
+        if(ciclo != null){
+            return ResponseEntity.ok().body(ciclo);
+        }
+        return ResponseEntity.notFound().build();
+    }
     @GetMapping("/debit-details")
     public ResponseEntity<?> obtenerDetallesAdeudosPorEstudiante(
             @RequestParam String matricula,
             @RequestParam("ciclo") String idCiclo) {
-                List<DetalleAdeudoDTO> detalles = controlador.obtenerDetallesAdeudo(matricula,idCiclo);
+                List<DetalleAdeudoDTO> detalles = controlador.obtenerPagosMensuales(matricula,idCiclo);
                 System.out.println(detalles);
         if(detalles != null){
             return ResponseEntity.ok().body(detalles);

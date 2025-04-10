@@ -33,8 +33,11 @@ public interface CuotaRepository extends CrudRepository<Cuota,Long>{
     @Query(value = "call sp_obtener_detalles_adeudos(:matricula,:ciclo)",nativeQuery = true)
     List<Object[]> findDetallesAdeudoColegiatura(@Param("matricula")String alumno, @Param("ciclo")String ciclo);
     
-    @Query("select new Cuota(c.montoBase) from Cuota c where c.alumno = ?1 and c.concepto = COLEGIATURA")
-    Cuota findMontoBaseColegiaturaAlumno(Alumno alumno);
+    // @Query(value = "call sp_obtener_pagos_mensuales(:matricula,:ciclo)",nativeQuery = true)
+    // List<Object[]> findPagosMensualesAlumno(@Param("matricula")String alumno, @Param("ciclo")String ciclo);
+    
+    @Query("select new Cuota(c.montoBase) from Cuota c where c.alumno = ?1 and c.concepto = COLEGIATURA and c.ciclo = ?2")
+    Cuota findMontoBaseColegiaturaAlumno(Alumno alumno, CicloEscolar ciclo);
 
     @Procedure(name = "sp_monto_total_colegiaturas")
     void sp_monto_total_colegiaturas(@Param("matricula")String matricula, @Param("ciclo")String ciclo, @Param("monto_total") Double monto_total);

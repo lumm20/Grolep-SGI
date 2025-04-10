@@ -1,5 +1,6 @@
 package mx.itson.sgi.dto;
 
+import java.time.LocalDate;
 import java.time.Month;
 
 import lombok.Data;
@@ -7,13 +8,21 @@ import lombok.Data;
 @Data
 public class DetalleAdeudoDTO {
     private Month mesAdeudo;
+    private String fechaPago;
     private Double montoAdeudo;
+    private Double montoBase;
     private Double montoPagado;
 
     public DetalleAdeudoDTO(Month mesAdeudo, Double montoPagado, Double montoAdeudo) {
         this.mesAdeudo = mesAdeudo;
         this.montoAdeudo = montoAdeudo;
         this.montoPagado = montoPagado;
+    }
+
+    public DetalleAdeudoDTO(String fechaPago, Double montoPagado,Double montoAcumulado) {
+        this.fechaPago = fechaPago;
+        this.montoPagado = montoPagado;
+        this.montoAdeudo = montoAcumulado;
     }
 
     public DetalleAdeudoDTO(Month mesAdeudo) {

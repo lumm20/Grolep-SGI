@@ -22,6 +22,8 @@ public class ColegiaturasAtrasadasController implements Initializable {
     private AnchorPane root; // El AnchorPane principal
     
     @FXML
+    private AnchorPane contenedorFilas;
+    @FXML
     private Label lblTotal;
     ServicioCuotas servicioCuotas;
     
@@ -31,77 +33,89 @@ public class ColegiaturasAtrasadasController implements Initializable {
         cargarInfo();
     }
 
-    private void cargarInfo() {
-        List<DetalleAdeudoDTO> detalles = DetallesAdeudoCache.getInstance().getDetalles();
-        // Obtener el AnchorPane donde se agregarán las filas (el que está en la posición 200,200)
-        AnchorPane contenedor = (AnchorPane) root.getChildren().stream()
-            .filter(node -> node instanceof AnchorPane && 
-                    ((AnchorPane) node).getLayoutY() == 200.0 && 
-                    ((AnchorPane) node).getLayoutX() == 45.0)
-            .findFirst()
-            .orElse(null);
-        
-        if (contenedor != null) {
-            // Posición Y inicial para la primera fila
-            double posY = 0;
-            String mes;
-            for (DetalleAdeudoDTO detalle : detalles) {
-                // Crear una fila para este mes
-                mes = detalle.getMesAdeudo().getDisplayName(TextStyle.FULL, Locale.US);
-                AnchorPane filaMes = crearFilaMes(mes, detalle.getMontoAdeudo(), detalle.getMontoPagado());
-                
-                // Posicionar la fila
-                filaMes.setLayoutY(posY);
-                
-                // Agregar la fila al contenedor
-                contenedor.getChildren().add(filaMes);
-                
-                // Incrementar la posición Y para la siguiente fila
-                posY += 70; // Ajusta este valor según el espacio que quieras entre filas
-            }
+    
+private void cargarInfo() {
+    List<DetalleAdeudoDTO> detalles = DetallesAdeudoCache.getInstance().getDetalles();
+    
+    // Ya no necesitamos buscar el contenedor por coordenadas
+    // porque ahora tenemos una referencia directa con @FXML
+    double montoAdeudo = 0.0;
+    if (contenedorFilas != null) {
+        // Posición Y inicial para la primera fila
+        double posY = 0;
+        String fecha;
+        for (DetalleAdeudoDTO detalle : detalles) {
+            // Crear una fila para este mes
+            fecha = detalle.getFechaPago().toString();
+            AnchorPane filaMes = crearFila(fecha, detalle.getMontoAdeudo(), 
+                                          detalle.getMontoPagado(), detalle.getMontoBase());
+            
+            // Posicionar la fila
+            filaMes.setLayoutY(posY);
+            
+            // Agregar la fila al contenedor
+            contenedorFilas.getChildren().add(filaMes);
+            
+            // Incrementar la posición Y para la siguiente fila
+            posY += 70; // Ajusta este valor según el espacio que quieras entre filas
+            montoAdeudo += detalle.getMontoAdeudo();
         }
-        Double totalAdeudo = detalles.getLast().getMontoAdeudo();
-        lblTotal.setText(String.format("%.2f", totalAdeudo));
+        
+        // Asegurarse de que el contenedor tenga suficiente altura para todas las filas
+        contenedorFilas.setPrefHeight(Math.max(230.0, posY));
     }
     
-    private AnchorPane crearFilaMes(String nombreMes, Double adeudoAcumulado, Double montoPagado) {
-        // Crear un contenedor para la fila
-        AnchorPane filaMes = new AnchorPane();
-        filaMes.setPrefHeight(50.0);
-        filaMes.setPrefWidth(578.0);
-        
-        // Crear etiqueta para el mes
-        Label lblMes = new Label(nombreMes);
-        lblMes.setAlignment(javafx.geometry.Pos.CENTER);
-        lblMes.setPrefHeight(30.0);
-        lblMes.setPrefWidth(140.0);
-        lblMes.setFont(new Font("System Bold", 17.0));
-        lblMes.setLayoutX(25.0);
-        lblMes.setLayoutY(10.0);
-        
-        // Crear etiqueta para el adeudo acumulado
-        Label lblAdeudo = new Label(String.format("%.2f", adeudoAcumulado));
-        lblAdeudo.setAlignment(javafx.geometry.Pos.CENTER);
-        lblAdeudo.setPrefHeight(26.0);
-        lblAdeudo.setPrefWidth(130.0);
-        lblAdeudo.setFont(new Font("System", 17.0));
-        lblAdeudo.setLayoutX(224.0);
-        lblAdeudo.setLayoutY(12.0);
-        
-        // Crear etiqueta para el monto pagado
-        Label lblPagado = new Label(String.format("%.2f", montoPagado));
-        lblPagado.setAlignment(javafx.geometry.Pos.CENTER);
-        lblPagado.setPrefHeight(26.0);
-        lblPagado.setPrefWidth(123.0);
-        lblPagado.setFont(new Font("System", 17.0));
-        lblPagado.setLayoutX(422.0);
-        lblPagado.setLayoutY(12.0);
-        
-        // Agregar las etiquetas al contenedor de la fila
-        filaMes.getChildren().addAll(lblMes, lblAdeudo, lblPagado);
-        
-        return filaMes;
-    }
+    Double totalAdeudo = montoAdeudo;
+    lblTotal.setText(String.format("%.2f", totalAdeudo));
+}
+
+private AnchorPane crearFila(String nombreMes, Double adeudoAcumulado, Double montoPagado, Double montoBase) {
+    // Crear un contenedor para la fila
+    AnchorPane filaMes = new AnchorPane();
+    filaMes.setPrefHeight(50.0);
+    filaMes.setPrefWidth(560.0); // Ajustado al ancho del contenedor
+    
+    // Crear etiqueta para el mes (fecha)
+    Label lblMes = new Label(nombreMes);
+    lblMes.setAlignment(javafx.geometry.Pos.CENTER);
+    lblMes.setPrefHeight(30.0);
+    lblMes.setPrefWidth(120.0);
+    lblMes.setFont(new Font("System Bold", 17.0));
+    lblMes.setLayoutX(25.0);
+    lblMes.setLayoutY(10.0);
+    
+    // Crear etiqueta para el monto pagado
+    Label lblPagado = new Label(String.format("%.2f", montoPagado));
+    lblPagado.setAlignment(javafx.geometry.Pos.CENTER);
+    lblPagado.setPrefHeight(26.0);
+    lblPagado.setPrefWidth(100.0);
+    lblPagado.setFont(new Font("System", 17.0));
+    lblPagado.setLayoutX(190.0); // Ajustado
+    lblPagado.setLayoutY(12.0);
+    
+    // Crear etiqueta para el adeudo
+    Label lblAdeudo = new Label(String.format("%.2f", adeudoAcumulado));
+    lblAdeudo.setAlignment(javafx.geometry.Pos.CENTER);
+    lblAdeudo.setPrefHeight(26.0);
+    lblAdeudo.setPrefWidth(100.0);
+    lblAdeudo.setFont(new Font("System", 17.0));
+    lblAdeudo.setLayoutX(340.0); // Ajustado
+    lblAdeudo.setLayoutY(12.0);
+    
+    // Nueva etiqueta para Cuota del mes (montoBase)
+    Label lblCuota = new Label(String.format("%.2f", montoBase));
+    lblCuota.setAlignment(javafx.geometry.Pos.CENTER);
+    lblCuota.setPrefHeight(26.0);
+    lblCuota.setPrefWidth(100.0);
+    lblCuota.setFont(new Font("System", 17.0));
+    lblCuota.setLayoutX(460.0); // Posicionado a la derecha
+    lblCuota.setLayoutY(12.0);
+    
+    // Agregar las etiquetas al contenedor de la fila
+    filaMes.getChildren().addAll(lblMes, lblPagado, lblAdeudo, lblCuota);
+    
+    return filaMes;
+}
     
     // private void iniciarComponentesEnInvisible(){
     //     lblMes1.setVisible(false);

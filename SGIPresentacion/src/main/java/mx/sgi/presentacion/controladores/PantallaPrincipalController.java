@@ -349,7 +349,7 @@ public class PantallaPrincipalController implements Initializable {
                 AlumnoCache.limpiarCache(); // Limpiar el cache en caso de que hubiera otro alumno ocupando la instancia
                 AlumnoCache.setInstance(alumnoSeleccionado); // Guardar al alumno seleccionado en el cache
                 consultarCuotas(); // Consultar las cuotas del alumno seleccionado
-                establecerDescuento();
+                //establecerDescuento();
             }
         });
     }
@@ -403,20 +403,26 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void establecerCiclos(){
         try {
-            CicloEscolarDTO cicloEscolar = servicioCicloEscolar.obtenerCicloEscolarActual();
-
-            if(cicloEscolar != null){
-                CicloEscolarCache.setInstance(cicloEscolar);
-                String anioInicio = cicloEscolar.getInicio().substring(0, 4);
-                String anioFin = cicloEscolar.getFin().substring(0, 4);
-                String cicloTxt = anioInicio + " - " + anioFin;
-                lblCicloEscolar.setText(cicloTxt);
+            List<CicloEscolarDTO> listaCiclos = servicioCicloEscolar.obtenerCiclosEscolares();
+            
+            if(listaCiclos != null && !listaCiclos.isEmpty()){
+                ObservableList<CicloEscolarDTO> observableList = FXCollections.observableArrayList(listaCiclos);
+                cmbxCicloEscolar.setItems(observableList);
+                
+                CicloEscolarDTO cicloEscolar = servicioCicloEscolar.obtenerCicloEscolarActual();
+                if(cicloEscolar != null){
+                    CicloEscolarCache.setInstance(cicloEscolar);
+                    // String anioInicio = cicloEscolar.getInicio().substring(0, 4);
+                    // String anioFin = cicloEscolar.getFin().substring(0, 4);
+                    // String cicloTxt = anioInicio + " - " + anioFin;
+                    for (CicloEscolarDTO cicloEscolarDTO : observableList) {
+                        if(cicloEscolarDTO.getId().equals(cicloEscolar.getId())){
+                            cmbxCicloEscolar.getSelectionModel().select(cicloEscolarDTO);
+                            break;
+                        }
+                    }
+                }
             }
-            // List<CicloEscolarDTO> listaCiclos = servicioCicloEscolar.obtenerCiclosEscolares();
-
-            // ObservableList<CicloEscolarDTO> observableList = FXCollections.observableArrayList(listaCiclos);
-
-            // cmbxCicloEscolar.setItems(observableList);
 
         }
         catch (Exception ex){
@@ -432,12 +438,12 @@ public class PantallaPrincipalController implements Initializable {
 
             // if (cmbxCicloEscolar.getValue() == null &&  cmbxAlumnos.getValue() != null) {
 
-                System.out.println("Entre a la primera opcion");
                 // cmbxCicloEscolar.getSelectionModel().select(0);
                 CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
                 String matricula = cmbxAlumnos.getValue().getMatricula();
 
                 establecerCuotas(matricula, cicloEscolar);
+                establecerDescuento();
             // }
             // else if (cmbxCicloEscolar.getValue() != null && cmbxAlumnos.getValue() != null) {
 
@@ -592,7 +598,10 @@ public class PantallaPrincipalController implements Initializable {
     private void ConsultarAdeudosConCicloEscolar(){
         CicloEscolarCache.limpiarCache();
         CicloEscolarCache.setInstance(cmbxCicloEscolar.getValue());
-        consultarCuotas();
+        if(cmbxAlumnos.getValue() != null){
+
+            consultarCuotas();
+        }
     }
 
     private void showError(String mensaje){
@@ -692,7 +701,7 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setSubTotal(lblSubTotal.getText().toString());
 
             System.out.println(ticket.toString());
-            ticket.setTipoDescuento(DescuentoCache.getInstance().getTipo());
+            ticket.setTipoDescuento(TicketRegistrarCache.getInstance().getTipoDescuento());
             ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento());
             TicketRegistrarCache.setInstance(ticket);
             System.out.println(TicketRegistrarCache.getInstance());
@@ -849,6 +858,7 @@ public class PantallaPrincipalController implements Initializable {
 
                     //guaramos en el ticket el descuento
                     ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento());
+                    System.out.println(ticket);
 
                     TicketRegistrarCache.setInstance(ticket);
                     //retornamos el adeudo menos el descuento
@@ -864,6 +874,7 @@ public class PantallaPrincipalController implements Initializable {
 
                     //hacemos invisible el descuento
                     // lblDescuentoDescuento.setText("0.00");
+                    System.out.println(ticket);
                     TicketRegistrarCache.setInstance(ticket);
                     //retornamos el adeudo
                     return ParseBigDecimal(ingresado.toString());

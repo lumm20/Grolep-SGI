@@ -7,6 +7,7 @@ package com.mycompany.sginegocio.controlador;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,34 +74,45 @@ public class CuotaControlador {
         if(detalles != null && !detalles.isEmpty()){
 
             return detalles;
-            /*si en la lista de detalles no se incluye el mes actual, significa que no se
-            ha registrado ningun pago para la colegiatura de este mes, por lo tanto, se debe
-            agregar como adeudo (el monto del adeudo seria el monto base de la colegiatura, porque no ha pagado nada)
-            */
-            //obtener el mes inicial
-            // LocalDate inicioAnio = LocalDate.of(2025, 1, 1);
-            // //obtener el mes actual
-            // LocalDate hoy = LocalDate.now();
-            // long mesesDiferencia = ChronoUnit.MONTHS.between(inicioAnio, hoy);
-            
-            // Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula));
-            // Month sigMes;
-            // for(int i=0;i<=mesesDiferencia;i++){
-            //     sigMes = inicioAnio.plusMonths(i).getMonth();
-            //     if(!detalles.contains(new DetalleAdeudoDTO(sigMes))){
-            //         detalles.add(new DetalleAdeudoDTO(sigMes, montoBase,0.0));
-            //     }
-            // }
-
-            // detalles.sort((d1,d2)->d2.getMesAdeudo().compareTo(d1.getMesAdeudo()));
-            // System.out.println("detalles: "+ detalles);
-            // return detalles;
+        }
+        return null;
+    }
+    public List<DetalleAdeudoDTO> obtenerPagosMensuales(String matricula, String idCiclo){
+        List<DetalleAdeudoDTO> detalles = cuotaService.obtenerPagosMensualesAlumno(matricula, idCiclo);
+        Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula), new CicloEscolarDTO(idCiclo));
+        if(detalles != null && !detalles.isEmpty()){
+            detalles.forEach(detalle->{
+                detalle.setMontoBase(montoBase);
+            });
+            return calcularAdeudos(detalles);
         }
         return null;
     }
 
+    private List<DetalleAdeudoDTO> calcularAdeudos(List<DetalleAdeudoDTO> detalles){
+        List<DetalleAdeudoDTO> detallesActualizados = new ArrayList<>();
+        double adeudoAcumulado = 0, adeudoGenerado = 0;
+        for (DetalleAdeudoDTO detalleAdeudoDTO : detalles) {
+            if(detalleAdeudoDTO.getMontoBase()+adeudoAcumulado - detalleAdeudoDTO.getMontoPagado() > 0){
+                adeudoGenerado = detalleAdeudoDTO.getMontoBase() - detalleAdeudoDTO.getMontoPagado();
+                adeudoAcumulado+= adeudoGenerado;
+            }else{
+                adeudoAcumulado =0;
+            }
+            detalleAdeudoDTO.setMontoAdeudo(adeudoAcumulado);
+            detallesActualizados.add(detalleAdeudoDTO);
+        }
+        System.out.println("--------------------------------");
+        System.out.println(detalles);
+        System.out.println("--------------------------------");
+        return detalles;
+    }
+
     public CicloEscolarDTO obtenerCicloEscolarActual(){
         return cuotaService.obtenerCicloActual();
+    }
+    public List<CicloEscolarDTO> obtenerCiclosEscolares(){
+        return cuotaService.obtenerCiclos();
     }
     public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
         return cuotaService.obtenerMontoTotalColegiaturas(matricula, ciclo);

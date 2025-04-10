@@ -1,5 +1,6 @@
 package mx.itson.sgi.data_access.services;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,6 +139,21 @@ public class CuotaService {
         }
         return null;
     }
+    public List<CicloEscolarDTO> obtenerCiclos(){
+        List<CicloEscolar> ciclos = (List<CicloEscolar>) cicloRepository.findAll();
+        List<CicloEscolarDTO> dtos = new ArrayList<>();
+        if(ciclos != null){
+            ciclos.stream().forEach(c->{
+                CicloEscolarDTO dto = new CicloEscolarDTO(c.getFechaInicio().toString(),c.getFechaFin().toString());
+                dto.setId(c.getId());
+                dtos.add(dto);
+            });
+            System.out.println("??");
+            System.out.println(dtos);
+            return dtos;
+        }
+        return new ArrayList<CicloEscolarDTO>();
+    }
 
     public List<DetalleAdeudoDTO> obtenerDetalleAdeudosColegiatura(String matricula, String idCiclo){
         System.out.println("entre al servicio");
@@ -156,9 +172,25 @@ public class CuotaService {
         }
         return new ArrayList<DetalleAdeudoDTO>();
     }
+    public List<DetalleAdeudoDTO> obtenerPagosMensualesAlumno(String matricula, String idCiclo){
+        List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
+        List<DetalleAdeudoDTO> dtos = new ArrayList<>();
+        if(detalles != null){
+            detalles.stream().forEach(a->{
+                // LocalDate fecha = LocalDate.parse((String)a[0]);
+                dtos.add(new DetalleAdeudoDTO(
+                    (String)a[0],
+                    (Double)a[1],
+                    (Double)a[2]
+                ));
+            });
+            return dtos;
+        }
+        return new ArrayList<DetalleAdeudoDTO>();
+    }
 
-    public Double obtenerMontoBaseColegiatura(AlumnoConsultaDTO alumno){
-        Cuota cuota = repository.findMontoBaseColegiaturaAlumno(new Alumno(alumno.getMatricula()));
+    public Double obtenerMontoBaseColegiatura(AlumnoConsultaDTO alumno, CicloEscolarDTO ciclo){
+        Cuota cuota = repository.findMontoBaseColegiaturaAlumno(new Alumno(alumno.getMatricula()), new CicloEscolar(ciclo.getId()));
         return cuota.getMontoBase();
     }
     public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
