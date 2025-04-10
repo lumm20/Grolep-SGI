@@ -16,10 +16,7 @@ import javafx.util.Duration;
 import mx.itson.sgi.dto.*;
 import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
-import mx.sgi.presentacion.caches.AlumnoCache;
-import mx.sgi.presentacion.caches.CicloEscolarCache;
-import mx.sgi.presentacion.caches.TicketRegistrarCache;
-import mx.sgi.presentacion.caches.UsuarioCache;
+import mx.sgi.presentacion.caches.*;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
@@ -79,10 +76,7 @@ public class PantallaPrincipalController implements Initializable {
     Label lblTotal;
 
     @FXML
-    Label lblTipoBeca;
-
-    @FXML
-    Label lblTipoDescuento;
+    Label lblSubTotal;
 
     @FXML
     Label lblDescuentoDescuento;
@@ -205,7 +199,8 @@ public class PantallaPrincipalController implements Initializable {
         //establecemos la configuracion para el buscador de alumnos
         configurarFiltroAlumnos();
 
-
+        //establecer el descuento
+        establecerDescuento();
 
     }
 
@@ -439,11 +434,6 @@ public class PantallaPrincipalController implements Initializable {
             String TipoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getTipo() : "No Aplica";
             String descuentoDescuento = cuotas.getDescuento() != null ? cuotas.getDescuento().getDescuento().toString() : "0.00";
 
-            lblTipoBeca.setText(tipoBeca);
-
-            lblTipoDescuento.setText(TipoDescuento);
-            lblDescuentoDescuento.setText(descuentoDescuento);
-
         } catch (Exception ex) {
             notificarError(ex.getMessage());
         }
@@ -618,7 +608,7 @@ public class PantallaPrincipalController implements Initializable {
 
         // Sumar los montos de cada campo
         total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
-        total = total.add(validarDescuento());
+        total = total.add(ParseBigDecimal(txfMontoColegiatura.getText()));
         total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
         total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
         total = total.add(ParseBigDecimal(txfMontoEventos.getText()));
@@ -633,21 +623,55 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     private void ActualizarSubTotal(){
+        BigDecimal total = BigDecimal.ZERO.setScale(2, BigDecimal.ROUND_HALF_UP);
 
+
+        // Sumar los montos de cada campo
+        total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        total = total.add(validarDescuento());
+        total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
+        total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
+        total = total.add(ParseBigDecimal(txfMontoEventos.getText()));
+        total = total.add(ParseBigDecimal(txfMontoAcademias.getText()));
+        total = total.add(ParseBigDecimal(txfMontoUniforme.getText()));
+
+        //if(lblAdeudoColegiatura.equals)
+
+
+        // Actualizar el total en la interfaz
+        lblSubTotal.setText(total.toString());
     }
 
     private BigDecimal validarDescuento(){
-        if(!txfMontoColegiatura.getText().equalsIgnoreCase("")){
+        if(!txfMontoColegiatura.getText().isBlank()){
             if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")){
+
+                TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
 
                 BigDecimal descuento = new BigDecimal(lblDescuentoDescuento.getText());
                 BigDecimal adeudo = new BigDecimal(lblAdeudoColegiatura.getText());
                 BigDecimal ingresado = new  BigDecimal(txfMontoColegiatura.getText());
 
                 if(ingresado.compareTo(adeudo) == 0){
+                    //mostramos en pantalla el descuento
+                    lblDescuentoDescuento.setText(lblDescuentoDescuento.getText());
+                    //marcamos como verde la orilla del campo
+                    txfMontoColegiatura.setStyle("-fx-border-color: #66b328; -fx-border-width: 2px;");
+                    //guardamos en el ticket el tipo de descuento
+                    ticket.setTipoDescuento(DescuentoCache.getInstance().getTipo());
+                    //guaramos en el ticket el descuento
+                    ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento());
+                    //retornamos el adeudo menos el descuento
                     return adeudo.subtract(descuento);
                 }
                 else {
+                    //mostramos en pantalla el descuento
+                    lblDescuentoDescuento.setText("0.00");
+                    //guardamos en el ticket el tipo de descuento
+                    ticket.setTipoDescuento("No aplica");
+                    //guaramos en el ticket el descuento
+                    ticket.setMontoDescuento(BigDecimal.valueOf(0.00));
+                    //retornamos el adeudo
                     return ParseBigDecimal(ingresado.toString());
                 }
             }
@@ -682,6 +706,7 @@ public class PantallaPrincipalController implements Initializable {
                 textField.setStyle("-fx-border-color: #000000;");
                 textField.setDisable(false);
                 actualizarTotal();
+                ActualizarSubTotal();
                 return;  // Salir del método, ya que no queremos procesar el campo vacío
             }
 
@@ -705,6 +730,7 @@ public class PantallaPrincipalController implements Initializable {
             else {
                 aplicarEstiloPorDefecto(textField);
                 actualizarTotal();
+                ActualizarSubTotal();
             }
         } catch (NumberFormatException ex) {
             // Si el formato no es un número válido, aplicar el estilo de error
@@ -736,10 +762,76 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     /**
+     * Algun dia lo cambiamos por una implementacion real
+     */
+    private void establecerDescuento(){
+
+        int diaActual = LocalDate.now().getDayOfMonth();
+
+        //descuento para la primer semana
+        if (diaActual <= 7){
+            String tipo = "Primer periodo";
+            BigDecimal monto = BigDecimal.valueOf(400.00);
+            DescuentoDTO descuento = new DescuentoDTO(tipo, monto);
+            DescuentoCache.setInstance(descuento);
+        }
+        //descuento para la segunda semana
+        else if (diaActual > 7 && diaActual <= 14) {
+            String tipo = "Segundo periodo";
+            BigDecimal monto = BigDecimal.valueOf(200.00);
+            DescuentoDTO descuento = new DescuentoDTO(tipo, monto);
+            DescuentoCache.setInstance(descuento);
+        }
+        else{
+            String tipo = "No aplica";
+            BigDecimal monto = BigDecimal.valueOf(0.00);
+            DescuentoDTO descuento = new DescuentoDTO(tipo, monto);
+            DescuentoCache.setInstance(descuento);
+        }
+    }
+
+    /**
      *
      */
     private void limpiarCampos(){
+        //Habilitamos los campos de entrada
+        txfMontoVencido.setDisable(false);
+        txfMontoAcademias.setDisable(false);
+        txfMontoColegiatura.setDisable(false);
+        txfMontoEventos.setDisable(false);
+        txfMontoInscripcion.setDisable(false);
+        txfMontoUniforme.setDisable(false);
+        txfMontoLibros.setDisable(false);
 
+        //limpiamos los campos de entrada
+        txfMontoVencido.setText("");
+        txfMontoAcademias.setText("");
+        txfMontoColegiatura.setText("");
+        txfMontoEventos.setText("");
+        txfMontoInscripcion.setText("");
+        txfMontoUniforme.setText("");
+        txfMontoLibros.setText("");
+
+        //limpiamos los campos de muestra de informacion
+        lblAdeudoVencido.setText("0.00");
+        lblCuotaInscripcion.setText("0.00");
+        lblCuotaLibros.setText("0.00");
+        lblCuotaEventos.setText("0.00");
+        lblCuotaAcademias.setText("0.00");
+        lblUniforme.setText("0.00");
+        lblTotal.setText("0.00");
+
+
+        //limpiamos los comboBox
+        cmbxAlumnos.getSelectionModel().clearSelection();
+        cmbxMetodoPago.getSelectionModel().clearSelection();
+        cmbxCicloEscolar.getSelectionModel().clearSelection();
+
+        //limpiamos los caches
+        AlumnoCache.limpiarCache();
+        CicloEscolarCache.limpiarCache();
+        PagoCache.limpiarCache();
+        TicketRegistrarCache.limpiarCache();
     }
 
     /**

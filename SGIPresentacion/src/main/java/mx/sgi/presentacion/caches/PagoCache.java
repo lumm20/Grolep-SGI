@@ -7,7 +7,7 @@ public class PagoCache {
     private static volatile PagoDTO instance;
 
 
-    public static void limpiarPago() {
+    public static void limpiarCache() {
         PagoCache.instance = null;
     }
 

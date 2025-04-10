@@ -16,7 +16,6 @@ public class TicketRegistrarDTO {
     private String folio;
     private LocalDate fecha;
     private LocalTime hora;
-    private AlumnoConsultaDTO alumno;
     private String metodoPago;
     private BigDecimal montoVencidos;
     private BigDecimal montoColegiatura;
@@ -25,8 +24,9 @@ public class TicketRegistrarDTO {
     private BigDecimal montoEventos;
     private BigDecimal montoAcademias;
     private BigDecimal montoUniforme;
+    private BigDecimal montoDescuento;
     private String TipoDescuento;
-    private String montoDescuento;
+    private AlumnoConsultaDTO alumno;
     private UsuarioDTO usuario;
     private CicloEscolarDTO ciclo;
 

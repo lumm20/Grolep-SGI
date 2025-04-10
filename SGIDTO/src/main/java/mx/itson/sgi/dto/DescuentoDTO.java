@@ -11,6 +11,8 @@ public class DescuentoDTO implements Serializable {
     String tipo; //indica que tipo de beca es
     BigDecimal descuento; //indica cuanto descuento da
 
+    public DescuentoDTO() {}
+
     /**
      * Contructor completo
      *
