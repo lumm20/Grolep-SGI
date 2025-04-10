@@ -206,6 +206,7 @@ public class PantallaPrincipalController implements Initializable {
         configurarFiltroAlumnos();
 
 
+
     }
 
     /**
@@ -631,6 +632,10 @@ public class PantallaPrincipalController implements Initializable {
         lblTotal.setText(total.toString());
     }
 
+    private void ActualizarSubTotal(){
+
+    }
+
     private BigDecimal validarDescuento(){
         if(!txfMontoColegiatura.getText().equalsIgnoreCase("")){
             if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")){
@@ -728,6 +733,13 @@ public class PantallaPrincipalController implements Initializable {
        if(AlumnoCache.getInstance() != null){
            mediador.mostrarPantallaColegiaturasAtrasadas();
        }
+    }
+
+    /**
+     *
+     */
+    private void limpiarCampos(){
+
     }
 
     /**

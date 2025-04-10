@@ -19,17 +19,12 @@ import java.util.stream.Collectors;
 
 public class ServicioAlumnos implements IServicioAlumnos {
 
-    // varibale para las peticiones
-    private HttpClient client;
-    private Gson gson;
 
     /**
      * Contructor que inicializa las variables de la clase
      */
     public ServicioAlumnos() {
-        // Inicializar HttpClient
-        this.client = HttpClient.newHttpClient();
-        this.gson = new Gson();
+
     }
 
     /**
@@ -39,19 +34,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
      */
     @Override
     public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception {
-        String url = "api/student?" + nombre;
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() == 200) {
-            return gson.fromJson(response.body(), new TypeToken<List<AlumnoConsultaDTO>>() {}.getType());
-        } else {
-            throw new Exception("Error en la consulta: " + response.statusCode() + " - " + response.body());
-        }
+        return null;
     }
 
 }

@@ -21,15 +21,13 @@ import java.util.UUID;
  */
 public class ServicioUsuarios implements IServicioUsuarios {
 
-    // varibale para las peticiones
-    private HttpClient client;
+
 
     /**
      * Contructor que inicializa las variables de la clase
      */
     public ServicioUsuarios() {
-        // Inicializar HttpClient
-        this.client = HttpClient.newHttpClient();
+
     }
 
 
@@ -39,7 +37,8 @@ public class ServicioUsuarios implements IServicioUsuarios {
      */
     public UsuarioDTO obtenerUsuario(String id, String Contrasena)  throws Exception{
 
-        return new UsuarioDTO(UUID.randomUUID(), "Juan Pérez", "juan.perez@example.com");
+        String uuid = "1";
+        return new UsuarioDTO(UUID.fromString(uuid), "Juan Pérez", "juan.perez@example.com");
 
     }
 

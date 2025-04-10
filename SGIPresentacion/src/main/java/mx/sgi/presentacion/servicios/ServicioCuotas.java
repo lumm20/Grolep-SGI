@@ -16,15 +16,10 @@ import java.util.Random;
 
 public class ServicioCuotas implements IServicioCuotas {
 
-    // varibale para las peticiones
-    private HttpClient client;
-
     /**
      * Contructor que inicializa las variables de la clase
      */
     public ServicioCuotas() {
-        // Inicializar HttpClient
-        this.client = HttpClient.newHttpClient();
     }
 
     @Override
@@ -32,20 +27,10 @@ public class ServicioCuotas implements IServicioCuotas {
         // Simulación de obtención de datos
         System.out.println("Valores que llegaron: " + matricula + " " + cicloEscolar);
 
-        List<CuotasDTO> listaCuotas = new ArrayList<>();
-
         // Creación de varias cuotas simuladas con diferentes valores
-        listaCuotas.add(new CuotasDTO("500.00", "1000.00", "500.00", "700.00", "1200.00", "400.00", "800.00", "CIVICA", new DescuentoDTO("Primer Periodo", new BigDecimal("300.00"))));
-        listaCuotas.add(new CuotasDTO("200.00", "800.00", "400.00", "600.00", "1000.00", "350.00", "750.00", "DEPORTIVA", new DescuentoDTO("Segundo Periodo", new BigDecimal("250.00"))));
-        listaCuotas.add(new CuotasDTO("0.00", "900.00", "300.00", "500.00", "1100.00", "450.00", "700.00", null, new DescuentoDTO("Primer Periodo", new BigDecimal("400.00"))));
-        listaCuotas.add(new CuotasDTO("100.00", "950.00", "350.00", "550.00", "1150.00", "375.00", "725.00", "SEC", new DescuentoDTO("Segundo Periodo", new BigDecimal("350.00"))));
-        listaCuotas.add(new CuotasDTO("600.00", "1100.00", "600.00", "750.00", "1300.00", "500.00", "850.00", null, new DescuentoDTO("Primer Periodo", new BigDecimal("320.00"))));
-        listaCuotas.add(new CuotasDTO("450.00", "1025.00", "525.00", "675.00", "1250.00", "425.00", "775.00", "SEC", new DescuentoDTO("Segundo Periodo", new BigDecimal("280.00"))));
-        listaCuotas.add(new CuotasDTO("300.00", "975.00", "475.00", "625.00", "1205.00", "390.00", "740.00", null, new DescuentoDTO("Primer Periodo", new BigDecimal("330.00"))));
+        CuotasDTO cuotas = new CuotasDTO("500.00", "1000.00", "500.00", "700.00", "1200.00", "400.00", "800.00", "CIVICA", new DescuentoDTO("Primer Periodo", new BigDecimal("300.00")));
 
-        // Selección aleatoria de una cuota
-        Random random = new Random();
-        return listaCuotas.get(random.nextInt(listaCuotas.size()));
+        return cuotas;
     }
 
 
@@ -71,5 +56,16 @@ public class ServicioCuotas implements IServicioCuotas {
         return colegiaturasAtrasadas;
     }
 
+    /**
+     * Obtiene el total de la colegiatura atrasada de un alumno.
+     *
+     * @param matricula matricula del alumno
+     * @param cicloEscolar ciclo escolar en el que se encuentran las colegiaturas
+     * @return total de colegiatura atrasadas del alumno
+     * @throws Exception en caso de error.
+     */
+    public BigDecimal obtenerTotalColegiaturaAtrasada(String matricula, CicloEscolarDTO cicloEscolar) throws Exception{
+        return new BigDecimal("5000.00");
+    }
 
 }
