@@ -1,6 +1,7 @@
 package mx.sgi.datos.entidades;
 
 import jakarta.persistence.*;
+import mx.sgi.datos.enumeradores.MetodoPago;
 import mx.sgi.datos.enumeradores.TipoDescuento;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -17,8 +18,11 @@ public class Pago {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "montoTotal", nullable = false, precision = 10, scale = 2)
+    @Column(name = "monto_total", nullable = false, precision = 10, scale = 2)
     private BigDecimal montoTotal;
+
+    @Column(name = "sub_total", nullable = false, precision = 10, scale = 2)
+    private BigDecimal subTotal;
 
     @Column(name = "folio", nullable = false, length = 50)
     private String folio;
@@ -30,8 +34,9 @@ public class Pago {
     private LocalTime hora;
 
     @Lob
-    @Column(name = "metodoPago", nullable = false)
-    private String metodoPago;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "metodo_pago", nullable = false)
+    private MetodoPago metodoPago;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_descuento", nullable = false)

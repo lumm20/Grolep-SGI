@@ -10,8 +10,11 @@ public class Usuario {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "identificador", nullable = false, length = 16)
+    @Column(name = "identificador", nullable = false, length = 10)
     private String identificador;
+
+    @Column(name = "correo", nullable = false, length = 20)
+    private String correo;
 
     @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;

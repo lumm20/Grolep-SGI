@@ -39,4 +39,5 @@ public class RepositorioPagos implements IPagosRepository {
             throw new RepositoryException("Error al registrar el pago", e);
         }
     }
+
 }

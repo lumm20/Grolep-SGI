@@ -1,4 +1,4 @@
-package mx.sgi.negocio.convertidor;
+package mx.sgi.negocio.mapper;
 
 public class AlumnoConvertidor {
 

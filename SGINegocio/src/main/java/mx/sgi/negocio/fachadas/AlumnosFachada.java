@@ -2,7 +2,7 @@ package mx.sgi.negocio.fachadas;
 
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.sgi.negocio.bo.BoAlumnos;
-import mx.sgi.negocio.convertidor.AlumnoConvertidor;
+import mx.sgi.negocio.mapper.AlumnoConvertidor;
 
 import java.util.List;
 
