@@ -91,6 +91,19 @@ public class Pago {
         this.tipoDescuento = tipoDescuento;
     }
 
+    public Pago(String folio, LocalDateTime fecha, Double montoTotal, Double montoDescuento, String tipoDescuento,
+            Usuario cajero, Alumno alumno, List<DetallePago> detalles, MetodoPago metodoPago) {
+        this.folio = folio;
+        this.fecha = fecha;
+        this.montoTotal = montoTotal;
+        this.montoDescuento = montoDescuento;
+        this.tipoDescuento = tipoDescuento;
+        this.cajero = cajero;
+        this.alumno = alumno;
+        this.detalles = detalles;
+        this.metodoPago = metodoPago;
+    }
+
     public Pago(Double montoTotal, Usuario cajero, Alumno alumno, List<DetallePago> detalles,
      MetodoPago metodoPago,Double montoDescuento,String tipoDescuento) {
         this.montoTotal = montoTotal;

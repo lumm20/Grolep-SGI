@@ -37,6 +37,11 @@ public class DetallePago {
     public DetallePago() {
     }
     
+    public DetallePago(Cuota cuota, Double montoPagado) {
+        this.cuota = cuota;
+        this.montoPagado = montoPagado;
+    }
+
     public DetallePago(Cuota cuota,  Double montoPagado,Pago pago) {
         this.cuota = cuota;
         this.montoPagado = montoPagado;

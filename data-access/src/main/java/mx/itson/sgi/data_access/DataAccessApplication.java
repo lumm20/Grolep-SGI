@@ -1,5 +1,8 @@
 package mx.itson.sgi.data_access;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+
 // import java.time.LocalDate;
 // import java.time.LocalDateTime;
 // import java.util.ArrayList;
@@ -15,6 +18,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import org.springframework.transaction.annotation.Transactional;
 
+import mx.itson.sgi.data_access.services.AlumnoService;
+import mx.itson.sgi.data_access.services.CicloEscolarService;
+import mx.itson.sgi.data_access.services.CuotaService;
+import mx.itson.sgi.data_access.services.PagoService;
+import mx.itson.sgi.data_access.services.UsuarioService;
+
 // import mx.itson.sgi.data_access.dto.AdeudoDTO;
 // import mx.itson.sgi.data_access.entities.Alumno;
 // import mx.itson.sgi.data_access.entities.Beca;
@@ -28,27 +37,30 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import mx.itson.sgi.data_access.entities.Usuario;
 
 @SpringBootApplication
-public class DataAccessApplication{
+public class DataAccessApplication implements CommandLineRunner {
 
-	// @Autowired
-	// UsuarioService userController;
-
-	// @Autowired
-	// CuotaService cuotaController;
-	// @Autowired
-	// AlumnoService alumnoController;
-	// @Autowired
-	// PagoService pagoController;
+	@Autowired
+	private UsuarioService userService;
+	@Autowired
+	private CicloEscolarService cicloService;
+	@Autowired
+	private CuotaService cuotaService;
+	@Autowired
+	private AlumnoService alumnoService;
+	@Autowired
+	private PagoService pagoService;
+	@Autowired
+	private DataInitializer init;
 
 
 	public static void main(String[] args) {
 		SpringApplication.run(DataAccessApplication.class, args);
 	}
 
-	// @Override
-	// public void run(String... args) throws Exception {
-	// 	registrarPago();
-	// }
+	@Override
+	public void run(String... args) throws Exception {
+		init.guardarPagos();
+	}
 	
 	
 	// @Transactional(readOnly = true)
