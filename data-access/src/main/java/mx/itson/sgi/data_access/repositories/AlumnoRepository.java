@@ -1,14 +1,11 @@
 package mx.itson.sgi.data_access.repositories;
 
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import mx.itson.sgi.data_access.entities.Alumno;
-import mx.itson.sgi.dto.AlumnoConsultaDTO;
 
 import java.util.List;
 

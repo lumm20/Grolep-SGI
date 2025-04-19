@@ -1,6 +1,5 @@
 package mx.itson.sgi.data_access.entities;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

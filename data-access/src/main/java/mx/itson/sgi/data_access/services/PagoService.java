@@ -1,9 +1,6 @@
 package mx.itson.sgi.data_access.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +22,6 @@ import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
-import mx.itson.sgi.dto.RolDTO;
-import mx.itson.sgi.dto.UsuarioDTO;
 
 @Service
 public class PagoService {

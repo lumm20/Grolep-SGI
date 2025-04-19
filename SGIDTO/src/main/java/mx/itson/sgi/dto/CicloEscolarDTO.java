@@ -1,7 +1,5 @@
 package mx.itson.sgi.dto;
 
-import java.time.LocalDate;
-
 import com.google.gson.annotations.Expose;
 
 import lombok.Data;

@@ -19,6 +19,7 @@ public interface CuotaRepository extends CrudRepository<Cuota,Long>{
 
     List<Cuota> findByAlumno_Matricula(String matriculaAlumno);
     List<Cuota> findByConcepto(Concepto concepto);
+    List<Cuota> findByAlumnoAndCiclo(Alumno alumno, CicloEscolar ciclo);
     Optional<Cuota> findByAlumno_MatriculaAndConcepto(Alumno alumno, Concepto concepto);
     Optional<Cuota> findByAlumnoAndConceptoAndCiclo(Alumno alumno,Concepto concepto, CicloEscolar ciclo);
     // @Query(value = "call sp_obtener_adeudos()",nativeQuery = true)

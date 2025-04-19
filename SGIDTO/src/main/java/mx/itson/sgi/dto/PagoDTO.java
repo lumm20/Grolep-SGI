@@ -2,10 +2,7 @@ package mx.itson.sgi.dto;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;

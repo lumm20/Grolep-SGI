@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import mx.itson.sgi.data_access.services.CicloEscolarService;
 import mx.itson.sgi.data_access.services.CuotaService;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
@@ -28,6 +29,8 @@ public class CuotaControlador {
     
     @Autowired
     private CuotaService cuotaService;
+    @Autowired
+    private CicloEscolarService cicloService;
     
     public CuotasDTO obtenerCuotasPorAlumno(String matricula, String cicloEscolar){
         List<CuotaConsultadaDTO> cuotas = cuotaService.obtenerCuotasPorAlumno(matricula, cicloEscolar);
@@ -109,10 +112,10 @@ public class CuotaControlador {
     }
 
     public CicloEscolarDTO obtenerCicloEscolarActual(){
-        return cuotaService.obtenerCicloActual();
+        return cicloService.obtenerCicloActual();
     }
     public List<CicloEscolarDTO> obtenerCiclosEscolares(){
-        return cuotaService.obtenerCiclos();
+        return cicloService.obtenerCiclos();
     }
     public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
         return cuotaService.obtenerMontoTotalColegiaturas(matricula, ciclo);

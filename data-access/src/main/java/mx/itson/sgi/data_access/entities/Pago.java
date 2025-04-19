@@ -78,6 +78,10 @@ public class Pago {
         this.detalles = new ArrayList<>();
     }
     
+    public Pago(String folio) {
+        this.folio = folio;
+    }
+    
     public Pago(String folio, LocalDateTime fechaHora, Double montoTotal,
      Usuario cajero, MetodoPago metodoPago, Alumno alumno,Double montoDescuento,String tipoDescuento) {
         this.folio = folio;

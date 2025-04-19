@@ -1,6 +1,5 @@
 package mx.itson.sgi.dto;
 
-import java.util.UUID;
 import lombok.Data;
 
 @Data

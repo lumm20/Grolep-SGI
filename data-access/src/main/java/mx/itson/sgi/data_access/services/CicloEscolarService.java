@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import jakarta.transaction.Transactional;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
 import mx.itson.sgi.data_access.repositories.CicloRepository;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 
+@Component
 public class CicloEscolarService {
 
     @Autowired

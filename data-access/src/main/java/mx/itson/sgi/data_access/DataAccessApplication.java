@@ -1,56 +1,23 @@
 package mx.itson.sgi.data_access;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
-// import java.util.ArrayList;
-// import java.util.List;
-// import mx.itson.sgi.data_access.services.AlumnoService;
-// import mx.itson.sgi.data_access.services.CuotaService;
-// import mx.itson.sgi.data_access.services.PagoService;
-// import mx.itson.sgi.data_access.services.UsuarioService;
-
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-// import org.springframework.transaction.annotation.Transactional;
 
-import mx.itson.sgi.data_access.services.AlumnoService;
-import mx.itson.sgi.data_access.services.CicloEscolarService;
-import mx.itson.sgi.data_access.services.CuotaService;
-import mx.itson.sgi.data_access.services.PagoService;
-import mx.itson.sgi.data_access.services.UsuarioService;
-
-// import mx.itson.sgi.data_access.dto.AdeudoDTO;
-// import mx.itson.sgi.data_access.entities.Alumno;
-// import mx.itson.sgi.data_access.entities.Beca;
-// import mx.itson.sgi.data_access.entities.CicloEscolar;
-// import mx.itson.sgi.data_access.entities.Concepto;
-// import mx.itson.sgi.data_access.entities.Cuota;
-// import mx.itson.sgi.data_access.entities.DetallePago;
-// import mx.itson.sgi.data_access.entities.MetodoPago;
-// import mx.itson.sgi.data_access.entities.Pago;
-// import mx.itson.sgi.data_access.entities.Rol;
-// import mx.itson.sgi.data_access.entities.Usuario;
+import mx.itson.sgi.data_access.entities.Alumno;
+import mx.itson.sgi.data_access.entities.CicloEscolar;
+import mx.itson.sgi.data_access.entities.Usuario;
 
 @SpringBootApplication
 public class DataAccessApplication implements CommandLineRunner {
 
 	@Autowired
-	private UsuarioService userService;
-	@Autowired
-	private CicloEscolarService cicloService;
-	@Autowired
-	private CuotaService cuotaService;
-	@Autowired
-	private AlumnoService alumnoService;
-	@Autowired
-	private PagoService pagoService;
-	@Autowired
 	private DataInitializer init;
+	@Autowired
+	private DataCleanup cleanup;
 
 
 	public static void main(String[] args) {
@@ -59,7 +26,8 @@ public class DataAccessApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		init.guardarPagos();
+		cleanup.truncateTables();
+		init.initData();
 	}
 	
 	

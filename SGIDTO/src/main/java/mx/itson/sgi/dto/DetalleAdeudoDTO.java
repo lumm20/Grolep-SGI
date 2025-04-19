@@ -1,6 +1,5 @@
 package mx.itson.sgi.dto;
 
-import java.time.LocalDate;
 import java.time.Month;
 
 import lombok.Data;

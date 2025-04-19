@@ -1,6 +1,5 @@
 package mx.itson.sgi.data_access.dto;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

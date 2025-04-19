@@ -2,9 +2,6 @@ package mx.itson.sgi.dto;
 
 import java.io.Serializable;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 
 import lombok.Data;

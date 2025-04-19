@@ -3,7 +3,6 @@ package mx.itson.sgi.dto;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 public class DescuentoDTO implements Serializable {

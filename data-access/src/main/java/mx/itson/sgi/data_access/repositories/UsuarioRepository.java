@@ -8,7 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import mx.itson.sgi.data_access.entities.Usuario;
-import mx.itson.sgi.dto.UsuarioDTO;
 
 @Repository
 public interface UsuarioRepository extends CrudRepository<Usuario, Long> {

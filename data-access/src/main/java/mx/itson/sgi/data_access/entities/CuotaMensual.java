@@ -17,7 +17,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CuotaMensual extends Cuota{
     @Expose
-    private Double montoAdeudo;
+    private Double adeudoGeneradoDelMes;
+    @Expose
+    private Double cuotaDelMes;
+    @Expose
+    private Double adeudoAcumulado;
     @Expose
     private Double montoPagado;
     @Expose
@@ -30,11 +34,13 @@ public class CuotaMensual extends Cuota{
         super(id);
     }
     
-    public CuotaMensual(Double montoBase, CicloEscolar ciclo, Concepto concepto, Double montoAdeudo, Double montoPagado, LocalDate mes) {
+    public CuotaMensual(Double montoBase, CicloEscolar ciclo, Concepto concepto, Double adeudoGeneradoDelMes, Double adeudoAcumulado,Double montoPagado, LocalDate mes) {
         super(montoBase, ciclo, concepto);
-        this.montoAdeudo = montoAdeudo;
+        this.adeudoGeneradoDelMes = adeudoGeneradoDelMes;
+        this.adeudoAcumulado = adeudoAcumulado;
         this.montoPagado = montoPagado;
         this.mes = mes;
+        this.cuotaDelMes = montoBase;
     }
 
     public CuotaMensual(Double montoBase, CicloEscolar ciclo, Concepto concepto) {
