@@ -72,10 +72,8 @@ public class CuotaControlador {
     }
 
     public List<DetalleAdeudoDTO> obtenerDetallesAdeudo(String matricula, String idCiclo){
-        System.out.println("entre al metodo en controlador");
-        List<DetalleAdeudoDTO> detalles = cuotaService.obtenerDetalleAdeudosColegiatura(matricula, idCiclo);
+        List<DetalleAdeudoDTO> detalles = cuotaService.obtenerDetallesAdeudos(matricula, idCiclo);
         if(detalles != null && !detalles.isEmpty()){
-
             return detalles;
         }
         return null;

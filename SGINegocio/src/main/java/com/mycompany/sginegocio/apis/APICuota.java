@@ -53,8 +53,8 @@ public class APICuota {
     public ResponseEntity<?> obtenerDetallesAdeudosPorEstudiante(
             @RequestParam String matricula,
             @RequestParam("ciclo") String idCiclo) {
-                List<DetalleAdeudoDTO> detalles = controlador.obtenerPagosMensuales(matricula,idCiclo);
-                System.out.println(detalles);
+                // List<DetalleAdeudoDTO> detalles = controlador.obtenerPagosMensuales(matricula,idCiclo);
+        List<DetalleAdeudoDTO> detalles = controlador.obtenerDetallesAdeudo(matricula, idCiclo);
         if(detalles != null){
             return ResponseEntity.ok().body(detalles);
         }

@@ -78,7 +78,6 @@ public class CuotaService {
         },()->repository.save(cuota));
     }
     public List<DetalleAdeudoDTO> obtenerDetalleAdeudosColegiatura(String matricula, String idCiclo){
-        System.out.println("entre al servicio");
         List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
         List<DetalleAdeudoDTO> dtos = new ArrayList<>();
         if(detalles != null){
@@ -94,6 +93,25 @@ public class CuotaService {
         }
         return new ArrayList<DetalleAdeudoDTO>();
     }
+
+    //nuevo
+    public List<DetalleAdeudoDTO> obtenerDetallesAdeudos(String matricula, String idCiclo){
+        List<Object[]> detalles = mensualRepository.buscarDetalles(new Alumno(matricula), new CicloEscolar(idCiclo));
+        List<DetalleAdeudoDTO> dtos = new ArrayList<>();
+        if(detalles != null){
+            detalles.stream().forEach(a->{
+                dtos.add(new DetalleAdeudoDTO(
+                    (LocalDate)a[0],
+                    (Double)a[1],
+                    (Double)a[2],
+                    (Double)a[3]
+                ));
+            });
+            return dtos;
+        }
+        return new ArrayList<DetalleAdeudoDTO>();
+    }
+
     public List<DetalleAdeudoDTO> obtenerPagosMensualesAlumno(String matricula, String idCiclo){
         List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
         List<DetalleAdeudoDTO> dtos = new ArrayList<>();

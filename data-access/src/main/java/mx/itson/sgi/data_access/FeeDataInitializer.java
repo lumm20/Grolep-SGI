@@ -117,13 +117,13 @@ public class FeeDataInitializer {
             cuotaMensual.setConcepto(Concepto.COLEGIATURA);
             cuotaMensual.setMes(mesCuota);
             cuotaMensual.setMontoPagado(0.0); // Se actualizará con los pagos
-            cuotaMensual.setAdeudoGeneradoDelMes(montoBase); // Inicialmente todo es adeudo
-            cuotaMensual.setCuotaDelMes(montoBase);
+            cuotaMensual.setAdeudo(montoBase); // Inicialmente todo es adeudo
+            // cuotaMensual.setCuotaDelMes(montoBase);
             
             // if(i>0){
             //     adeudoAcumulado+=montoBase;
             // }
-            cuotaMensual.setAdeudoAcumulado(0.0);
+            // cuotaMensual.setAdeudoAcumulado(0.0);
             cuotaMensualRepository.save(cuotaMensual);
         }
     }
@@ -152,12 +152,12 @@ public class FeeDataInitializer {
             cuotaMensual.setConcepto(Concepto.COLEGIATURA);
             cuotaMensual.setMes(mesCuota);
             cuotaMensual.setMontoPagado(0.0); //se actualizara con los pagos
-            cuotaMensual.setAdeudoGeneradoDelMes(montoBase); //inicialmente todo es adeudo
-            cuotaMensual.setCuotaDelMes(montoBase); 
+            cuotaMensual.setAdeudo(montoBase); //inicialmente todo es adeudo
+            // cuotaMensual.setCuotaDelMes(montoBase); 
             // if(i>0){
             //     adeudoAcumulado+=montoBase;
             // }
-            cuotaMensual.setAdeudoAcumulado(0.0);
+            // cuotaMensual.setAdeudoAcumulado(0.0);
             
             cuotaMensualRepository.save(cuotaMensual);
         }
@@ -210,19 +210,40 @@ public class FeeDataInitializer {
         return null;
     }
 
-    @Transactional
-    protected CuotaMensual actualizarCuotaMensual( Double montoPagado, Double adeudoDelMes,Double adeudoAcumulado, CuotaMensual cuotaM){
-        cuotaM.setMontoPagado(cuotaM.getMontoPagado()+montoPagado);
-        Double acumuladoActual = adeudoAcumulado+adeudoDelMes;
-        if(montoPagado>0.0){
-            Double pagado = cuotaM.getMontoPagado();
-            if(pagado>=acumuladoActual+cuotaM.getCuotaDelMes()){
-                cuotaM.setAdeudoGeneradoDelMes(cuotaM.getAdeudoGeneradoDelMes()-(pagado-acumuladoActual));
-            }
+
+    protected List<CuotaMensual> buscarCuotasConAdeudo(Alumno alumno, CicloEscolar ciclo){
+        Optional<List<CuotaMensual>> op = cuotaMensualRepository.
+                                            findByAlumnoAndCicloAndAdeudoGreaterThan(alumno,ciclo,0.0);
+        if(op.isPresent()){
+            return op.get();
         }
-        System.out.println(cuotaM);
-        cuotaM.setAdeudoAcumulado(acumuladoActual);
-        CuotaMensual c = cuotaMensualRepository.save(cuotaM);
-        return c;
+        return null;
     }
+
+    @Transactional
+    protected CuotaMensual actualizarCuotaMensual( Double montoPagado, CuotaMensual cuotaM){
+        if(montoPagado > cuotaM.getAdeudo()){
+            cuotaM.setMontoPagado(cuotaM.getMontoBase());
+            cuotaM.setAdeudo(0.0);
+        }else{
+            cuotaM.setMontoPagado(cuotaM.getMontoPagado()+montoPagado);
+            cuotaM.setAdeudo(cuotaM.getAdeudo()-montoPagado);
+        }
+        return cuotaMensualRepository.save(cuotaM);
+    }
+    // @Transactional
+    // protected CuotaMensual actualizarCuotaMensual( Double montoPagado, Double adeudoDelMes,Double adeudoAcumulado, CuotaMensual cuotaM){
+    //     cuotaM.setMontoPagado(cuotaM.getMontoPagado()+montoPagado);
+    //     Double acumuladoActual = adeudoAcumulado+adeudoDelMes;
+    //     if(montoPagado>0.0){
+    //         Double pagado = cuotaM.getMontoPagado();
+    //         if(pagado>=acumuladoActual+cuotaM.getCuotaDelMes()){
+    //             cuotaM.setAdeudoGeneradoDelMes(cuotaM.getAdeudoGeneradoDelMes()-(pagado-acumuladoActual));
+    //         }
+    //     }
+    //     System.out.println(cuotaM);
+    //     cuotaM.setAdeudoAcumulado(acumuladoActual);
+    //     CuotaMensual c = cuotaMensualRepository.save(cuotaM);
+    //     return c;
+    // }
 }

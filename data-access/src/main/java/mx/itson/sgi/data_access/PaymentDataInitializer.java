@@ -25,11 +25,15 @@ public class PaymentDataInitializer {
 
     @Autowired
 	private PagoRepository pagoRepository;
-    @Autowired
-    private static FeeDataInitializer feeData;
+    private final FeeDataInitializer feeData;
     private static CuotaMensual cuotaM ;
-    private static Double adeudoAcumulado = 0.0;
-    private static Double adeudoDelMes = 0.0; 
+    // private static Double adeudoAcumulado = 0.0;
+    // private static Double adeudoDelMes = 0.0; 
+
+    @Autowired
+    public PaymentDataInitializer(FeeDataInitializer feeData){
+        this.feeData =feeData;
+    }
     /**
      * Guarda todos los registros de los pagos por cada alumno en el ciclo 23-24
      * @throws Exception en caso de que no se encuentre el cajero, o haya
@@ -103,127 +107,65 @@ public class PaymentDataInitializer {
         List.of(new DetallePago(feeData.buscarCuota(Concepto.INSCRIPCION, cuotas), 2300.0, new Pago("P202300004"))), MetodoPago.EFECTIVO));
         
         // //agregar pago de colegiatura de agosto
-        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.AUGUST);
-        // adeudoAcumulado = cuotaM.getAdeudoAcumulado(); 
-        // adeudoDelMes= 0.0; 
-        actualizarCuotaMensual(cuotasMensuales, Month.AUGUST, pagos);
         pagos.add(new Pago("P202300006", LocalDateTime.of(2023, 8, 20, 10, 0, 0),
         1600.0, 0.0, "No aplica", cajero, alumno1,
-        List.of(new DetallePago(cuotaM, 1600.0,new Pago("P202300006"))), MetodoPago.EFECTIVO));
-        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        // if(adeudoDelMes == 0.0){
-        //     adeudoAcumulado = 0.0;
-        // }
+        List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.AUGUST), 1600.0,new Pago("P202300006"))), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.AUGUST, pagos.getLast().getMontoTotal());
+        
         //agregar pago de uniformes y libros
         pagos.add(new Pago("P202300003", LocalDateTime.of(2023, 8, 13, 10, 15, 0),
         2350.0, 0.0, "No aplica", cajero, alumno1,
-        List.of(new DetallePago(feeData.buscarCuota(Concepto.UNIFORMES, cuotas), 2000.0,new Pago("P202300003")),new DetallePago(feeData.buscarCuota(Concepto.LIBROS, cuotas), 350.0,new Pago("P202300003"))), MetodoPago.EFECTIVO));
+        List.of(new DetallePago(feeData.buscarCuota(Concepto.UNIFORMES, cuotas), 2000.0,new Pago("P202300003")),
+        new DetallePago(feeData.buscarCuota(Concepto.LIBROS, cuotas), 350.0,new Pago("P202300003"))), MetodoPago.EFECTIVO));
         
         //agregar pago de colegiatura de septiembre
-        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.SEPTEMBER);
         pagos.add(new Pago("P202300008", LocalDateTime.of(2023, 9, 10, 9, 50, 0), 1600.00,
         0.0, "No aplica", cajero, alumno1,
-        List.of(new DetallePago(cuotaM, 1600.0,new Pago("P202300008"))), MetodoPago.TRANSFERENCIA));
-        actualizarCuotaMensual(cuotasMensuales, Month.SEPTEMBER, pagos);
-        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        // adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        // if(adeudoDelMes == 0.0){
-        //     adeudoAcumulado = 0.0;
-        // }
+        List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.SEPTEMBER), 1600.0,new Pago("P202300008"))), MetodoPago.TRANSFERENCIA));
+        actualizarCuotaMensual(cuotasMensuales, Month.SEPTEMBER, pagos.getLast().getMontoTotal());
+
         //agregar pago de colegiatura de octubre y noviembre
         pagos.add(new Pago("P202300011", LocalDateTime.of(2023, 11, 15, 8, 30, 0), 3200.00, 
         0.0,"No aplica", cajero, alumno1,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.OCTOBER), 1600.0,new Pago("P202300011")) ,
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER), 1600.0,new Pago("P202300011"))), MetodoPago.EFECTIVO));
-        actualizarCuotaMensual(cuotasMensuales, Month.OCTOBER, pagos);
-        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.OCTOBER);
-        // cuotaM = feeData.actualizarCuotaMensual(0.0, adeudoDelMes, adeudoAcumulado, cuotaM);
-        // adeudoAcumulado= cuotaM.getAdeudoAcumulado();
-        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        // if(adeudoDelMes == 0.0){
-        //     adeudoAcumulado = 0.0;
-        // }
-        actualizarCuotaMensual(cuotasMensuales, Month.NOVEMBER, pagos);
-        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.NOVEMBER);
-        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        // adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        // if(adeudoDelMes == 0.0){
-        //     adeudoAcumulado = 0.0;
-        // }
+        actualizarCuotaMensual(cuotasMensuales, Month.OCTOBER, 1600.0);
+        
+        actualizarCuotaMensual(cuotasMensuales, Month.NOVEMBER, 1600.0);
+        
         //agregar pago de colegiatura de diciembre
         pagos.add(new Pago("P202300013", LocalDateTime.of(2023, 12, 5, 12, 0, 0), 1600.00, 
         0.0,"No aplica", cajero, alumno1,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.DECEMBER), 1600.0,new Pago("P202300013"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.DECEMBER);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        actualizarCuotaMensual(cuotasMensuales, Month.DECEMBER, pagos.getLast().getMontoTotal());
+        
         //agregar pago de colegiatura de enero y febrero
         pagos.add(new Pago("P202400002", LocalDateTime.of(2024, 2, 10, 10, 10, 0), 3200.00, 
         0.0,"No aplica", cajero, alumno1,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.JANUARY), 1600.0,new Pago("P202400002")),
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.FEBRUARY), 1600.0,new Pago("P202400002"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.JANUARY);
-        cuotaM = feeData.actualizarCuotaMensual(0.0, adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.FEBRUARY);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        actualizarCuotaMensual(cuotasMensuales,Month.JANUARY, 1600.0);
+        actualizarCuotaMensual(cuotasMensuales,Month.FEBRUARY, 1600.0);
+        
         //agregar pago de colegiatura de marzo
         pagos.add(new Pago("P202400003", LocalDateTime.of(2024, 3, 8, 11, 20, 0), 1600.00, 
         0.0,"No aplica", cajero, alumno1,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.MARCH), 1600.0,new Pago("P202400003"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.MARCH);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        actualizarCuotaMensual(cuotasMensuales, Month.MARCH, pagos.getLast().getMontoTotal());
 
         //agregar pago de colegiatura de abril y mayo
         pagos.add(new Pago("P202400007", LocalDateTime.of(2024, 5, 13, 8, 45, 0), 3200.00,
         0.0,"No aplica", cajero, alumno1,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.APRIL), 1600.0,new Pago("P202400007")),
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.MAY), 1600.0,new Pago("P202400007"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.APRIL);
-        cuotaM = feeData.actualizarCuotaMensual(0.0, adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.MAY);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
-
+        actualizarCuotaMensual(cuotasMensuales,Month.APRIL, 1600.0);
+        actualizarCuotaMensual(cuotasMensuales,Month.MAY, 1600.0);
+        
         //agregar pago de colegiatura de junio
         pagos.add(new Pago("P202400010", LocalDateTime.of(2024, 6, 5, 10, 30, 0), 1600.00,
         0.0,"No aplica", cajero, alumno1,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.JUNE), 1600.0,new Pago("P202400010"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.JUNE);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoAcumulado = cuotaM.getAdeudoAcumulado();
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-
+        actualizarCuotaMensual(cuotasMensuales,Month.JUNE, pagos.getLast().getMontoTotal());
         return pagos;
     }
 
@@ -251,17 +193,18 @@ public class PaymentDataInitializer {
         new DetallePago(feeData.buscarCuota(Concepto.LIBROS, cuotas), 350.0,new Pago("P202300002"))), MetodoPago.EFECTIVO));
         
         //agregar pago de colegiatura de agosto
-        CuotaMensual cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.AUGUST);
-        Double adeudoAcumulado = cuotaM.getAdeudoAcumulado(); 
-        Double adeudoDelMes= 0.0; 
+        // Double adeudoAcumulado = cuotaM.getAdeudoAcumulado(); 
+        // Double adeudoDelMes= 0.0; 
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.AUGUST);
         pagos.add(new Pago("P202300007", LocalDateTime.of(2023, 8, 20, 11, 0, 0), 1200.00,
          0.0, "No aplica", cajero, alumno,
-        List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.AUGUST), 1200.0,new Pago("P202300007"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.AUGUST), 1200.0,new Pago("P202300007"))), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales,Month.AUGUST, pagos.getLast().getMontoTotal());
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
         //agregar pago de colegiatura de septiembre, octubre y noviembre
         pagos.add(new Pago("P202300010", LocalDateTime.of(2023, 11, 5, 9, 20, 0), 3600.00,
@@ -269,97 +212,110 @@ public class PaymentDataInitializer {
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.SEPTEMBER), 1200.0,new Pago("P202300010")),
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.OCTOBER), 1200.0,new Pago("P202300010")),
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER), 1200.0,new Pago("P202300010"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.SEPTEMBER);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        actualizarCuotaMensual(cuotasMensuales,Month.SEPTEMBER, 1200.0);
+        actualizarCuotaMensual(cuotasMensuales,Month.OCTOBER, 1200.0);
+        actualizarCuotaMensual(cuotasMensuales,Month.NOVEMBER,1200.0);
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.SEPTEMBER);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.OCTOBER);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.OCTOBER);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
         //agregar pago de colegiatura de diciembre y enero
         pagos.add(new Pago("P202400001", LocalDateTime.of(2024, 1, 15, 10, 40, 0), 2400.00, 
         0.0,"No aplica", cajero, alumno,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.DECEMBER), 1200.0,new Pago("P202400001")),
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.JANUARY), 1200.0,new Pago("P202400001"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.DECEMBER);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+            actualizarCuotaMensual(cuotasMensuales,Month.DECEMBER, 1200.0);
+            actualizarCuotaMensual(cuotasMensuales,Month.JANUARY, 1200.0);
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.DECEMBER);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.JANUARY);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.JANUARY);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
         //agregar pago de colegiatura de febrero y marzo
         pagos.add(new Pago("P202400004", LocalDateTime.of(2024, 3, 15, 9, 0, 0), 2400.00, 
         0.0,"No aplica", cajero, alumno,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.FEBRUARY), 1200.0,new Pago("P202400004")),
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.MARCH), 1200.0,new Pago("P202400004"))), MetodoPago.TRANSFERENCIA));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.FEBRUARY);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        actualizarCuotaMensual(cuotasMensuales,Month.FEBRUARY, 1200.0);
+        actualizarCuotaMensual(cuotasMensuales,Month.MARCH, 1200.0);
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.FEBRUARY);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
         
         //agregar pago de colegiatura de abril
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL);
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL);
         pagos.add(new Pago("P202400006", LocalDateTime.of(2024, 4, 15, 11, 0, 0), 1200.00, 
         0.0,"No aplica", cajero, alumno,
-        List.of(new DetallePago(cuotaM, 1200.0,new Pago("P202400006"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.APRIL), 1200.0,new Pago("P202400006"))), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales,Month.APRIL, pagos.getLast().getMontoTotal());
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
         
         //agregar pago de colegiatura de mayo
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.MAY);
-        pagos.add(new Pago("P202400008", LocalDateTime.of(2024, 5, 20, 10, 30, 0), 1200.00, 
+        // cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.MAY);
+        pagos.add(new Pago("P202400008", LocalDateTime.of(2024, 5, 20, 10, 30, 0), 2400.00, 
         0.0,"No aplica", cajero, alumno,
-        List.of(new DetallePago(cuotaM, 1200.0,new Pago("P202400008"))), MetodoPago.TRANSFERENCIA));
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+        List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.MAY), 1200.0,new Pago("P202400008")),
+        new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.JUNE), 1200.0,new Pago("P202400008"))), MetodoPago.TRANSFERENCIA));
+        actualizarCuotaMensual(cuotasMensuales, Month.MAY,1200.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.JUNE,1200.0);
+        // cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
 
         return pagos;
     }
 
-    private static void actualizarCuotaMensual(List<CuotaMensual> cuotas, Month mes, List<Pago> pagos){
-        cuotaM = feeData.buscarCuotaMensual(cuotas, mes);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
+    private void actualizarCuotaMensual(List<CuotaMensual> cuotas, Month mes, Double montoTotal){
+        // this.feeData.buscarCuotasConAdeudo(cuotaM.getAlumno(), cuotaM)
+        cuotaM = this.feeData.buscarCuotaMensual(cuotas, mes);
+        cuotaM = this.feeData.actualizarCuotaMensual(montoTotal, cuotaM);
+        // adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
+        // if(adeudoDelMes == 0.0){
+        //     adeudoAcumulado = 0.0;
+        // }
+        // cuotaM = this.feeData.buscarCuotaMensual(cuotas,mes.plus(1));
     }
 
     /**
@@ -389,24 +345,17 @@ public class PaymentDataInitializer {
         new DetallePago(feeData.buscarCuota(Concepto.LIBROS,cuotas), 350.0,new Pago("P202300001"))), MetodoPago.EFECTIVO));
         
         //agregar pago de colegiatura de agosto
-        CuotaMensual cuotaM = feeData.buscarCuotaMensual(cuotasMensuales, Month.AUGUST);
-        Double adeudoAcumulado = cuotaM.getAdeudoAcumulado(); 
-        Double adeudoDelMes= 0.0; 
         pagos.add(new Pago("P202300005", LocalDateTime.of(2023, 8, 18, 9, 30, 0), 1300.00,
          0.0, "No aplica", cajero, alumno,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.AUGUST), 1300.0,new Pago("P202300005"))), MetodoPago.EFECTIVO));
-        cuotaM = feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH);
-        cuotaM = feeData.actualizarCuotaMensual(pagos.getLast().getMontoTotal(), adeudoDelMes, adeudoAcumulado, cuotaM);
-        adeudoDelMes = cuotaM.getAdeudoGeneradoDelMes();
-        if(adeudoDelMes == 0.0){
-            adeudoAcumulado = 0.0;
-        }
-
+        actualizarCuotaMensual(cuotasMensuales,Month.AUGUST, pagos.getLast().getMontoTotal());
+        
         //agregar pago de colegiatura de septiembre
         pagos.add(new Pago("P202300009", LocalDateTime.of(2023, 9, 18, 9, 30, 0), 1300.00,
          0.0, "No aplica", cajero, alumno,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.SEPTEMBER), 1300.0,new Pago("P202300009"))), MetodoPago.TRANSFERENCIA));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.SEPTEMBER, pagos.getLast().getMontoTotal());
+
         //agregar pago de colegiatura de octubre, noviembre y diciembre
         pagos.add(new Pago("P202300012", LocalDateTime.of(2023, 12, 1, 11, 0, 0), 3900.00,
         0.0, "No aplica", cajero, alumno,
@@ -414,6 +363,10 @@ public class PaymentDataInitializer {
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER), 1300.0,new Pago("P202300012")),
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.DECEMBER), 1300.0,new Pago("P202300012"))), MetodoPago.EFECTIVO));
         
+        actualizarCuotaMensual(cuotasMensuales, Month.OCTOBER, 1300.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.NOVEMBER, 1300.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.DECEMBER, 1300.0);
+
         //agregar pago de colegiatura de enero, febrero, marzo y abril
         pagos.add(new Pago("P202400005", LocalDateTime.of(2024, 4, 10, 9, 15, 0), 5200.00, 
         0.0,"No aplica", cajero, alumno,
@@ -421,13 +374,19 @@ public class PaymentDataInitializer {
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.FEBRUARY), 1300.0,new Pago("P202400005")),
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH), 1300.0,new Pago("P202400005")),
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL), 1300.0,new Pago("P202400005"))), MetodoPago.EFECTIVO));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.JANUARY,1300.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.FEBRUARY, 1300.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.MARCH, 1300.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.APRIL, 1300.0);
+                
         //agregar pago de colegiatura de mayo y junio
         pagos.add(new Pago("P202400009", LocalDateTime.of(2024, 6, 2, 10, 20, 0), 2600.00, 
         0.0,"No aplica", cajero, alumno,
         List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.MAY), 1300.0,new Pago("P202400009")),
         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.JUNE), 1300.0,new Pago("P202400009"))), MetodoPago.TRANSFERENCIA));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.MAY, 1300.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.JUNE,1300.0);
+
         return pagos;
     }
 
@@ -461,6 +420,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.AUGUST), 1800.0,new Pago("P202400015"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.AUGUST, pagos.getLast().getMontoTotal());
         
         // SEPTIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400017", LocalDateTime.of(2024, 9, 15, 10, 0, 0), 1800.00,
@@ -468,13 +428,15 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.SEPTEMBER), 1800.0,new Pago("P202400017"))
             ), MetodoPago.EFECTIVO));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.SEPTEMBER, pagos.getLast().getMontoTotal());
+
         // OCTUBRE COLEGIATURA
         pagos.add(new Pago("P202400019", LocalDateTime.of(2024, 10, 15, 9, 0, 0), 1800.00,
             0.0, "No aplica", cajero, alumno,
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.OCTOBER), 1800.0,new Pago("P202400019"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.OCTOBER, pagos.getLast().getMontoTotal());
         
         // NOVIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400021", LocalDateTime.of(2024, 11, 15, 10, 0, 0), 1800.00,
@@ -482,6 +444,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER), 1800.0,new Pago("P202400021"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.NOVEMBER, pagos.getLast().getMontoTotal());
         
         // DICIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400026", LocalDateTime.of(2024, 12, 16, 10, 0, 0), 1800.00,
@@ -489,13 +452,15 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.DECEMBER), 1800.0,new Pago("P202400026"))
             ), MetodoPago.EFECTIVO));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.DECEMBER, pagos.getLast().getMontoTotal());
+            
         // ENERO COLEGIATURA
         pagos.add(new Pago("P202500002", LocalDateTime.of(2025, 1, 15, 10, 0, 0), 1800.00,
             0.0, "No aplica", cajero, alumno,
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.JANUARY), 1800.0,new Pago("P202500002"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.JANUARY, pagos.getLast().getMontoTotal());
         
         // ABRIL: 3 colegiaturas (FEB + MAR + ABR)
         pagos.add(new Pago("P202500008", LocalDateTime.of(2025, 4, 2, 10, 0, 0), 5400.00,
@@ -505,6 +470,9 @@ public class PaymentDataInitializer {
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH), 1800.0,new Pago("P202500008")), // MAR
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL), 1800.0,new Pago("P202500008"))  // ABR
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.FEBRUARY, 1800.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.MARCH, 1800.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.APRIL,1800.0);
         
         return pagos;
     }
@@ -540,6 +508,9 @@ public class PaymentDataInitializer {
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.SEPTEMBER), 1500.0,new Pago("P202400020")),
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.OCTOBER), 1500.0,new Pago("P202400020"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.AUGUST, 1500.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.SEPTEMBER, 1500.0);
+        actualizarCuotaMensual(cuotasMensuales, Month.OCTOBER, 1500.0);
         
         // NOVIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400022", LocalDateTime.of(2024, 11, 15, 13, 0, 0), 1500.00,
@@ -547,13 +518,15 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER), 1500.0,new Pago("P202400022"))
             ), MetodoPago.EFECTIVO));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.NOVEMBER, pagos.getLast().getMontoTotal());
+
         // DICIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400025", LocalDateTime.of(2024, 12, 15, 10, 0, 0), 1500.00,
             0.0, "No aplica", cajero, alumno,
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.DECEMBER), 1500.0,new Pago("P202400025"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.DECEMBER, 1500.0);
         
         // ENERO COLEGIATURA
         pagos.add(new Pago("P202500001", LocalDateTime.of(2025, 1, 10, 10, 0, 0), 1500.00,
@@ -561,6 +534,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.JANUARY), 1500.0,new Pago("P202500001"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.JANUARY, 1500.0);
         
         // FEBRERO COLEGIATURA
         pagos.add(new Pago("P202500005", LocalDateTime.of(2025, 2, 10, 12, 0, 0), 1500.00,
@@ -568,6 +542,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.FEBRUARY), 1500.0,new Pago("P202500005"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.FEBRUARY, pagos.getLast().getMontoTotal());
         
         // MARZO COLEGIATURA
         pagos.add(new Pago("P202500006", LocalDateTime.of(2025, 3, 10, 10, 0, 0), 1500.00,
@@ -575,13 +550,15 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH), 1500.0,new Pago("P202500006"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.MARCH, pagos.getLast().getMontoTotal());
         
         // ABRIL COLEGIATURA
-        pagos.add(new Pago("P202500009", LocalDateTime.of(2025, 4, 7, 10, 0, 0), 1500.00,
-            0.0, "No aplica", cajero, alumno,
-            List.of(
-                new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL), 1500.0,new Pago("P202500009"))
-            ), MetodoPago.EFECTIVO));
+        // pagos.add(new Pago("P202500009", LocalDateTime.of(2025, 4, 7, 10, 0, 0), 1500.00,
+        //     0.0, "No aplica", cajero, alumno,
+        //     List.of(
+        //         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL), 1500.0,new Pago("P202500009"))
+        //     ), MetodoPago.EFECTIVO));
+        // actualizarCuotaMensual(cuotasMensuales, Month.APRIL, pagos.getLast().getMontoTotal());
         
         return pagos;
     }
@@ -617,6 +594,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.AUGUST), 1350.0,new Pago("P202400014"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.AUGUST, pagos.getLast().getMontoTotal());
         
         // SEPTIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400016", LocalDateTime.of(2024, 9, 10, 10, 0, 0), 1350.00,
@@ -624,6 +602,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.SEPTEMBER), 1350.0,new Pago("P202400016"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.SEPTEMBER, pagos.getLast().getMontoTotal());
         
         // OCTUBRE COLEGIATURA
         pagos.add(new Pago("P202400018", LocalDateTime.of(2024, 10, 10, 10, 0, 0), 1350.00,
@@ -631,6 +610,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.OCTOBER), 1350.0,new Pago("P202400018"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.OCTOBER, pagos.getLast().getMontoTotal());
         
         // NOVIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400023", LocalDateTime.of(2024, 11, 18, 10, 0, 0), 1350.00,
@@ -638,6 +618,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.NOVEMBER), 1350.0,new Pago("P202400023"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.NOVEMBER, pagos.getLast().getMontoTotal());
         
         // DICIEMBRE COLEGIATURA
         pagos.add(new Pago("P202400024", LocalDateTime.of(2024, 12, 10, 10, 0, 0), 1350.00,
@@ -645,6 +626,7 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.DECEMBER), 1350.0,new Pago("P202400024"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.DECEMBER, pagos.getLast().getMontoTotal());
         
         // ENERO COLEGIATURA
         pagos.add(new Pago("P202500003", LocalDateTime.of(2025, 1, 16, 10, 0, 0), 1350.00,
@@ -652,13 +634,15 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.JANUARY), 1350.0,new Pago("P202500003"))
             ), MetodoPago.EFECTIVO));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.JANUARY, pagos.getLast().getMontoTotal());
+
         // FEBRERO COLEGIATURA
         pagos.add(new Pago("P202500004", LocalDateTime.of(2025, 2, 10, 10, 0, 0), 1350.00,
             0.0, "No aplica", cajero, alumno,
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.FEBRUARY), 1350.0,new Pago("P202500004"))
             ), MetodoPago.EFECTIVO));
+        actualizarCuotaMensual(cuotasMensuales, Month.FEBRUARY, pagos.getLast().getMontoTotal());
         
         // MARZO COLEGIATURA
         pagos.add(new Pago("P202500007", LocalDateTime.of(2025, 3, 20, 10, 0, 0), 1350.00,
@@ -666,13 +650,15 @@ public class PaymentDataInitializer {
             List.of(
                 new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH), 1350.0,new Pago("P202500007"))
             ), MetodoPago.EFECTIVO));
-        
+        actualizarCuotaMensual(cuotasMensuales, Month.MARCH, pagos.getLast().getMontoTotal());
+
         // ABRIL COLEGIATURA
-        pagos.add(new Pago("P202500010", LocalDateTime.of(2025, 4, 9, 10, 0, 0), 1350.00,
-            0.0, "No aplica", cajero, alumno,
-            List.of(
-                new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL), 1350.0,new Pago("P202500010"))
-            ), MetodoPago.EFECTIVO));
+        // pagos.add(new Pago("P202500010", LocalDateTime.of(2025, 4, 9, 10, 0, 0), 1350.00,
+        //     0.0, "No aplica", cajero, alumno,
+        //     List.of(
+        //         new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.APRIL), 1350.0,new Pago("P202500010"))
+        //     ), MetodoPago.EFECTIVO));
+        // actualizarCuotaMensual(cuotasMensuales, Month.APRIL, pagos.getLast().getMontoTotal());
         
         return pagos;
     }

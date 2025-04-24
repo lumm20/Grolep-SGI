@@ -30,34 +30,33 @@
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="279.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Monto">
+        <Label alignment="CENTER" layoutX="220.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Monto">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="279.0" layoutY="157.0" prefHeight="3.0" prefWidth="106.0" text="pagado">
+        <Label alignment="CENTER" layoutX="220.0" layoutY="157.0" prefHeight="3.0" prefWidth="106.0" text="pagado">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="430.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Adeudo">
+        <Label alignment="CENTER" layoutX="350.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Cuota">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="430.0" layoutY="157.0" prefHeight="22.0" prefWidth="106.0" text="anterior">
+        <Label alignment="CENTER" layoutX="350.0" layoutY="157.0" prefHeight="22.0" prefWidth="106.0" text="base">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
         
-        <!-- Nueva columna "Cuota del mes" a la derecha -->
-        <Label alignment="CENTER" layoutX="550.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Cuota">
+        <Label alignment="CENTER" layoutX="500.0" layoutY="127.0" prefHeight="22.0" prefWidth="106.0" text="Adeudo">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
         </Label>
-                <Label alignment="CENTER" layoutX="550.0" layoutY="157.0" prefHeight="22.0" prefWidth="110.0" text="del mes">
+        <Label alignment="CENTER" layoutX="500.0" layoutY="157.0" prefHeight="22.0" prefWidth="110.0" text="del mes">
             <font>
                 <Font name="System Bold" size="16.0" />
             </font>
@@ -70,11 +69,9 @@
             </effect>
         </Separator>
         
-        <!-- ScrollPane para permitir desplazamiento -->
         <ScrollPane layoutX="45.0" layoutY="200.0" prefHeight="230.0" prefWidth="578.0" fitToWidth="true">
             <content>
                 <AnchorPane fx:id="contenedorFilas" minHeight="230.0" prefWidth="560.0">
-                    <!-- Aquí se agregarán las filas dinámicamente desde el controlador -->
                 </AnchorPane>
             </content>
         </ScrollPane>

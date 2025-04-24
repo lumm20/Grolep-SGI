@@ -484,6 +484,7 @@ public class PantallaPrincipalController implements Initializable {
             lblUniforme.setText(cuotas.getAdeudoUniformes().toString());
 
             disableTxfields(cuotas);
+            btnDetalles.setDisable(cuotas.getAdeudoVencido()==0);
 
             //establecemos la demas informacion del alumno
             String tipoBeca = cuotas.getBeca() != null ? cuotas.getBeca() : "No Aplica";
@@ -589,6 +590,7 @@ public class PantallaPrincipalController implements Initializable {
         lblTotal.setText("0000.00");
         cmbxAlumnos.getSelectionModel().clearSelection();
         cmbxMetodoPago.getSelectionModel().clearSelection();
+        btnDetalles.setDisable(false);
     }
 
     /**
