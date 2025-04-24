@@ -45,6 +45,9 @@ public class CuotaService {
         List<Object[]> cuotas = repository.findCuotasPorAlumno(matriculaAlumno, cicloEscolar);
         List<CuotaConsultadaDTO> dto = new ArrayList<>();
         if(cuotas != null){
+            for(CuotaConsultadaDTO cuota: dto){
+                System.out.println("cuota: "+cuota.getConcepto()+" "+cuota.getAdeudo());
+            }
             dto = cuotas.stream().map(cuota -> new CuotaConsultadaDTO(
                 (Long)cuota[0],
                 (String)cuota[1],
