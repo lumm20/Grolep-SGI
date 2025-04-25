@@ -29,7 +29,7 @@ import mx.itson.sgi.dto.DetalleAdeudoDTO;
  */
 @Service
 public class CuotaControlador {
-    
+
     @Autowired
     private CuotaService cuotaService;
     @Autowired
@@ -37,40 +37,50 @@ public class CuotaControlador {
     
     public CuotasDTO obtenerCuotasPorAlumno(String matricula, String cicloEscolar){
         List<CuotaConsultadaDTO> cuotas = cuotaService.obtenerCuotasPorAlumno(matricula, cicloEscolar);
-        if(cuotas != null && !cuotas.isEmpty()){
+        if (cuotas != null && !cuotas.isEmpty()) {
             CuotasDTO cuotasDTO = new CuotasDTO();
             for (CuotaConsultadaDTO cu : cuotas) {
                 System.out.println(cu);
-                String concepto= cu.getConcepto();
+                String concepto = cu.getConcepto();
                 Double adeudo = cu.getAdeudo();
                 switch (concepto) {
                     case "COLEGIATURA":
                         CuotaMensual colegiaturaMesActual = cuotaService.obtenerColegiaturaMesActual(new Alumno(matricula), new CicloEscolar(cicloEscolar));
                         cuotasDTO.setAdeudoColegiatura(colegiaturaMesActual.getAdeudo());
-                        // if(adeudo >=cu.getMontoBase()){
-                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
-                        // }else{
-                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase()-adeudo);
-                        // }
                         cuotasDTO.setAdeudoVencido(adeudo);
+                        //  System.out.println("adeudo en colegiatura:"+adeudo);
+                        // if (adeudo == null) {
+                        //     // Cuando no hay pagos registrados, el adeudo es el monto completo
+                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
+                        //     cuotasDTO.setAdeudoVencido(0.0); // No hay adeudos vencidos
+                        // } else if (adeudo >= cu.getMontoBase()) {
+                        //     // Cuando el adeudo supera el monto base (caso especial)
+                        //     cuotasDTO.setAdeudoColegiatura(0.0); // Ya está pagado completamente
+                        //     cuotasDTO.setAdeudoVencido(adeudo - cu.getMontoBase()); // Excedente como vencido
+                        // } else {
+                        //     // Caso normal: adeudo parcial
+                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase() - adeudo);
+                        //     cuotasDTO.setAdeudoVencido(adeudo);
+                        // }
                         break;
                     case "UNIFORMES":
-                        cuotasDTO.setAdeudoUniformes(adeudo);
+                        cuotasDTO.setAdeudoUniformes(adeudo != null ? adeudo : 0.0);
                         break;
                     case "LIBROS":
-                        cuotasDTO.setAdeudoLibros(adeudo);
+                        cuotasDTO.setAdeudoLibros(adeudo != null ? adeudo : 0.0);
                         break;
                     case "INSCRIPCION":
-                        cuotasDTO.setAdeudoInscripcion(adeudo);
+                        cuotasDTO.setAdeudoInscripcion(adeudo != null ? adeudo : 0.0);
                         break;
                     case "ACADEMIAS":
-                        cuotasDTO.setAdeudoAcademias(adeudo);    
+                        cuotasDTO.setAdeudoAcademias(adeudo != null ? adeudo : 0.0);
                         break;
                     case "EVENTOS":
-                        cuotasDTO.setAdeudoEventos(adeudo);
+                        cuotasDTO.setAdeudoEventos(adeudo != null ? adeudo : 0.0);
                         break;
                 }
             }
+            System.out.println(cuotasDTO.getAdeudoVencido());
             return cuotasDTO;
         }
         return null;
@@ -95,15 +105,15 @@ public class CuotaControlador {
     //     return null;
     // }
 
-    private List<DetalleAdeudoDTO> calcularAdeudos(List<DetalleAdeudoDTO> detalles){
+    private List<DetalleAdeudoDTO> calcularAdeudos(List<DetalleAdeudoDTO> detalles) {
         List<DetalleAdeudoDTO> detallesActualizados = new ArrayList<>();
         double adeudoAcumulado = 0, adeudoGenerado = 0;
         for (DetalleAdeudoDTO detalleAdeudoDTO : detalles) {
-            if(detalleAdeudoDTO.getMontoBase()+adeudoAcumulado - detalleAdeudoDTO.getMontoPagado() > 0){
+            if (detalleAdeudoDTO.getMontoBase() + adeudoAcumulado - detalleAdeudoDTO.getMontoPagado() > 0) {
                 adeudoGenerado = detalleAdeudoDTO.getMontoBase() - detalleAdeudoDTO.getMontoPagado();
-                adeudoAcumulado+= adeudoGenerado;
-            }else{
-                adeudoAcumulado =0;
+                adeudoAcumulado += adeudoGenerado;
+            } else {
+                adeudoAcumulado = 0;
             }
             detalleAdeudoDTO.setMontoAdeudo(adeudoAcumulado);
             detallesActualizados.add(detalleAdeudoDTO);
@@ -120,9 +130,9 @@ public class CuotaControlador {
     public List<CicloEscolarDTO> obtenerCiclosEscolares(){
         return cicloService.obtenerCiclos();
     }
-    public double obtenerMontoTotalColegiaturas(String matricula, String ciclo ){
+
+    public double obtenerMontoTotalColegiaturas(String matricula, String ciclo) {
         return cuotaService.obtenerMontoTotalColegiaturas(matricula, ciclo);
     }
 
 }
-
