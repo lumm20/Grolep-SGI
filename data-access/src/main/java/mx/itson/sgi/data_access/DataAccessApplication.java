@@ -22,8 +22,8 @@ public class DataAccessApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// cleanup.truncateTables();
-		// init.initData();
+		cleanup.truncateTables();
+		init.initData();
 	}
 	
 }

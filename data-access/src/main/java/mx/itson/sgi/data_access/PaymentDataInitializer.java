@@ -41,21 +41,15 @@ public class PaymentDataInitializer {
      */
     @Transactional
     protected void cargarPagos2324(Usuario cajero,Alumno alumno1, Alumno alumno2, Alumno alumno3)throws Exception{
-        try {
-            for (Pago pago : crearPagos2324Alumno1(cajero,alumno1)) {
-                pagoRepository.save(pago);
-            }
-            for (Pago pago : crearPagos2324Alumno2(cajero,alumno2)) {
-                pagoRepository.save(pago);
-            }
-            for (Pago pago : crearPagos2324Alumno3(cajero,alumno3)) {
-                pagoRepository.save(pago);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception ("Error al guardar los pagos");
+        for (Pago pago : crearPagos2324Alumno1(cajero,alumno1)) {
+            pagoRepository.save(pago);
         }
-        
+        for (Pago pago : crearPagos2324Alumno2(cajero,alumno2)) {
+            pagoRepository.save(pago);
+        }
+        for (Pago pago : crearPagos2324Alumno3(cajero,alumno3)) {
+            pagoRepository.save(pago);
+        }
     }
 
      /**
@@ -645,10 +639,10 @@ public class PaymentDataInitializer {
         actualizarCuotaMensual(cuotasMensuales, Month.FEBRUARY, pagos.getLast().getMontoTotal());
         
         // MARZO COLEGIATURA
-        pagos.add(new Pago("P202500007", LocalDateTime.of(2025, 3, 20, 10, 0, 0), 1350.00,
+        pagos.add(new Pago("P202500007", LocalDateTime.of(2025, 3, 20, 10, 0, 0), 1000.00,
             0.0, "No aplica", cajero, alumno,
             List.of(
-                new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH), 1350.0,new Pago("P202500007"))
+                new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales,Month.MARCH), 1000.0,new Pago("P202500007"))
             ), MetodoPago.EFECTIVO));
         actualizarCuotaMensual(cuotasMensuales, Month.MARCH, pagos.getLast().getMontoTotal());
 

@@ -2,7 +2,6 @@ package mx.sgi.presentacion.controladores;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.AnchorPane;
@@ -12,22 +11,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
-import mx.itson.sgi.dto.PagoCuotaDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.mediador.Mediador;
-import mx.sgi.presentacion.servicios.ServicioCuotas;
 import mx.sgi.presentacion.servicios.ServicioPagos;
 
-import java.math.BigDecimal;
 import java.net.URL;
 import java.text.NumberFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -77,7 +70,6 @@ public class TicketController implements Initializable {
     
     @FXML
     private AnchorPane footerPane;
-    private double posYActual = 310.0; 
     private NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.of("es", "MX"));
 
     ServicioPagos servicioPagos;

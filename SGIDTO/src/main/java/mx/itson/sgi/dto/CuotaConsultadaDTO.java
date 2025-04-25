@@ -9,6 +9,7 @@ public class CuotaConsultadaDTO {
     private Double montoBase;
     private String concepto;
     private String cicloEscolar;
+    private String fechaCuota;
     private String matriculaAlumno;
 
     public CuotaConsultadaDTO() {
@@ -21,6 +22,16 @@ public class CuotaConsultadaDTO {
         this.concepto = concepto;
         this.cicloEscolar = cicloEscolar;
         this.matriculaAlumno = matriculaAlumno;
+    }
+    public CuotaConsultadaDTO(Long id, String matriculaAlumno, String concepto,
+    String cicloEscolar,String fecha, Double montoBase, Double adeudo) {
+        this.id = id;
+        this.adeudo = adeudo;
+        this.montoBase = montoBase;
+        this.concepto = concepto;
+        this.cicloEscolar = cicloEscolar;
+        this.matriculaAlumno = matriculaAlumno;
+        this.fechaCuota = fecha;
     }
 
     @Override

@@ -590,7 +590,7 @@ public class PantallaPrincipalController implements Initializable {
         lblTotal.setText("0000.00");
         cmbxAlumnos.getSelectionModel().clearSelection();
         cmbxMetodoPago.getSelectionModel().clearSelection();
-        btnDetalles.setDisable(false);
+        btnDetalles.setDisable(true);
     }
 
     /**
@@ -703,7 +703,7 @@ public class PantallaPrincipalController implements Initializable {
             ticket.setSubTotal(lblSubTotal.getText().toString());
 
             System.out.println(ticket.toString());
-            ticket.setTipoDescuento(TicketRegistrarCache.getInstance().getTipoDescuento());
+            ticket.setTipoDescuento(DescuentoCache.getInstance().getTipo());
             ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento());
             TicketRegistrarCache.setInstance(ticket);
             System.out.println(TicketRegistrarCache.getInstance());

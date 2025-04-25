@@ -13,6 +13,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import mx.itson.sgi.data_access.entities.Alumno;
+import mx.itson.sgi.data_access.entities.CicloEscolar;
+import mx.itson.sgi.data_access.entities.CuotaMensual;
 import mx.itson.sgi.data_access.services.CicloEscolarService;
 import mx.itson.sgi.data_access.services.CuotaService;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
@@ -42,11 +45,13 @@ public class CuotaControlador {
                 Double adeudo = cu.getAdeudo();
                 switch (concepto) {
                     case "COLEGIATURA":
-                        if(adeudo >=cu.getMontoBase()){
-                            cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
-                        }else{
-                            cuotasDTO.setAdeudoColegiatura(cu.getMontoBase()-adeudo);
-                        }
+                        CuotaMensual colegiaturaMesActual = cuotaService.obtenerColegiaturaMesActual(new Alumno(matricula), new CicloEscolar(cicloEscolar));
+                        cuotasDTO.setAdeudoColegiatura(colegiaturaMesActual.getAdeudo());
+                        // if(adeudo >=cu.getMontoBase()){
+                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
+                        // }else{
+                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase()-adeudo);
+                        // }
                         cuotasDTO.setAdeudoVencido(adeudo);
                         break;
                     case "UNIFORMES":
@@ -78,17 +83,17 @@ public class CuotaControlador {
         }
         return null;
     }
-    public List<DetalleAdeudoDTO> obtenerPagosMensuales(String matricula, String idCiclo){
-        List<DetalleAdeudoDTO> detalles = cuotaService.obtenerPagosMensualesAlumno(matricula, idCiclo);
-        Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula), new CicloEscolarDTO(idCiclo));
-        if(detalles != null && !detalles.isEmpty()){
-            detalles.forEach(detalle->{
-                detalle.setMontoBase(montoBase);
-            });
-            return calcularAdeudos(detalles);
-        }
-        return null;
-    }
+    // public List<DetalleAdeudoDTO> obtenerPagosMensuales(String matricula, String idCiclo){
+    //     List<DetalleAdeudoDTO> detalles = cuotaService.obtenerPagosMensualesAlumno(matricula, idCiclo);
+    //     Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula), new CicloEscolarDTO(idCiclo));
+    //     if(detalles != null && !detalles.isEmpty()){
+    //         detalles.forEach(detalle->{
+    //             detalle.setMontoBase(montoBase);
+    //         });
+    //         return calcularAdeudos(detalles);
+    //     }
+    //     return null;
+    // }
 
     private List<DetalleAdeudoDTO> calcularAdeudos(List<DetalleAdeudoDTO> detalles){
         List<DetalleAdeudoDTO> detallesActualizados = new ArrayList<>();

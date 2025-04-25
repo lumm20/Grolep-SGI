@@ -11,13 +11,14 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.transaction.Transactional;
 import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
 import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
 import mx.itson.sgi.data_access.entities.CuotaMensual;
+import mx.itson.sgi.data_access.entities.DetallePago;
 import mx.itson.sgi.data_access.repositories.CuotaMensualRepository;
 import mx.itson.sgi.data_access.repositories.CuotaRepository;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
@@ -32,6 +33,16 @@ public class CuotaService {
     private CuotaRepository repository;
     @Autowired
     private CuotaMensualRepository mensualRepository;
+
+    public CuotaMensual obtenerColegiaturaMesActual(Alumno alumno, CicloEscolar ciclo){
+        LocalDate hoy = LocalDate.now();
+        LocalDate fecha = LocalDate.of(hoy.getYear(), hoy.getMonth(), 1);
+        Optional<CuotaMensual> op = mensualRepository.findByAlumnoAndCicloAndMes(alumno, ciclo, fecha);
+        if(op.isPresent()){
+            return op.get();
+        }
+        return null;
+    }
 
     public Cuota obtenerCuotaPorAlumnoConceptoCiclo(Alumno matriculaAlumno, Concepto concepto, CicloEscolar ciclo){
         Optional<Cuota> optional = repository.findByAlumnoAndConceptoAndCiclo(matriculaAlumno, concepto, ciclo);
@@ -68,6 +79,27 @@ public class CuotaService {
         return new ArrayList<Cuota>();
     }
 
+    public List<CuotaMensual> obtenerColegiaturasConAdeudo(String matricula, String idCiclo){
+        Optional<List<CuotaMensual>> op = mensualRepository.findByAlumnoAndCicloAndAdeudoGreaterThanOrderByMesAsc(new Alumno(matricula),
+         new CicloEscolar(idCiclo), 0.0);
+        if(op.isPresent()){
+            return op.get();
+        }
+        return null;
+    }
+
+    @Transactional
+    protected void actualizarAdeudoCuotasMensuales(List<DetallePago> detallePagos){
+        CuotaMensual cuota;
+        Double montoPagado;
+        for (DetallePago detallePago : detallePagos) {
+            cuota = (CuotaMensual)detallePago.getCuota();
+            montoPagado = detallePago.getMontoPagado();
+            cuota.setMontoPagado(montoPagado);
+            mensualRepository.save(cuota);
+        }
+    }
+
     public void agregarCuota(Cuota cuota){
         Optional<Cuota> optional = repository.findByAlumnoAndConceptoAndCiclo(
             cuota.getAlumno(),cuota.getConcepto(),cuota.getCiclo());
@@ -77,22 +109,22 @@ public class CuotaService {
             repository.save(c);
         },()->repository.save(cuota));
     }
-    public List<DetalleAdeudoDTO> obtenerDetalleAdeudosColegiatura(String matricula, String idCiclo){
-        List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
-        List<DetalleAdeudoDTO> dtos = new ArrayList<>();
-        if(detalles != null){
-            detalles.stream().forEach(a->{
-                Month mes = Month.valueOf(((String)a[0]).toUpperCase());
-                dtos.add(new DetalleAdeudoDTO(
-                    mes,
-                    (Double)a[1],
-                    (Double)a[2]
-                ));
-            });
-            return dtos;
-        }
-        return new ArrayList<DetalleAdeudoDTO>();
-    }
+    // public List<DetalleAdeudoDTO> obtenerDetalleAdeudosColegiatura(String matricula, String idCiclo){
+    //     List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
+    //     List<DetalleAdeudoDTO> dtos = new ArrayList<>();
+    //     if(detalles != null){
+    //         detalles.stream().forEach(a->{
+    //             Month mes = Month.valueOf(((String)a[0]).toUpperCase());
+    //             dtos.add(new DetalleAdeudoDTO(
+    //                 mes,
+    //                 (Double)a[1],
+    //                 (Double)a[2]
+    //             ));
+    //         });
+    //         return dtos;
+    //     }
+    //     return new ArrayList<DetalleAdeudoDTO>();
+    // }
 
     //nuevo
     public List<DetalleAdeudoDTO> obtenerDetallesAdeudos(String matricula, String idCiclo){
@@ -112,22 +144,22 @@ public class CuotaService {
         return new ArrayList<DetalleAdeudoDTO>();
     }
 
-    public List<DetalleAdeudoDTO> obtenerPagosMensualesAlumno(String matricula, String idCiclo){
-        List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
-        List<DetalleAdeudoDTO> dtos = new ArrayList<>();
-        if(detalles != null){
-            detalles.stream().forEach(a->{
-                // LocalDate fecha = LocalDate.parse((String)a[0]);
-                dtos.add(new DetalleAdeudoDTO(
-                    (String)a[0],
-                    (Double)a[1],
-                    (Double)a[2]
-                ));
-            });
-            return dtos;
-        }
-        return new ArrayList<DetalleAdeudoDTO>();
-    }
+    // public List<DetalleAdeudoDTO> obtenerPagosMensualesAlumno(String matricula, String idCiclo){
+    //     List<Object[]> detalles = repository.findDetallesAdeudoColegiatura(matricula, idCiclo);
+    //     List<DetalleAdeudoDTO> dtos = new ArrayList<>();
+    //     if(detalles != null){
+    //         detalles.stream().forEach(a->{
+    //             // LocalDate fecha = LocalDate.parse((String)a[0]);
+    //             dtos.add(new DetalleAdeudoDTO(
+    //                 (String)a[0],
+    //                 (Double)a[1],
+    //                 (Double)a[2]
+    //             ));
+    //         });
+    //         return dtos;
+    //     }
+    //     return new ArrayList<DetalleAdeudoDTO>();
+    // }
 
     public Double obtenerMontoBaseColegiatura(AlumnoConsultaDTO alumno, CicloEscolarDTO ciclo){
         Cuota cuota = repository.findMontoBaseColegiaturaAlumno(new Alumno(alumno.getMatricula()), new CicloEscolar(ciclo.getId()));

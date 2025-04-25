@@ -1,6 +1,5 @@
 package mx.sgi.presentacion.servicios;
 
-import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;

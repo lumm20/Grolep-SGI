@@ -74,7 +74,6 @@ public class FeeDataInitializer {
         crearCuotasMensualesCiclo2425(alumno3, ciclo2425, 1500.00);//21L
         cuotasMap.put(22L, crearCuota(2500.00, ciclo2425, alumno3, Concepto.INSCRIPCION));
         
-        System.out.println("Cuotas creadas: " + cuotasMap);
     }
 
     /**
@@ -109,7 +108,9 @@ public class FeeDataInitializer {
         // Double adeudoAcumulado =0.0;
         for (int i = 0; i < 11; i++) {
             LocalDate mesCuota = fechaInicio.plusMonths(i);
-            
+            mesCuota = mesCuota.minusDays(mesCuota.getDayOfMonth()-1);
+            // LocalDate mesCuota = LocalDate.of(fechaInicio.getYear(), fechaInicio.getMonth(), 1);
+            // mesCuota = mesCuota.plusMonths(i);
             CuotaMensual cuotaMensual = new CuotaMensual();
             cuotaMensual.setMontoBase(montoBase);
             cuotaMensual.setCiclo(ciclo);
@@ -143,7 +144,11 @@ public class FeeDataInitializer {
         long meses = ChronoUnit.MONTHS.between(fechaInicio.withDayOfMonth(1), hoy.withDayOfMonth(1)) + 1;
         // Double adeudoAcumulado = 0.0;
         for (int i = 0; i < meses; i++) {
+
             LocalDate mesCuota = fechaInicio.plusMonths(i);
+            mesCuota = mesCuota.minusDays(mesCuota.getDayOfMonth()-1);
+            // LocalDate mesCuota = LocalDate.of(fechaInicio.getYear(), fechaInicio.getMonth(), 1);
+            // mesCuota = mesCuota.plusMonths(i);
             
             CuotaMensual cuotaMensual = new CuotaMensual();
             cuotaMensual.setMontoBase(montoBase);
@@ -213,7 +218,7 @@ public class FeeDataInitializer {
 
     protected List<CuotaMensual> buscarCuotasConAdeudo(Alumno alumno, CicloEscolar ciclo){
         Optional<List<CuotaMensual>> op = cuotaMensualRepository.
-                                            findByAlumnoAndCicloAndAdeudoGreaterThan(alumno,ciclo,0.0);
+                                            findByAlumnoAndCicloAndAdeudoGreaterThanOrderByMesAsc(alumno,ciclo,0.0);
         if(op.isPresent()){
             return op.get();
         }
