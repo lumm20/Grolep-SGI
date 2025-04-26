@@ -485,7 +485,7 @@ public class PantallaPrincipalController implements Initializable {
             lblUniforme.setText(cuotas.getAdeudoUniformes().toString());
 
             disableTxfields(cuotas);
-            btnDetalles.setDisable(cuotas.getAdeudoVencido()==0);
+            btnDetalles.setDisable(cuotas.getAdeudoVencido()== null || cuotas.getAdeudoVencido()==0);
 
             //establecemos la demas informacion del alumno
             String tipoBeca = cuotas.getBeca() != null ? cuotas.getBeca() : "No Aplica";
@@ -544,34 +544,22 @@ public class PantallaPrincipalController implements Initializable {
         //     txfMontoVencido.setDisable(true);
         //     txfMontoColegiatura.setDisable(true);
         // }
-        if(cuotas.getAdeudoAcademias() == 0.0){
-            txfMontoAcademias.setDisable(true);
-        }
-        if(cuotas.getAdeudoColegiatura() == 0.0){
-            txfMontoColegiatura.setDisable(true);
-        }
-        if(cuotas.getAdeudoEventos() == 0.0){
-            txfMontoEventos.setDisable(true);
-        }
-        if(cuotas.getAdeudoInscripcion() == 0.0){
-            txfMontoInscripcion.setDisable(true);
-        }
-        if(cuotas.getAdeudoUniformes() == 0.0){
-            txfMontoUniforme.setDisable(true);
-        }
-        if(cuotas.getAdeudoLibros() == 0.0){
-            txfMontoLibros.setDisable(true);
-        }
+        txfMontoAcademias.setDisable(cuotas.getAdeudoAcademias()== null || cuotas.getAdeudoAcademias() == 0.0);
+        txfMontoColegiatura.setDisable(cuotas.getAdeudoColegiatura()== null || cuotas.getAdeudoColegiatura() == 0.0);
+        txfMontoEventos.setDisable(cuotas.getAdeudoEventos()== null || cuotas.getAdeudoEventos() == 0.0);
+        txfMontoInscripcion.setDisable(cuotas.getAdeudoInscripcion()== null || cuotas.getAdeudoInscripcion() == 0.0);
+        txfMontoUniforme.setDisable(cuotas.getAdeudoUniformes()== null || cuotas.getAdeudoUniformes() == 0.0);
+        txfMontoLibros.setDisable(cuotas.getAdeudoLibros()== null || cuotas.getAdeudoLibros() == 0.0);
     }
 
     private void cleanup(){
         // txfMontoVencido.setDisable(false);
-        txfMontoAcademias.setDisable(false);
-        txfMontoColegiatura.setDisable(false);
-        txfMontoEventos.setDisable(false);
-        txfMontoInscripcion.setDisable(false);
-        txfMontoUniforme.setDisable(false);
-        txfMontoLibros.setDisable(false);
+        txfMontoAcademias.setDisable(true);
+        txfMontoColegiatura.setDisable(true);
+        txfMontoEventos.setDisable(true);
+        txfMontoInscripcion.setDisable(true);
+        txfMontoUniforme.setDisable(true);
+        txfMontoLibros.setDisable(true);
 
         // txfMontoVencido.setText("");
         txfMontoAcademias.setText("");

@@ -400,10 +400,10 @@ public class PaymentDataInitializer {
         List<Pago> pagos = new ArrayList<>();
         
         //pago por INSCRIPCION, UNIFORMES, LIBROS
-        pagos.add(new Pago("P202400011", LocalDateTime.of(2024, 8, 1, 10, 0, 0), 4900.00, 
+        pagos.add(new Pago("P202400011", LocalDateTime.of(2024, 8, 1, 10, 0, 0), 4400.00, 
             0.0, "No aplica", cajero, alumno,
             List.of(
-                new DetallePago(feeData.buscarCuota(Concepto.INSCRIPCION,cuotas), 2500.0,new Pago("P202400011")), // INSCRIPCION
+                new DetallePago(feeData.buscarCuota(Concepto.INSCRIPCION,cuotas), 2000.0,new Pago("P202400011")), // INSCRIPCION
                 new DetallePago(feeData.buscarCuota(Concepto.UNIFORMES,cuotas), 2000.0,new Pago("P202400011")), // UNIFORMES
                 new DetallePago(feeData.buscarCuota(Concepto.LIBROS,cuotas), 400.0,new Pago("P202400011"))   // LIBROS
             ), MetodoPago.EFECTIVO));
