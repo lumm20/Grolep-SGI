@@ -22,13 +22,13 @@ public class CycleDataInitializer {
         CicloEscolar ciclo1 = new CicloEscolar();
         ciclo1.setId("23-24");
         ciclo1.setFechaInicio(LocalDate.of(2023, 8, 15));
-        ciclo1.setFechaFin(LocalDate.of(2024, 7, 15));
+        ciclo1.setFechaFin(LocalDate.of(2024, 6, 15));
         ciclos.add(cicloRepository.save(ciclo1));
 
         CicloEscolar ciclo2 = new CicloEscolar();
         ciclo2.setId("24-25");
         ciclo2.setFechaInicio(LocalDate.of(2024, 8, 15));
-        ciclo2.setFechaFin(LocalDate.of(2025, 7, 15));
+        ciclo2.setFechaFin(LocalDate.of(2025, 6, 15));
         ciclos.add(cicloRepository.save(ciclo2));
         return ciclos;
     }

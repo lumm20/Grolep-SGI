@@ -102,15 +102,13 @@ public class FeeDataInitializer {
      */
     @Transactional
     private void crearCuotasMensualesCiclo2324(Alumno alumno, CicloEscolar ciclo, Double montoBase) {
-        // Crear 11 cuotas mensuales de agosto 2023 a junio 2024
+        // Crear 11 cuotas mensuales de agosto 2023 a junio 2024 
         LocalDate fechaInicio = ciclo.getFechaInicio();
         
         // Double adeudoAcumulado =0.0;
         for (int i = 0; i < 11; i++) {
             LocalDate mesCuota = fechaInicio.plusMonths(i);
             mesCuota = mesCuota.minusDays(mesCuota.getDayOfMonth()-1);
-            // LocalDate mesCuota = LocalDate.of(fechaInicio.getYear(), fechaInicio.getMonth(), 1);
-            // mesCuota = mesCuota.plusMonths(i);
             CuotaMensual cuotaMensual = new CuotaMensual();
             cuotaMensual.setMontoBase(montoBase);
             cuotaMensual.setCiclo(ciclo);
@@ -119,12 +117,6 @@ public class FeeDataInitializer {
             cuotaMensual.setMes(mesCuota);
             cuotaMensual.setMontoPagado(0.0); // Se actualizará con los pagos
             cuotaMensual.setAdeudo(montoBase); // Inicialmente todo es adeudo
-            // cuotaMensual.setCuotaDelMes(montoBase);
-            
-            // if(i>0){
-            //     adeudoAcumulado+=montoBase;
-            // }
-            // cuotaMensual.setAdeudoAcumulado(0.0);
             cuotaMensualRepository.save(cuotaMensual);
         }
     }

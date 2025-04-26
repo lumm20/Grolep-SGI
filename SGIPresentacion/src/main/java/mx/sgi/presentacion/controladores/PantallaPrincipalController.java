@@ -440,6 +440,7 @@ public class PantallaPrincipalController implements Initializable {
 
                 // cmbxCicloEscolar.getSelectionModel().select(0);
                 CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
+
                 String matricula = cmbxAlumnos.getValue().getMatricula();
 
                 establecerCuotas(matricula, cicloEscolar);
@@ -513,6 +514,7 @@ public class PantallaPrincipalController implements Initializable {
 
         String tipoDesc = "No aplica";
         Double montoDesc = 0.00;
+        //TODO: arreglar lo de obtener los pagos del mes. Debe adaptar la fecha al ciclo escolar elegido
         long cantidadPagosDelMes = servicioPagos.obtenerPagosDeColegiaturaDelMes(matricula, CicloEscolarCache.getInstance().getId());
         if(cantidadPagosDelMes == 0){
             int diaActual = LocalDate.now().getDayOfMonth();

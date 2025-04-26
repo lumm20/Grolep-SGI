@@ -156,10 +156,10 @@ public class PaymentDataInitializer {
         actualizarCuotaMensual(cuotasMensuales,Month.MAY, 1600.0);
         
         //agregar pago de colegiatura de junio
-        pagos.add(new Pago("P202400010", LocalDateTime.of(2024, 6, 5, 10, 30, 0), 1600.00,
-        0.0,"No aplica", cajero, alumno1,
-        List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.JUNE), 1600.0,new Pago("P202400010"))), MetodoPago.EFECTIVO));
-        actualizarCuotaMensual(cuotasMensuales,Month.JUNE, pagos.getLast().getMontoTotal());
+        // pagos.add(new Pago("P202400010", LocalDateTime.of(2024, 6, 5, 10, 30, 0), 1600.00,
+        // 0.0,"No aplica", cajero, alumno1,
+        // List.of(new DetallePago(feeData.buscarCuotaMensual(cuotasMensuales, Month.JUNE), 1600.0,new Pago("P202400010"))), MetodoPago.EFECTIVO));
+        // actualizarCuotaMensual(cuotasMensuales,Month.JUNE, pagos.getLast().getMontoTotal());
         return pagos;
     }
 

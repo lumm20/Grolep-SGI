@@ -35,7 +35,12 @@ public class CuotaControlador {
     @Autowired
     private CicloEscolarService cicloService;
     
-    public CuotasDTO obtenerCuotasPorAlumno(String matricula, String cicloEscolar){
+    public CuotasDTO obtenerCuotasPorAlumno(String matricula, String cicloEscolar)throws IllegalArgumentException{
+        CicloEscolar cicloE = cicloService.obtenerCicloEscolarPorId(cicloEscolar);
+        System.out.println(cicloE);
+        if(cicloE== null){
+            throw new IllegalArgumentException("El ciclo escolar ingresado, no existe");
+        }
         List<CuotaConsultadaDTO> cuotas = cuotaService.obtenerCuotasPorAlumno(matricula, cicloEscolar);
         if (cuotas != null && !cuotas.isEmpty()) {
             CuotasDTO cuotasDTO = new CuotasDTO();
@@ -45,7 +50,18 @@ public class CuotaControlador {
                 Double adeudo = cu.getAdeudo();
                 switch (concepto) {
                     case "COLEGIATURA":
-                        CuotaMensual colegiaturaMesActual = cuotaService.obtenerColegiaturaMesActual(new Alumno(matricula), new CicloEscolar(cicloEscolar));
+                        CuotaMensual colegiaturaMesActual = null;
+                        if(cicloEscolar.equals(cicloService.obtenerCicloActual().getId())){
+                            System.out.println("primero");
+                            colegiaturaMesActual = cuotaService.obtenerColegiaturaMesActual(new Alumno(matricula), new CicloEscolar(cicloEscolar));
+                        }else{                        
+                            System.out.println("segundo");
+                            LocalDate fechaFin = cicloE.getFechaFin();//buscar otra fecha a obtener
+                            fechaFin = fechaFin.minusDays(fechaFin.getDayOfMonth()-1);
+                            System.out.println("fecha fin: "+fechaFin);
+                            colegiaturaMesActual = cuotaService.obtenerCuotaPorAlumnoCicloMes(new Alumno(matricula), new CicloEscolar(cicloEscolar), fechaFin);
+                        }
+                        System.out.println(colegiaturaMesActual);
                         cuotasDTO.setAdeudoColegiatura(colegiaturaMesActual.getAdeudo());
                         cuotasDTO.setAdeudoVencido(adeudo);
                         //  System.out.println("adeudo en colegiatura:"+adeudo);

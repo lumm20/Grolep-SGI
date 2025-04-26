@@ -60,7 +60,7 @@ public class APICuota {
         }
         return ResponseEntity.noContent().build();
     }
-    @GetMapping("/tuition-tcharges")
+    @GetMapping("/tuition-charges")
     public ResponseEntity<?> obtenerMontoTotalColegiaturas(
             @RequestParam String matricula,
             @RequestParam("ciclo") String idCiclo) {
