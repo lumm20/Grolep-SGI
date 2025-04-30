@@ -2,6 +2,7 @@ package mx.sgi.presentacion.controladores;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.AnchorPane;
@@ -11,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import org.controlsfx.control.Notifications;
 
 import com.jfoenix.controls.JFXButton;
 
@@ -208,7 +212,7 @@ public class TicketController implements Initializable {
 
         } catch (ConexionServidorException ex) {
             cancelar();
-             throw ex;
+            notificarError(ex.getMessage());
         }catch (Exception e) {
             System.out.println("problemas: "+e.toString());
             cancelar();
@@ -228,6 +232,16 @@ public class TicketController implements Initializable {
         //cerramos la ventana
         Stage stage = (Stage) lblTotal.getScene().getWindow(); // Obtener el Stage (ventana) actual
         stage.close(); // Cerrar la ventana de inicio de sesión
+    }
+
+    private void notificarError(String mensaje) {
+        Notifications.create()
+                .title("Ups!!")
+                .text(mensaje)
+                .graphic(null)
+                .position(Pos.TOP_RIGHT)
+                .hideAfter(Duration.seconds(5))
+                .show();
     }
 
 }
