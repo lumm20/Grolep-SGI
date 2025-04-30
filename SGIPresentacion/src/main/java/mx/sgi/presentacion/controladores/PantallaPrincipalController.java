@@ -228,6 +228,7 @@ public class PantallaPrincipalController implements Initializable {
 
         //establecemos el descuento
         establecerDescuento();
+        cleanup();
     }
 
     /**
@@ -552,6 +553,14 @@ public class PantallaPrincipalController implements Initializable {
         txfMontoLibros.setDisable(cuotas.getAdeudoLibros()== null || cuotas.getAdeudoLibros() == 0.0);
     }
 
+    public void cleanupTxtFields(){
+        txfMontoAcademias.setText("");
+        txfMontoColegiatura.setText("");
+        txfMontoEventos.setText("");
+        txfMontoInscripcion.setText("");
+        txfMontoUniforme.setText("");
+        txfMontoLibros.setText("");
+    }
     private void cleanup(){
         // txfMontoVencido.setDisable(false);
         txfMontoAcademias.setDisable(true);

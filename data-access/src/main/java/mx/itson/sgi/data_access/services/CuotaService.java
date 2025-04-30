@@ -101,8 +101,8 @@ public class CuotaService {
         Double montoPagado;
         for (DetallePago detallePago : detallePagos) {
             cuota = (CuotaMensual)detallePago.getCuota();
-            montoPagado = detallePago.getMontoPagado();
-            cuota.setMontoPagado(montoPagado);
+            // montoPagado = cuota.getMontoPagado();
+            // cuota.setMontoPagado(montoPagado);
             mensualRepository.save(cuota);
         }
     }
