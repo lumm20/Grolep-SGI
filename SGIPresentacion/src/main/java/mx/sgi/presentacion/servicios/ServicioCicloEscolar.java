@@ -3,8 +3,10 @@ package mx.sgi.presentacion.servicios;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.sgi.presentacion.caches.UsuarioCache;
+import mx.sgi.presentacion.excepciones.ConexionServidorException;
 import mx.sgi.presentacion.interfaces.IServicioCicloEscolar;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -31,7 +33,7 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
 
 
     @Override
-    public List<CicloEscolarDTO> obtenerCiclosEscolares() throws Exception {
+    public List<CicloEscolarDTO> obtenerCiclosEscolares()  throws ConexionServidorException {
         try {
             String token = UsuarioCache.getSession().getToken();
             HttpRequest request = HttpRequest.newBuilder()
@@ -43,16 +45,17 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
             if (response.statusCode() == 200) {
                 System.out.println(response.body());
                 return new Gson().fromJson(response.body(), new TypeToken<List<CicloEscolarDTO>>() {}.getType());
+            } else {
+                throw new ConexionServidorException("Error al obtener los ciclos escolares: " + response.statusCode() + " - " + response.body());
             }
-        } catch (Exception ex) {
-            throw new Exception("Error al obtener los ciclos escolares", ex);
+        } catch (IOException | InterruptedException e) {
+            throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.", e);
         }
-        return null;
     }
 
 
     @Override
-    public CicloEscolarDTO obtenerCicloEscolarActual() {
+    public CicloEscolarDTO obtenerCicloEscolarActual() throws ConexionServidorException {
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/SGI/api/fees/actual-cycle"))
@@ -65,11 +68,12 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
             if(response.statusCode() == 200) {
                 System.out.println(response.body());
                 return new Gson().fromJson(response.body(), CicloEscolarDTO.class);
+            }else {
+                throw new ConexionServidorException("Error al obtener el ciclo escolar actual: " + response.statusCode() + " - " + response.body());
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;   
+        }catch (IOException | InterruptedException e) {
+            throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.", e);
+        }  
     }
 
 }

@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import mx.itson.sgi.dto.*;
 import mx.sgi.presentacion.caches.*;
+import mx.sgi.presentacion.excepciones.ConexionServidorException;
 
 import org.controlsfx.control.Notifications;
 
@@ -63,11 +64,11 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     VBox boxCajero;
 
-    //de aqui en adelante se declaran los componentes que representan datos
+    // de aqui en adelante se declaran los componentes que representan datos
 
     @FXML
     Label lblAdeudoVencido;
-    
+
     @FXML
     Label lblAdeudoActual;
     @FXML
@@ -102,8 +103,7 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     Label lblDescuentoDescuento;
 
-
-    //declaracion de los checkBoxes
+    // declaracion de los checkBoxes
 
     @FXML
     CheckBox cbxConsiderarColegiatura;
@@ -111,8 +111,7 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     CheckBox cbxConsiderarCuotas;
 
-
-    //declaracion de los botones
+    // declaracion de los botones
 
     @FXML
     JFXButton btnDetalles;
@@ -123,8 +122,7 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     JFXButton btnLimpiarFiltroAlumnos;
 
-
-    //Declaracion de los ComboBox
+    // Declaracion de los ComboBox
 
     @FXML
     ComboBox<AlumnoConsultaDTO> cmbxAlumnos;
@@ -135,9 +133,7 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     JFXComboBox<String> cmbxMetodoPago;
 
-
-
-    //de aqui en adelante se declaran los componentes de entradas
+    // de aqui en adelante se declaran los componentes de entradas
 
     @FXML
     TextField txfAlumnos;
@@ -163,8 +159,6 @@ public class PantallaPrincipalController implements Initializable {
     @FXML
     TextField txfMontoUniforme;
 
-
-
     @FXML
     private BorderPane borderPane;
 
@@ -172,8 +166,8 @@ public class PantallaPrincipalController implements Initializable {
 
     private IServicioAlumnos servicioAlumnos;
 
-    private IServicioCuotas  servicioCuotas;
-    private IServicioPagos  servicioPagos;
+    private IServicioCuotas servicioCuotas;
+    private IServicioPagos servicioPagos;
 
     private IServicioCicloEscolar servicioCicloEscolar;
     /**
@@ -183,6 +177,7 @@ public class PantallaPrincipalController implements Initializable {
 
     /**
      * Metodo para obtener la instancia unica de la clase
+     * 
      * @return instancia unica de la clase
      */
     public static synchronized PantallaPrincipalController getInstance() {
@@ -191,9 +186,10 @@ public class PantallaPrincipalController implements Initializable {
 
     /**
      * Metodo para establecer la instancia unica de la clase
+     * 
      * @param instancia instancia a establecer
      */
-    public static synchronized void setInstancia(PantallaPrincipalController  instancia){
+    public static synchronized void setInstancia(PantallaPrincipalController instancia) {
         PantallaPrincipalController.instancia = instancia;
     }
 
@@ -208,59 +204,68 @@ public class PantallaPrincipalController implements Initializable {
         this.servicioAlumnos = new ServicioAlumnos();
         this.servicioPagos = ServicioPagos.getInstance();
 
-        this.servicioCuotas =  ServicioCuotas.getInstance();
+        this.servicioCuotas = ServicioCuotas.getInstance();
 
         this.mediador = Mediador.getInstance();
 
         this.servicioCicloEscolar = new ServicioCicloEscolar();
         // txfMontoVencido.setDisable(true);
-        //establecemos los ciclos escolares en el comboBox
+        // establecemos los ciclos escolares en el comboBox
         establecerCiclos();
 
-        //cargamos los metodos de pago:
+        // cargamos los metodos de pago:
         establecerMetodosDePago();
 
-        //establecemos la configuracion para los campos de entrada
+        // establecemos la configuracion para los campos de entrada
         establecerListenersCamposDeEntrada();
 
-        //establecemos la configuracion para el buscador de alumnos
+        // establecemos la configuracion para el buscador de alumnos
         configurarFiltroAlumnos();
 
-        //establecemos el descuento
+        // establecemos el descuento
         establecerDescuento();
+
+        limitarCaracteres(txfMontoColegiatura, 10); // Límite de 10 caracteres
+        limitarCaracteres(txfMontoInscripcion, 10);
+        limitarCaracteres(txfMontoLibros, 10);
+        limitarCaracteres(txfMontoEventos, 10);
+        limitarCaracteres(txfMontoAcademias, 10);
+        limitarCaracteres(txfMontoUniforme, 10);
     }
 
     /**
      *
      *
-    public void setDashboard(String direccion) {
-        try {
-            // Cargar el archivo FXML del Dashboard
-            FXMLLoader dashboardLoader = new FXMLLoader(getClass().getResource(direccion));
-
-            // Obtener el controlador del dashboard
-            DashboardCajeroController dashboardControler = dashboardLoader.getController();
-
-            System.out.println("si llegue hasta aca");
-
-            // Obtener el VBox (o cualquier contenedor) del dashboard
-            VBox dashboard = dashboardControler.getDashboard();
-
-            if (dashboard != null) {
-                System.out.println("si tenemos dashboard");
-            }
-
-            // Asignar el VBox del dashboard a la región izquierda del BorderPane
-
-        } catch (Exception e) {
-            System.err.println("Error al cargar el dashboard: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    */
+     * public void setDashboard(String direccion) {
+     * try {
+     * // Cargar el archivo FXML del Dashboard
+     * FXMLLoader dashboardLoader = new
+     * FXMLLoader(getClass().getResource(direccion));
+     * 
+     * // Obtener el controlador del dashboard
+     * DashboardCajeroController dashboardControler =
+     * dashboardLoader.getController();
+     * 
+     * System.out.println("si llegue hasta aca");
+     * 
+     * // Obtener el VBox (o cualquier contenedor) del dashboard
+     * VBox dashboard = dashboardControler.getDashboard();
+     * 
+     * if (dashboard != null) {
+     * System.out.println("si tenemos dashboard");
+     * }
+     * 
+     * // Asignar el VBox del dashboard a la región izquierda del BorderPane
+     * 
+     * } catch (Exception e) {
+     * System.err.println("Error al cargar el dashboard: " + e.getMessage());
+     * e.printStackTrace();
+     * }
+     * }
+     */
 
     @FXML
-    private void limpiarFiltroAlumnos(){
+    private void limpiarFiltroAlumnos() {
         txfAlumnos.setText("");
         cmbxAlumnos.getSelectionModel().clearSelection();
         cmbxAlumnos.getItems().clear();
@@ -268,20 +273,21 @@ public class PantallaPrincipalController implements Initializable {
         cleanup();
     }
 
-    //de aqui en adelante comienzan los listeners para validaciones
+    // de aqui en adelante comienzan los listeners para validaciones
 
     /**
      * establece la configuracion de cada listener para los campos de entrada.
      */
-    private void establecerListenersCamposDeEntrada(){
+    private void establecerListenersCamposDeEntrada() {
         // Método para el campo "Monto Vencido"
-        // txfMontoVencido.textProperty().addListener((observable, oldValue, newValue) -> {
-        //     verificarFormato(txfMontoVencido, lblAdeudoVencido);
+        // txfMontoVencido.textProperty().addListener((observable, oldValue, newValue)
+        // -> {
+        // verificarFormato(txfMontoVencido, lblAdeudoVencido);
         // });
 
         // Método para el campo "Monto Colegiatura"
         txfMontoColegiatura.textProperty().addListener((observable, oldValue, newValue) -> {
-                verificarFormato(txfMontoColegiatura, lblAdeudoVencido);
+            verificarFormato(txfMontoColegiatura, lblAdeudoVencido);
         });
 
         // Método para el campo "Monto Inscripción"
@@ -311,8 +317,7 @@ public class PantallaPrincipalController implements Initializable {
 
     }
 
-    //de aqui en adelante comienzan los listeners para los combo box
-
+    // de aqui en adelante comienzan los listeners para los combo box
 
     private void configurarFiltroAlumnos() {
         // Crear el temporizador para detectar cuando se deja de escribir
@@ -320,7 +325,7 @@ public class PantallaPrincipalController implements Initializable {
         pause.setOnFinished(event -> {
             // Acción cuando el usuario ha dejado de escribir
             // Reactivar el ComboBox después de que se haya dejado de escribir
-            cmbxAlumnos.setDisable(false);  // Reactivar ComboBox
+            cmbxAlumnos.setDisable(false); // Reactivar ComboBox
 
             String nuevoValor = txfAlumnos.getText();
             actualizarOpcionesAlumnos(nuevoValor); // Actualizar las opciones de los alumnos
@@ -330,7 +335,7 @@ public class PantallaPrincipalController implements Initializable {
         // Detectar cuando el usuario escribe
         txfAlumnos.setOnKeyTyped(event -> {
             // Desactivar el ComboBox mientras se escribe
-            cmbxAlumnos.setDisable(true);  // Desactivar ComboBox
+            cmbxAlumnos.setDisable(true); // Desactivar ComboBox
 
             // Cancelar cualquier temporizador anterior (si el usuario sigue escribiendo)
             pause.stop();
@@ -349,7 +354,7 @@ public class PantallaPrincipalController implements Initializable {
                 AlumnoCache.limpiarCache(); // Limpiar el cache en caso de que hubiera otro alumno ocupando la instancia
                 AlumnoCache.setInstance(alumnoSeleccionado); // Guardar al alumno seleccionado en el cache
                 consultarCuotas(); // Consultar las cuotas del alumno seleccionado
-                //establecerDescuento();
+                // establecerDescuento();
             }
         });
     }
@@ -360,21 +365,23 @@ public class PantallaPrincipalController implements Initializable {
     private void actualizarOpcionesAlumnos(String filtro) {
         try {
 
-            if (!filtro.isEmpty() && !filtro.isBlank() && filtro.matches("^[a-zA-Z\\s]+$")){
+            if (!filtro.isEmpty() && !filtro.isBlank() && filtro.matches("^[a-zA-Z\\s]+$")) {
                 filtro = filtro.trim();
-                // List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.consultarAlumnos(filtro);
+                // List<AlumnoConsultaDTO> alumnosFiltrados =
+                // servicioAlumnos.consultarAlumnos(filtro);
                 List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.buscarAlumnos(filtro);
 
                 System.out.println("Alumnos filtrados: " + alumnosFiltrados);
-                if(alumnosFiltrados != null && alumnosFiltrados.size()>0){
-                    ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections.observableArrayList(alumnosFiltrados);
-                // Actualizamos los ítems del ComboBox
+                if (alumnosFiltrados != null && alumnosFiltrados.size() > 0) {
+                    ObservableList<AlumnoConsultaDTO> listaObservable = FXCollections
+                            .observableArrayList(alumnosFiltrados);
+                    // Actualizamos los ítems del ComboBox
                     cmbxAlumnos.getItems().setAll(listaObservable);
                     // Mostramos el dropdown con las opciones actualizadas
                     cmbxAlumnos.hide();
                     cmbxAlumnos.show();
                 }
-            }else{
+            } else {
                 cmbxAlumnos.hide();
             }
         } catch (Exception ex) {
@@ -382,14 +389,15 @@ public class PantallaPrincipalController implements Initializable {
         }
     }
 
-    //ahora de aquí en adelante van los metodos para el procesamiento del pago
+    // ahora de aquí en adelante van los metodos para el procesamiento del pago
 
     /**
      * Carga los metodos de pago existentes a su respectivo combo box
      */
     private void establecerMetodosDePago() {
         // Definir la lista de métodos de pago
-        List<String> listaMetodosPago = Arrays.asList("Efectivo", "Tarjeta", "Transferencia");  // Ajusta según los métodos de pago
+        List<String> listaMetodosPago = Arrays.asList("Efectivo", "Tarjeta", "Transferencia"); // Ajusta según los
+                                                                                               // métodos de pago
 
         // Convertir la lista a un ObservableList
         ObservableList<String> observableList = FXCollections.observableArrayList(listaMetodosPago);
@@ -401,22 +409,22 @@ public class PantallaPrincipalController implements Initializable {
     /**
      * Establece los ciclos escolares dentro de su respectivo comboBox
      */
-    private void establecerCiclos(){
+    private void establecerCiclos() {
         try {
             List<CicloEscolarDTO> listaCiclos = servicioCicloEscolar.obtenerCiclosEscolares();
-            
-            if(listaCiclos != null && !listaCiclos.isEmpty()){
+
+            if (listaCiclos != null && !listaCiclos.isEmpty()) {
                 ObservableList<CicloEscolarDTO> observableList = FXCollections.observableArrayList(listaCiclos);
                 cmbxCicloEscolar.setItems(observableList);
-                
+
                 CicloEscolarDTO cicloEscolar = servicioCicloEscolar.obtenerCicloEscolarActual();
-                if(cicloEscolar != null){
+                if (cicloEscolar != null) {
                     CicloEscolarCache.setInstance(cicloEscolar);
                     // String anioInicio = cicloEscolar.getInicio().substring(0, 4);
                     // String anioFin = cicloEscolar.getFin().substring(0, 4);
                     // String cicloTxt = anioInicio + " - " + anioFin;
                     for (CicloEscolarDTO cicloEscolarDTO : observableList) {
-                        if(cicloEscolarDTO.getId().equals(cicloEscolar.getId())){
+                        if (cicloEscolarDTO.getId().equals(cicloEscolar.getId())) {
                             cmbxCicloEscolar.getSelectionModel().select(cicloEscolarDTO);
                             break;
                         }
@@ -424,39 +432,42 @@ public class PantallaPrincipalController implements Initializable {
                 }
             }
 
-        }
-        catch (Exception ex){
+        } catch (ConexionServidorException ex) {
+            notificarError("Error al establecer los ciclos escolares: " + ex.getMessage());
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
     }
 
     /**
-     * aqui se consultaran las cuotas correspondientes al alumno que haya sido seleccionado
+     * aqui se consultaran las cuotas correspondientes al alumno que haya sido
+     * seleccionado
      */
     private void consultarCuotas() {
 
-            // if (cmbxCicloEscolar.getValue() == null &&  cmbxAlumnos.getValue() != null) {
+        // if (cmbxCicloEscolar.getValue() == null && cmbxAlumnos.getValue() != null) {
 
-                // cmbxCicloEscolar.getSelectionModel().select(0);
-                CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
+        // cmbxCicloEscolar.getSelectionModel().select(0);
+        CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
 
-                String matricula = cmbxAlumnos.getValue().getMatricula();
+        String matricula = cmbxAlumnos.getValue().getMatricula();
 
-                establecerCuotas(matricula, cicloEscolar);
-                establecerDescuento();
-            // }
-            // else if (cmbxCicloEscolar.getValue() != null && cmbxAlumnos.getValue() != null) {
+        establecerCuotas(matricula, cicloEscolar);
+        establecerDescuento();
+        // }
+        // else if (cmbxCicloEscolar.getValue() != null && cmbxAlumnos.getValue() !=
+        // null) {
 
-            //     System.out.println("Entre a la segunda opcion");
-            //     CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
-            //     String matricula = cmbxAlumnos.getValue().getMatricula();
+        // System.out.println("Entre a la segunda opcion");
+        // CicloEscolarDTO cicloEscolar = cmbxCicloEscolar.getValue();
+        // String matricula = cmbxAlumnos.getValue().getMatricula();
 
-            //     CicloEscolarCache.limpiarCache();
-            //     CicloEscolarCache.setInstance(cicloEscolar);
+        // CicloEscolarCache.limpiarCache();
+        // CicloEscolarCache.setInstance(cicloEscolar);
 
-            //     establecerCuotas(matricula, cicloEscolar);
-            // }
+        // establecerCuotas(matricula, cicloEscolar);
+        // }
 
     }
 
@@ -464,10 +475,10 @@ public class PantallaPrincipalController implements Initializable {
      * Establece las cuotas para el usuario elegido basandonos en el ciclo escolar
      * y la matricula del alumno.
      *
-     * @param matricula Matricula del alumno
+     * @param matricula    Matricula del alumno
      * @param cicloEscolar Ciclo escolar a consultar.
      */
-    public void establecerCuotas(String matricula,CicloEscolarDTO cicloEscolar) {
+    public void establecerCuotas(String matricula, CicloEscolarDTO cicloEscolar) {
         try {
 
             String idCiclo = cicloEscolar.getId();
@@ -475,23 +486,40 @@ public class PantallaPrincipalController implements Initializable {
 
             Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
 
-            lblAdeudoVencido.setText(cuotas.getAdeudoVencido().toString());
-            lblAdeudoActual.setText(cuotas.getAdeudoColegiatura().toString());
-            lblAdeudoConDescuento.setText(String.valueOf(cuotas.getAdeudoColegiatura() - descuento));
-            lblCuotaInscripcion.setText(cuotas.getAdeudoInscripcion().toString());
-            lblCuotaLibros.setText(cuotas.getAdeudoLibros().toString());
-            lblCuotaEventos.setText(cuotas.getAdeudoEventos().toString());
-            lblCuotaAcademias.setText(cuotas.getAdeudoAcademias().toString());
-            lblUniforme.setText(cuotas.getAdeudoUniformes().toString());
+            System.out.println("esta va a cambiar si es el negativo: " + cuotas.getAdeudoVencido().toString());
+            lblAdeudoVencido.setText(cuotas.getAdeudoVencido() != null && cuotas.getAdeudoVencido() >= 0
+                    ? cuotas.getAdeudoVencido().toString()
+                    : "0.00");
+            lblAdeudoActual.setText(cuotas.getAdeudoColegiatura() != null && cuotas.getAdeudoColegiatura() >= 0
+                    ? cuotas.getAdeudoColegiatura().toString()
+                    : "0.00");
+            lblAdeudoConDescuento
+                    .setText(cuotas.getAdeudoColegiatura() != null && cuotas.getAdeudoColegiatura() - descuento >= 0
+                            ? String.valueOf(cuotas.getAdeudoColegiatura() - descuento)
+                            : "0.00");
+            lblCuotaInscripcion.setText(cuotas.getAdeudoInscripcion() != null && cuotas.getAdeudoInscripcion() >= 0
+                    ? cuotas.getAdeudoInscripcion().toString()
+                    : "0.00");
+            lblCuotaLibros.setText(cuotas.getAdeudoLibros() != null && cuotas.getAdeudoLibros() >= 0
+                    ? cuotas.getAdeudoLibros().toString()
+                    : "0.00");
+            lblCuotaEventos.setText(cuotas.getAdeudoEventos() != null && cuotas.getAdeudoEventos() >= 0
+                    ? cuotas.getAdeudoEventos().toString()
+                    : "0.00");
+            lblCuotaAcademias.setText(cuotas.getAdeudoAcademias() != null && cuotas.getAdeudoAcademias() >= 0
+                    ? cuotas.getAdeudoAcademias().toString()
+                    : "0.00");
+            lblUniforme.setText(cuotas.getAdeudoUniformes() != null && cuotas.getAdeudoUniformes() >= 0
+                    ? cuotas.getAdeudoUniformes().toString()
+                    : "0.00");
 
             disableTxfields(cuotas);
-            btnDetalles.setDisable(cuotas.getAdeudoVencido()== null || cuotas.getAdeudoVencido()==0);
+            btnDetalles.setDisable(cuotas.getAdeudoVencido() == null || cuotas.getAdeudoVencido() == 0);
 
-            //establecemos la demas informacion del alumno
+            // establecemos la demas informacion del alumno
             String tipoBeca = cuotas.getBeca() != null ? cuotas.getBeca() : "No Aplica";
 
             // lblTipoBeca.setText(tipoBeca);
-
 
         } catch (Exception ex) {
             notificarError(ex.getMessage());
@@ -502,11 +530,11 @@ public class PantallaPrincipalController implements Initializable {
     /**
      * Algun dia lo cambiamos por una implementacion real
      */
-    private void establecerDescuento(){
+    private void establecerDescuento() {
 
-        DescuentoDTO descuento =  new DescuentoDTO();
+        DescuentoDTO descuento = new DescuentoDTO();
         AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
-        if(alumno.getMatricula() == null){
+        if (alumno.getMatricula() == null) {
             DescuentoCache.limpiarCache();
             return;
         }
@@ -514,18 +542,19 @@ public class PantallaPrincipalController implements Initializable {
 
         String tipoDesc = "No aplica";
         Double montoDesc = 0.00;
-        //TODO: arreglar lo de obtener los pagos del mes. Debe adaptar la fecha al ciclo escolar elegido
-        long cantidadPagosDelMes = servicioPagos.obtenerPagosDeColegiaturaDelMes(matricula, CicloEscolarCache.getInstance().getId());
-        if(cantidadPagosDelMes == 0){
+        // TODO: arreglar lo de obtener los pagos del mes. Debe adaptar la fecha al
+        // ciclo escolar elegido
+        long cantidadPagosDelMes = servicioPagos.obtenerPagosDeColegiaturaDelMes(matricula,
+                CicloEscolarCache.getInstance().getId());
+        if (cantidadPagosDelMes == 0) {
             int diaActual = LocalDate.now().getDayOfMonth();
-    
-    
-            //descuento para la primer semana
-            if (diaActual <= 7){
+
+            // descuento para la primer semana
+            if (diaActual <= 7) {
                 tipoDesc = "Primer periodo";
                 montoDesc = 400.00;
             }
-            //descuento para la segunda semana
+            // descuento para la segunda semana
             else if (diaActual > 7 && diaActual <= 14) {
                 tipoDesc = "Segundo periodo";
                 montoDesc = 200.00;
@@ -539,20 +568,20 @@ public class PantallaPrincipalController implements Initializable {
 
     }
 
-    private void disableTxfields(CuotasDTO cuotas){
+    private void disableTxfields(CuotasDTO cuotas) {
         // if(cuotas.getAdeudoVencido() == 0.0){
-        //     txfMontoVencido.setDisable(true);
-        //     txfMontoColegiatura.setDisable(true);
+        // txfMontoVencido.setDisable(true);
+        // txfMontoColegiatura.setDisable(true);
         // }
-        txfMontoAcademias.setDisable(cuotas.getAdeudoAcademias()== null || cuotas.getAdeudoAcademias() == 0.0);
-        txfMontoColegiatura.setDisable(cuotas.getAdeudoColegiatura()== null || cuotas.getAdeudoColegiatura() == 0.0);
-        txfMontoEventos.setDisable(cuotas.getAdeudoEventos()== null || cuotas.getAdeudoEventos() == 0.0);
-        txfMontoInscripcion.setDisable(cuotas.getAdeudoInscripcion()== null || cuotas.getAdeudoInscripcion() == 0.0);
-        txfMontoUniforme.setDisable(cuotas.getAdeudoUniformes()== null || cuotas.getAdeudoUniformes() == 0.0);
-        txfMontoLibros.setDisable(cuotas.getAdeudoLibros()== null || cuotas.getAdeudoLibros() == 0.0);
+        txfMontoAcademias.setDisable(cuotas.getAdeudoAcademias() == null || cuotas.getAdeudoAcademias() == 0.0);
+        txfMontoColegiatura.setDisable(cuotas.getAdeudoColegiatura() == null || cuotas.getAdeudoColegiatura() == 0.0);
+        txfMontoEventos.setDisable(cuotas.getAdeudoEventos() == null || cuotas.getAdeudoEventos() == 0.0);
+        txfMontoInscripcion.setDisable(cuotas.getAdeudoInscripcion() == null || cuotas.getAdeudoInscripcion() == 0.0);
+        txfMontoUniforme.setDisable(cuotas.getAdeudoUniformes() == null || cuotas.getAdeudoUniformes() == 0.0);
+        txfMontoLibros.setDisable(cuotas.getAdeudoLibros() == null || cuotas.getAdeudoLibros() == 0.0);
     }
 
-    private void cleanup(){
+    private void cleanup() {
         // txfMontoVencido.setDisable(false);
         txfMontoAcademias.setDisable(true);
         txfMontoColegiatura.setDisable(true);
@@ -587,16 +616,16 @@ public class PantallaPrincipalController implements Initializable {
      * Consulta los cuotas para cuando se selecciona un ciclo escolar distinto;
      */
     @FXML
-    private void ConsultarAdeudosConCicloEscolar(){
+    private void ConsultarAdeudosConCicloEscolar() {
         CicloEscolarCache.limpiarCache();
         CicloEscolarCache.setInstance(cmbxCicloEscolar.getValue());
-        if(cmbxAlumnos.getValue() != null){
+        if (cmbxAlumnos.getValue() != null) {
 
             consultarCuotas();
         }
     }
 
-    private void showError(String mensaje){
+    private void showError(String mensaje) {
         Notifications.create()
                 .title("Error en el registro de pago")
                 .text(mensaje)
@@ -611,7 +640,7 @@ public class PantallaPrincipalController implements Initializable {
      * la pantalla del ticket
      */
     @FXML
-    private void registrarPago() throws Exception{
+    private void registrarPago() throws Exception {
         try {
 
             if (AlumnoCache.getInstance().getMatricula() == null) {
@@ -620,8 +649,8 @@ public class PantallaPrincipalController implements Initializable {
             }
 
             double total = Double.parseDouble(lblTotal.getText());
-            
-            if(total <= 0.0){
+
+            if (total <= 0.0) {
                 showError("Debe ingresar, al menos, un monto a pagar");
                 return;
             }
@@ -638,7 +667,7 @@ public class PantallaPrincipalController implements Initializable {
             LocalTime hora = LocalTime.now();
             MetodosPagoDTO metodoPago = MetodosPagoDTO.valueOf(cmbxMetodoPago.getValue());
             // Double montoVencidos = (txfMontoVencido.getText().isBlank() ? 0.0
-            //         : Double.parseDouble(txfMontoVencido.getText()));
+            // : Double.parseDouble(txfMontoVencido.getText()));
             Double montoColegiatura = (txfMontoColegiatura.getText().isBlank() ? 0.0
                     : Double.parseDouble(txfMontoColegiatura.getText()));
             Double montoInscripcion = (txfMontoInscripcion.getText().isBlank() ? 0.0
@@ -651,7 +680,7 @@ public class PantallaPrincipalController implements Initializable {
                     : Double.parseDouble(txfMontoAcademias.getText()));
             Double montoUniforme = (txfMontoUniforme.getText().isBlank() ? 0.0
                     : Double.parseDouble(txfMontoUniforme.getText()));
-            
+
             AlumnoConsultaDTO alumno = AlumnoCache.getInstance();
             UsuarioDTO usuario = new UsuarioDTO(UsuarioCache.getSession().getIdUsuario());
             CicloEscolarDTO cicloEscolar = CicloEscolarCache.getInstance();
@@ -665,23 +694,23 @@ public class PantallaPrincipalController implements Initializable {
             cuotas.put("UNIFORME", montoUniforme);
 
             List<DetallePagoDTO> detalles = new ArrayList<>();
-            
+
             String tipoDescuento = lblTipoDescuento.getText();
             Double descuento = Double.parseDouble(lblDescuentoDescuento.getText());
-            
-            Double montoConDescuento =0.0;
-            for(Map.Entry<String,Double> cuota:cuotas.entrySet()){
-                if(cuota.getValue()>0.0){
+
+            Double montoConDescuento = 0.0;
+            for (Map.Entry<String, Double> cuota : cuotas.entrySet()) {
+                if (cuota.getValue() > 0.0) {
                     // if(cuota.getKey().equals("COLEGIATURA")){
-                    //     montoConDescuento = total-descuento;
-                    //     // Double montoAnterior = cuota.getValue();
-                    //     // cuota.setValue(montoAnterior-descuento);
+                    // montoConDescuento = total-descuento;
+                    // // Double montoAnterior = cuota.getValue();
+                    // // cuota.setValue(montoAnterior-descuento);
                     // }
                     detalles.add(new DetallePagoDTO(cuota.getKey(), cuota.getValue()));
                 }
             }
 
-            ticket.setMontoTotal(montoConDescuento>0.0? montoConDescuento:total);
+            ticket.setMontoTotal(montoConDescuento > 0.0 ? montoConDescuento : total);
             ticket.setFolio(folio);
             ticket.setFecha(fecha);
             ticket.setHora(hora);
@@ -700,8 +729,12 @@ public class PantallaPrincipalController implements Initializable {
 
             mediador.abrirPantallaTicket();
 
-        }
-        catch (Exception ex){
+            System.out.println("finaliza registrar");
+
+        } catch (ConexionServidorException ex) {
+            notificarError("No se pudo completar el pago: " + ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println("entra ala excepcion");
             notificarError(ex.getMessage());
         }
     }
@@ -712,14 +745,13 @@ public class PantallaPrincipalController implements Initializable {
      * @throws Exception
      */
     private BigDecimal toBigDecimal(String valor) throws Exception {
-        try{
+        try {
             String campo = valor;
 
             campo = campo.equalsIgnoreCase("") ? "0" : valor;
 
             return new BigDecimal(campo).setScale(2, BigDecimal.ROUND_HALF_UP);
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             throw new Exception("Porfavor ingrese datos validos en todos los campos");
         }
     }
@@ -727,7 +759,7 @@ public class PantallaPrincipalController implements Initializable {
     /**
      * Genera un folio aleatorio para el pago y garantizar su unicidad
      */
-    private String generarFolio(){
+    private String generarFolio() {
         LocalDate fecha = LocalDate.now();
 
         // Día de la semana (primera letra en mayúscula)
@@ -749,8 +781,6 @@ public class PantallaPrincipalController implements Initializable {
         return diaSemana + diaMes + mes + anio + parteUUID;
     }
 
-
-
     /**
      * Campo para considerar todos los campos correspondiente a la colegiatura
      */
@@ -761,7 +791,7 @@ public class PantallaPrincipalController implements Initializable {
         // txfMontoVencido.setText(considerar ? lblAdeudoVencido.getText() : "");
         txfMontoColegiatura.setText(considerar ? lblAdeudoVencido.getText() : "");
 
-        //actualizamos el total
+        // actualizamos el total
         actualizarTotal();
 
     }
@@ -778,8 +808,7 @@ public class PantallaPrincipalController implements Initializable {
                 txfMontoLibros, lblCuotaLibros,
                 txfMontoEventos, lblCuotaEventos,
                 txfMontoAcademias, lblCuotaAcademias,
-                txfMontoUniforme, lblUniforme
-        );
+                txfMontoUniforme, lblUniforme);
 
         campos.forEach((campo, etiqueta) -> campo.setText(considerar ? etiqueta.getText() : ""));
 
@@ -794,9 +823,8 @@ public class PantallaPrincipalController implements Initializable {
     private void actualizarSubTotal() {
         BigDecimal total = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
 
-
         // Sumar los montos de cada campo
-        //total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        // total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
         total = total.add(ParseBigDecimal(txfMontoColegiatura.getText()));
         total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
         total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
@@ -813,9 +841,9 @@ public class PantallaPrincipalController implements Initializable {
      */
     private void actualizarTotal() {
         BigDecimal total = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
-        
+
         // Sumar los montos de cada campo
-        //total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
+        // total = total.add(ParseBigDecimal(txfMontoVencido.getText()));
         total = total.add(validarDescuento());
         total = total.add(ParseBigDecimal(txfMontoInscripcion.getText()));
         total = total.add(ParseBigDecimal(txfMontoLibros.getText()));
@@ -827,48 +855,47 @@ public class PantallaPrincipalController implements Initializable {
         lblTotal.setText(total.toString());
     }
 
-    private BigDecimal validarDescuento(){
-        if(!txfMontoColegiatura.getText().isBlank()){
-            if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")){
+    private BigDecimal validarDescuento() {
+        if (!txfMontoColegiatura.getText().isBlank()) {
+            if (!lblDescuentoDescuento.getText().equalsIgnoreCase("0.00")) {
 
                 TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
 
                 BigDecimal descuento = new BigDecimal(lblDescuentoDescuento.getText());
                 BigDecimal adeudo = new BigDecimal(lblAdeudoActual.getText());
-                BigDecimal ingresado = new  BigDecimal(txfMontoColegiatura.getText());
+                BigDecimal ingresado = new BigDecimal(txfMontoColegiatura.getText());
 
-                if(ingresado.compareTo(adeudo) == 0){
+                if (ingresado.compareTo(adeudo) == 0) {
 
-                    //hacemos visible el descuento
-                    //lblDescuentoDescuento.setText(DescuentoCache.getInstance().getDescuento().toString());
+                    // hacemos visible el descuento
+                    // lblDescuentoDescuento.setText(DescuentoCache.getInstance().getDescuento().toString());
 
-                    //marcamos como verde la orilla del campo
+                    // marcamos como verde la orilla del campo
                     txfMontoColegiatura.setStyle("-fx-border-color: #66b328; -fx-border-width: 2px;");
 
-                    //guardamos en el ticket el tipo de descuento
+                    // guardamos en el ticket el tipo de descuento
                     ticket.setTipoDescuento(DescuentoCache.getInstance().getTipo());
 
-                    //guaramos en el ticket el descuento
+                    // guaramos en el ticket el descuento
                     ticket.setMontoDescuento(DescuentoCache.getInstance().getDescuento());
                     System.out.println(ticket);
 
                     TicketRegistrarCache.setInstance(ticket);
-                    //retornamos el adeudo menos el descuento
+                    // retornamos el adeudo menos el descuento
                     return adeudo.subtract(descuento);
-                }
-                else {
+                } else {
 
-                    //guardamos en el ticket el tipo de descuento
+                    // guardamos en el ticket el tipo de descuento
                     ticket.setTipoDescuento("No aplica");
 
-                    //guaramos en el ticket el descuento
+                    // guaramos en el ticket el descuento
                     ticket.setMontoDescuento(0.00);
 
-                    //hacemos invisible el descuento
+                    // hacemos invisible el descuento
                     // lblDescuentoDescuento.setText("0.00");
                     System.out.println(ticket);
                     TicketRegistrarCache.setInstance(ticket);
-                    //retornamos el adeudo
+                    // retornamos el adeudo
                     return ParseBigDecimal(ingresado.toString());
                 }
             }
@@ -877,7 +904,8 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     /**
-     * Método para parsear el texto a BigDecimal, devolviendo BigDecimal.ZERO si es vacío o no válido
+     * Método para parsear el texto a BigDecimal, devolviendo BigDecimal.ZERO si es
+     * vacío o no válido
      */
     private BigDecimal ParseBigDecimal(String text) {
         try {
@@ -892,19 +920,20 @@ public class PantallaPrincipalController implements Initializable {
      * el borde de su componente en caso de no ser valido
      *
      * @param textField campo de texto a validar su contenido
-     * @param label campo que indica la cantidad total
+     * @param label     campo que indica la cantidad total
      */
     private void verificarFormato(TextField textField, Label label) {
         try {
 
             // Verificamos si el texto no está vacío y es un número válido
             if (textField.getText().isEmpty()) {
-                // Si el campo está vacío, puedes manejarlo de la forma que prefieras, por ejemplo:
+                // Si el campo está vacío, puedes manejarlo de la forma que prefieras, por
+                // ejemplo:
                 textField.setStyle("-fx-border-color: #000000;");
                 textField.setDisable(false);
                 actualizarTotal();
                 actualizarSubTotal();
-                return;  // Salir del método, ya que no queremos procesar el campo vacío
+                return; // Salir del método, ya que no queremos procesar el campo vacío
             }
 
             BigDecimal valorIngresado = new BigDecimal(textField.getText()); // valor del campo a evaluar
@@ -919,11 +948,13 @@ public class PantallaPrincipalController implements Initializable {
             if (comparacionMenor < 0) {
                 aplicarEstiloDeError(textField);
             }
-            // Si el valor ingresado es mayor que el valor real, también aplica estilo de error
+            // Si el valor ingresado es mayor que el valor real, también aplica estilo de
+            // error
             else if (comparacionMayor > 0) {
                 aplicarEstiloDeError(textField);
             }
-            // Si el valor ingresado está dentro del rango esperado, aplicar estilo por defecto
+            // Si el valor ingresado está dentro del rango esperado, aplicar estilo por
+            // defecto
             else {
                 aplicarEstiloPorDefecto(textField);
                 actualizarTotal();
@@ -936,7 +967,7 @@ public class PantallaPrincipalController implements Initializable {
     }
 
     /**
-     *  Método auxiliar para aplicar estilo de error al botón
+     * Método auxiliar para aplicar estilo de error al botón
      */
     private void aplicarEstiloDeError(TextField textField) {
         textField.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -946,16 +977,16 @@ public class PantallaPrincipalController implements Initializable {
      * Método auxiliar para aplicar estilo por defecto al botón
      *
      */
-   private void aplicarEstiloPorDefecto(TextField textField) {
+    private void aplicarEstiloPorDefecto(TextField textField) {
         textField.setStyle("-fx-border-color: #000000;");
     }
 
-
     /**
      * Lanza notificacion flotante indicando algun error
+     * 
      * @param mensaje mensaje a mostrar en la notificacion
      */
-    private void notificarError(String mensaje){
+    private void notificarError(String mensaje) {
         Notifications.create()
                 .title("Ups!!")
                 .text(mensaje)
@@ -969,24 +1000,32 @@ public class PantallaPrincipalController implements Initializable {
      * Muestra la ventana de detalles
      */
     @FXML
-    public void mostrarDetalles(){
+    public void mostrarDetalles() {
 
         String idCiclo = CicloEscolarCache.getInstance().getId();
         String matricula = AlumnoCache.getInstance().getMatricula();
         System.out.println(idCiclo);
-        if (matricula != null){
+        if (matricula != null) {
 
-            List<DetalleAdeudoDTO> detalles = servicioCuotas.obtenerDetallesAdeudosColegiatura(matricula,idCiclo);
-            if(detalles != null){
+            List<DetalleAdeudoDTO> detalles = servicioCuotas.obtenerDetallesAdeudosColegiatura(matricula, idCiclo);
+            if (detalles != null) {
                 DetallesAdeudoCache.getInstance().setDetalles(detalles);
                 mediador.mostrarPantallaColegiaturasAtrasadas();
-            }else{
+            } else {
                 notificarError("Hubo un error en la busqueda de detalles");
             }
-        }else {
+        } else {
             notificarError("Selecione un alumno primero");
         }
-        
+
+    }
+
+    private void limitarCaracteres(TextField textField, int maxLength) {
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > maxLength) {
+                textField.setText(newValue.substring(0, maxLength));
+            }
+        });
     }
 
 }

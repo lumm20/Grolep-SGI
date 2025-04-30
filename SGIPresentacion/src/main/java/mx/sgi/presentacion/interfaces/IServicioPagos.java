@@ -5,7 +5,7 @@ import mx.itson.sgi.dto.PagoDTO;
 public interface IServicioPagos {
 
     public void registrarPago(PagoDTO pago)  throws Exception;
-    public double obtenerTotalPagadoColegiatura(String matricula,String ciclo);
+    public double obtenerTotalPagadoColegiatura(String matricula,String ciclo) throws Exception;
     public long obtenerPagosDeColegiaturaDelMes(String matricula,String ciclo);
 
 }

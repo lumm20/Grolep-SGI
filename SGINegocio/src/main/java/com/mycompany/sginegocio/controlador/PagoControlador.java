@@ -69,24 +69,25 @@ public class PagoControlador {
         ticket.setDetalles(pago.getCuotasPagadas());
         ticket.setMontoTotal(pago.getMontoTotal());
         ticket.setIdUsuario(cajero.getId());
-        enviarNotificacion(pago);
+        ticket.setMetodoPago(pago.getMetodoPago());
+        enviarNotificacion(ticket);
 
         return ticket;
     }
 
-    private void enviarNotificacion(PagoDTO pago) {
+    private void enviarNotificacion(TicketRegistrarDTO ticket) {
         NotificacionesWhatsapp notificaciones = new NotificacionesWhatsapp();
-        String nombreAlumno = pago.getAlumno().getNombre();
-        String numeroCel = pago.getAlumno().getNumeroCelular();
-        String descuento = pago.getMontoDescuento().toString();
-        String monto = pago.getMontoTotal().toString();
-        String folio = pago.getFolio();
-        double subtotal = pago.getMontoTotal() + pago.getMontoDescuento();
-        List<DetallePagoDTO> detalles = pago.getCuotasPagadas();
-        String metodoPago = pago.getMetodoPago().toString();
+        String nombreAlumno = ticket.getAlumno().getNombre();
+        String numeroCel = ticket.getAlumno().getNumeroCelular();
+        String descuento = (ticket.getMontoDescuento() != null)? ticket.getMontoDescuento().toString() : "$0";
+        String monto = ticket.getMontoTotal().toString();
+        String folio = ticket.getFolio();
+        double subtotal = ticket.getMontoTotal() + ((ticket.getMontoDescuento() != null)? ticket.getMontoDescuento() : 0);
+        List<DetallePagoDTO> detalles = ticket.getDetalles();
+        String metodoPago = ticket.getMetodoPago().toString();
         StringBuilder cuotas = new StringBuilder();
 
-        for (DetallePagoDTO detalle : detalles) cuotas.append(detalle.getConceptoCuota() + " - " + detalle.getMontoPagado() + "\n");
+        for (DetallePagoDTO detalle : detalles) cuotas.append(detalle.getConceptoCuota() + " - $" + detalle.getMontoPagado() + " ");
 
         notificaciones.enviarNotificacion(folio, monto, cuotas.toString(), nombreAlumno, Double.toString(subtotal), descuento, metodoPago, numeroCel);
     }
