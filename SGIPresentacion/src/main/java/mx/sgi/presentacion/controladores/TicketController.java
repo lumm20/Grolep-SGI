@@ -16,6 +16,7 @@ import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
+import mx.sgi.presentacion.excepciones.ConexionServidorException;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioPagos;
 
@@ -176,7 +177,7 @@ public class TicketController implements Initializable {
      *
      */
     @FXML
-    public void confirmarPago(){
+    public void confirmarPago() throws ConexionServidorException {
         try {
             //intancia del ticket
             TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
@@ -190,12 +191,13 @@ public class TicketController implements Initializable {
             pago.setAlumno(ticket.getAlumno());
             pago.setMetodoPago(ticket.getMetodoPago());
             pago.setCuotasPagadas(ticket.getDetalles());
-            //pago.setCuotasPagadas(crearCuotas());
             pago.setIdCicloEscolar(ticket.getCiclo().getId());
             pago.setIdUsuario(ticket.getIdUsuario());
             pago.setTipoDescuento(ticket.getTipoDescuento());
             pago.setMontoDescuento(ticket.getMontoDescuento());
+
             //registramos el pago
+            System.out.println("si entra y registra el pago");
             servicioPagos.registrarPago(pago);
 
             //refrescamos los pagos del alumno que pago
@@ -204,7 +206,12 @@ public class TicketController implements Initializable {
             //cerramos la pantalla
             cancelar();
 
-        } catch (Exception e) {
+        } catch (ConexionServidorException ex) {
+            cancelar();
+             throw ex;
+        }catch (Exception e) {
+            System.out.println("problemas: "+e.toString());
+            cancelar();
             e.printStackTrace();
         }
     }

@@ -13,6 +13,8 @@ import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.controladores.PantallaPrincipalController;
+import mx.sgi.presentacion.controladores.TicketController;
+import mx.sgi.presentacion.excepciones.ConexionServidorException;
 
 /**
  *
@@ -117,7 +119,7 @@ public class Mediador {
         }
     }
 
-    public void abrirPantallaTicket() {
+    public void abrirPantallaTicket() throws ConexionServidorException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/Ticket.fxml"));
             Parent root = loader.load();
@@ -134,13 +136,22 @@ public class Mediador {
             // (Opcional) Si deseas evitar que el usuario redimensione la ventana
             nuevaVentana.setResizable(false);
             
+
             // Mostrar la nueva ventana
+            //cuando hay desconexion aqui manda una excepcion
             nuevaVentana.showAndWait();
             // nuevaVentana.show();
 
+            TicketController controller = loader.getController();
+            System.out.println("Aqui deberia tomar la excepcion y lanzarla");
+            //controller.confirmarPago(); //esta linea daba error nulo
+
         } catch (IOException e) {
-            System.err.println("Error al cargar la pantalla principal de confirmacion: " + e.getMessage());
+            throw new ConexionServidorException("Error al abrir la ventana de confirmación del pago.", e);
+        }catch (RuntimeException e) {
+            System.err.println("Error durante la ejecución de la ventana: " + e.getMessage());
             e.printStackTrace();
+            throw new ConexionServidorException("Ocurrió un error inesperado al mostrar la ventana del ticket.", e);
         }
     }
 

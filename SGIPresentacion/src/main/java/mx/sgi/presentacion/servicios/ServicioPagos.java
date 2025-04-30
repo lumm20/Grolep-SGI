@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
 import mx.sgi.presentacion.caches.UsuarioCache;
+import mx.sgi.presentacion.excepciones.ConexionServidorException;
 import mx.sgi.presentacion.interfaces.IServicioPagos;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -30,7 +32,7 @@ public class ServicioPagos implements IServicioPagos {
     }
 
     @Override
-    public void registrarPago(PagoDTO pago)  throws Exception{
+    public void registrarPago(PagoDTO pago)  throws ConexionServidorException{
         // System.out.println(pago);
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
@@ -44,20 +46,18 @@ public class ServicioPagos implements IServicioPagos {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("codigo: "+response.statusCode());
-            if(response.statusCode() == 200) {
+            if(response.statusCode() == 200 || response.statusCode() == 201) {
                 System.out.println("Pago registrado");
-            }else{
-                System.out.println(response.statusCode());
-                System.out.println(response.body());
-
+            }else {
+                throw new ConexionServidorException("Error al registrar el pago: " + response.statusCode() + " - " + response.body());
             }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }catch (IOException | InterruptedException e) {
+          throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.", e);
         }
     }
 
     @Override
-    public double obtenerTotalPagadoColegiatura(String matricula, String ciclo) {
+    public double obtenerTotalPagadoColegiatura(String matricula, String ciclo) throws ConexionServidorException{
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/SGI/api/payment/tuition/all?matricula="+matricula+"&ciclo="+ciclo))
@@ -69,14 +69,12 @@ public class ServicioPagos implements IServicioPagos {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if(response.statusCode() == 200) {
                 return Double.parseDouble(response.body());
-            }else{
-                System.out.println(response.statusCode());
-                System.out.println(response.body());
+            }else {
+                throw new ConexionServidorException("Error al obtener el total pagado de colegiatura: " + response.statusCode() + " - " + response.body());
             }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
+        }catch (IOException | InterruptedException e) {
+            throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.", e);
         }
-        return 0.0;
     }
 
     @Override

@@ -6,6 +6,7 @@ import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.BecaDTO;
 import mx.itson.sgi.dto.DescuentoDTO;
 import mx.sgi.presentacion.caches.UsuarioCache;
+import mx.sgi.presentacion.excepciones.ConexionServidorException;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -61,7 +63,8 @@ public class ServicioAlumnos implements IServicioAlumnos {
      * @param nombre nombre del alumno a consultar
      */
     @Override
-    public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws Exception {
+    public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws ConexionServidorException {
+    try {
         String url = "api/student?" + nombre;
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
@@ -75,10 +78,13 @@ public class ServicioAlumnos implements IServicioAlumnos {
         if (response.statusCode() == 200) {
             return gson.fromJson(response.body(), new TypeToken<List<AlumnoConsultaDTO>>() {}.getType());
         } else {
-            throw new Exception("Error en la consulta: " + response.statusCode() + " - " + response.body());
+                throw new ConexionServidorException("Error en la consulta: " + response.statusCode() + " - " + response.body());
         }
+    } catch (IOException | InterruptedException e) {
+        throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.", e);
     }
-
+  }
 }
+
 
 
