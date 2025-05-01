@@ -79,8 +79,8 @@ public class PagoControlador {
         NotificacionesWhatsapp notificaciones = new NotificacionesWhatsapp();
         String nombreAlumno = ticket.getAlumno().getNombre();
         String numeroCel = ticket.getAlumno().getNumeroCelular();
-        String descuento = (ticket.getMontoDescuento() != null)? ticket.getMontoDescuento().toString() : "$0";
-        String monto = ticket.getMontoTotal().toString();
+        String descuento = (ticket.getMontoDescuento() != null)? "$"+ticket.getMontoDescuento() : "$0";
+        String monto = "$"+ticket.getMontoTotal();
         String folio = ticket.getFolio();
         double subtotal = ticket.getMontoTotal() + ((ticket.getMontoDescuento() != null)? ticket.getMontoDescuento() : 0);
         List<DetallePagoDTO> detalles = ticket.getDetalles();
