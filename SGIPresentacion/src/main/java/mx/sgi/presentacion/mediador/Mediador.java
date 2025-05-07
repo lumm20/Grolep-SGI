@@ -162,6 +162,7 @@ public class Mediador {
         String matricula = ticket.getAlumno().getMatricula();
         CicloEscolarDTO cicloEscolar = ticket.getCiclo();
 
+        pantallaPrincipal.cleanupTxtFields();
         pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
 
     }

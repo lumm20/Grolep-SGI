@@ -109,10 +109,12 @@ public class PagoService {
                 adeudo = colegiatura.getAdeudo();
                 if (montoPagado >= adeudo) {
                     colegiatura.setAdeudo(0.0);
-                    detalles.add(new DetallePago(colegiatura, colegiatura.getMontoPagado()+adeudo, pago));
+                    colegiatura.setMontoPagado(colegiatura.getMontoPagado()+adeudo);
+                    detalles.add(new DetallePago(colegiatura, montoPagado, pago));
                     montoPagado -= adeudo;
                 } else if (montoPagado > 0.0) {
                     colegiatura.setAdeudo(adeudo-montoPagado);
+                    colegiatura.setMontoPagado(colegiatura.getMontoPagado()+montoPagado);
                     detalles.add(new DetallePago(colegiatura, montoPagado, pago));
                     montoPagado = 0.0;
                 } else {
