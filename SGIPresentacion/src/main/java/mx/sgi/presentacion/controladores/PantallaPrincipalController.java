@@ -231,6 +231,7 @@ public class PantallaPrincipalController implements Initializable {
         limitarCaracteres(txfMontoEventos, 10);
         limitarCaracteres(txfMontoAcademias, 10);
         limitarCaracteres(txfMontoUniforme, 10);
+        cleanup();
     }
 
     /**
@@ -542,7 +543,6 @@ public class PantallaPrincipalController implements Initializable {
 
         String tipoDesc = "No aplica";
         Double montoDesc = 0.00;
-        // TODO: arreglar lo de obtener los pagos del mes. Debe adaptar la fecha al
         // ciclo escolar elegido
         long cantidadPagosDelMes = servicioPagos.obtenerPagosDeColegiaturaDelMes(matricula,
                 CicloEscolarCache.getInstance().getId());
@@ -581,7 +581,15 @@ public class PantallaPrincipalController implements Initializable {
         txfMontoLibros.setDisable(cuotas.getAdeudoLibros() == null || cuotas.getAdeudoLibros() == 0.0);
     }
 
-    private void cleanup() {
+    public void cleanupTxtFields(){
+        txfMontoAcademias.setText("");
+        txfMontoColegiatura.setText("");
+        txfMontoEventos.setText("");
+        txfMontoInscripcion.setText("");
+        txfMontoUniforme.setText("");
+        txfMontoLibros.setText("");
+    }
+    private void cleanup(){
         // txfMontoVencido.setDisable(false);
         txfMontoAcademias.setDisable(true);
         txfMontoColegiatura.setDisable(true);
