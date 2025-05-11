@@ -34,7 +34,7 @@ public class CicloEscolar {
     public CicloEscolar(LocalDate fechaInicio, LocalDate fechaFin) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.id = fechaInicio.getYear() + "-" + fechaFin.getYear();
+        this.id = (fechaInicio.getYear() % 100) + "-" + (fechaFin.getYear() % 100);
     }
     
     @Override
