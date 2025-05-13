@@ -34,16 +34,17 @@ public class CuotaControlador {
     private CuotaService cuotaService;
     @Autowired
     private CicloEscolarService cicloService;
-    
-    public CuotasDTO obtenerCuotasPorAlumno(String matricula, String cicloEscolar)throws IllegalArgumentException{
+
+    public CuotasDTO obtenerCuotasPorAlumno(String matricula, String cicloEscolar) throws IllegalArgumentException {
         CicloEscolar cicloE = cicloService.obtenerCicloEscolarPorId(cicloEscolar);
         System.out.println(cicloE);
-        if(cicloE== null){
+        if (cicloE == null) {
             throw new IllegalArgumentException("El ciclo escolar ingresado, no existe");
         }
         List<CuotaConsultadaDTO> cuotas = cuotaService.obtenerCuotasPorAlumno(matricula, cicloEscolar);
         if (cuotas != null && !cuotas.isEmpty()) {
             CuotasDTO cuotasDTO = new CuotasDTO();
+            System.out.println("el error ocurre en este for para " + cicloEscolar);
             for (CuotaConsultadaDTO cu : cuotas) {
                 System.out.println(cu);
                 String concepto = cu.getConcepto();
@@ -51,32 +52,43 @@ public class CuotaControlador {
                 switch (concepto) {
                     case "COLEGIATURA":
                         CuotaMensual colegiaturaMesActual = null;
-                        if(cicloEscolar.equals(cicloService.obtenerCicloActual().getId())){
+                        System.out.println(cicloEscolar + " es igual " + cicloService.obtenerCicloActual().getId());
+                        if (cicloEscolar.equals(cicloService.obtenerCicloActual().getId())) {
                             System.out.println("primero");
-                            colegiaturaMesActual = cuotaService.obtenerColegiaturaMesActual(new Alumno(matricula), new CicloEscolar(cicloEscolar));
-                        }else{                        
+                            colegiaturaMesActual = cuotaService.obtenerColegiaturaMesActual(new Alumno(matricula),
+                                    new CicloEscolar(cicloEscolar));
+                        } else {
                             System.out.println("segundo");
-                            LocalDate fechaFin = cicloE.getFechaFin();//buscar otra fecha a obtener
-                            fechaFin = fechaFin.minusDays(fechaFin.getDayOfMonth()-1);
-                            System.out.println("fecha fin: "+fechaFin);
-                            colegiaturaMesActual = cuotaService.obtenerCuotaPorAlumnoCicloMes(new Alumno(matricula), new CicloEscolar(cicloEscolar), fechaFin);
+                            LocalDate fechaFin = cicloE.getFechaFin();// buscar otra fecha a obtener
+                            fechaFin = fechaFin.minusDays(fechaFin.getDayOfMonth() - 1);
+                            System.out.println("fecha fin: " + fechaFin);
+                            colegiaturaMesActual = cuotaService.obtenerCuotaPorAlumnoCicloMes(new Alumno(matricula),
+                                    new CicloEscolar(cicloEscolar), fechaFin);
                         }
-                        System.out.println(colegiaturaMesActual);
-                        cuotasDTO.setAdeudoColegiatura(colegiaturaMesActual.getAdeudo());
+                        System.out.println("Esta es la colegiatura actual: " + colegiaturaMesActual);
+                        if (colegiaturaMesActual == null) {
+                            System.out.println("No se encontró cuota mensual para el alumno y ciclo escolar.");
+                            cuotasDTO.setAdeudoColegiatura(0.0); // O un valor predeterminado
+                        } else {
+                            cuotasDTO.setAdeudoColegiatura(colegiaturaMesActual.getAdeudo());
+                        }
+                        System.out.println("adeudo: " + adeudo);
                         cuotasDTO.setAdeudoVencido(adeudo);
-                        //  System.out.println("adeudo en colegiatura:"+adeudo);
+                        System.out.println("Continua aqui si se ve el problema esta abajo");
+                        // System.out.println("adeudo en colegiatura:"+adeudo);
                         // if (adeudo == null) {
-                        //     // Cuando no hay pagos registrados, el adeudo es el monto completo
-                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
-                        //     cuotasDTO.setAdeudoVencido(0.0); // No hay adeudos vencidos
+                        // // Cuando no hay pagos registrados, el adeudo es el monto completo
+                        // cuotasDTO.setAdeudoColegiatura(cu.getMontoBase());
+                        // cuotasDTO.setAdeudoVencido(0.0); // No hay adeudos vencidos
                         // } else if (adeudo >= cu.getMontoBase()) {
-                        //     // Cuando el adeudo supera el monto base (caso especial)
-                        //     cuotasDTO.setAdeudoColegiatura(0.0); // Ya está pagado completamente
-                        //     cuotasDTO.setAdeudoVencido(adeudo - cu.getMontoBase()); // Excedente como vencido
+                        // // Cuando el adeudo supera el monto base (caso especial)
+                        // cuotasDTO.setAdeudoColegiatura(0.0); // Ya está pagado completamente
+                        // cuotasDTO.setAdeudoVencido(adeudo - cu.getMontoBase()); // Excedente como
+                        // vencido
                         // } else {
-                        //     // Caso normal: adeudo parcial
-                        //     cuotasDTO.setAdeudoColegiatura(cu.getMontoBase() - adeudo);
-                        //     cuotasDTO.setAdeudoVencido(adeudo);
+                        // // Caso normal: adeudo parcial
+                        // cuotasDTO.setAdeudoColegiatura(cu.getMontoBase() - adeudo);
+                        // cuotasDTO.setAdeudoVencido(adeudo);
                         // }
                         break;
                     case "UNIFORMES":
@@ -96,29 +108,32 @@ public class CuotaControlador {
                         break;
                 }
             }
-            System.out.println(cuotasDTO.getAdeudoVencido());
+            System.out.println("llega aca final" + cuotasDTO.getAdeudoVencido());
             return cuotasDTO;
         }
         return null;
     }
 
-    public List<DetalleAdeudoDTO> obtenerDetallesAdeudo(String matricula, String idCiclo){
+    public List<DetalleAdeudoDTO> obtenerDetallesAdeudo(String matricula, String idCiclo) {
         List<DetalleAdeudoDTO> detalles = cuotaService.obtenerDetallesAdeudos(matricula, idCiclo);
-        if(detalles != null && !detalles.isEmpty()){
+        if (detalles != null && !detalles.isEmpty()) {
             return detalles;
         }
         return null;
     }
-    // public List<DetalleAdeudoDTO> obtenerPagosMensuales(String matricula, String idCiclo){
-    //     List<DetalleAdeudoDTO> detalles = cuotaService.obtenerPagosMensualesAlumno(matricula, idCiclo);
-    //     Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new AlumnoConsultaDTO(matricula), new CicloEscolarDTO(idCiclo));
-    //     if(detalles != null && !detalles.isEmpty()){
-    //         detalles.forEach(detalle->{
-    //             detalle.setMontoBase(montoBase);
-    //         });
-    //         return calcularAdeudos(detalles);
-    //     }
-    //     return null;
+    // public List<DetalleAdeudoDTO> obtenerPagosMensuales(String matricula, String
+    // idCiclo){
+    // List<DetalleAdeudoDTO> detalles =
+    // cuotaService.obtenerPagosMensualesAlumno(matricula, idCiclo);
+    // Double montoBase = cuotaService.obtenerMontoBaseColegiatura(new
+    // AlumnoConsultaDTO(matricula), new CicloEscolarDTO(idCiclo));
+    // if(detalles != null && !detalles.isEmpty()){
+    // detalles.forEach(detalle->{
+    // detalle.setMontoBase(montoBase);
+    // });
+    // return calcularAdeudos(detalles);
+    // }
+    // return null;
     // }
 
     private List<DetalleAdeudoDTO> calcularAdeudos(List<DetalleAdeudoDTO> detalles) {
@@ -140,10 +155,11 @@ public class CuotaControlador {
         return detalles;
     }
 
-    public CicloEscolarDTO obtenerCicloEscolarActual(){
+    public CicloEscolarDTO obtenerCicloEscolarActual() {
         return cicloService.obtenerCicloActual();
     }
-    public List<CicloEscolarDTO> obtenerCiclosEscolares(){
+
+    public List<CicloEscolarDTO> obtenerCiclosEscolares() {
         return cicloService.obtenerCiclos();
     }
 

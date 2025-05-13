@@ -54,4 +54,16 @@ public class APICiclos {
         }
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> obtenerCiclosEscolaresPorId(@PathVariable String id) {
+        try {
+            CicloConDetallesDTO cicloConDetalles = cicloControlador.obtenerCiclosConDetallesPorId(id);
+            return ResponseEntity.ok().body(cicloConDetalles);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener el ciclo escolar");
+        }
+    }
 }

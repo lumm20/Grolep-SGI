@@ -12,8 +12,8 @@ public class DetalleCiclo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_ciclo", referencedColumnName = "id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "id_ciclo", referencedColumnName = "id", unique = true, nullable = false)
     private CicloEscolar cicloEscolar;
 
     @Column(name = "cuota_inscripcion", nullable = false)
