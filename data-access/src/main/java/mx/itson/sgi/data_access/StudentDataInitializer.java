@@ -1,9 +1,13 @@
 package mx.itson.sgi.data_access;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import mx.itson.sgi.dto.enums.Estatus;
+import mx.itson.sgi.dto.enums.Genero;
+import mx.itson.sgi.dto.enums.Nivel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,25 +26,65 @@ public class StudentDataInitializer {
     @Transactional
     protected List<Alumno> cargarAlumnos() {
         List<Alumno> alumnos = new ArrayList<>();
-        Alumno alumno1 = new Alumno();
-        alumno1.setMatricula("A20220001");
-        alumno1.setNombre("Carlos Rodríguez Vega");
-        alumno1.setBeca(new Beca(TipoBeca.NINGUNA,0.0));
-        alumno1.setTelefonoPadre("5551234567");
+
+        Alumno alumno1 = Alumno.builder()
+                .matricula("A20220001")
+                .nombre("Carlos Rodríguez Vega")
+                .promedio(8.7)
+                .grado(3)
+                .grupo("B")
+                .estatus(Estatus.Baja)
+                .nivel(Nivel.Primaria)
+                .fechaNacimiento(LocalDate.of(2008, 5, 20))
+                .telefono("5551112233")
+                .genero(Genero.Masculino)
+                .correo("carlos.rodriguez@example.com")
+                .tutor("Luis Rodríguez")
+                .telefonoPadre("5551234567")
+                .beca(new Beca(TipoBeca.NINGUNA, 0.0))
+                .cuotas(new ArrayList<>())      // evita null
+                .compras(new ArrayList<>())     // evita null
+                .build();
         alumnos.add(alumnoRepository.save(alumno1));
-        
-        Alumno alumno2 = new Alumno();
-        alumno2.setMatricula("A20220002");
-        alumno2.setNombre("Ana Martínez Soto");
-        alumno2.setBeca(new Beca(TipoBeca.SEC,30.0));
-        alumno2.setTelefonoPadre("5559876543");
+
+        Alumno alumno2 = Alumno.builder()
+                .matricula("A20220002")
+                .nombre("Jesus Vega Dominguez")
+                .promedio(8.7)
+                .grado(3)
+                .grupo("B")
+                .estatus(Estatus.Activo)
+                .nivel(Nivel.Primaria)
+                .fechaNacimiento(LocalDate.of(2008, 5, 20))
+                .telefono("5551112233")
+                .genero(Genero.Masculino)
+                .correo("carlos.rodriguez@example.com")
+                .tutor("Luis Rodríguez")
+                .telefonoPadre("5551234567")
+                .beca(new Beca(TipoBeca.DEPORTIVA, 0.0))
+                .cuotas(new ArrayList<>())      // evita null
+                .compras(new ArrayList<>())     // evita null
+                .build();
         alumnos.add(alumnoRepository.save(alumno2));
-        
-        Alumno alumno3 = new Alumno();
-        alumno3.setMatricula("A20220003");
-        alumno3.setNombre("Miguel López Jiménez");
-        alumno3.setBeca(new Beca(TipoBeca.DEPORTIVA,40.0));
-        alumno3.setTelefonoPadre("5552468013");
+
+        Alumno alumno3 = Alumno.builder()
+                .matricula("A20220001")
+                .nombre("Maria Martinez Chavez")
+                .promedio(8.7)
+                .grado(3)
+                .grupo("B")
+                .estatus(Estatus.Egresado)
+                .nivel(Nivel.Preescolar)
+                .fechaNacimiento(LocalDate.of(2008, 5, 20))
+                .telefono("5551112233")
+                .genero(Genero.Masculino)
+                .correo("carlos.rodriguez@example.com")
+                .tutor("Luis Rodríguez")
+                .telefonoPadre("5551234567")
+                .beca(new Beca(TipoBeca.NINGUNA, 0.0))
+                .cuotas(new ArrayList<>())      // evita null
+                .compras(new ArrayList<>())     // evita null
+                .build();
         alumnos.add(alumnoRepository.save(alumno3));
 
         return alumnos;

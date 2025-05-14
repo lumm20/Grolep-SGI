@@ -41,6 +41,7 @@ public class ServicioCuotas implements IServicioCuotas {
     @Override
     public CuotasDTO obtenerCuotasAlumno(String matricula, String cicloEscolar) throws ConexionServidorException {
         String token = UsuarioCache.getSession().getToken();
+        System.out.println("ciclo escolar: "+ cicloEscolar);
         HttpRequest request = HttpRequest.newBuilder().
                             uri(URI.create("http://localhost:8080/SGI/api/fees?matricula="+matricula+"&ciclo="
                             + cicloEscolar)).

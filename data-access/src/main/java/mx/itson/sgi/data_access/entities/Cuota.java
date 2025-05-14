@@ -59,6 +59,13 @@ public class Cuota {
     public Cuota(Long id){
         this.id = id;
     }
+
+    public Cuota(Double montoBase, CicloEscolar cicloEscolar, Alumno alumno, Concepto concepto) {
+        this.montoBase = montoBase;
+        this.ciclo = cicloEscolar;
+        this.alumno = alumno;
+        this.concepto = concepto;
+    }
     
     public Cuota(Double montoBase, CicloEscolar ciclo, Concepto concepto) {
         this.montoBase = montoBase;

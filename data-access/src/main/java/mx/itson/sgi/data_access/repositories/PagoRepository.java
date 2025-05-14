@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
@@ -13,7 +14,7 @@ import mx.itson.sgi.data_access.entities.Pago;
 import java.time.LocalDateTime;
 
 @Repository
-public interface PagoRepository extends CrudRepository<Pago,String>{
+public interface PagoRepository extends CrudRepository<Pago, String>, JpaSpecificationExecutor<Pago> {
 
     List<Pago> findByFechaBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin);
     @Query("select p from Pago p where p.alumno = ?1")
