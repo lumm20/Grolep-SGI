@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface AlumnoRepository extends CrudRepository<Alumno,String> {
 
+
     List<Alumno> findByNombre(String nombre);
     @Query("select new Alumno(a.matricula, a.nombre, a.telefonoPadre) from Alumno a where a.nombre like %?1%")
     List<Alumno> encontrarAlumnosConNombre(String n);

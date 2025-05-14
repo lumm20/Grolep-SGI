@@ -67,6 +67,14 @@ public class CicloEscolarService {
         return null;
     }
 
+    /**
+     * devuelve el ciclo actual como una entidad
+     * @return
+     */
+    public CicloEscolar obtenerCicloActualEntidad() {
+        return repository.findCicloActual().orElse(null);
+    }
+
     public List<CicloEscolarDTO> obtenerCiclos() {
         List<CicloEscolar> ciclos = (List<CicloEscolar>) repository.findAll();
         List<CicloEscolarDTO> dtos = new ArrayList<>();
