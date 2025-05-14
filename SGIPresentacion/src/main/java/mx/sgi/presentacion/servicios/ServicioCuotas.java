@@ -5,8 +5,10 @@ import mx.itson.sgi.dto.ColegiaturaAtrasadaDTO;
 import mx.itson.sgi.dto.CuotasDTO;
 import mx.itson.sgi.dto.DetalleAdeudoDTO;
 import mx.sgi.presentacion.caches.UsuarioCache;
+import mx.sgi.presentacion.excepciones.ConexionServidorException;
 import mx.sgi.presentacion.interfaces.IServicioCuotas;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -37,8 +39,9 @@ public class ServicioCuotas implements IServicioCuotas {
     }
 
     @Override
-    public CuotasDTO obtenerCuotasAlumno(String matricula, String cicloEscolar) throws Exception {
+    public CuotasDTO obtenerCuotasAlumno(String matricula, String cicloEscolar) throws ConexionServidorException {
         String token = UsuarioCache.getSession().getToken();
+        System.out.println("ciclo escolar: "+ cicloEscolar);
         HttpRequest request = HttpRequest.newBuilder().
                             uri(URI.create("http://localhost:8080/SGI/api/fees?matricula="+matricula+"&ciclo="
                             + cicloEscolar)).
@@ -51,11 +54,13 @@ public class ServicioCuotas implements IServicioCuotas {
             if(response.statusCode() == 200) {
                 System.out.println(response.body());
                 return new Gson().fromJson(response.body(), CuotasDTO.class);
+            } else {
+                throw new ConexionServidorException("Error al obtener las cuotas del alumno: " + response.statusCode() + " - " + response.body());
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return null;
+        } catch (IOException | InterruptedException e) {
+        throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.", e
+        );   
+     }
         // Simulación de valores de adeudos
         // Double adeudoVencido = 500.00; // Total de adeudos vencidos
         // Double adeudoColegiatura = 1000.00;
@@ -97,7 +102,7 @@ public class ServicioCuotas implements IServicioCuotas {
     }
 
     @Override
-    public List<DetalleAdeudoDTO> obtenerDetallesAdeudosColegiatura(String matricula, String cicloEscolar) {
+    public List<DetalleAdeudoDTO> obtenerDetallesAdeudosColegiatura(String matricula, String cicloEscolar){
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder().
                             uri(URI.create("http://localhost:8080/SGI/api/fees/debit-details?matricula="+matricula+"&ciclo="+cicloEscolar)).
