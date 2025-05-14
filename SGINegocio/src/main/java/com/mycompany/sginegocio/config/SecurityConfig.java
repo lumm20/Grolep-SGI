@@ -32,8 +32,9 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(requests -> requests
-                         //solo para pruebas de ciclos
+                         //solo para pruebas de ciclos y pagos
                          .requestMatchers("/cycles/**").permitAll()
+                         .requestMatchers("/payment/**").permitAll()
                         .requestMatchers("/users/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

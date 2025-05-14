@@ -25,6 +25,8 @@ import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.itson.sgi.dto.UsuarioDTO;
+import mx.itson.sgi.dto.FiltroPagoDTO; 
+
 
 
 @Service
@@ -153,5 +155,11 @@ public class PagoControlador {
 
         String numeroFormateado = String.format("%05d", nuevoNumero);
         return "P".concat(fechaFormateada).concat(numeroFormateado);
+    }
+
+    //aqui empieza la seccion de filtro
+
+    public List<PagoDTO> filtrarPagos(FiltroPagoDTO filtro) {
+        return service.filtrarPagos(filtro);
     }
 }
