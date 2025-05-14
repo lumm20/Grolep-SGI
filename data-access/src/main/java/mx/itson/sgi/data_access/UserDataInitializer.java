@@ -16,6 +16,7 @@ public class UserDataInitializer {
 
     @Autowired
 	private UsuarioRepository userRepository;
+
     @Transactional(readOnly = true)
     private Usuario buscarUsuario(String correo){
         Optional<Usuario> usuario = userRepository.findByCorreo(correo);

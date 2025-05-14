@@ -54,7 +54,7 @@ public class Alumno {
     private Nivel nivel;
 
     @Expose
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate fechaNacimiento;
 
     @Expose
