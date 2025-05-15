@@ -82,7 +82,7 @@ public class Alumno {
     @AttributeOverride(name = "tipo", column = @Column(name = "tipo_beca"))
     private Beca beca;
 
-    @OneToMany(mappedBy = "alumno", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    @OneToMany(mappedBy = "alumno", cascade = {CascadeType.ALL}, orphanRemoval = false)
     private List<Cuota> cuotas;
     
     @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
