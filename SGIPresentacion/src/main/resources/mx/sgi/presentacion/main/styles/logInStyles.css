@@ -1,0 +1,10 @@
+.entry-field {
+    -fx-background-radius: 10px;
+    -fx-border-color: #000000;
+    -fx-opacity: 0.8;
+}
+
+.mainFxmlClass{
+    -fx-background-color: #ffffff;
+}
+

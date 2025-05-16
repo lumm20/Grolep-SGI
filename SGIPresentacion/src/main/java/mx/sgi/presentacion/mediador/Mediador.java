@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
+import mx.sgi.presentacion.controladores.PantallaPrinciController;
 import mx.sgi.presentacion.controladores.PantallaPrincipalController;
 import mx.sgi.presentacion.controladores.TicketController;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
@@ -30,12 +31,6 @@ public class Mediador {
     private static Stage stageActual;
 
     /**
-     * Constructor privado para evitar instanciación externa
-     */
-    private Mediador() {
-    }
-
-    /**
      * Método estático para obtener la única instancia
      * @return instancia unica de la clase
      */
@@ -44,6 +39,13 @@ public class Mediador {
             instancia = new Mediador();
         }
         return instancia;
+    }
+
+    /**
+     * Constructor privado para evitar instanciación externa
+     */
+    private Mediador() {
+
     }
 
     /**
@@ -61,13 +63,6 @@ public class Mediador {
             //asignamos el controlador a la instancia global
             PantallaPrincipalController.setInstancia(pantallaPrincipal);
 
-            //eto queda pendiente poque etamo menso
-
-            //asignamos el dashboard
-            //pantallaPrincipal.setDashboard("/mx/sgi/presentacion/main/DashboardCajero.fxml");
-
-            //asignamos la pantalla principal
-
             // Crear una nueva escena
             Scene scene = new Scene(root);
 
@@ -76,12 +71,6 @@ public class Mediador {
             nuevaVentana.setMaximized(true);
             nuevaVentana.setResizable(true);
             // Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-
-            // double maxHeight = bounds.getHeight() * 0.9;
-            // double maxWidth = bounds.getWidth() * 0.9;
-
-            // nuevaVentana.setHeight(Math.min(760, maxHeight));
-            // nuevaVentana.setWidth(Math.min(1150, maxWidth));
 
             nuevaVentana.setTitle("GROLEP SGI v1.0");
             nuevaVentana.setScene(scene);
@@ -135,17 +124,14 @@ public class Mediador {
             
             // (Opcional) Si deseas evitar que el usuario redimensione la ventana
             nuevaVentana.setResizable(false);
-            
 
             // Mostrar la nueva ventana
             //cuando hay desconexion aqui manda una excepcion
             nuevaVentana.showAndWait();
-            // nuevaVentana.show();
 
             TicketController controller = loader.getController();
             System.out.println("Aqui deberia tomar la excepcion y lanzarla");
             //controller.confirmarPago(); //esta linea daba error nulo
-
         } catch (IOException e) {
             throw new ConexionServidorException("Error al abrir la ventana de confirmación del pago.", e);
         }catch (RuntimeException e) {
@@ -155,6 +141,9 @@ public class Mediador {
         }
     }
 
+    /**
+     *
+     */
     public void refrescarPantallaPagos(){
         TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
         PantallaPrincipalController pantallaPrincipal = PantallaPrincipalController.getInstance();
@@ -164,9 +153,45 @@ public class Mediador {
 
         pantallaPrincipal.cleanupTxtFields();
         pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
-
     }
 
+    /**
+     *  Method that sets the initial center frame and the initial left frame
+     *  this method has to be used only for the first invocation of the main frame,
+     *  normally done after a login
+     *
+      * @param center fxml path for the initial center panel
+     * @param left fxml path for the initial left panel
+     */
+    public void showMainFrame(String center, String left){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/PantallaPrinci.fxml"));
+            Parent root = loader.load();
+
+            // Call the controller of the loaded Screen
+            PantallaPrinciController mainScreen = loader.getController();
+
+            // Set the global instance for the controller
+            PantallaPrinciController.setInstance(mainScreen);
+
+            //load the center pane
+            mainScreen.setCenterPane(center);
+            //load the left pane
+            mainScreen.setLeftPane(left);
+
+            // Create a new Scene
+            Scene scene = new Scene(root);
+
+            // Create a new Stage(Window)
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+
+            // Mostrar la nueva ventana
+            newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

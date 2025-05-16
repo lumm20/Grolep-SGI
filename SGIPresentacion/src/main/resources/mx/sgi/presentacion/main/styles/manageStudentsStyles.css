@@ -1,0 +1,12 @@
+.screen{
+    -fx-background-color: #ffffff;
+}
+
+.comboBox{
+    -fx-background-radius: 10px;
+    -fx-border-color: #000000;
+}
+
+.clean-btn{
+    -fx-background-radius: 20px;
+}

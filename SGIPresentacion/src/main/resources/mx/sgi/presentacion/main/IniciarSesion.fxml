@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import java.net.URL?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -11,51 +10,46 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.InicioSesionController">
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="500.0" styleClass="mainFxmlClass" stylesheets="@styles/logInStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.InicioSesionController">
 
     <children>
         <ImageView fx:id="imgLogoEscuela" fitHeight="157.0" fitWidth="179.0" layoutX="171.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@iconos/logo.png" />
+                <Image url="@icons/logo.png" />
             </image>
         </ImageView>
-        <JFXButton fx:id="btnAcceder" layoutX="176.0" layoutY="505.0" prefHeight="48.0" prefWidth="147.0" ripplerFill="#d1ddd2" style="-fx-border-radius: 5; -fx-background-color: #24c838;" text="Acceder" onAction="#handleLogin" textFill="WHITE">
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-            <font>
-                <Font size="18.0" />
-            </font></JFXButton>
-        <JFXTextField fx:id="txfID" labelFloat="true" layoutX="82.0" layoutY="300.0" prefHeight="38.0" prefWidth="354.0" promptText="Introduzca su correo">
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-            <font>
-                <Font size="15.0" />
-            </font>
-        </JFXTextField>
-        <JFXPasswordField fx:id="psfContrasena" labelFloat="true" layoutX="82.0" layoutY="394.0" prefHeight="38.0" prefWidth="354.0" promptText="Introduzca su contraseña">
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-            <font>
-                <Font size="15.0" />
-            </font>
-        </JFXPasswordField>
         <ImageView fitHeight="38.0" fitWidth="18.0" layoutX="50.0" layoutY="315.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@iconos/user.png" />
+                <Image url="@icons/user.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="18.0" fitWidth="24.0" layoutX="50.0" layoutY="404.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@iconos/padlock.png" />
+                <Image url="@icons/padlock.png" />
             </image>
         </ImageView>
-        <Label layoutX="148.0" layoutY="206.0" text="Inicio de sesion">
+        <Label layoutX="146.0" layoutY="214.0" text="Inicio de sesion">
             <font>
-                <Font size="30.0" />
+                <Font name="Segoe UI" size="30.0" />
             </font>
         </Label>
+      <MFXTextField fx:id="txfId" caretVisible="false" floatMode="BORDER" floatingText="Correo electronico" floatingTextGap="0.0" layoutX="82.0" layoutY="299.0" prefHeight="50.0" prefWidth="354.0" style="-fx-opaque: 1.0;" styleClass="entry-field">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </MFXTextField>
+      <MFXPasswordField fx:id="psfPassword" allowCopy="true" allowPaste="true" floatMode="BORDER" floatingText="Contraseña" layoutX="82.0" layoutY="389.0" prefHeight="50.0" prefWidth="354.0" styleClass="entry-field">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </MFXPasswordField>
+      <MFXButton fx:id="btnAccess" buttonType="RAISED" depthLevel="LEVEL5" layoutX="176.0" layoutY="490.0" onMouseClicked="#handleLogin" prefHeight="48.0" prefWidth="147.0" style="-fx-background-color: #24c838;" text="Acceder" textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
     </children>
 </AnchorPane>

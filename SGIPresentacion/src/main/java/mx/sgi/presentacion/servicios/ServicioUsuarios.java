@@ -44,6 +44,12 @@ public class ServicioUsuarios implements IServicioUsuarios {
 
     }
 
+    /**
+     *
+     * @param nombre
+     * @param password
+     * @return
+     */
     public UsuarioDTO login(String nombre, String password) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/SGI/api/users/login"))
@@ -62,27 +68,35 @@ public class ServicioUsuarios implements IServicioUsuarios {
         }
         return null;
     }
+
+    /**
+     *
+     * @param correo
+     * @param password
+     * @return
+     */
     public AuthenticationResponse loginSec(String correo, String password) {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/SGI/api/users/login-sec"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(new UsuarioDTO(correo, password))))
-                .build();
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-            if(response.statusCode() == 200) {
-                return new Gson().fromJson(response.body(), AuthenticationResponse.class);
-            }else if(response.statusCode() == 401){
-                return AuthenticationResponse.builder().error("Correo y/o contrasena incorrectos").build();
-            }else if(response.statusCode() == 400){
-                return AuthenticationResponse.builder().error("Debe llenar todos los campos").build();
-            }
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        return AuthenticationResponse.builder().error("¡¡Hubo un error inesperado al iniciar sesión!!").build();
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create("http://localhost:8080/SGI/api/users/login-sec"))
+//                .header("Content-Type", "application/json")
+//                .POST(HttpRequest.BodyPublishers.ofString(new Gson().toJson(new UsuarioDTO(correo, password))))
+//                .build();
+//        HttpResponse<String> response = null;
+//        try {
+//            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            System.out.println(response.body());
+//            if(response.statusCode() == 200) {
+//                return new Gson().fromJson(response.body(), AuthenticationResponse.class);
+//            }else if(response.statusCode() == 401){
+//                return AuthenticationResponse.builder().error("Correo y/o contrasena incorrectos").build();
+//            }else if(response.statusCode() == 400){
+//                return AuthenticationResponse.builder().error("Debe llenar todos los campos").build();
+//            }
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//        return AuthenticationResponse.builder().error("¡¡Hubo un error inesperado al iniciar sesión!!").build();
+        return null;
     }
 
 

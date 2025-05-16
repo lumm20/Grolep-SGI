@@ -14,6 +14,8 @@ module mx.sgi.presentacion.main.sgipresentacion {
     requires fontawesomefx;
     requires java.desktop;
     requires mx.itson.sgi.dto;
+    requires MaterialFX;
+    requires org.kordamp.ikonli.materialdesign;
 
     opens mx.sgi.presentacion.main to javafx.fxml;
     exports mx.sgi.presentacion.main;
