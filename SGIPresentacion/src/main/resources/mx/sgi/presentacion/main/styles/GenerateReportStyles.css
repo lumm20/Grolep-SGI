@@ -1,0 +1,16 @@
+.screen{
+    -fx-background-color: #ffffff;
+}
+
+.clean-btn{
+    -fx-background-radius: 20px;
+    -fx-border-radius:20px;
+}
+
+.separa .line {
+    -fx-border-color: #4b4c4d;
+    -fx-border-width: 0 1 0 0;
+    -fx-border-style: solid;
+    -fx-border-radius: 2;
+    -fx-opacity: 0.8;
+}

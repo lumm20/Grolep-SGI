@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPagination?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1090.0" styleClass="screen" stylesheets="@styles/manageStudentsStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.ManageStudentController">
+   <children>
+      <MFXButton fx:id="btnSearch" buttonType="RAISED" depthLevel="LEVEL4" layoutX="438.0" layoutY="35.0" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #699af1;" styleClass="clean-btn" text="Button" AnchorPane.topAnchor="56.0">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <MFXButton fx:id="btnRegisterStudent" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="810.0" layoutY="35.0" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1ce72b;" styleClass="clean-btn" AnchorPane.leftAnchor="810.0" AnchorPane.topAnchor="56.0">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <MFXTextField floatMode="BORDER" floatingText="Busqueda de alumnos" layoutX="27.0" layoutY="33.0" prefHeight="40.0" prefWidth="390.0" AnchorPane.topAnchor="56.0">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <Label layoutX="27.0" layoutY="145.0" prefHeight="40.0" prefWidth="204.0" text="Alumnos">
+         <font>
+            <Font name="Segoe UI" size="30.0" />
+         </font>
+      </Label>
+      <MFXLegacyTableView layoutX="21.0" layoutY="154.0" prefHeight="497.0" prefWidth="986.0" AnchorPane.bottomAnchor="92.60000000000002" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="33.40000000000009" AnchorPane.topAnchor="193.0" />
+      <MFXPagination fx:id="pagination" ellipseString="" layoutX="445.0" layoutY="694.0" maxPage="5" pagesToShow="10" prefHeight="28.0" prefWidth="188.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <DropShadow />
+         </effect>
+      </MFXPagination>
+   </children>
+</AnchorPane>

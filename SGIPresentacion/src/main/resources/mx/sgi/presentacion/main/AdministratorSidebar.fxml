@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="760.0" prefWidth="60.0" styleClass="sidebar" stylesheets="@styles/DashboardAdminStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.DashboardAdminController">
+<AnchorPane prefHeight="760.0" prefWidth="60.0" styleClass="sidebar" stylesheets="@styles/DashboardAdminStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.AdministratorSidebarController">
    <children>
       <VBox alignment="CENTER" layoutX="-1.0" layoutY="197.0" prefHeight="366.0" prefWidth="60.0" AnchorPane.bottomAnchor="196.80000000000007" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.0">
          <children>

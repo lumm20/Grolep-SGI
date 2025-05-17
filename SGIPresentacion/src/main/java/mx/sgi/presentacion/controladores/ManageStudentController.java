@@ -20,7 +20,7 @@ public class ManageStudentController implements Initializable {
     MFXFilterComboBox<String> cmbxStudentSearch;
 
     @FXML
-    MFXButton btnCleanUp;
+    MFXButton btnSearch;
 
     @FXML
     MFXButton btnRegisterStudent;
@@ -31,26 +31,38 @@ public class ManageStudentController implements Initializable {
     @FXML
     MFXPagination pagination;
 
+
+    public static ManageStudentController manageStudentController;
+
+    public static ManageStudentController getInstance(){
+        return manageStudentController;
+    }
+
+    public static void setInstance(ManageStudentController manageStudentController){
+        ManageStudentController.manageStudentController = manageStudentController;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        setCleanUpButtonStyles();
+        setBtnSearchStyles();
         setRegisterStudentButtonStyles();
     }
 
-    private void setCleanUpButtonStyles(){
-        FontIcon icon = new FontIcon(MaterialDesign.MDI_MAGNIFY);
-        icon.setIconSize(30);
 
-        btnCleanUp.setGraphic(icon);
-        btnCleanUp.setText("");
+    private void setBtnSearchStyles(){
+        FontIcon icon = new FontIcon(MaterialDesign.MDI_MAGNIFY);
+        icon.setIconSize(25);
+
+        btnSearch.setGraphic(icon);
+        btnSearch.setText("");
 
         Tooltip tooltip = new Tooltip("Buscar");
-        Tooltip.install(btnCleanUp, tooltip);
+        Tooltip.install(btnSearch, tooltip);
     }
 
     private void setRegisterStudentButtonStyles(){
         FontIcon icon = new FontIcon(MaterialDesign.MDI_ACCOUNT_PLUS);
-        icon.setIconSize(30);
+        icon.setIconSize(25);
 
         btnRegisterStudent.setGraphic(icon);
         btnRegisterStudent.setText("  Registrar Alumno");

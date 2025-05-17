@@ -107,10 +107,9 @@ public class InicioSesionController implements Initializable{
      * loads the initial screen based on the rol of the successfully logged user.
      */
     private void loadInitialScreen() {
-        mediador.showMainFrame(
-                "/mx/sgi/presentacion/main/ManageStudentScreen.fxml",
-                "/mx/sgi/presentacion/main/DashboardAdmin.fxml"
-        );
+        mediador.showMainFrame();
+        mediador.openAdministratorSidebar();
+        mediador.openStudentsScreen();
     }
 
     /**

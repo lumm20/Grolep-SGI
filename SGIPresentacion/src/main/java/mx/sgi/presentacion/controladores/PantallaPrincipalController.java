@@ -49,20 +49,6 @@ import mx.sgi.presentacion.servicios.ServicioPagos;
 
 public class PantallaPrincipalController implements Initializable {
 
-    @FXML
-    JFXButton btnPagos;
-
-    @FXML
-    JFXButton btnRegistros;
-
-    @FXML
-    JFXButton btnUniformes;
-
-    @FXML
-    JFXButton btnCuenta;
-
-    @FXML
-    VBox boxCajero;
 
     // de aqui en adelante se declaran los componentes que representan datos
 
@@ -73,6 +59,7 @@ public class PantallaPrincipalController implements Initializable {
     Label lblAdeudoActual;
     @FXML
     Label lblAdeudoConDescuento;
+
     @FXML
     Label lblCicloEscolar;
 
@@ -234,36 +221,6 @@ public class PantallaPrincipalController implements Initializable {
         cleanup();
     }
 
-    /**
-     *
-     *
-     * public void setDashboard(String direccion) {
-     * try {
-     * // Cargar el archivo FXML del Dashboard
-     * FXMLLoader dashboardLoader = new
-     * FXMLLoader(getClass().getResource(direccion));
-     * 
-     * // Obtener el controlador del dashboard
-     * DashboardCajeroController dashboardControler =
-     * dashboardLoader.getController();
-     * 
-     * System.out.println("si llegue hasta aca");
-     * 
-     * // Obtener el VBox (o cualquier contenedor) del dashboard
-     * VBox dashboard = dashboardControler.getDashboard();
-     * 
-     * if (dashboard != null) {
-     * System.out.println("si tenemos dashboard");
-     * }
-     * 
-     * // Asignar el VBox del dashboard a la región izquierda del BorderPane
-     * 
-     * } catch (Exception e) {
-     * System.err.println("Error al cargar el dashboard: " + e.getMessage());
-     * e.printStackTrace();
-     * }
-     * }
-     */
 
     @FXML
     private void limpiarFiltroAlumnos() {
@@ -274,7 +231,6 @@ public class PantallaPrincipalController implements Initializable {
         cleanup();
     }
 
-    // de aqui en adelante comienzan los listeners para validaciones
 
     /**
      * establece la configuracion de cada listener para los campos de entrada.
@@ -589,6 +545,7 @@ public class PantallaPrincipalController implements Initializable {
         txfMontoUniforme.setText("");
         txfMontoLibros.setText("");
     }
+
     private void cleanup(){
         // txfMontoVencido.setDisable(false);
         txfMontoAcademias.setDisable(true);

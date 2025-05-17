@@ -3,16 +3,14 @@ package mx.sgi.presentacion.mediador;
 import java.io.IOException;
 
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
-import mx.sgi.presentacion.controladores.PantallaPrinciController;
+import mx.sgi.presentacion.controladores.MainFrameController;
 import mx.sgi.presentacion.controladores.PantallaPrincipalController;
 import mx.sgi.presentacion.controladores.TicketController;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
@@ -27,8 +25,6 @@ public class Mediador {
      * Variable que contiene la instancia unica
      */
     private static volatile Mediador instancia;
-
-    private static Stage stageActual;
 
     /**
      * Método estático para obtener la única instancia
@@ -48,41 +44,10 @@ public class Mediador {
 
     }
 
+
     /**
-     * Metodo encargado de mostrar la pantalla principal
+     *
      */
-    public void MostrarPantallaPrincipal() {
-        try {
-            // Cargar el archivo FXML de la nueva ventana
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/PantallaPrincipal.fxml"));
-            Parent root = loader.load();
-
-            // Llamamos al controlador de la pantalla principal
-            PantallaPrincipalController pantallaPrincipal = loader.getController();
-
-            //asignamos el controlador a la instancia global
-            PantallaPrincipalController.setInstancia(pantallaPrincipal);
-
-            // Crear una nueva escena
-            Scene scene = new Scene(root);
-
-            // Crear un nuevo Stage (ventana)
-            Stage nuevaVentana = new Stage();
-            nuevaVentana.setMaximized(true);
-            nuevaVentana.setResizable(true);
-            // Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
-
-            nuevaVentana.setTitle("GROLEP SGI v1.0");
-            nuevaVentana.setScene(scene);
-            stageActual = nuevaVentana;
-            nuevaVentana.show();
-
-        } catch (IOException e) {
-            System.err.println("Error al cargar la pantalla principal o el dashboard: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
     public void mostrarPantallaColegiaturasAtrasadas(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/ColegiaturasAtrasadas.fxml"));
@@ -108,6 +73,10 @@ public class Mediador {
         }
     }
 
+    /**
+     *
+     * @throws ConexionServidorException
+     */
     public void abrirPantallaTicket() throws ConexionServidorException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/Ticket.fxml"));
@@ -118,10 +87,9 @@ public class Mediador {
             // Crear un nuevo Stage (ventana)
             Stage nuevaVentana = new Stage();
             nuevaVentana.initModality(Modality.APPLICATION_MODAL);
-            nuevaVentana.initOwner(stageActual);
             nuevaVentana.setTitle("GROLEP SGI v1.0");
             nuevaVentana.setScene(scene);
-            
+
             // (Opcional) Si deseas evitar que el usuario redimensione la ventana
             nuevaVentana.setResizable(false);
 
@@ -158,38 +126,76 @@ public class Mediador {
     /**
      *  Method that sets the initial center frame and the initial left frame
      *  this method has to be used only for the first invocation of the main frame,
-     *  normally done after a login
-     *
-      * @param center fxml path for the initial center panel
-     * @param left fxml path for the initial left panel
+     *  normally done after a login.
      */
-    public void showMainFrame(String center, String left){
+    public void showMainFrame(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/PantallaPrinci.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/MainFrame.fxml"));
             Parent root = loader.load();
 
             // Call the controller of the loaded Screen
-            PantallaPrinciController mainScreen = loader.getController();
+            MainFrameController mainScreen = loader.getController();
 
             // Set the global instance for the controller
-            PantallaPrinciController.setInstance(mainScreen);
-
-            //load the center pane
-            mainScreen.setCenterPane(center);
-            //load the left pane
-            mainScreen.setLeftPane(left);
-
+            MainFrameController.setInstance(mainScreen);
             // Create a new Scene
             Scene scene = new Scene(root);
 
             // Create a new Stage(Window)
             Stage newStage = new Stage();
             newStage.setScene(scene);
+            newStage.setTitle("GROLEP SGI v1.0");
 
             // Mostrar la nueva ventana
             newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    public void openReportsScreen(){
+        if (MainFrameController.getInstance() != null) {
+            MainFrameController controller = MainFrameController.getInstance();
+            controller.setCenterPane(
+                    "/mx/sgi/presentacion/main/GenerateReport.fxml"
+            );
+        }
+    }
+
+    public void openPaymentsScreen(){
+        if (MainFrameController.getInstance() != null) {
+            MainFrameController controller = MainFrameController.getInstance();
+            controller.setCenterPane(
+                    "/mx/sgi/presentacion/main/Payments.fxml"
+            );
+        }
+    }
+
+    public void openCyclesScreen(){
+        if (MainFrameController.getInstance() != null) {
+            MainFrameController controller = MainFrameController.getInstance();
+            controller.setCenterPane(
+                    "/mx/sgi/presentacion/main/ManageCycles.fxml"
+            );
+        }
+    }
+
+    public void openStudentsScreen(){
+        if (MainFrameController.getInstance() != null) {
+            MainFrameController controller = MainFrameController.getInstance();
+            controller.setCenterPane(
+                    "/mx/sgi/presentacion/main/ManageStudent.fxml"
+            );
+        }
+    }
+
+    public void openAdministratorSidebar(){
+        if (MainFrameController.getInstance() != null) {
+            MainFrameController controller = MainFrameController.getInstance();
+            controller.setLeftPane(
+                    "/mx/sgi/presentacion/main/AdministratorSidebar.fxml"
+            );
         }
     }
 

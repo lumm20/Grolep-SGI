@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import mx.sgi.presentacion.mediador.Mediador;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.net.URL;
@@ -18,7 +19,7 @@ import java.util.ResourceBundle;
 /**
  *
  */
-public class DashboardAdminController implements Initializable {
+public class AdministratorSidebarController implements Initializable {
 
     //Declaration for the buttons
     @FXML
@@ -58,6 +59,9 @@ public class DashboardAdminController implements Initializable {
     //List for the buttons of the dashboard
     List<MFXButton> buttons = new ArrayList<>();
 
+    //instance for the mediator
+    Mediador mediador;
+
 
     /**
      *
@@ -76,6 +80,8 @@ public class DashboardAdminController implements Initializable {
 
         collectAllButtons();
         setOpeningSelectedButton();
+
+        mediador = Mediador.getInstance();
     }
 
 
@@ -319,11 +325,11 @@ public class DashboardAdminController implements Initializable {
      * appears at the initialization of the main frame
      */
     private void setOpeningSelectedButton(){
-        this.isPaymentButtonSelected = true;
-        setButtonSelected(paymentButton);
+        this.isUsersButtonSelected = true;
+        setButtonSelected(usersButton);
 
         //Unselect all other buttons
-        isUsersButtonSelected = false;
+        isPaymentButtonSelected = false;
         isShoppingButtonSelected = false;
         isReportsButtonSelected = false;
         isCyclesButtonSelected = false;
@@ -369,7 +375,6 @@ public class DashboardAdminController implements Initializable {
 
     @FXML
     public void handlePaymentsButtonClick(Event event){
-        System.out.println("Entre a la pantalla de pagos");
         this.isPaymentButtonSelected = true;
         setButtonSelected(paymentButton);
 
@@ -384,7 +389,6 @@ public class DashboardAdminController implements Initializable {
 
     @FXML
     public void handleUsersButtonClick(Event event){
-        System.out.println("Entre a la pantalla de estudiantes");
         this.isUsersButtonSelected = true;
         setButtonSelected(usersButton);
 
@@ -395,12 +399,11 @@ public class DashboardAdminController implements Initializable {
         isCyclesButtonSelected = false;
 
         //open the screen for students administration
-
+        mediador.openStudentsScreen();
     }
 
     @FXML
     public void handleShoppingButtonClick(Event event){
-        System.out.println("Entre a la pantalla de compras");
         this.isShoppingButtonSelected = true;
         setButtonSelected(shoppingButton);
 
@@ -412,7 +415,6 @@ public class DashboardAdminController implements Initializable {
 
     @FXML
     public void handleReportsButtonClick(Event event){
-        System.out.println("Entre a la pantalla de reportes");
         this.isReportsButtonSelected = true;
         setButtonSelected(reportsButton);
 
@@ -423,12 +425,11 @@ public class DashboardAdminController implements Initializable {
         isCyclesButtonSelected = false;
 
         //open the screen for reports making
-
+        mediador.openReportsScreen();
     }
 
     @FXML
     public void handleCyclesButtonClick(Event event){
-        System.out.println("Entre a la pantalla de ciclos");
         this.isCyclesButtonSelected = true;
         setButtonSelected(cyclesButton);
 
@@ -439,6 +440,7 @@ public class DashboardAdminController implements Initializable {
         isReportsButtonSelected = false;
 
         //open the screen for cycles management
+        mediador.openCyclesScreen();
     }
 
     @FXML

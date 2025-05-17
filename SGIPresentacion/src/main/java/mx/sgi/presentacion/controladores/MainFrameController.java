@@ -4,11 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -16,7 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PantallaPrinciController implements Initializable {
+public class MainFrameController implements Initializable {
 
     @FXML
     BorderPane mainBorderPane;
@@ -24,28 +21,29 @@ public class PantallaPrinciController implements Initializable {
     /**
      * Public global instance.
      */
-    public static PantallaPrinciController mainScreen;
+    private static MainFrameController mainScreen;
 
-    /**
-     * Singletone method to get the final instance.
-     * @return
-     */
-    public static PantallaPrinciController getInstance(){
-        if (mainScreen == null){
-            return new PantallaPrinciController();
-        }
-        else{
-            return mainScreen;
-        }
+    private Initializable center;
+
+    private Initializable left;
+
+    public static MainFrameController getInstance(){
+        return mainScreen;
     }
 
-    /**
-     *
-     * @param mainScreen
-     */
-    public static void setInstance(PantallaPrinciController mainScreen){
-        PantallaPrinciController.mainScreen = mainScreen;
+    public static void setInstance(MainFrameController mainScreen){
+        MainFrameController.mainScreen = mainScreen;
     }
+
+    public Initializable getCenter(){
+        return center;
+    }
+
+    public Initializable getLeft(){
+        return left;
+    }
+
+
 
     /**
      * Initialize method to set the start requirements
@@ -63,11 +61,13 @@ public class PantallaPrinciController implements Initializable {
      */
     public void setCenterPane(String fxmlRoute) {
         try {
-            System.out.println("si estoy entrando al metodo de cargar pantalla");
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlRoute));
             AnchorPane central = loader.load();
-            mainBorderPane.setCenter(central); // Carga dinámica al centro
+            center = loader.getController();
+            mainBorderPane.setCenter(central);
         } catch (IOException e) {
+            notifyError("Error al cargar la pantalla");
+            System.out.println(fxmlRoute);
             e.printStackTrace();
         }
     }
@@ -78,11 +78,13 @@ public class PantallaPrinciController implements Initializable {
      */
     public void setLeftPane(String fxmlRoute){
         try {
-            System.out.println("si estoy entrando al metodo de cargar dashboard");
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlRoute));
             AnchorPane dashboard = loader.load();
+            left = loader.getController();
             mainBorderPane.setLeft(dashboard); // Carga dinámica al centro
         } catch (IOException e) {
+            notifyError("Error al cargar la barra lateral");
+            System.out.println(fxmlRoute);
             e.printStackTrace();
         }
     }
@@ -90,9 +92,9 @@ public class PantallaPrinciController implements Initializable {
     /**
      * Shows a floating notification for error cases.
      */
-    private void notifyError(String message){
+    private void notifyError(String message) {
         Notifications.create()
-                .title("Error de inicio de sesion")
+                .title("Error de carga")
                 .text(message)
                 .graphic(null)
                 .position(Pos.TOP_RIGHT)
