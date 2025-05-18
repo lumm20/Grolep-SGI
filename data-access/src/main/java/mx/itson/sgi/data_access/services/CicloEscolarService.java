@@ -69,6 +69,7 @@ public class CicloEscolarService {
 
     /**
      * devuelve el ciclo actual como una entidad
+     * 
      * @return
      */
     public CicloEscolar obtenerCicloActualEntidad() {
@@ -170,17 +171,36 @@ public class CicloEscolarService {
 
         repository.save(ciclo);
 
+        // inicio
         // para actualizar los detalles de los ciclos escolares
-        DetalleCiclo detalle = detalleCicloRepository.findByCicloEscolarId(id)
-                .orElseThrow(() -> new RuntimeException("Detalle no encontrado"));
+        System.out.println("Buscando detalles del ciclo escolar con ID: " + id);
+        Optional<DetalleCiclo> detalleOpt = detalleCicloRepository.findByCicloEscolarId(id);
+
+        DetalleCiclo detalle;
+        if (detalleOpt.isPresent()) {
+            // Si se encuentra el detalle, se actualiza
+            detalle = detalleOpt.get();
+            System.out.println("Detalle encontrado, actualizando...");
+        } else {
+            // Si no existe, se crea uno nuevo
+            System.out.println("Detalle no encontrado, creando uno nuevo...");
+            detalle = crearDetalle(detalleDTO, ciclo);
+        }
+
+        // Actualizar los valores (en ambos casos)
         detalle.setCuotaInscripcion(detalleDTO.getCuotaInscripcion());
         detalle.setCuotaColegiatura(detalleDTO.getCuotaColegiatura());
         detalle.setCuotaLibros(detalleDTO.getCuotaLibros());
         detalle.setCuotaEventos(detalleDTO.getCuotaEventos());
         detalle.setCuotaAcademias(detalleDTO.getCuotaAcademias());
         detalle.setCuotaUniforme(detalleDTO.getCuotaUniforme());
+
+        System.out.println("Guardando detalle...");
         detalleCicloRepository.save(detalle);
 
+        // final
+
+        System.out.println("continua aca");
         // Actualizar las cuotas para cada alumno y concepto
         List<Alumno> alumnos = new ArrayList<>();
         alumnoRepository.findAll().forEach(alumnos::add);
@@ -206,6 +226,27 @@ public class CicloEscolarService {
 
         // Devolver el ciclo actualizado
         return new CicloEscolarDTO(ciclo.getFechaInicio().toString(), ciclo.getFechaFin().toString());
+    }
+
+    public DetalleCiclo crearDetalle(DetalleCicloDTO detalleDTO, CicloEscolar ciclo) {
+        System.out.println("Buscando si ya existe un detalle para el ciclo escolar con ID: " + ciclo.getId());
+
+        if (detalleCicloRepository.findByCicloEscolarId(ciclo.getId()).isPresent()) {
+            throw new RuntimeException("Ya existe un detalle para este ciclo escolar. No se puede crear otro.");
+        }
+
+        System.out.println("Detalle no encontrado, creando uno nuevo...");
+        DetalleCiclo nuevoDetalle = new DetalleCiclo();
+        nuevoDetalle.setCicloEscolar(ciclo);
+        nuevoDetalle.setCuotaInscripcion(detalleDTO.getCuotaInscripcion());
+        nuevoDetalle.setCuotaColegiatura(detalleDTO.getCuotaColegiatura());
+        nuevoDetalle.setCuotaLibros(detalleDTO.getCuotaLibros());
+        nuevoDetalle.setCuotaEventos(detalleDTO.getCuotaEventos());
+        nuevoDetalle.setCuotaAcademias(detalleDTO.getCuotaAcademias());
+        nuevoDetalle.setCuotaUniforme(detalleDTO.getCuotaUniforme());
+
+        System.out.println("Guardando nuevo detalle...");
+        return detalleCicloRepository.save(nuevoDetalle);
     }
 
     @Transactional
@@ -235,7 +276,7 @@ public class CicloEscolarService {
             // Construir el DTO combinado
             CicloEscolarDTO cicloDTO = new CicloEscolarDTO(ciclo.getFechaInicio().toString(),
                     ciclo.getFechaFin().toString());
-            CicloConDetallesDTO cicloConDetallesDTO = new CicloConDetallesDTO(cicloDTO,detalleDTO);
+            CicloConDetallesDTO cicloConDetallesDTO = new CicloConDetallesDTO(cicloDTO, detalleDTO);
 
             ciclosConDetalles.add(cicloConDetallesDTO);
         }
@@ -268,7 +309,7 @@ public class CicloEscolarService {
                 ciclo.getFechaFin().toString());
         cicloDTO.setId(ciclo.getId());
 
-        CicloConDetallesDTO cicloConDetallesDTO = new CicloConDetallesDTO(cicloDTO,detalleDTO);
+        CicloConDetallesDTO cicloConDetallesDTO = new CicloConDetallesDTO(cicloDTO, detalleDTO);
 
         return cicloConDetallesDTO;
     }

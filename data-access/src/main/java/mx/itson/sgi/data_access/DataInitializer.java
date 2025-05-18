@@ -31,6 +31,9 @@ public class DataInitializer {
 		Alumno alumno1 = alumnos.get(0);
 		Alumno alumno2 = alumnos.get(1);
 		Alumno alumno3 = alumnos.get(2);
+        if (alumnos != null){
+            System.out.println("si hay alumnos persistidos");
+        }
 		List<CicloEscolar> ciclos = cycleInit.cargarCiclosEscolares();//guardamos los ciclos escolares
 		feeInit.cargarCuotas(ciclos.getFirst(), ciclos.getLast(), alumno1, alumno2, alumno3);//guardamos las cuotas
 		paymentInit.cargarPagos2324(cajero, alumno1, alumno2, alumno3);//guardamos los pagos del 23-24
