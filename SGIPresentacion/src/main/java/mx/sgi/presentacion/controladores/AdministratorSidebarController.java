@@ -385,6 +385,7 @@ public class AdministratorSidebarController implements Initializable {
         isCyclesButtonSelected = false;
 
         //open the screen for payments
+        mediador.openPaymentsScreen();
     }
 
     @FXML

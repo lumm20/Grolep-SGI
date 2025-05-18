@@ -13,6 +13,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.UUID;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.scene.control.*;
 import mx.itson.sgi.dto.*;
 import mx.sgi.presentacion.caches.*;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
@@ -29,12 +33,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.interfaces.IServicioAlumnos;
@@ -46,8 +45,10 @@ import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import mx.sgi.presentacion.servicios.ServicioCuotas;
 import mx.sgi.presentacion.servicios.ServicioPagos;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign.MaterialDesign;
 
-public class PantallaPrincipalController implements Initializable {
+public class PayamentsController implements Initializable {
 
 
     // de aqui en adelante se declaran los componentes que representan datos
@@ -101,29 +102,29 @@ public class PantallaPrincipalController implements Initializable {
     // declaracion de los botones
 
     @FXML
-    JFXButton btnDetalles;
+    MFXButton btnDetalles;
 
     @FXML
-    JFXButton btnRegistrar;
+    MFXButton btnRegistrar;
 
     @FXML
-    JFXButton btnLimpiarFiltroAlumnos;
+    MFXButton btnLimpiarFiltroAlumnos;
 
     // Declaracion de los ComboBox
 
     @FXML
-    ComboBox<AlumnoConsultaDTO> cmbxAlumnos;
+    MFXComboBox<AlumnoConsultaDTO> cmbxAlumnos;
 
     @FXML
-    JFXComboBox<CicloEscolarDTO> cmbxCicloEscolar;
+    MFXComboBox<CicloEscolarDTO> cmbxCicloEscolar;
 
     @FXML
-    JFXComboBox<String> cmbxMetodoPago;
+    MFXComboBox<String> cmbxMetodoPago;
 
     // de aqui en adelante se declaran los componentes de entradas
 
     @FXML
-    TextField txfAlumnos;
+    MFXTextField txfAlumnos;
 
     // @FXML
     // TextField txfMontoVencido;
@@ -160,14 +161,14 @@ public class PantallaPrincipalController implements Initializable {
     /**
      * Instancia estatica del controlador
      */
-    private static PantallaPrincipalController instancia;
+    private static PayamentsController instancia;
 
     /**
      * Metodo para obtener la instancia unica de la clase
      * 
      * @return instancia unica de la clase
      */
-    public static synchronized PantallaPrincipalController getInstance() {
+    public static synchronized PayamentsController getInstance() {
         return instancia;
     }
 
@@ -176,8 +177,8 @@ public class PantallaPrincipalController implements Initializable {
      * 
      * @param instancia instancia a establecer
      */
-    public static synchronized void setInstancia(PantallaPrincipalController instancia) {
-        PantallaPrincipalController.instancia = instancia;
+    public static synchronized void setInstancia(PayamentsController instancia) {
+        PayamentsController.instancia = instancia;
     }
 
     /**
@@ -219,6 +220,9 @@ public class PantallaPrincipalController implements Initializable {
         limitarCaracteres(txfMontoAcademias, 10);
         limitarCaracteres(txfMontoUniforme, 10);
         cleanup();
+
+        setBtnLimpiarFiltroAlumnosStyles();
+        setBtnDetallesStyles();
     }
 
 
@@ -382,7 +386,7 @@ public class PantallaPrincipalController implements Initializable {
                     // String cicloTxt = anioInicio + " - " + anioFin;
                     for (CicloEscolarDTO cicloEscolarDTO : observableList) {
                         if (cicloEscolarDTO.getId().equals(cicloEscolar.getId())) {
-                            cmbxCicloEscolar.getSelectionModel().select(cicloEscolarDTO);
+//                            cmbxCicloEscolar.getSelectionModel().select(cicloEscolarDTO);
                             break;
                         }
                     }
@@ -991,6 +995,28 @@ public class PantallaPrincipalController implements Initializable {
                 textField.setText(newValue.substring(0, maxLength));
             }
         });
+    }
+
+    private void setBtnLimpiarFiltroAlumnosStyles(){
+        FontIcon icon = new FontIcon(MaterialDesign.MDI_BROOM);
+        icon.setIconSize(25);
+
+        btnLimpiarFiltroAlumnos.setGraphic(icon);
+        btnLimpiarFiltroAlumnos.setText("");
+
+        Tooltip tooltip = new Tooltip("Limpiar todo");
+        Tooltip.install(btnLimpiarFiltroAlumnos, tooltip);
+    }
+
+    private void setBtnDetallesStyles(){
+        FontIcon icon = new FontIcon(MaterialDesign.MDI_EYE);
+        icon.setIconSize(20);
+
+        btnDetalles.setGraphic(icon);
+        btnDetalles.setText("");
+
+        Tooltip tooltip = new Tooltip("Registrar Pago");
+        Tooltip.install(btnDetalles, tooltip);
     }
 
 }

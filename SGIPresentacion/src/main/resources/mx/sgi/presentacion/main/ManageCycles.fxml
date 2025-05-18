@@ -51,6 +51,6 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </MFXButton>
-        <Separator layoutX="551.0" layoutY="34.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="2.0" style="-fx-background-color: black; -fx-border-color: white;" styleClass="separa" stylesheets="@styles/GenerateReportStyles.css" />
+        <Separator layoutX="551.0" layoutY="34.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="0.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" stylesheets="@styles/GenerateReportStyles.css" />
     </children>
 </AnchorPane>

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXPagination?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -20,7 +18,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <MFXButton fx:id="btnRegisterStudent" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="810.0" layoutY="35.0" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1ce72b;" styleClass="clean-btn" AnchorPane.leftAnchor="810.0" AnchorPane.topAnchor="56.0">
+      <MFXButton fx:id="btnRegisterStudent" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="810.0" layoutY="35.0" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #1ce72b;" styleClass="clean-btn" AnchorPane.rightAnchor="91.60000000000002" AnchorPane.topAnchor="56.0">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>
@@ -39,13 +37,5 @@
          </font>
       </Label>
       <MFXLegacyTableView layoutX="21.0" layoutY="154.0" prefHeight="497.0" prefWidth="986.0" AnchorPane.bottomAnchor="92.60000000000002" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="33.40000000000009" AnchorPane.topAnchor="193.0" />
-      <MFXPagination fx:id="pagination" ellipseString="" layoutX="445.0" layoutY="694.0" maxPage="5" pagesToShow="10" prefHeight="28.0" prefWidth="188.0">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <DropShadow />
-         </effect>
-      </MFXPagination>
    </children>
 </AnchorPane>

@@ -11,7 +11,7 @@ import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
 import mx.sgi.presentacion.controladores.MainFrameController;
-import mx.sgi.presentacion.controladores.PantallaPrincipalController;
+import mx.sgi.presentacion.controladores.PayamentsController;
 import mx.sgi.presentacion.controladores.TicketController;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
 
@@ -114,7 +114,7 @@ public class Mediador {
      */
     public void refrescarPantallaPagos(){
         TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
-        PantallaPrincipalController pantallaPrincipal = PantallaPrincipalController.getInstance();
+        PayamentsController pantallaPrincipal = PayamentsController.getInstance();
 
         String matricula = ticket.getAlumno().getMatricula();
         CicloEscolarDTO cicloEscolar = ticket.getCiclo();
