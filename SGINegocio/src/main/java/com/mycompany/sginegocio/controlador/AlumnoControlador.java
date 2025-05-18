@@ -19,6 +19,9 @@ import mx.itson.sgi.dto.AlumnoRegistroDTO;
 import mx.itson.sgi.dto.BecaDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.DetalleCicloDTO;
+import mx.itson.sgi.dto.enums.Estatus;
+import mx.itson.sgi.dto.enums.Nivel;
+import mx.itson.sgi.dto.enums.Genero;
 
 @Service
 public class AlumnoControlador {

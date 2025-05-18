@@ -1,5 +1,8 @@
 package mx.itson.sgi.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import mx.itson.sgi.dto.enums.Estatus;
 import mx.itson.sgi.dto.enums.Genero;
 import mx.itson.sgi.dto.enums.Nivel;
@@ -7,6 +10,9 @@ import mx.itson.sgi.dto.enums.Nivel;
 import lombok.Data;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AlumnoRegistroDTO {
     private String matricula;
     private String nombre;
@@ -22,3 +28,4 @@ public class AlumnoRegistroDTO {
     private BecaDTO beca;
     private String tutor;
 }
+
