@@ -1,5 +1,7 @@
 package mx.itson.sgi.data_access.services;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.repositories.AlumnoRepository;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.AlumnoRegistroDTO;
+import mx.itson.sgi.dto.BecaDTO;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -31,15 +36,15 @@ public class AlumnoService {
     @Autowired
     CicloEscolarService cicloEscolarService;
 
-    public Alumno registrarAlumno(AlumnoConsultaDTO alumno){
+    public Alumno registrarAlumno(AlumnoConsultaDTO alumno) {
 
         Alumno alumnoEntity = new Alumno(alumno.getMatricula(), alumno.getNombre(), null, alumno.getNumeroCelular());
         return repository.save(alumnoEntity);
     }
 
-    public AlumnoConsultaDTO buscarAlumnoPorMatricula(String matricula){
+    public AlumnoConsultaDTO buscarAlumnoPorMatricula(String matricula) {
         Optional<Alumno> optional = repository.findById(matricula);
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             Alumno alumno = optional.get();
             AlumnoConsultaDTO dto = new AlumnoConsultaDTO();
             dto.setMatricula(alumno.getMatricula());
@@ -50,7 +55,7 @@ public class AlumnoService {
         return null;
     }
 
-    public List<AlumnoConsultaDTO> buscarAlumnosPorNombre(String nombre){
+    public List<AlumnoConsultaDTO> buscarAlumnosPorNombre(String nombre) {
         List<Alumno> alumnos = repository.encontrarAlumnosConNombre(nombre);
         List<AlumnoConsultaDTO> dtos = new ArrayList<>();
         for (Alumno alumno : alumnos) {
@@ -63,12 +68,15 @@ public class AlumnoService {
         return dtos;
     }
 
-    public List<Alumno> buscarAlumnoPorPadre(String telefonoPadre){
+    public List<Alumno> buscarAlumnoPorPadre(String telefonoPadre) {
         List<Alumno> list = repository.findByTelefonoPadre(telefonoPadre);
 
-        if(list != null) return list;
+        if (list != null)
+            return list;
         return new ArrayList<Alumno>();
     }
+
+    // metodos de registro y actualizacion de alumnos nueva entidad
 
     /**
      * Metodo para registrar alumnos con sus respectivas cuotas.
@@ -77,10 +85,10 @@ public class AlumnoService {
      */
     @Transactional
     public void registrarAlumnoConCuotas(Alumno alumno) {
-        //Guardamos al alumno primero
+        // Guardamos al alumno primero
         repository.save(alumno);
 
-        //Obtenemos el ciclo escolar actual
+        // Obtenemos el ciclo escolar actual
         CicloEscolar cicloActual = cicloEscolarService.obtenerCicloActualEntidad();
 
         // Obtenemos los montos del detalle del ciclo (cuando vale cada cuota)
@@ -97,17 +105,18 @@ public class AlumnoService {
         cuotas.add(crearCuota(alumno, cicloActual, Concepto.ACADEMIAS, detalle.getCuotaAcademias()));
         cuotas.add(crearCuota(alumno, cicloActual, Concepto.UNIFORMES, detalle.getCuotaUniforme()));
 
-        //Guardamos las cuotas del alumno
+        // Guardamos las cuotas del alumno
         cuotaRepository.saveAll(cuotas);
     }
 
     /**
-     * Metodo auxiliar para la creacion de cuotas para el metodo de registrar alumno.
+     * Metodo auxiliar para la creacion de cuotas para el metodo de registrar
+     * alumno.
      *
-     * @param alumno Objeto de tipo alumno.
-     * @param ciclo Ciclo al que pertenecera el
+     * @param alumno   Objeto de tipo alumno.
+     * @param ciclo    Ciclo al que pertenecera el
      * @param concepto Tipo de concepto a generar para la cuota.
-     * @param monto Monto total de la cuota a generar.
+     * @param monto    Monto total de la cuota a generar.
      *
      * @return Objeto de tipo cuota.
      */
@@ -150,4 +159,34 @@ public class AlumnoService {
         repository.save(alumnoExistente);
     }
 
+    /**
+     * Busca a todos los alumnos en la base de datos.
+     */
+    @Transactional
+    public List<Alumno> obtenerTodosLosAlumnos() {
+        List<Alumno> alumnos = new ArrayList<>();
+        repository.findAll().forEach(alumnos::add);
+        return alumnos;
+    }
+
+    /**
+     * Busca por matricula
+     * @param matricula Matricula del alumno
+     */
+    @Transactional
+    public Alumno obtenerAlumnoPorMatricula(String matricula) {
+        return repository.findById(matricula)
+                .orElseThrow(() -> new EntityNotFoundException("Alumno no encontrado con matrícula: " + matricula));
+    }
+
+    /**
+     * Busca a todos los alumnos en la base de datos y regresa datos completos
+     * @param nombre Nombre del alumno
+     * @return Lista de alumnos con datos completos
+     */
+    @Transactional
+    public List<Alumno> buscarAlumnosCompletosPorNombre(String nombre) {
+        List<Alumno> alumnos =  repository.findByNombreContaining(nombre);
+        return alumnos;
+    }
 }

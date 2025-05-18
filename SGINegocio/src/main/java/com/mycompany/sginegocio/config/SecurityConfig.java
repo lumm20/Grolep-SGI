@@ -35,6 +35,7 @@ public class SecurityConfig {
                          //solo para pruebas de ciclos y pagos
                          .requestMatchers("/cycles/**").permitAll()
                          .requestMatchers("/payment/**").permitAll()
+                         .requestMatchers("/students/**").permitAll()
                         .requestMatchers("/users/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
