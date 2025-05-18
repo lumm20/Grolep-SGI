@@ -78,4 +78,14 @@ public class APIAlumno {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+     @GetMapping("/byName/{nombre}")
+    public ResponseEntity<?> obtenerAlumnoPorNombre(@PathVariable String nombre) {
+        try {
+            List<AlumnoRegistroDTO> alumnoDTO = controlador.obtenerAlumnosPorNombreCompleto(nombre);
+            return ResponseEntity.ok().body(alumnoDTO);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

@@ -17,4 +17,5 @@ public interface AlumnoRepository extends CrudRepository<Alumno,String> {
     @Query("select new Alumno(a.matricula, a.nombre, a.telefonoPadre) from Alumno a where a.nombre like %?1%")
     List<Alumno> encontrarAlumnosConNombre(String n);
     List<Alumno> findByTelefonoPadre(String telefonoPadre);
+    List<Alumno> findByNombreContaining(String nombre);
 }

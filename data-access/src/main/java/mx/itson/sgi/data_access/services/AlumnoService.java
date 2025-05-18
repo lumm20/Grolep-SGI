@@ -1,5 +1,7 @@
 package mx.itson.sgi.data_access.services;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.repositories.AlumnoRepository;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.AlumnoRegistroDTO;
+import mx.itson.sgi.dto.BecaDTO;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -166,10 +171,22 @@ public class AlumnoService {
 
     /**
      * Busca por matricula
+     * @param matricula Matricula del alumno
      */
     @Transactional
     public Alumno obtenerAlumnoPorMatricula(String matricula) {
         return repository.findById(matricula)
                 .orElseThrow(() -> new EntityNotFoundException("Alumno no encontrado con matrícula: " + matricula));
+    }
+
+    /**
+     * Busca a todos los alumnos en la base de datos y regresa datos completos
+     * @param nombre Nombre del alumno
+     * @return Lista de alumnos con datos completos
+     */
+    @Transactional
+    public List<Alumno> buscarAlumnosCompletosPorNombre(String nombre) {
+        List<Alumno> alumnos =  repository.findByNombreContaining(nombre);
+        return alumnos;
     }
 }

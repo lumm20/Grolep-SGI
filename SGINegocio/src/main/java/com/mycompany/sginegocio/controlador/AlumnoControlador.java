@@ -131,4 +131,29 @@ public class AlumnoControlador {
 
         return dto;
     }
+
+    public List<AlumnoRegistroDTO> obtenerAlumnosPorNombreCompleto(String nombre) {
+        List<Alumno> alumnos = service.buscarAlumnosCompletosPorNombre(nombre);
+        List<AlumnoRegistroDTO> dtos = new ArrayList<>();
+        for (Alumno alumno : alumnos) {
+            AlumnoRegistroDTO dto = new AlumnoRegistroDTO();
+            dto.setMatricula(alumno.getMatricula());
+            dto.setNombre(alumno.getNombre());
+            dto.setTelefono(alumno.getTelefonoPadre());
+            dto.setCorreo(alumno.getCorreo());
+            dto.setFechaNacimiento(alumno.getFechaNacimiento().toString());
+            dto.setTutor(alumno.getTutor());
+            dto.setGrupo(alumno.getGrupo());
+            dto.setGrado(alumno.getGrado());
+            dto.setNivel(alumno.getNivel());
+            dto.setEstatus(alumno.getEstatus());
+            dto.setPromedio(alumno.getPromedio());
+            if (alumno.getBeca() != null) {
+                dto.setBeca(new BecaDTO(alumno.getBeca().getTipo().toString(), BigDecimal.valueOf(alumno.getBeca().getPorcentajeDescuento())));
+            }
+
+            dtos.add(dto);
+        }
+        return dtos;
+    }
 }
