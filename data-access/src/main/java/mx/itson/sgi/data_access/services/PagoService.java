@@ -18,13 +18,18 @@ import mx.itson.sgi.data_access.entities.CuotaMensual;
 import mx.itson.sgi.data_access.entities.DetallePago;
 import mx.itson.sgi.data_access.entities.MetodoPago;
 import mx.itson.sgi.data_access.entities.Pago;
+import mx.itson.sgi.data_access.entities.Rol;
 import mx.itson.sgi.data_access.entities.Usuario;
 import mx.itson.sgi.data_access.repositories.PagoRepository;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
+import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.CuotaConsultadaDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
+import mx.itson.sgi.dto.PagoReporteDTO;
+import mx.itson.sgi.dto.RolDTO;
+import mx.itson.sgi.dto.UsuarioDTO;
 import mx.itson.sgi.dto.FiltroPagoDTO;
 
 @Service
@@ -143,7 +148,7 @@ public class PagoService {
     }
 
     // Metodo para filtros de pagos
-    public List<PagoDTO> filtrarPagos(FiltroPagoDTO filtro) {
+    public List<PagoReporteDTO> filtrarPagos(FiltroPagoDTO filtro) {
         return repository.findAll((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -158,41 +163,45 @@ public class PagoService {
             }
 
             // Filtro por rango de montos
-            if (filtro.getMontoDesde() != null && filtro.getMontoDesde() > 0) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("montoTotal"), filtro.getMontoDesde()));
+            if (filtro.getMontoMinimo() != null && filtro.getMontoMinimo() > 0) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("montoTotal"), filtro.getMontoMinimo()));
             }
-            if (filtro.getMontoHasta() != null && filtro.getMontoHasta() > 0) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("montoTotal"), filtro.getMontoHasta()));
+            if (filtro.getMontoMaximo() != null && filtro.getMontoMaximo() > 0) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("montoTotal"), filtro.getMontoMaximo()));
             }
 
-            if (filtro.getNombreCajero() != null && !filtro.getNombreCajero().isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("cajero").get("nombre")),
-                        "%" + filtro.getNombreCajero().toLowerCase() + "%"));
+            if (filtro.getUsuario() != null && filtro.getUsuario().getId() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("cajero").get("id"), filtro.getUsuario().getId()));
+            }
+            if (filtro.getAlumno() != null && filtro.getAlumno().getMatricula() != null
+                    && !filtro.getAlumno().getMatricula().isEmpty()) {
+                predicates.add(
+                        criteriaBuilder.equal(root.get("alumno").get("matricula"), filtro.getAlumno().getMatricula()));
             }
 
             // Filtro por método de pago
-            if (filtro.getMetodosoPago() != null) {
-                // Convertir el valor del filtro al formato esperado (mayúsculas)
-                String metodoPagoBD = filtro.getMetodosoPago().name().toUpperCase();
+            if (filtro.getMetodoPago() != null) {
+                // Convertir de DTO a Entidad antes de comparar
+                MetodoPago metodoPagoBD = MetodoPago.valueOf(filtro.getMetodoPago().name());
                 predicates.add(criteriaBuilder.equal(root.get("metodoPago"), metodoPagoBD));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-        }).stream().map(this::convertirPagoADTO).toList(); // Convertir Pago a PagoDTO
+        }).stream().map(this::convertirPagoReporteADTO).toList(); // Convertir Pago a PagoDTO
     }
 
-    // Método para convertir Pago a PagoDTO
-    private PagoDTO convertirPagoADTO(Pago pago) {
-        PagoDTO dto = new PagoDTO();
+    private PagoReporteDTO convertirPagoReporteADTO(Pago pago) {
+        PagoReporteDTO dto = new PagoReporteDTO();
+        dto.setMontoTotal(pago.getMontoTotal());
         dto.setFolio(pago.getFolio());
         dto.setFecha(pago.getFecha());
-        dto.setMontoTotal(pago.getMontoTotal());
-        dto.setMetodoPago(MetodosPagoDTO.fromString(pago.getMetodoPago().name())); // Conversión aquí
-        dto.setMontoDescuento(pago.getMontoDescuento());
-        dto.setTipoDescuento(pago.getTipoDescuento());
-        dto.setIdUsuario(pago.getCajero().getId());
         dto.setAlumno(new AlumnoConsultaDTO(pago.getAlumno().getMatricula(), pago.getAlumno().getNombre(),
                 pago.getAlumno().getTelefonoPadre()));
+        dto.setMetodoPago(MetodosPagoDTO.fromString(pago.getMetodoPago().name())); // Conversión aquí
+        dto.setTipoDescuento(pago.getTipoDescuento());
+        dto.setMontoDescuento(pago.getMontoDescuento());
+        dto.setUsuario(new UsuarioDTO(pago.getCajero().getId(), pago.getCajero().getNombre(),
+                pago.getCajero().getCorreo(), RolDTO.valueOf(pago.getCajero().getRol().name())));
         dto.setCuotasPagadas(pago.getDetalles().stream()
                 .map(detalle -> new DetallePagoDTO(detalle.getCuota().getConcepto().name(), detalle.getMontoPagado()))
                 .toList());

@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+//retorna este en filtro
+
 @Data
 @Builder
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 public class PagoReporteDTO {
 
@@ -37,12 +39,11 @@ public class PagoReporteDTO {
     private Double montoDescuento;
 
     @Expose
-    private CicloEscolarDTO cicloEscolar;
-
-    @Expose
     private UsuarioDTO usuario;
 
     @Expose
     private List<DetallePagoDTO> cuotasPagadas;
 
+    public PagoReporteDTO() {
+    }
 }
