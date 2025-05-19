@@ -201,7 +201,7 @@ public class Mediador {
 
     public void openRegisterUserScreen(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterStudent.fxml"));
             Parent root = loader.load();
 
             // Crear una nueva escena
@@ -222,7 +222,7 @@ public class Mediador {
 
     public void openEditUserScreen(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditStudent.fxml"));
             Parent root = loader.load();
 
             // Crear una nueva escena

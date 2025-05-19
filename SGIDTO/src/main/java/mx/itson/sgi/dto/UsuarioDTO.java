@@ -2,8 +2,10 @@ package mx.itson.sgi.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode
 public class UsuarioDTO {
 
 	private Long id;

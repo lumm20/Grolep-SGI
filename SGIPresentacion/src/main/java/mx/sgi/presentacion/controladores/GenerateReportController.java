@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import mx.itson.sgi.dto.FiltroPagoDTO;
 import mx.itson.sgi.dto.PagoReporteDTO;
@@ -20,7 +21,12 @@ import mx.sgi.presentacion.servicios.ServicioPagos;
 import org.controlsfx.control.Notifications;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign.MaterialDesign;
+
+import java.io.File;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -49,6 +55,8 @@ public class GenerateReportController  implements Initializable {
 
 
     private ServicioPagos servicioPagos;
+
+    List<PagoReporteDTO> listedpayments = new ArrayList<>();
 
 
     @Override
@@ -109,26 +117,48 @@ public class GenerateReportController  implements Initializable {
         Tooltip.install(btnGeneratePDF, tooltip);
     }
 
-    private void notify(String title, String message) {
-        Notifications.create()
-                .title(title)
-                .text(message)
-                .graphic(null)
-                .position(Pos.TOP_RIGHT)
-                .hideAfter(Duration.seconds(5))
-                .show();
+
+
+    private void validateDates() throws Exception{
+        LocalDate begin = dpFrom.getValue();
+        LocalDate end = dpTo.getValue();
+
+        if (end.isBefore(begin)){
+            throw new Exception("La fecha de inicio no puede ser mayor a la final");
+        }
+
+        if (begin == null && end != null){
+            throw new Exception("Elija una fecha de inicio para continuar");
+        }
+        if (begin != null && end == null){
+            throw new Exception("Elija una fecha de fin para continuar");
+        }
+
+    }
+
+    private void validateEmptyPaymentsList() throws Exception {
+        if (listedpayments.isEmpty()){
+            throw new Exception("Tiene que haber mas de un pago existente para generar el reporte");
+        }
     }
 
     @FXML
     private void searchPayments(){
-        FiltroPagoDTO filters = FiltrosCache.getInstance();
+        try {
+            validateDates();
 
-        filters.setFechaDesde(dpFrom.getValue());
-        filters.setFechaHasta(dpTo.getValue());
+            FiltroPagoDTO filters = FiltrosCache.getInstance();
 
-        System.out.println(filters);
+            filters.setFechaDesde(dpFrom.getValue());
+            filters.setFechaHasta(dpTo.getValue());
 
-        loadTable();
+            System.out.println(filters);
+
+            loadTable();
+        }
+        catch (Exception ex){
+            notify("Error", ex.getMessage());
+        }
     }
 
     @FXML
@@ -151,11 +181,62 @@ public class GenerateReportController  implements Initializable {
         mediador.openAddFiltersScreen();
     }
 
-    private void generateReport(){
+    /**
+     *
+     * @return
+     */
+    private File chooseFileToSaveReport(){
+        // Crear y configurar el FileChooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Guardar reporte");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf")
+        );
 
+        // Establecer nombre por defecto del archivo
+        fileChooser.setInitialFileName("reporte-pagos_" + LocalDate.now().toString() + "_" +
+                LocalTime.now().toString() + ".pdf");
+
+        // Mostrar diálogo de guardado
+        File file = fileChooser.showSaveDialog(btnSearch.getScene().getWindow());
+        return file;
+    }
+
+    /**
+     *
+     */
+    @FXML
+    private void generateReport() {
+        try {
+
+            validateEmptyPaymentsList();
+            File file = chooseFileToSaveReport();
+
+            if (file != null) {
+                // Aquí iría la lógica para generar el reporte y guardarlo en el archivo seleccionado
+                System.out.println("Guardar en: " + file.getAbsolutePath());
+
+                // Ejemplo:
+                // reportService.generarReportePagos(listaPagos, file);
+
+                notify("Éxito", "Reporte guardado en:\n" + file.getAbsolutePath());
+            }
+
+        } catch (Exception ex) {
+            notify("Error", ex.getMessage());
+        }
     }
 
 
+    private void notify(String title, String message) {
+        Notifications.create()
+                .title(title)
+                .text(message)
+                .graphic(null)
+                .position(Pos.TOP_RIGHT)
+                .hideAfter(Duration.seconds(5))
+                .show();
+    }
 
 
     //Table methods and declarations
@@ -340,6 +421,7 @@ public class GenerateReportController  implements Initializable {
         try {
             FiltroPagoDTO filtros = FiltrosCache.getInstance();
             List<PagoReporteDTO> payments = servicioPagos.getPaymentsForReport(filtros);
+            this.listedpayments = payments;
             tblPayments.setItems(FXCollections.observableArrayList(payments));
         } catch (ConexionServidorException e) {
             notify("Ups!!", e.getMessage());

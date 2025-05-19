@@ -47,7 +47,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
         return Objects.requireNonNullElseGet(servicioAlumnos, ServicioAlumnos::new);
     }
 
-    public List<AlumnoConsultaDTO> buscarAlumnos(String nombre){
+    public List<AlumnoConsultaDTO> buscarAlumnos(String nombre) throws ConexionServidorException{
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8080/SGI/api/students?matricula=" + nombre))
@@ -67,33 +67,6 @@ public class ServicioAlumnos implements IServicioAlumnos {
         return null;
     }
 
-    /**
-     * consulta a la API a los alumnos por su nombre.
-     *
-     * @param nombre nombre del alumno a consultar
-     */
-    @Override
-    public List<AlumnoConsultaDTO> consultarAlumnos(String nombre) throws ConexionServidorException {
-    try {
-        String url = "api/student?" + nombre;
-        String token = UsuarioCache.getSession().getToken();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .header("Authorization", "Bearer " + token)
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() == 200) {
-            return gson.fromJson(response.body(), new TypeToken<List<AlumnoConsultaDTO>>() {}.getType());
-        } else {
-                throw new ConexionServidorException("Error en la consulta: " + response.statusCode() + " - " + response.body());
-        }
-    } catch (IOException | InterruptedException e) {
-        throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.", e);
-    }
-  }
 
     /**
      * Gets from the server all the showable information of a student.
