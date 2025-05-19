@@ -9,36 +9,36 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="714.0" prefWidth="587.0" styleClass="mainPane" stylesheets="@styles/RegisterUserStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.main.RegisterUser">
+<AnchorPane prefHeight="714.0" prefWidth="587.0" styleClass="mainPane" stylesheets="@styles/RegisterUserStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.RegisterUserController">
    <children>
       <Pane layoutX="16.0" layoutY="42.0" prefHeight="199.0" prefWidth="554.0" styleClass="pane">
          <children>
-            <MFXTextField floatMode="BORDER" floatingText="Matricula" layoutX="26.0" layoutY="27.0" prefHeight="49.0" prefWidth="181.0" textLimit="12">
+            <MFXTextField fx:id="txfBadge" floatMode="BORDER" floatingText="Matricula" layoutX="26.0" layoutY="27.0" prefHeight="49.0" prefWidth="181.0" textLimit="12">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
-            <MFXComboBox floatMode="BORDER" floatingText="Estatus" layoutX="234.0" layoutY="27.0" prefHeight="49.0" prefWidth="135.0">
+            <MFXComboBox fx:id="cbStatus" floatMode="BORDER" floatingText="Estatus" layoutX="234.0" layoutY="27.0" prefHeight="49.0" prefWidth="135.0">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXComboBox>
-            <MFXTextField floatMode="BORDER" floatingText="Promedio" layoutX="399.0" layoutY="27.0" prefHeight="49.0" prefWidth="110.0" textLimit="5">
+            <MFXTextField fx:id="txfAverage" floatMode="BORDER" floatingText="Promedio" layoutX="399.0" layoutY="27.0" prefHeight="49.0" prefWidth="110.0" textLimit="5">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
-            <MFXTextField floatMode="BORDER" floatingText="Grado" layoutX="26.0" layoutY="111.0" prefHeight="49.0" prefWidth="84.0" textLimit="1">
+            <MFXTextField fx:id="txfGrade" floatMode="BORDER" floatingText="Grado" layoutX="26.0" layoutY="111.0" prefHeight="49.0" prefWidth="84.0" textLimit="1">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
-            <MFXTextField floatMode="BORDER" floatingText="Grupo" layoutX="150.0" layoutY="111.0" prefHeight="49.0" prefWidth="96.0" textLimit="1">
+            <MFXTextField fx:id="txfGroup" floatMode="BORDER" floatingText="Grupo" layoutX="150.0" layoutY="111.0" prefHeight="49.0" prefWidth="96.0" textLimit="1">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
-            <MFXComboBox floatMode="BORDER" floatingText="Nivel" layoutX="270.0" layoutY="111.0" prefHeight="49.0" prefWidth="129.0">
+            <MFXComboBox fx:id="cbLevel" floatMode="BORDER" floatingText="Nivel" layoutX="270.0" layoutY="111.0" prefHeight="49.0" prefWidth="129.0">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
@@ -47,37 +47,37 @@
       </Pane>
       <Pane layoutX="16.0" layoutY="266.0" prefHeight="342.0" prefWidth="554.0" styleClass="pane">
          <children>
-            <MFXDatePicker floatMode="INLINE" floatingText="Fecha" layoutX="357.0" layoutY="35.0" prefHeight="43.0" prefWidth="154.0">
+            <MFXDatePicker fx:id="dpBirthDate" floatMode="BORDER" floatingText="Fecha" layoutX="357.0" layoutY="38.0" prefHeight="43.0" prefWidth="154.0">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXDatePicker>
-            <MFXTextField floatMode="BORDER" floatingText="Nombre" layoutX="28.0" layoutY="38.0" prefHeight="43.0" prefWidth="291.0" textLimit="40">
+            <MFXTextField fx:id="txfName" floatMode="BORDER" floatingText="Nombre" layoutX="28.0" layoutY="38.0" prefHeight="43.0" prefWidth="291.0" textLimit="40">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
-            <MFXTextField floatMode="BORDER" floatingText="Telefono" layoutX="28.0" layoutY="117.0" prefHeight="43.0" prefWidth="203.0" textLimit="10">
+            <MFXTextField fx:id="txfPhone" floatMode="BORDER" floatingText="Telefono" layoutX="28.0" layoutY="117.0" prefHeight="43.0" prefWidth="203.0" textLimit="10">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
-            <MFXComboBox floatMode="BORDER" floatingText="Genero" layoutX="268.0" layoutY="117.0" prefHeight="43.0" prefWidth="135.0">
+            <MFXComboBox fx:id="cbGender" floatMode="BORDER" floatingText="Genero" layoutX="268.0" layoutY="117.0" prefHeight="43.0" prefWidth="135.0">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXComboBox>
-            <MFXTextField floatMode="BORDER" floatingText="Correo" layoutX="28.0" layoutY="191.0" prefHeight="43.0" prefWidth="291.0" textLimit="40">
+            <MFXTextField fx:id="txfMail" floatMode="BORDER" floatingText="Correo" layoutX="28.0" layoutY="191.0" prefHeight="43.0" prefWidth="291.0" textLimit="40">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
-            <MFXComboBox floatMode="BORDER" floatingText="Beca" layoutX="357.0" layoutY="191.0" prefHeight="43.0" prefWidth="135.0">
+            <MFXComboBox fx:id="cbScholarship" floatMode="BORDER" floatingText="Beca" layoutX="357.0" layoutY="191.0" prefHeight="43.0" prefWidth="135.0">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXComboBox>
-            <MFXTextField floatMode="BORDER" floatingText="Tutor" layoutX="28.0" layoutY="263.0" prefHeight="43.0" prefWidth="240.0" textLimit="50">
+            <MFXTextField fx:id="txfTutor" floatMode="BORDER" floatingText="Tutor" layoutX="28.0" layoutY="263.0" prefHeight="43.0" prefWidth="240.0" textLimit="50">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
@@ -89,7 +89,7 @@
             <Font name="Segoe UI Bold" size="14.0" />
          </font>
       </Label>
-      <MFXButton buttonType="RAISED" depthLevel="LEVEL4" layoutX="228.0" layoutY="640.0" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-background-color: #69f15b;" text="Registrar">
+      <MFXButton buttonType="RAISED" depthLevel="LEVEL4" layoutX="228.0" layoutY="640.0" onMouseClicked="#registerStudent" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-background-color: #69f15b;" text="Registrar">
          <font>
             <Font name="Segoe UI Bold" size="14.0" />
          </font>

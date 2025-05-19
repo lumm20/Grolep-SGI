@@ -102,7 +102,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
      * @return List of the coincident students.
      * @throws ConexionServidorException In case of error in the server.
      */
-  public List<AlumnoRegistroDTO> searchCompleteStudent(String name) throws ConexionServidorException{
+  public List<AlumnoRegistroDTO> searchCompleteStudent(String name, int limit, int offset) throws ConexionServidorException{
       List<AlumnoRegistroDTO> alumnos = new ArrayList<>();
 
       AlumnoRegistroDTO alumno1 = AlumnoRegistroDTO.builder()
@@ -117,7 +117,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
               .telefono("555-1234")
               .genero(Genero.Masculino)
               .correo("juan.perez@example.com")
-              .beca(null)
+              .beca(new BecaDTO("NINGUNA", new BigDecimal("0.0")))
               .tutor("María Pérez")
               .build();
 
@@ -133,7 +133,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
               .telefono("555-5678")
               .genero(Genero.Femenino)
               .correo("ana.gomez@example.com")
-              .beca(new BecaDTO("Ninguno",new BigDecimal(0)))
+              .beca(new BecaDTO("CIVICA", new BigDecimal("30.0")))
               .tutor("Luis Gómez")
               .build();
 
@@ -149,7 +149,7 @@ public class ServicioAlumnos implements IServicioAlumnos {
               .telefono("555-9999")
               .genero(Genero.Femenino)
               .correo("carlos.lopez@example.com")
-              .beca(new BecaDTO("Ninguno",new BigDecimal(0)))
+              .beca(new BecaDTO("DEPORTIVA", new BigDecimal("20.0")))
               .tutor("Laura López")
               .build();
 
@@ -158,6 +158,15 @@ public class ServicioAlumnos implements IServicioAlumnos {
       alumnos.add(alumno3);
 
       return alumnos;
+  }
+
+
+  public void registerStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException{
+      System.out.println(alumno);
+  }
+
+  public void editStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException{
+      System.out.println(alumno);
   }
 
 }

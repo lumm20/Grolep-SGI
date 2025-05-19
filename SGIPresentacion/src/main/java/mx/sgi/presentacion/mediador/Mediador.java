@@ -199,5 +199,66 @@ public class Mediador {
         }
     }
 
+    public void openRegisterUserScreen(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterUser.fxml"));
+            Parent root = loader.load();
 
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Registrar Estudiante");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openEditUserScreen(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditUser.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Editar Estudiante");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openAddFiltersScreen(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/ReportFilters.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Filtros de busqueda");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
 }
