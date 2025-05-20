@@ -19,7 +19,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </MFXButton>
-        <MFXButton fx:id="btnGeneratePDF" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="874.0" layoutY="63.0" prefHeight="40.0" prefWidth="138.0" style="-fx-background-color: #f44444;" styleClass="clean-btn" textFill="WHITE" AnchorPane.rightAnchor="77.60000000000002">
+        <MFXButton fx:id="btnGeneratePDF" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="874.0" layoutY="63.0" onMouseClicked="#generateReport" prefHeight="40.0" prefWidth="138.0" style="-fx-background-color: #f44444;" styleClass="clean-btn" textFill="WHITE" AnchorPane.rightAnchor="77.60000000000002">
             <font>
                 <Font size="14.0" />
             </font>
@@ -41,14 +41,14 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <MFXDatePicker fx:id="dpFrom" floatMode="INLINE" floatingText="Desde" layoutX="31.0" layoutY="56.0" prefHeight="38.0" prefWidth="182.0">
+      <MFXDatePicker fx:id="dpBegin" allowEdit="false" floatMode="BORDER" floatingText="Inicio" layoutX="31.0" layoutY="56.0" prefHeight="45.0" prefWidth="182.0">
          <font>
-            <Font name="Segoe UI" size="12.0" />
+            <Font name="Segoe UI" size="14.0" />
          </font>
       </MFXDatePicker>
-      <MFXDatePicker fx:id="dpTo" floatMode="INLINE" floatingText="Hasta" layoutX="245.0" layoutY="58.0" prefHeight="38.0" prefWidth="182.0">
+      <MFXDatePicker fx:id="dpEnd" allowEdit="false" floatMode="BORDER" floatingText="Fin" layoutX="231.0" layoutY="57.0" prefHeight="46.0" prefWidth="182.0">
          <font>
-            <Font name="Segoe UI" size="12.0" />
+            <Font name="Segoe UI" size="14.0" />
          </font>
       </MFXDatePicker>
       <MFXButton fx:id="btnSearch" buttonType="RAISED" depthLevel="LEVEL4" layoutX="448.0" layoutY="60.0" onMouseClicked="#searchPayments" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #699af1;" styleClass="clean-btn" text="Button">

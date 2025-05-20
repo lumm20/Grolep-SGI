@@ -92,6 +92,7 @@ public class TicketController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.servicioPagos = ServicioPagos.getInstance();
         this.mediador = Mediador.getInstance();
+        setBtnCancelarStyles();
 
         if (conceptosContainer != null) {
             conceptosContainer.getChildren().clear();
@@ -212,7 +213,7 @@ public class TicketController implements Initializable {
             servicioPagos.registrarPago(pago);
 
             //refrescamos los pagos del alumno que pago
-            mediador.refrescarPantallaPagos();
+            mediador.refreshPaymentScreen();
 
             //cerramos la pantalla
             cancelar();

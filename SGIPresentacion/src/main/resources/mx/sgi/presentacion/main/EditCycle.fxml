@@ -8,25 +8,25 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="687.0" prefWidth="587.0" styleClass="mainPane" stylesheets="@styles/RegisterUserStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.main.RegisterUser">
+<AnchorPane prefHeight="687.0" prefWidth="587.0" styleClass="mainPane" stylesheets="@styles/RegisterUserStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.EditCycleController">
     <children>
         <Pane layoutX="16.0" layoutY="42.0" prefHeight="162.0" prefWidth="554.0" styleClass="pane">
             <children>
-                <MFXDatePicker alignment="CENTER" floatMode="INLINE" floatingText="Inicio" layoutX="30.0" layoutY="56.0" prefHeight="50.0" prefWidth="227.0">
+                <MFXDatePicker fx:id="dpStart" alignment="CENTER" allowEdit="false" floatMode="ABOVE" floatingText="Inicio" layoutX="30.0" layoutY="56.0" prefHeight="50.0" prefWidth="227.0">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
                 </MFXDatePicker>
-                <MFXDatePicker alignment="CENTER" floatMode="INLINE" floatingText="Fin" layoutX="301.0" layoutY="56.0" prefHeight="50.0" prefWidth="227.0" textLimit="1">
-                    <font>
-                        <Font name="Segoe UI" size="14.0" />
-                    </font>
-                </MFXDatePicker>
+            <MFXDatePicker fx:id="dpEnd" alignment="CENTER" allowEdit="false" floatMode="ABOVE" floatingText="Fin" layoutX="287.0" layoutY="56.0" prefHeight="50.0" prefWidth="227.0">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </MFXDatePicker>
             </children>
         </Pane>
         <Pane layoutX="16.0" layoutY="240.0" prefHeight="342.0" prefWidth="554.0" styleClass="pane">
             <children>
-                <MFXTextField alignment="CENTER" floatMode="BORDER" floatingText="Colegiatura" layoutX="47.0" layoutY="44.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
+                <MFXTextField fx:id="txfTuition" alignment="CENTER" floatMode="BORDER" floatingText="Colegiatura" layoutX="47.0" layoutY="44.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
@@ -36,27 +36,27 @@
                         <Font name="Segoe UI Bold" size="14.0" />
                     </font>
                 </Label>
-                <MFXTextField alignment="CENTER" floatMode="BORDER" floatingText="Inscripcion" layoutX="304.0" layoutY="44.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
+                <MFXTextField fx:id="txfRegistration" alignment="CENTER" floatMode="BORDER" floatingText="Inscripcion" layoutX="304.0" layoutY="44.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
                 </MFXTextField>
-                <MFXTextField alignment="CENTER" floatMode="BORDER" floatingText="Libros" layoutX="47.0" layoutY="128.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
+                <MFXTextField fx:id="txfBooks" alignment="CENTER" floatMode="BORDER" floatingText="Libros" layoutX="47.0" layoutY="128.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
                 </MFXTextField>
-                <MFXTextField alignment="CENTER" floatMode="BORDER" floatingText="Academias" layoutX="304.0" layoutY="128.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
+                <MFXTextField fx:id="txfAcademies" alignment="CENTER" floatMode="BORDER" floatingText="Academias" layoutX="304.0" layoutY="128.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
                 </MFXTextField>
-                <MFXTextField alignment="CENTER" floatMode="BORDER" floatingText="Eventos" layoutX="47.0" layoutY="217.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
+                <MFXTextField fx:id="txfEvents" alignment="CENTER" floatMode="BORDER" floatingText="Eventos" layoutX="47.0" layoutY="217.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
                 </MFXTextField>
-                <MFXTextField alignment="CENTER" floatMode="BORDER" floatingText="Uniforme" layoutX="304.0" layoutY="217.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
+                <MFXTextField fx:id="txfUniform" alignment="CENTER" floatMode="BORDER" floatingText="Uniforme" layoutX="304.0" layoutY="217.0" prefHeight="43.0" prefWidth="201.0" textLimit="40">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
@@ -68,7 +68,7 @@
                 <Font name="Segoe UI Bold" size="14.0" />
             </font>
         </Label>
-        <MFXButton buttonType="RAISED" depthLevel="LEVEL4" layoutX="228.0" layoutY="612.0" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-background-color: #f4fa67;" text="Editar">
+        <MFXButton buttonType="RAISED" depthLevel="LEVEL4" layoutX="228.0" layoutY="612.0" onMouseClicked="#editCycle" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-background-color: #f4fa67;" text="Editar">
             <font>
                 <Font name="Segoe UI Bold" size="14.0" />
             </font>

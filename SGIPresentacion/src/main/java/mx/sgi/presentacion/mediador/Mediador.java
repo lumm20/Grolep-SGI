@@ -10,9 +10,7 @@ import javafx.stage.Stage;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
-import mx.sgi.presentacion.controladores.MainFrameController;
-import mx.sgi.presentacion.controladores.PayamentsController;
-import mx.sgi.presentacion.controladores.TicketController;
+import mx.sgi.presentacion.controladores.*;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
 
 /**
@@ -109,19 +107,6 @@ public class Mediador {
         }
     }
 
-    /**
-     *
-     */
-    public void refrescarPantallaPagos(){
-        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
-        PayamentsController pantallaPrincipal = PayamentsController.getInstance();
-
-        String matricula = ticket.getAlumno().getMatricula();
-        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
-
-        pantallaPrincipal.cleanupTxtFields();
-        pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
-    }
 
     /**
      *  Method that sets the initial center frame and the initial left frame
@@ -201,7 +186,7 @@ public class Mediador {
 
     public void openRegisterUserScreen(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterStudent.fxml"));
             Parent root = loader.load();
 
             // Crear una nueva escena
@@ -222,7 +207,7 @@ public class Mediador {
 
     public void openEditUserScreen(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditStudent.fxml"));
             Parent root = loader.load();
 
             // Crear una nueva escena
@@ -261,4 +246,73 @@ public class Mediador {
             e.printStackTrace();
         }
     }
+
+    public void openRegisterCycleScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterCycle.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Registro de ciclo escolar");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openEditCycleScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditCycle.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Edicion de ciclo escolar");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+
+    public void refreshManageStudentsScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        ManageStudentController controller = (ManageStudentController) mainFrame.getCenter();
+        controller.loadTable();
+    }
+
+    public void refreshManageCyclesScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        ManageCyclesController controller = (ManageCyclesController) mainFrame.getCenter();
+        controller.loadTable();
+    }
+
+    public void refreshPaymentScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        PayamentsController controller = (PayamentsController) mainFrame.getCenter();
+
+        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+
+        String matricula = ticket.getAlumno().getMatricula();
+        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
+
+        controller.cleanupTxtFields();
+        controller.establecerCuotas(matricula, cicloEscolar);
+    }
+
 }
