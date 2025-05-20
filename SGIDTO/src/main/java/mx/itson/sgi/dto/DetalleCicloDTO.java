@@ -1,8 +1,10 @@
 package mx.itson.sgi.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class DetalleCicloDTO {
 
     private Long id;

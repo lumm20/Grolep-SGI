@@ -28,15 +28,16 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class GenerateReportController  implements Initializable {
 
     @FXML
-    private MFXDatePicker dpFrom;
+    private MFXDatePicker dpBegin;
 
     @FXML
-    private MFXDatePicker dpTo;
+    private MFXDatePicker dpEnd;
 
     @FXML
     private MFXButton btnSearch;
@@ -120,18 +121,15 @@ public class GenerateReportController  implements Initializable {
 
 
     private void validateDates() throws Exception{
-        LocalDate begin = dpFrom.getValue();
-        LocalDate end = dpTo.getValue();
+
+        LocalDate begin = Optional.ofNullable(dpBegin.getValue())
+                .orElseThrow(() -> new Exception("Debe seleccionar una fecha de inicio"));
+
+        LocalDate end = Optional.ofNullable(dpEnd.getValue())
+                .orElseThrow(() -> new Exception("Debe seleccionar una fecha de fin"));
 
         if (end.isBefore(begin)){
-            throw new Exception("La fecha de inicio no puede ser mayor a la final");
-        }
-
-        if (begin == null && end != null){
-            throw new Exception("Elija una fecha de inicio para continuar");
-        }
-        if (begin != null && end == null){
-            throw new Exception("Elija una fecha de fin para continuar");
+                throw new Exception("La fecha de inicio no puede ser mayor a la final");
         }
 
     }
@@ -149,8 +147,8 @@ public class GenerateReportController  implements Initializable {
 
             FiltroPagoDTO filters = FiltrosCache.getInstance();
 
-            filters.setFechaDesde(dpFrom.getValue());
-            filters.setFechaHasta(dpTo.getValue());
+            filters.setFechaDesde(dpBegin.getValue());
+            filters.setFechaHasta(dpEnd.getValue());
 
             System.out.println(filters);
 
