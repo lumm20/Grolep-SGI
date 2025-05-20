@@ -111,14 +111,14 @@ public class Mediador {
      *
      */
     public void refrescarPantallaPagos(){
-        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
-        PayamentsController pantallaPrincipal = PayamentsController.getInstance();
-
-        String matricula = ticket.getAlumno().getMatricula();
-        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
-
-        pantallaPrincipal.cleanupTxtFields();
-        pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
+//        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+//        PayamentsController pantallaPrincipal = PayamentsController.getInstance();
+//
+//        String matricula = ticket.getAlumno().getMatricula();
+//        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
+//
+//        pantallaPrincipal.cleanupTxtFields();
+//        pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
     }
 
     /**

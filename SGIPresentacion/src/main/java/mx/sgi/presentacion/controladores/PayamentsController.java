@@ -113,7 +113,7 @@ public class PayamentsController implements Initializable {
     // Declaracion de los ComboBox
 
     @FXML
-    MFXComboBox<AlumnoConsultaDTO> cmbxAlumnos;
+    ComboBox<AlumnoConsultaDTO> cmbxAlumnos;
 
     @FXML
     MFXComboBox<CicloEscolarDTO> cmbxCicloEscolar;
@@ -162,24 +162,6 @@ public class PayamentsController implements Initializable {
      * Instancia estatica del controlador
      */
     private static PayamentsController instancia;
-
-    /**
-     * Metodo para obtener la instancia unica de la clase
-     * 
-     * @return instancia unica de la clase
-     */
-    public static synchronized PayamentsController getInstance() {
-        return instancia;
-    }
-
-    /**
-     * Metodo para establecer la instancia unica de la clase
-     * 
-     * @param instancia instancia a establecer
-     */
-    public static synchronized void setInstancia(PayamentsController instancia) {
-        PayamentsController.instancia = instancia;
-    }
 
     /**
      *
@@ -281,26 +263,17 @@ public class PayamentsController implements Initializable {
     // de aqui en adelante comienzan los listeners para los combo box
 
     private void configurarFiltroAlumnos() {
-        // Crear el temporizador para detectar cuando se deja de escribir
-        PauseTransition pause = new PauseTransition(Duration.millis(500)); // 500 ms de espera
+        PauseTransition pause = new PauseTransition(Duration.millis(500)); // 500 ms
+
         pause.setOnFinished(event -> {
-            // Acción cuando el usuario ha dejado de escribir
-            // Reactivar el ComboBox después de que se haya dejado de escribir
             cmbxAlumnos.setDisable(false); // Reactivar ComboBox
-
             String nuevoValor = txfAlumnos.getText();
-            actualizarOpcionesAlumnos(nuevoValor); // Actualizar las opciones de los alumnos
-
+            actualizarOpcionesAlumnos(nuevoValor);
         });
 
-        // Detectar cuando el usuario escribe
-        txfAlumnos.setOnKeyTyped(event -> {
-            // Desactivar el ComboBox mientras se escribe
-            cmbxAlumnos.setDisable(true); // Desactivar ComboBox
-
-            // Cancelar cualquier temporizador anterior (si el usuario sigue escribiendo)
-            pause.stop();
-            // Reiniciar el temporizador
+        txfAlumnos.setOnKeyReleased(event -> {
+            cmbxAlumnos.setDisable(true); // Desactivar ComboBox mientras escribe
+            pause.stop();                 // Reinicia el temporizador
             pause.playFromStart();
         });
 
@@ -328,8 +301,8 @@ public class PayamentsController implements Initializable {
 
             if (!filtro.isEmpty() && !filtro.isBlank() && filtro.matches("^[a-zA-Z\\s]+$")) {
                 filtro = filtro.trim();
-                // List<AlumnoConsultaDTO> alumnosFiltrados =
-                // servicioAlumnos.consultarAlumnos(filtro);
+
+
                 List<AlumnoConsultaDTO> alumnosFiltrados = servicioAlumnos.buscarAlumnos(filtro);
 
                 System.out.println("Alumnos filtrados: " + alumnosFiltrados);
