@@ -41,32 +41,33 @@ public class ServicioAlumnos implements IServicioAlumnos {
 
     /**
      * Gets the global instance of the service.
+     * 
      * @return Global instance.
      */
-    public synchronized static ServicioAlumnos getInstance(){
+    public synchronized static ServicioAlumnos getInstance() {
         return Objects.requireNonNullElseGet(servicioAlumnos, ServicioAlumnos::new);
     }
 
-    public List<AlumnoConsultaDTO> buscarAlumnos(String nombre) throws ConexionServidorException{
+    public List<AlumnoConsultaDTO> buscarAlumnos(String nombre) throws ConexionServidorException {
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/SGI/api/students?matricula=" + nombre))
+                .uri(URI.create("http://localhost:8081/SGI/api/students?matricula=" + nombre))
                 .GET()
                 .header("Authorization", "Bearer " + token)
                 .build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if(response.statusCode() == 200) {
+            if (response.statusCode() == 200) {
                 System.out.println(response.body());
-                return new Gson().fromJson(response.body(), new TypeToken<List<AlumnoConsultaDTO>>(){}.getType());
+                return new Gson().fromJson(response.body(), new TypeToken<List<AlumnoConsultaDTO>>() {
+                }.getType());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
-
 
     /**
      * Gets from the server all the showable information of a student.
@@ -75,74 +76,111 @@ public class ServicioAlumnos implements IServicioAlumnos {
      * @return List of the coincident students.
      * @throws ConexionServidorException In case of error in the server.
      */
-  public List<AlumnoRegistroDTO> searchCompleteStudent(String name, int limit, int offset) throws ConexionServidorException{
-      List<AlumnoRegistroDTO> alumnos = new ArrayList<>();
+    public List<AlumnoRegistroDTO> searchCompleteStudent(String name, int limit, int offset)
+            throws ConexionServidorException {
+        String token = UsuarioCache.getSession().getToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8081/SGI/api/students/byName/" + name+"?offset="+offset+"&limit="+limit))
+                .GET()
+                .header("Authorization", "Bearer " + token)
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                return new Gson().fromJson(response.body(), new TypeToken<List<AlumnoRegistroDTO>>() {
+                }.getType());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
 
-      AlumnoRegistroDTO alumno1 = AlumnoRegistroDTO.builder()
-              .matricula("A001")
-              .nombre("Juan Pérez")
-              .promedio(8.5)
-              .grado(3)
-              .grupo("A")
-              .estatus(Estatus.Activo)
-              .nivel(Nivel.Primaria)
-              .fechaNacimiento("2008-05-12")
-              .telefono("555-1234")
-              .genero(Genero.Masculino)
-              .correo("juan.perez@example.com")
-              .beca(new BecaDTO("NINGUNA", new BigDecimal("0.0")))
-              .tutor("María Pérez")
-              .build();
+        // List<AlumnoRegistroDTO> alumnos = new ArrayList<>();
 
-      AlumnoRegistroDTO alumno2 = AlumnoRegistroDTO.builder()
-              .matricula("A002")
-              .nombre("Ana Gómez")
-              .promedio(9.2)
-              .grado(2)
-              .grupo("B")
-              .estatus(Estatus.Egresado)
-              .nivel(Nivel.Primaria)
-              .fechaNacimiento("2010-09-23")
-              .telefono("555-5678")
-              .genero(Genero.Femenino)
-              .correo("ana.gomez@example.com")
-              .beca(new BecaDTO("CIVICA", new BigDecimal("30.0")))
-              .tutor("Luis Gómez")
-              .build();
+        // AlumnoRegistroDTO alumno1 = AlumnoRegistroDTO.builder()
+        //         .matricula("A001")
+        //         .nombre("Juan Pérez")
+        //         .promedio(8.5)
+        //         .grado(3)
+        //         .grupo("A")
+        //         .estatus(Estatus.Activo)
+        //         .nivel(Nivel.Primaria)
+        //         .fechaNacimiento("2008-05-12")
+        //         .telefono("555-1234")
+        //         .genero(Genero.Masculino)
+        //         .correo("juan.perez@example.com")
+        //         .beca(new BecaDTO("NINGUNA", new BigDecimal("0.0")))
+        //         .tutor("María Pérez")
+        //         .build();
 
-      AlumnoRegistroDTO alumno3 = AlumnoRegistroDTO.builder()
-              .matricula("A003")
-              .nombre("Carlos López")
-              .promedio(7.8)
-              .grado(1)
-              .grupo("C")
-              .estatus(Estatus.Baja)
-              .nivel(Nivel.Preescolar)
-              .fechaNacimiento("2009-11-02")
-              .telefono("555-9999")
-              .genero(Genero.Femenino)
-              .correo("carlos.lopez@example.com")
-              .beca(new BecaDTO("DEPORTIVA", new BigDecimal("20.0")))
-              .tutor("Laura López")
-              .build();
+        // AlumnoRegistroDTO alumno2 = AlumnoRegistroDTO.builder()
+        //         .matricula("A002")
+        //         .nombre("Ana Gómez")
+        //         .promedio(9.2)
+        //         .grado(2)
+        //         .grupo("B")
+        //         .estatus(Estatus.Egresado)
+        //         .nivel(Nivel.Primaria)
+        //         .fechaNacimiento("2010-09-23")
+        //         .telefono("555-5678")
+        //         .genero(Genero.Femenino)
+        //         .correo("ana.gomez@example.com")
+        //         .beca(new BecaDTO("CIVICA", new BigDecimal("30.0")))
+        //         .tutor("Luis Gómez")
+        //         .build();
 
-      alumnos.add(alumno1);
-      alumnos.add(alumno2);
-      alumnos.add(alumno3);
+        // AlumnoRegistroDTO alumno3 = AlumnoRegistroDTO.builder()
+        //         .matricula("A003")
+        //         .nombre("Carlos López")
+        //         .promedio(7.8)
+        //         .grado(1)
+        //         .grupo("C")
+        //         .estatus(Estatus.Baja)
+        //         .nivel(Nivel.Preescolar)
+        //         .fechaNacimiento("2009-11-02")
+        //         .telefono("555-9999")
+        //         .genero(Genero.Femenino)
+        //         .correo("carlos.lopez@example.com")
+        //         .beca(new BecaDTO("DEPORTIVA", new BigDecimal("20.0")))
+        //         .tutor("Laura López")
+        //         .build();
 
-      return alumnos;
-  }
+        // alumnos.add(alumno1);
+        // alumnos.add(alumno2);
+        // alumnos.add(alumno3);
+
+        // return alumnos;
+    }
 
 
-  public void registerStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException{
-      System.out.println(alumno);
-  }
+     public List<AlumnoRegistroDTO> searchAllCompleteStudents(int limit, int offset)
+            throws ConexionServidorException {
+        String token = UsuarioCache.getSession().getToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8081/SGI/api/students/allStudents/page?offset="+offset+"&limit="+limit))
+                .GET()
+                .header("Authorization", "Bearer " + token)
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                return new Gson().fromJson(response.body(), new TypeToken<List<AlumnoRegistroDTO>>() {
+                }.getType());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
-  public void editStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException{
-      System.out.println(alumno);
-  }
+    public void registerStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException {
+        System.out.println(alumno);
+    }
+
+    public void editStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException {
+        System.out.println(alumno);
+    }
 
 }
-
-
-

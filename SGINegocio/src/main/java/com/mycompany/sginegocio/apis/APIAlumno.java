@@ -65,7 +65,13 @@ public class APIAlumno {
 
     @GetMapping("/allStudents")
     public ResponseEntity<?> obtenerListaAlumnos() {
-        List<AlumnoRegistroDTO> alumnosDTO = controlador.convertirListaAlumnosADTO();
+        List<AlumnoRegistroDTO> alumnosDTO = controlador.obtenerTodos();
+        return ResponseEntity.ok().body(alumnosDTO);
+    }
+
+    @GetMapping("/allStudents/page")
+    public ResponseEntity<?> obtenerListaAlumnosPaginados(@RequestParam()int offset, @RequestParam() int limit) {
+        List<AlumnoRegistroDTO> alumnosDTO = controlador.obtenerTodosPaginados(offset,limit);
         return ResponseEntity.ok().body(alumnosDTO);
     }
 
@@ -79,10 +85,10 @@ public class APIAlumno {
         }
     }
 
-     @GetMapping("/byName/{nombre}")
-    public ResponseEntity<?> obtenerAlumnoPorNombre(@PathVariable String nombre) {
+    @GetMapping("/byName/{nombre}")
+    public ResponseEntity<?> obtenerAlumnoPorNombre(@PathVariable String nombre, @RequestParam("offset") int page, @RequestParam() int limit) {
         try {
-            List<AlumnoRegistroDTO> alumnoDTO = controlador.obtenerAlumnosPorNombreCompleto(nombre);
+            List<AlumnoRegistroDTO> alumnoDTO = controlador.obtenerAlumnosPorNombreCompleto(nombre, page, limit);
             return ResponseEntity.ok().body(alumnoDTO);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

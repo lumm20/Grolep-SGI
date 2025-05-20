@@ -338,8 +338,12 @@ public class ManageStudentController implements Initializable {
         try {
             String name = txfStudentSearch.getText();
             int offset = Integer.parseInt(lblPage.getText());
-
-            List<AlumnoRegistroDTO> alumnos = servicioAlumnos.searchCompleteStudent(name, limit, offset);
+            List<AlumnoRegistroDTO> alumnos;
+            if(name == null || name.isBlank()){
+                alumnos = servicioAlumnos.searchAllCompleteStudents(limit, offset);
+            }else{
+                alumnos = servicioAlumnos.searchCompleteStudent(name, limit, offset);
+            }
             listSize = alumnos.size();
             tblStudents.setItems(FXCollections.observableArrayList(alumnos));
         } catch (ConexionServidorException e) {

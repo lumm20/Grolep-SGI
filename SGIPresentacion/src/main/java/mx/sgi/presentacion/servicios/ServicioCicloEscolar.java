@@ -49,7 +49,7 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
         try {
             String token = UsuarioCache.getSession().getToken();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:8080/SGI/api/fees/all-cycles"))
+                    .uri(URI.create("http://localhost:8081/SGI/api/fees/all-cycles"))
                     .GET()
                     .header("Authorization", "Bearer " + token)
                     .build();
@@ -70,7 +70,7 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
     public CicloEscolarDTO obtenerCicloEscolarActual() throws ConexionServidorException {
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/SGI/api/fees/actual-cycle"))
+                .uri(URI.create("http://localhost:8081/SGI/api/fees/actual-cycle"))
                 .GET()
                 .header("Authorization", "Bearer " + token)
                 .build();

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.sginegocio.excepciones.StudentException;
@@ -82,8 +83,18 @@ public class AlumnoControlador {
         service.actualizarAlumno(alumno);
     }
 
-     public List<AlumnoRegistroDTO> convertirListaAlumnosADTO() {
+    public List<AlumnoRegistroDTO> obtenerTodos(){
         List<Alumno> alumnos = service.obtenerTodosLosAlumnos();
+        return convertirListaAlumnosADTO(alumnos);
+    }
+
+    public List<AlumnoRegistroDTO> obtenerTodosPaginados(int offset, int limit){
+        List<Alumno> alumnos = service.obtenerTodosLosAlumnosPaginados(offset-1,limit);
+        return convertirListaAlumnosADTO(alumnos);
+    }
+
+     private List<AlumnoRegistroDTO> convertirListaAlumnosADTO(List<Alumno> alumnos) {
+        // List<Alumno> alumnos = service.obtenerTodosLosAlumnos();
         List<AlumnoRegistroDTO> alumnosDTO = new ArrayList<>();
 
         for (Alumno alumno : alumnos) {
@@ -135,8 +146,9 @@ public class AlumnoControlador {
         return dto;
     }
 
-    public List<AlumnoRegistroDTO> obtenerAlumnosPorNombreCompleto(String nombre) {
-        List<Alumno> alumnos = service.buscarAlumnosCompletosPorNombre(nombre);
+    public List<AlumnoRegistroDTO> obtenerAlumnosPorNombreCompleto(String nombre, int page, int size) {
+        Page<Alumno> pageResult = service.buscarAlumnosCompletosPorNombre(nombre, page-1,  size);
+        List<Alumno> alumnos = pageResult.getContent();
         List<AlumnoRegistroDTO> dtos = new ArrayList<>();
         for (Alumno alumno : alumnos) {
             AlumnoRegistroDTO dto = new AlumnoRegistroDTO();

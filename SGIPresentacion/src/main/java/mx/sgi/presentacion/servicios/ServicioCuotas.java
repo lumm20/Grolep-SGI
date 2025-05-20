@@ -43,7 +43,7 @@ public class ServicioCuotas implements IServicioCuotas {
         String token = UsuarioCache.getSession().getToken();
         System.out.println("ciclo escolar: "+ cicloEscolar);
         HttpRequest request = HttpRequest.newBuilder().
-                            uri(URI.create("http://localhost:8080/SGI/api/fees?matricula="+matricula+"&ciclo="
+                            uri(URI.create("http://localhost:8081/SGI/api/fees?matricula="+matricula+"&ciclo="
                             + cicloEscolar)).
                             GET().
                             header("Authorization", "Bearer " + token).
@@ -105,7 +105,7 @@ public class ServicioCuotas implements IServicioCuotas {
     public List<DetalleAdeudoDTO> obtenerDetallesAdeudosColegiatura(String matricula, String cicloEscolar){
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder().
-                            uri(URI.create("http://localhost:8080/SGI/api/fees/debit-details?matricula="+matricula+"&ciclo="+cicloEscolar)).
+                            uri(URI.create("http://localhost:8081/SGI/api/fees/debit-details?matricula="+matricula+"&ciclo="+cicloEscolar)).
                             GET().
                             header("Authorization", "Bearer " + token).
                             build();

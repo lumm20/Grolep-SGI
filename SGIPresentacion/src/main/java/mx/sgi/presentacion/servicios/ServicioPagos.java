@@ -38,7 +38,7 @@ public class ServicioPagos implements IServicioPagos {
         // System.out.println(pago);
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/SGI/api/payment"))
+                .uri(URI.create("http://localhost:8081/SGI/api/payment"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + token)
                 .POST(HttpRequest.BodyPublishers.ofString(new GsonBuilder().
@@ -62,7 +62,7 @@ public class ServicioPagos implements IServicioPagos {
     public double obtenerTotalPagadoColegiatura(String matricula, String ciclo) throws ConexionServidorException{
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/SGI/api/payment/tuition/all?matricula="+matricula+"&ciclo="+ciclo))
+                .uri(URI.create("http://localhost:8081/SGI/api/payment/tuition/all?matricula="+matricula+"&ciclo="+ciclo))
                 .header("Authorization", "Bearer " + token)
                 .GET()
                 .build();
@@ -83,7 +83,7 @@ public class ServicioPagos implements IServicioPagos {
     public long obtenerPagosDeColegiaturaDelMes(String matricula, String ciclo) {
         String token = UsuarioCache.getSession().getToken();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/SGI/api/payment/tuition/all-monthly?matricula="+matricula+"&ciclo="+ciclo))
+                .uri(URI.create("http://localhost:8081/SGI/api/payment/tuition/all-monthly?matricula="+matricula+"&ciclo="+ciclo))
                 .header("Authorization", "Bearer " + token)
                 .GET()
                 .build();

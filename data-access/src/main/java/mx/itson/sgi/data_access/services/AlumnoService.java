@@ -12,6 +12,9 @@ import mx.itson.sgi.data_access.repositories.CuotaRepository;
 import mx.itson.sgi.data_access.repositories.DetalleCicloRepository;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import mx.itson.sgi.data_access.repositories.AlumnoRepository;
@@ -169,6 +172,14 @@ public class AlumnoService {
         return alumnos;
     }
 
+    @Transactional(readOnly=true)
+    public List<Alumno> obtenerTodosLosAlumnosPaginados(int offset, int limit) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        List<Alumno> alumnos = new ArrayList<>();
+        repository.findAll(pageable).forEach(alumnos::add);
+        return alumnos;
+    }
+
     /**
      * Busca por matricula
      * @param matricula Matricula del alumno
@@ -188,5 +199,20 @@ public class AlumnoService {
     public List<Alumno> buscarAlumnosCompletosPorNombre(String nombre) {
         List<Alumno> alumnos =  repository.findByNombreContaining(nombre);
         return alumnos;
+    }
+
+    /**
+     * Busca a todos los alumnos en la base de datos y regresa datos completos con
+     * paginación
+     * 
+     * @param nombre Nombre del alumno
+     * @param page   Número de página (comenzando desde 0)
+     * @param size   Tamaño de la página
+     * @return Página de alumnos con datos completos
+     */
+    @Transactional
+    public Page<Alumno> buscarAlumnosCompletosPorNombre(String nombre, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findByNombreContaining(nombre, pageable);
     }
 }
