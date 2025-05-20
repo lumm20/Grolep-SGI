@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import mx.itson.sgi.dto.FiltroPagoDTO;
 import mx.itson.sgi.dto.PagoReporteDTO;
+import mx.itson.sgi.reportes.generador.GeneradorReportes;
 import mx.sgi.presentacion.caches.FiltrosCache;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
 import mx.sgi.presentacion.mediador.Mediador;
@@ -211,11 +212,9 @@ public class GenerateReportController  implements Initializable {
             File file = chooseFileToSaveReport();
 
             if (file != null) {
-                // Aquí iría la lógica para generar el reporte y guardarlo en el archivo seleccionado
                 System.out.println("Guardar en: " + file.getAbsolutePath());
 
-                // Ejemplo:
-                // reportService.generarReportePagos(listaPagos, file);
+                new GeneradorReportes().generarReportes(listedpayments, file.getAbsolutePath());
 
                 notify("Éxito", "Reporte guardado en:\n" + file.getAbsolutePath());
             }

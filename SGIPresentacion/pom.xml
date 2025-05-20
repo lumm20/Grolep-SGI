@@ -148,6 +148,12 @@
             <artifactId>SGIDTO</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>mx.itson.sgi.reportes</groupId>
+            <artifactId>SGIReportes</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

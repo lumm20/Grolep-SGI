@@ -1,6 +1,6 @@
-package reportes;
+package mx.itson.sgi.reportes.generador;
 
-import mx.itson.sgi.dto.PagoDTO;
+import mx.itson.sgi.dto.PagoReporteDTO;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.util.ResourceUtils;
@@ -11,11 +11,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GeneradorReportes {
 
-    public void generarReportes(List<PagoDTO> pagos, String destino) throws FileNotFoundException, JRException {
+    public void generarReportes(List<PagoReporteDTO> pagos, String destino) throws FileNotFoundException, JRException {
         List<ReporteDTO> entradasReporte = pagos.stream().map(GeneradorReportes::convertirPago).toList();
 
         File archivo = ResourceUtils.getFile("classpath:ReportePagos.jrxml");
@@ -26,10 +25,10 @@ public class GeneradorReportes {
         parametros.put("createdBy", "GROLEP");
         JasperPrint jasperPrint = JasperFillManager.fillReport(reporte, parametros, dataSource);
 
-        JasperExportManager.exportReportToPdfFile(jasperPrint, destino + "\\employees.pdf");
+        JasperExportManager.exportReportToPdfFile(jasperPrint, destino);
     }
 
-    private static ReporteDTO convertirPago(PagoDTO pago) {
+    public static ReporteDTO convertirPago(PagoReporteDTO pago) {
         ReporteDTO reporte = new ReporteDTO();
         reporte.setMatricula(pago.getAlumno().getMatricula());
         reporte.setFolio(pago.getFolio());
