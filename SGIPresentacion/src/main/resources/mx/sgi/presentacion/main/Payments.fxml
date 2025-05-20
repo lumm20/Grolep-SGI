@@ -266,7 +266,7 @@
             <Font name="Segoe UI" size="15.0" />
          </font>
       </MFXButton>
-      <MFXTextField fx:id="txfAlumnos" floatMode="DISABLED" layoutX="52.0" layoutY="15.0" prefHeight="51.0" prefWidth="289.0" promptText="Busqueda de alumno" styleClass="input-field">
+      <MFXTextField fx:id="txfAlumnos" floatMode="DISABLED" layoutX="52.0" layoutY="15.0" prefHeight="51.0" prefWidth="365.0" promptText="Busqueda de alumno" styleClass="input-field">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>

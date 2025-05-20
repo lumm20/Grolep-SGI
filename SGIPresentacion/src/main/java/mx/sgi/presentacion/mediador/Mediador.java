@@ -107,19 +107,6 @@ public class Mediador {
         }
     }
 
-    /**
-     *
-     */
-    public void refrescarPantallaPagos(){
-//        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
-//        PayamentsController pantallaPrincipal = PayamentsController.getInstance();
-//
-//        String matricula = ticket.getAlumno().getMatricula();
-//        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
-//
-//        pantallaPrincipal.cleanupTxtFields();
-//        pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
-    }
 
     /**
      *  Method that sets the initial center frame and the initial left frame
@@ -313,6 +300,19 @@ public class Mediador {
         MainFrameController mainFrame = MainFrameController.getInstance();
         ManageCyclesController controller = (ManageCyclesController) mainFrame.getCenter();
         controller.loadTable();
+    }
+
+    public void refreshPaymentScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        PayamentsController controller = (PayamentsController) mainFrame.getCenter();
+
+        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+
+        String matricula = ticket.getAlumno().getMatricula();
+        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
+
+        controller.cleanupTxtFields();
+        controller.establecerCuotas(matricula, cicloEscolar);
     }
 
 }
