@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1150.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.PantallaPrincipalController">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1150.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.PayamentsController">
    <left>
       <VBox prefHeight="760.0" prefWidth="75.0" style="-fx-background-color: #2C3E50;" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +24,7 @@
                <children>
                   <ImageView fitHeight="41.0" fitWidth="48.0" layoutX="17.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@iconos/payments.png" />
+                        <Image url="@icons/payments.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="19.0" layoutY="61.0" text="Pagos" textFill="WHITE">
@@ -41,7 +41,7 @@
                <children>
                   <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="17.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@iconos/manage_accounts.png" />
+                        <Image url="@icons/manage_accounts.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="11.0" layoutY="59.0" text="Registros" textFill="WHITE">
@@ -58,7 +58,7 @@
                <children>
                   <ImageView fitHeight="41.0" fitWidth="42.0" layoutX="17.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@iconos/storefront.png" />
+                        <Image url="@icons/storefront.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="8.0" layoutY="59.0" text="Uniformes" textFill="WHITE">
@@ -76,7 +76,7 @@
                <children>
                   <ImageView fitHeight="37.0" fitWidth="36.0" layoutX="20.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@iconos/logout.png" />
+                        <Image url="@icons/logout.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="25.0" layoutY="59.0" text="Salir" textFill="WHITE">

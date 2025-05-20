@@ -1,8 +1,7 @@
 package mx.sgi.presentacion.servicios;
 
-import com.google.gson.Gson;
-import mx.itson.sgi.dto.PagoDTO;
-import mx.itson.sgi.dto.UsuarioDTO;
+import mx.itson.sgi.dto.*;
+import mx.itson.sgi.dto.PagoReporteDTO;
 import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
 import mx.sgi.presentacion.interfaces.IServicioPagos;
@@ -12,6 +11,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.GsonBuilder;
 
@@ -100,5 +102,33 @@ public class ServicioPagos implements IServicioPagos {
         return 0L;
     }
 
+
+    /**
+     *
+     * @param filtros
+     * @return
+     * @throws ConexionServidorException
+     */
+    public List<PagoReporteDTO> getPaymentsForReport(FiltroPagoDTO filtros) throws ConexionServidorException {
+        List<PagoReporteDTO> pagos = new ArrayList<>();
+
+        PagoReporteDTO pago = PagoReporteDTO.builder()
+                .montoTotal(1500.00)
+                .folio("FOL123456")
+                .fecha(LocalDateTime.now()) // Aunque no se serializa, puedes asignarla
+                .alumno(AlumnoConsultaDTO.builder()
+                        .matricula("A12345")
+                        .nombre("Juan Pérez")
+                        .numeroCelular("5551234567")
+                        .build())
+                .metodoPago(MetodosPagoDTO.Transferencia)
+                .tipoDescuento("Beca académica")
+                .montoDescuento(500.00)
+                .usuario(new UsuarioDTO(1L, "admin", "admin@ejemplo.com","admin123", RolDTO.ADMIN))
+                .build();
+
+        pagos.add(pago);
+        return pagos;
+    }
 
 }

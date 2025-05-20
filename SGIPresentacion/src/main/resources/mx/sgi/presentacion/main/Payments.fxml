@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1090.0" styleClass="mainPane" stylesheets="@styles/paymentsStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.PayamentsController">
+            <children>
+                <AnchorPane layoutX="47.0" layoutY="336.0" prefHeight="409.0" prefWidth="638.0" style="-fx-background-radius: 10px;" styleClass="pane" AnchorPane.leftAnchor="27.0">
+                    <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="18.0" prefWidth="108.0" text="Otros">
+                            <font>
+                                <Font name="Segoe UI" size="21.0" />
+                            </font>
+                        </Label>
+                        <JFXCheckBox fx:id="cbxConsiderarCuotas" checkedColor="#699af1" layoutX="487.0" layoutY="20.0" onAction="#considerarTodos" text="Seleccionar todos">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </JFXCheckBox>
+                        <Label layoutX="487.0" layoutY="70.0" prefHeight="18.0" prefWidth="70.0" text="Monto" textAlignment="CENTER">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="255.0" layoutY="70.0" prefHeight="18.0" prefWidth="70.0" text="Adeudo" textAlignment="CENTER">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="33.0" layoutY="70.0" prefHeight="18.0" prefWidth="70.0" text="Concepto">
+                            <font>
+                                <Font name="Segoe UI Bold" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="23.0" layoutY="129.0" prefHeight="22.0" prefWidth="128.0" text="Cuota de inscripcion">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="27.0" layoutY="184.0" prefHeight="22.0" prefWidth="94.0" text="Cuota de libros" textAlignment="CENTER">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="24.0" layoutY="239.0" prefHeight="22.0" prefWidth="110.0" text="Cuota de eventos" textAlignment="CENTER">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="27.0" layoutY="296.0" prefHeight="22.0" prefWidth="128.0" text="Cuota de academias" textAlignment="CENTER">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="27.0" layoutY="354.0" prefHeight="20.0" prefWidth="60.0" text="Uniforme" textAlignment="CENTER">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblCuotaLibros" alignment="CENTER" layoutX="217.0" layoutY="183.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblCuotaInscripcion" alignment="CENTER" layoutX="217.0" layoutY="128.0" prefHeight="20.0" prefWidth="128.0" style="-fx-text-alignment: center;" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblCuotaEventos" alignment="CENTER" layoutX="217.0" layoutY="238.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblCuotaAcademias" alignment="CENTER" layoutX="217.0" layoutY="295.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblUniforme" alignment="CENTER" layoutX="217.0" layoutY="351.0" prefHeight="20.0" prefWidth="128.0" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="txfMontoInscripcion" alignment="CENTER" layoutX="440.0" layoutY="128.0" prefHeight="26.0" prefWidth="158.0" styleClass="input-field">
+                            <font>
+                                <Font size="14.0" />
+                            </font></TextField>
+                        <TextField fx:id="txfMontoLibros" alignment="CENTER" layoutX="440.0" layoutY="182.0" prefHeight="26.0" prefWidth="158.0" styleClass="input-field">
+                            <font>
+                                <Font size="14.0" />
+                            </font></TextField>
+                        <TextField fx:id="txfMontoEventos" alignment="CENTER" layoutX="440.0" layoutY="237.0" prefHeight="26.0" prefWidth="158.0" styleClass="input-field">
+                            <font>
+                                <Font size="14.0" />
+                            </font></TextField>
+                        <TextField fx:id="txfMontoAcademias" alignment="CENTER" layoutX="440.0" layoutY="294.0" prefHeight="26.0" prefWidth="158.0" styleClass="input-field">
+                            <font>
+                                <Font size="14.0" />
+                            </font></TextField>
+                        <TextField fx:id="txfMontoUniforme" alignment="CENTER" layoutX="440.0" layoutY="350.0" prefHeight="26.0" prefWidth="158.0" styleClass="input-field">
+                            <font>
+                                <Font size="14.0" />
+                            </font></TextField>
+            <Separator layoutX="23.0" layoutY="58.0" prefHeight="1.0" prefWidth="575.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
+            <Separator layoutX="23.0" layoutY="99.0" prefHeight="1.0" prefWidth="575.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutX="47.0" layoutY="98.0" prefHeight="218.0" prefWidth="638.0" styleClass="pane" AnchorPane.leftAnchor="27.0">
+                    <children>
+                        <Label layoutX="14.0" layoutY="21.0" prefHeight="18.0" prefWidth="108.0" text="Colegiatura">
+                            <font>
+                                <Font name="Segoe UI" size="19.0" />
+                            </font>
+                        </Label>
+                        <JFXCheckBox fx:id="cbxConsiderarColegiatura" checkedColor="#699af1" layoutX="492.0" layoutY="25.0" onAction="#considerarColegiatura" text="Seleccionar todos">
+                            <font>
+                                <Font name="Segoe UI" size="14.0" />
+                            </font>
+                        </JFXCheckBox>
+                        <Label layoutX="48.0" layoutY="65.0" prefHeight="20.0" prefWidth="53.0" style="-fx-text-alignment: center;" text="Adeudos">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="50.0" layoutY="85.0" prefHeight="20.0" prefWidth="50.0" style="-fx-text-alignment: center;" text="vencidos">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="190.0" layoutY="65.0" prefHeight="20.0" prefWidth="68.0" style="-fx-text-alignment: center;" text="Adeudo de">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="195.0" layoutY="85.0" prefHeight="20.0" prefWidth="53.0" style="-fx-text-alignment: center;" text="este mes">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblAdeudoVencido" alignment="CENTER" layoutX="44.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblAdeudoActual" alignment="CENTER" layoutX="190.0" layoutY="118.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="334.0" layoutY="65.0" prefHeight="20.0" prefWidth="72.0" style="-fx-text-alignment: center;" text="Adeudo con">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="339.0" layoutY="85.0" prefHeight="20.0" prefWidth="60.0" style="-fx-text-alignment: center;" text="descuento">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblAdeudoConDescuento" alignment="CENTER" layoutX="335.0" layoutY="121.0" prefHeight="20.0" prefWidth="62.0" style="-fx-text-alignment: center;" text="0000.00">
+                            <font>
+                                <Font name="System Bold" size="16.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="492.0" layoutY="65.0" prefHeight="20.0" prefWidth="80.0" style="-fx-text-alignment: center;" text="Monto para">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="494.0" layoutY="85.0" prefHeight="20.0" prefWidth="66.0" style="-fx-text-alignment: center;" text="colegiatura">
+                            <font>
+                                <Font name="Segoe UI Bold" size="12.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="txfMontoColegiatura" alignment="CENTER" layoutX="472.0" layoutY="118.0" prefHeight="26.0" prefWidth="110.0" styleClass="input-field">
+                            <font>
+                                <Font size="14.0" />
+                            </font></TextField>
+            <Separator layoutX="14.0" layoutY="56.0" prefHeight="1.0" prefWidth="606.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
+            <Separator layoutX="14.0" layoutY="108.0" prefHeight="1.0" prefWidth="606.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
+            <MFXButton fx:id="btnDetalles" buttonType="RAISED" depthLevel="LEVEL4" layoutX="25.0" layoutY="172.0" prefHeight="31.0" prefWidth="62.0" text="Button">
+               <font>
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </MFXButton>
+                    </children>
+                </AnchorPane>
+                <AnchorPane layoutX="710.0" layoutY="98.0" prefHeight="389.0" prefWidth="324.0" styleClass="pane">
+                    <children>
+                        <Label fx:id="lblTotal" alignment="BASELINE_CENTER" layoutX="52.0" layoutY="143.0" prefHeight="51.0" prefWidth="206.0" text="0.00" textFill="WHITE">
+                            <font>
+                                <Font size="35.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="106.0" layoutY="195.0" prefHeight="28.0" prefWidth="113.0" text="Total a pagar">
+                            <font>
+                                <Font name="Segoe UI Bold" size="17.0" />
+                            </font>
+                        </Label>
+                        <Separator layoutX="13.0" layoutY="234.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
+                        <Label layoutX="17.0" layoutY="54.0" prefHeight="28.0" prefWidth="146.0" text="Descuento aplicado:">
+                            <font>
+                                <Font name="Segoe UI Bold" size="15.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="17.0" layoutY="108.0" prefHeight="28.0" prefWidth="146.0" text="Tipo de descuento:">
+                            <font>
+                                <Font name="Segoe UI Bold" size="15.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="253.0" prefHeight="28.0" prefWidth="226.0" text="Seleccione un metodo de pago:">
+                            <font>
+                                <Font name="Segoe UI Bold" size="15.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblSubTotal" layoutX="90.0" layoutY="18.0" prefHeight="28.0" prefWidth="194.0" text="0.0">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="lblDescuentoDescuento" layoutX="166.0" layoutY="54.0" prefHeight="28.0" prefWidth="106.0" text="0.00">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="17.0" layoutY="18.0" prefHeight="28.0" prefWidth="69.0" text="Subtotal:">
+                            <font>
+                                <Font name="Segoe UI Bold" size="15.0" />
+                            </font>
+                        </Label>
+                        <Separator layoutX="10.0" layoutY="96.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
+            <MFXComboBox fx:id="cmbxMetodoPago" floatMode="DISABLED" layoutX="46.0" layoutY="301.0" prefHeight="40.0" prefWidth="218.0" promptText="Ciclo escolar" styleClass="combo-box">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </MFXComboBox>
+                    </children>
+                </AnchorPane>
+                <Label layoutX="689.0" layoutY="31.0" prefHeight="26.0" prefWidth="103.0" text="Ciclo Escolar:" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+      <MFXButton fx:id="btnLimpiarFiltroAlumnos" buttonType="RAISED" depthLevel="LEVEL4" layoutX="483.0" layoutY="24.0" prefHeight="40.0" prefWidth="62.0">
+         <font>
+            <Font name="Segoe UI" size="12.0" />
+         </font>
+      </MFXButton>
+      <MFXComboBox fx:id="cmbxCicloEscolar" floatMode="DISABLED" layoutX="793.0" layoutY="24.0" prefHeight="40.0" prefWidth="158.0" promptText="Ciclo escolar" styleClass="combo-box">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXComboBox>
+      <MFXComboBox fx:id="cmbxAlumnos" floatMode="DISABLED" layoutX="27.0" layoutY="30.0" prefHeight="40.0" prefWidth="438.0">
+         <font>
+            <Font name="Segoe UI" size="18.0" />
+         </font>
+      </MFXComboBox>
+      <MFXTextField fx:id="txfAlumnos" floatMode="DISABLED" layoutX="27.0" layoutY="20.0" prefHeight="50.0" prefWidth="438.0" promptText="Busqueda de alumno" styleClass="input-field">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
+      <MFXButton fx:id="btnRegistrar" buttonType="RAISED" depthLevel="LEVEL4" layoutX="808.0" layoutY="515.0" prefHeight="51.0" prefWidth="128.0" style="-fx-background-color: #73f030;" text="Registrar">
+         <font>
+            <Font name="Segoe UI" size="15.0" />
+         </font>
+      </MFXButton>
+            </children>
+        </AnchorPane>

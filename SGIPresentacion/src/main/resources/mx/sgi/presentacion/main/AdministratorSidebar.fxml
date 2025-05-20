@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="760.0" prefWidth="60.0" styleClass="sidebar" stylesheets="@styles/DashboardAdminStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.AdministratorSidebarController">
+   <children>
+      <VBox alignment="CENTER" layoutX="-1.0" layoutY="197.0" prefHeight="366.0" prefWidth="60.0" AnchorPane.bottomAnchor="196.80000000000007" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="197.0">
+         <children>
+            <MFXButton fx:id="paymentButton" alignment="CENTER" depthLevel="LEVEL4" onMouseClicked="#handlePaymentsButtonClick" prefHeight="26.0" prefWidth="32.0" styleClass="icon-button" text="Button">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton fx:id="usersButton" alignment="CENTER" depthLevel="LEVEL4" onMouseClicked="#handleUsersButtonClick" prefHeight="26.0" prefWidth="32.0" styleClass="icon-button">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton fx:id="shoppingButton" alignment="CENTER" depthLevel="LEVEL4" onMouseClicked="#handleShoppingButtonClick" prefHeight="26.0" prefWidth="32.0" styleClass="icon-button">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton fx:id="reportsButton" alignment="CENTER" depthLevel="LEVEL4" onMouseClicked="#handleReportsButtonClick" prefHeight="26.0" prefWidth="32.0" styleClass="icon-button">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+            <MFXButton fx:id="cyclesButton" alignment="CENTER" depthLevel="LEVEL4" onMouseClicked="#handleCyclesButtonClick" prefHeight="26.0" prefWidth="32.0" styleClass="icon-button">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+      <VBox alignment="CENTER" layoutY="681.0" prefHeight="34.0" prefWidth="60.0" AnchorPane.bottomAnchor="44.80000000000005" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="681.0">
+         <children>
+            <MFXButton fx:id="logoutButton" alignment="CENTER" depthLevel="LEVEL4" onMouseClicked="#handleLogoutButtonClick" prefHeight="26.0" prefWidth="32.0" styleClass="icon-button" text="Button">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="44.0" prefWidth="60.0" AnchorPane.bottomAnchor="685.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="31.0">
+         <children>
+            <MFXButton fx:id="menuButton" alignment="CENTER" depthLevel="LEVEL4" prefHeight="26.0" prefWidth="32.0" styleClass="icon-button" text="Button">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </MFXButton>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

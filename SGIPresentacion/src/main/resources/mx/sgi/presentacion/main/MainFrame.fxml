@@ -4,7 +4,7 @@
 
 
 <BorderPane fx:id="mainBorderPane"
-            fx:controller="mx.sgi.presentacion.controladores.PantallaPrinciController"
+            fx:controller="mx.sgi.presentacion.controladores.MainFrameController"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             prefHeight="760.0" prefWidth="1150.0">

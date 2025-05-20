@@ -13,6 +13,7 @@ import com.mycompany.sginegocio.excepciones.PaymentException;
 
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.PagoDTO;
+import mx.itson.sgi.dto.PagoReporteDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.itson.sgi.dto.FiltroPagoDTO; 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,7 +74,7 @@ public class APIPago {
     @PostMapping("/filter")
     public ResponseEntity<?> filtrarPagos(@RequestBody FiltroPagoDTO filtro) {
         try {
-            List<PagoDTO> pagos = controlador.filtrarPagos(filtro);
+            List<PagoReporteDTO> pagos = controlador.filtrarPagos(filtro);
             if (pagos.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron pagos con los filtros proporcionados.");
             }

@@ -1,10 +1,12 @@
 package mx.sgi.presentacion.controladores;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -33,6 +35,8 @@ import java.util.ResourceBundle;
 import org.controlsfx.control.Notifications;
 
 import com.jfoenix.controls.JFXButton;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign.MaterialDesign;
 
 public class TicketController implements Initializable {
 
@@ -59,6 +63,9 @@ public class TicketController implements Initializable {
 
     @FXML
     Label lblSubTotal;
+
+    @FXML
+    MFXButton btnCancelar;
 
     @FXML
     private AnchorPane rootPane;
@@ -242,6 +249,17 @@ public class TicketController implements Initializable {
                 .position(Pos.TOP_RIGHT)
                 .hideAfter(Duration.seconds(5))
                 .show();
+    }
+
+    private void setBtnCancelarStyles(){
+        FontIcon icon = new FontIcon(MaterialDesign.MDI_CLOSE);
+        icon.setIconSize(15);
+
+        btnCancelar.setGraphic(icon);
+        btnCancelar.setText("");
+
+        Tooltip tooltip = new Tooltip("Cancelar");
+        Tooltip.install(btnCancelar, tooltip);
     }
 
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="587.0" styleClass="mainPane" stylesheets="@styles/RegisterUserStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.ReportFiltersController">
+    <children>
+        <Pane layoutX="16.0" layoutY="42.0" prefHeight="145.0" prefWidth="554.0" styleClass="pane">
+            <children>
+                <MFXComboBox fx:id="cbStudent" floatMode="DISABLED" layoutX="38.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" style="-fx-border-color: #000000;" textLimit="40">
+                    <font>
+                        <Font name="Segoe UI" size="14.0" />
+                    </font>
+                </MFXComboBox>
+            <MFXTextField fx:id="txfStudent" floatMode="BORDER" floatingText="Nombre del alumno" layoutX="38.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" textLimit="40">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </MFXTextField>
+            </children>
+        </Pane>
+        <Pane layoutX="16.0" layoutY="218.0" prefHeight="146.0" prefWidth="554.0" styleClass="pane">
+            <children>
+                <MFXTextField fx:id="txfMinimum" floatMode="BORDER" floatingText="Minimo" layoutX="51.0" layoutY="52.0" prefHeight="43.0" prefWidth="203.0" textLimit="40">
+                    <font>
+                        <Font name="Segoe UI" size="14.0" />
+                    </font>
+                </MFXTextField>
+            <MFXTextField fx:id="txfMaximum" floatMode="BORDER" floatingText="Maximo" layoutX="277.0" layoutY="52.0" prefHeight="43.0" prefWidth="203.0" textLimit="40">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </MFXTextField>
+            </children>
+        </Pane>
+        <Label alignment="CENTER" layoutX="67.0" layoutY="28.0" prefHeight="28.0" prefWidth="120.0" style="-fx-background-color: #ffffff;" text="Filtro por alumno">
+            <font>
+                <Font name="Segoe UI Bold" size="14.0" />
+            </font>
+        </Label>
+        <MFXButton buttonType="RAISED" depthLevel="LEVEL4" layoutX="228.0" layoutY="574.0" onMouseClicked="#closeScreen" prefHeight="50.0" prefWidth="130.0" style="-fx-background-radius: 20px; -fx-border-radius: 20px; -fx-background-color: #f4fa67;" text="Añadir filtros">
+            <font>
+                <Font name="Segoe UI Bold" size="14.0" />
+            </font>
+        </MFXButton>
+        <Label alignment="CENTER" layoutX="70.0" layoutY="209.0" prefHeight="18.0" prefWidth="114.0" style="-fx-background-color: #ffffff;" text="Filtro por monto">
+            <font>
+                <Font name="Segoe UI Bold" size="14.0" />
+            </font>
+        </Label>
+      <Pane layoutX="16.0" layoutY="395.0" prefHeight="145.0" prefWidth="554.0" styleClass="pane">
+         <children>
+            <MFXComboBox fx:id="cbCashier" allowEdit="true" floatMode="DISABLED" layoutX="51.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" style="-fx-border-color: #000000;" textLimit="40">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </MFXComboBox>
+            <MFXTextField fx:id="txfCashier" floatMode="BORDER" floatingText="Nombre del cajero" layoutX="51.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" textLimit="40">
+               <font>
+                  <Font name="Segoe UI" size="14.0" />
+               </font>
+            </MFXTextField>
+         </children>
+      </Pane>
+      <Label alignment="CENTER" layoutX="70.0" layoutY="386.0" prefHeight="18.0" prefWidth="114.0" style="-fx-background-color: #ffffff;" text="Filtro por cajero">
+         <font>
+            <Font name="Segoe UI Bold" size="14.0" />
+         </font>
+      </Label>
+    </children>
+</AnchorPane>

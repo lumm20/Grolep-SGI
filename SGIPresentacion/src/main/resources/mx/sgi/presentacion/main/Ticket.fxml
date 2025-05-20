@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -10,22 +10,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="760.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.TicketController">
+<AnchorPane fx:id="rootPane" prefHeight="760.0" prefWidth="390.0" stylesheets="@styles/ticketStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.TicketController">
    <children>
-      <AnchorPane fx:id="ticketContentPane" layoutX="15.0" layoutY="26.0" prefHeight="645.0" prefWidth="358.0" style="-fx-background-color: #81A0D5; -fx-background-radius: 10px;">
+      <AnchorPane fx:id="ticketContentPane" layoutX="15.0" layoutY="26.0" prefHeight="645.0" prefWidth="358.0" styleClass="pane">
          <children>
             <VBox spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
                   <HBox alignment="CENTER">
                <children>
-                  <JFXButton onAction="#cancelar" prefHeight="20.0" prefWidth="74.0" style="-fx-background-color: #ea3636; -fx-background-radius: 10px;" text="Cancelar">
+                  <MFXButton fx:id="btnCancelar" onMouseClicked="#cancelar" prefHeight="30.0" prefWidth="54.0" style="-fx-background-color: #ea3636; -fx-background-radius: 10px;" text="Cancelar">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
-                  </JFXButton>
+                  </MFXButton>
                   <Region HBox.hgrow="ALWAYS" />
                   <Label alignment="CENTER" text="Detalles de pago">
                      <font>
@@ -39,7 +39,7 @@
                <children>
                   <VBox alignment="CENTER">
                      <children>
-                        <Label fx:id="lblTotal" alignment="CENTER" text="0.000000000000" textAlignment="CENTER" textFill="WHITE">
+                        <Label fx:id="lblTotal" alignment="CENTER" text="0.000000000000" textAlignment="CENTER" textFill="#2b2b2b">
                            <font>
                               <Font size="25.0" />
                            </font>
@@ -173,10 +173,10 @@
          </children>
       </AnchorPane>
       
-      <JFXButton fx:id="btnConfirmar" layoutX="120.0" layoutY="702.0" onAction="#confirmarPago" prefHeight="44.0" prefWidth="133.0" ripplerFill="#d9d5d5" style="-fx-background-color: #3fea37; -fx-background-radius: 10px;" text="Confirmar" AnchorPane.topAnchor="702.0">
+      <MFXButton layoutX="127.0" layoutY="685.0" onAction="#confirmarPago" prefHeight="44.0" prefWidth="133.0" style="-fx-background-color: #3fea37; -fx-background-radius: 10px;" text="Confirmar" AnchorPane.topAnchor="685.0">
          <font>
             <Font size="14.0" />
          </font>
-      </JFXButton>
+      </MFXButton>
    </children>
 </AnchorPane>

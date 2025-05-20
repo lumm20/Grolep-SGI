@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.legacy.MFXLegacyTableView?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1090.0" styleClass="screen" stylesheets="@styles/GenerateReportStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.GenerateReportController">
+    <children>
+        <MFXButton fx:id="btnAddFilters" buttonType="RAISED" depthLevel="LEVEL4" layoutX="607.0" layoutY="60.0" onMouseClicked="#openReportFiltersScreen" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #c0cbbf;" styleClass="clean-btn" text="Button">
+            <font>
+                <Font name="Segoe UI" size="14.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </MFXButton>
+        <MFXButton fx:id="btnGeneratePDF" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="874.0" layoutY="63.0" prefHeight="40.0" prefWidth="138.0" style="-fx-background-color: #f44444;" styleClass="clean-btn" textFill="WHITE" AnchorPane.rightAnchor="77.60000000000002">
+            <font>
+                <Font size="14.0" />
+            </font>
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </MFXButton>
+          <Label layoutX="27.0" layoutY="143.0" prefHeight="40.0" prefWidth="204.0" text="Pagos">
+              <font>
+                  <Font name="Segoe UI" size="30.0" />
+              </font>
+          </Label>
+          <MFXLegacyTableView fx:id="tblPayments" layoutX="27.0" layoutY="193.0" prefHeight="474.0" prefWidth="1025.0" AnchorPane.bottomAnchor="92.60000000000002" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="192.80000000000007" />
+      <MFXButton fx:id="btnCleanUpFilters" buttonType="RAISED" depthLevel="LEVEL4" layoutX="702.0" layoutY="60.0" onMouseClicked="#cleanFilters" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #c0cbbf;" styleClass="clean-btn" text="Button">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <MFXDatePicker fx:id="dpFrom" floatMode="INLINE" floatingText="Desde" layoutX="31.0" layoutY="56.0" prefHeight="38.0" prefWidth="182.0">
+         <font>
+            <Font name="Segoe UI" size="12.0" />
+         </font>
+      </MFXDatePicker>
+      <MFXDatePicker fx:id="dpTo" floatMode="INLINE" floatingText="Hasta" layoutX="245.0" layoutY="58.0" prefHeight="38.0" prefWidth="182.0">
+         <font>
+            <Font name="Segoe UI" size="12.0" />
+         </font>
+      </MFXDatePicker>
+      <MFXButton fx:id="btnSearch" buttonType="RAISED" depthLevel="LEVEL4" layoutX="448.0" layoutY="60.0" onMouseClicked="#searchPayments" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #699af1;" styleClass="clean-btn" text="Button">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </MFXButton>
+      <Separator layoutX="551.0" layoutY="34.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="2.0" style="-fx-background-color: black; -fx-border-color: white;" styleClass="separa" stylesheets="@styles/GenerateReportStyles.css" />
+    </children>
+</AnchorPane>
