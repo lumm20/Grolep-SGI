@@ -1,6 +1,7 @@
 package mx.sgi.presentacion.servicios;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.AlumnoRegistroDTO;
@@ -175,12 +176,46 @@ public class ServicioAlumnos implements IServicioAlumnos {
         return null;
     }
 
-    public void registerStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException {
-        System.out.println(alumno);
+    public void  registerStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException {
+        String token = UsuarioCache.getSession().getToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8081/SGI/api/students"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .POST(HttpRequest.BodyPublishers.ofString(new GsonBuilder().
+                excludeFieldsWithoutExposeAnnotation().create().toJson(alumno)))
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                AlumnoRegistroDTO alumnoNuevo = new Gson().fromJson(response.body(),AlumnoRegistroDTO.class);
+                System.out.println(alumnoNuevo);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void editStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException {
-        System.out.println(alumno);
+        String token = UsuarioCache.getSession().getToken();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8081/SGI/api/students"))
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .PUT(HttpRequest.BodyPublishers.ofString(new GsonBuilder().
+                excludeFieldsWithoutExposeAnnotation().create().toJson(alumno)))
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                AlumnoRegistroDTO alumnoNuevo = new Gson().fromJson(response.body(),AlumnoRegistroDTO.class);
+                System.out.println(alumnoNuevo);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
