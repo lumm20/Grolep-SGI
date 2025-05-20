@@ -1,9 +1,7 @@
-package reportes;
+package mx.itson.sgi.reportes.generador;
 
 import lombok.Data;
 import mx.itson.sgi.dto.MetodosPagoDTO;
-
-import java.time.LocalDateTime;
 
 @Data
 public class ReporteDTO {

@@ -10,9 +10,7 @@ import javafx.stage.Stage;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
-import mx.sgi.presentacion.controladores.MainFrameController;
-import mx.sgi.presentacion.controladores.PayamentsController;
-import mx.sgi.presentacion.controladores.TicketController;
+import mx.sgi.presentacion.controladores.*;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
 
 /**
@@ -109,19 +107,6 @@ public class Mediador {
         }
     }
 
-    /**
-     *
-     */
-    public void refrescarPantallaPagos(){
-        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
-        PayamentsController pantallaPrincipal = PayamentsController.getInstance();
-
-        String matricula = ticket.getAlumno().getMatricula();
-        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
-
-        pantallaPrincipal.cleanupTxtFields();
-        pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
-    }
 
     /**
      *  Method that sets the initial center frame and the initial left frame
@@ -302,6 +287,32 @@ public class Mediador {
             System.err.println("Error al cargar la pantalla de registro de estudiantes");
             e.printStackTrace();
         }
+    }
+
+
+    public void refreshManageStudentsScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        ManageStudentController controller = (ManageStudentController) mainFrame.getCenter();
+        controller.loadTable();
+    }
+
+    public void refreshManageCyclesScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        ManageCyclesController controller = (ManageCyclesController) mainFrame.getCenter();
+        controller.loadTable();
+    }
+
+    public void refreshPaymentScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        PayamentsController controller = (PayamentsController) mainFrame.getCenter();
+
+        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+
+        String matricula = ticket.getAlumno().getMatricula();
+        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
+
+        controller.cleanupTxtFields();
+        controller.establecerCuotas(matricula, cicloEscolar);
     }
 
 }

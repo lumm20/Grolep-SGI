@@ -47,7 +47,7 @@
         </Pane>
         <Pane layoutX="16.0" layoutY="266.0" prefHeight="342.0" prefWidth="554.0" styleClass="pane">
             <children>
-                <MFXDatePicker fx:id="dpBirthDate" floatMode="BORDER" floatingText="Fecha" layoutX="357.0" layoutY="38.0" prefHeight="43.0" prefWidth="154.0">
+                <MFXDatePicker fx:id="dpBirthDate" allowEdit="false" floatMode="BORDER" floatingText="Fecha" layoutX="357.0" layoutY="38.0" prefHeight="43.0" prefWidth="154.0">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>

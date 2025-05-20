@@ -10,6 +10,7 @@ import javafx.util.Duration;
 import mx.itson.sgi.dto.CicloConDetallesDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.DetalleCicloDTO;
+import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import org.controlsfx.control.Notifications;
 
@@ -45,6 +46,8 @@ public class RegisterCycleController implements Initializable {
 
     ServicioCicloEscolar cyclesService;
 
+    Mediador mediador;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadInstances();
@@ -52,6 +55,7 @@ public class RegisterCycleController implements Initializable {
 
     private void loadInstances(){
         cyclesService = ServicioCicloEscolar.getInstance();
+        mediador = Mediador.getInstance();
     }
 
     private void validateCycleFields() throws IllegalArgumentException {
@@ -128,6 +132,8 @@ public class RegisterCycleController implements Initializable {
             CicloConDetallesDTO fullCycle = new CicloConDetallesDTO(cycle, details);
             System.out.println(fullCycle);
             cyclesService.registerCycle(fullCycle);
+
+            mediador.refreshManageCyclesScreen();
         }
         catch (Exception ex) {
             notify("Error", ex.getMessage());

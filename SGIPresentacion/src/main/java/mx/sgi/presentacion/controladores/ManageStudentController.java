@@ -49,7 +49,7 @@ public class ManageStudentController implements Initializable {
 
     private int listSize;
 
-    int limit = 8;
+    private int limit = 8;
 
     //instance of the service.
     private ServicioAlumnos servicioAlumnos;
@@ -281,10 +281,12 @@ public class ManageStudentController implements Initializable {
     }
 
     /**
-     * Sets the gotten data from the service in the table and ads the edit
+     * Sets the gotten data from the service in the table and adds the edit
      * button for each row.
      */
     public void loadTable() {
+
+        System.out.println("recargando tabla de alumnos");
 
         // Limpiamos columnas previas
         tblStudents.getColumns().clear();

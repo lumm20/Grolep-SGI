@@ -1,11 +1,10 @@
-package org.example;
+package mx.itson.sgi.reportes;
 
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
 import mx.itson.sgi.dto.PagoDTO;
 import net.sf.jasperreports.engine.JRException;
-import reportes.GeneradorReportes;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
@@ -145,6 +144,5 @@ public class ReportesPrueba {
         pagoList.add(pago4);
 
         String destino = "C:";
-        new GeneradorReportes().generarReportes(pagoList, destino);
     }
 }

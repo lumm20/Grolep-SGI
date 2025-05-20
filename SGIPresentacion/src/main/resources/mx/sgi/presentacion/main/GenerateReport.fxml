@@ -41,12 +41,12 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </MFXButton>
-      <MFXDatePicker fx:id="dpBegin" floatMode="BORDER" floatingText="Inicio" layoutX="31.0" layoutY="56.0" prefHeight="45.0" prefWidth="182.0">
+      <MFXDatePicker fx:id="dpBegin" allowEdit="false" floatMode="BORDER" floatingText="Inicio" layoutX="31.0" layoutY="56.0" prefHeight="45.0" prefWidth="182.0">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>
       </MFXDatePicker>
-      <MFXDatePicker fx:id="dpEnd" floatMode="BORDER" floatingText="Fin" layoutX="231.0" layoutY="57.0" prefHeight="46.0" prefWidth="182.0">
+      <MFXDatePicker fx:id="dpEnd" allowEdit="false" floatMode="BORDER" floatingText="Fin" layoutX="231.0" layoutY="57.0" prefHeight="46.0" prefWidth="182.0">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>

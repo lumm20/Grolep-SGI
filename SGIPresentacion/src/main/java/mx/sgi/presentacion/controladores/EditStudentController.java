@@ -19,6 +19,7 @@ import mx.itson.sgi.dto.enums.Genero;
 import mx.itson.sgi.dto.enums.Nivel;
 import mx.sgi.presentacion.caches.AlumnoEditarCache;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
+import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import org.controlsfx.control.Notifications;
 
@@ -75,6 +76,10 @@ public class EditStudentController implements Initializable {
     private ServicioAlumnos servicioAlumnos;
 
 
+    Mediador mediador;
+
+    AlumnoRegistroDTO student;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadInstances();
@@ -84,12 +89,15 @@ public class EditStudentController implements Initializable {
         loadSchoolarshipComboBox();
         setUpBatchField();
         loadGroupComboBox();
+        setInitialLevelComboBox();
         setUpLevelComboBox();
         loadStudentFields();
     }
 
     private void loadInstances(){
         servicioAlumnos = ServicioAlumnos.getInstance();
+        mediador = Mediador.getInstance();
+        student = AlumnoEditarCache.getInstance();
     }
 
     private void loadStatusComboBox(){
@@ -162,11 +170,22 @@ public class EditStudentController implements Initializable {
         }
     }
 
+    private void setInitialLevelComboBox(){
+        Platform.runLater(()->{
+            if (student.getNivel().equals(Nivel.Preescolar)){
+                List<Integer> gradesPreescolar = List.of(2, 3);
+                cbGrade.setItems(FXCollections.observableArrayList(gradesPreescolar));
+            }
+            else{
+                List<Integer> gradesPrimary = List.of(1, 2, 3, 4, 5, 6);
+                cbGrade.setItems(FXCollections.observableArrayList(gradesPrimary));
+            }
+        });
+    }
 
 
-    public void loadStudentFields() {
 
-        AlumnoRegistroDTO student = AlumnoEditarCache.getInstance();
+    private void loadStudentFields() {
 
         // TextFields
         txfBadge.setText(student.getMatricula());
@@ -180,8 +199,8 @@ public class EditStudentController implements Initializable {
         dpBirthDate.setValue(LocalDate.parse(student.getFechaNacimiento())); // Asegúrate del formato
 
         Platform.runLater(() -> {
-            cbGrade.setText(String.valueOf(student.getGrado()));
-            cbGroup.setText(student.getGrupo());
+            cbGrade.setValue(student.getGrado());
+            cbGroup.setValue(student.getGrupo());
             cbStatus.setValue(student.getEstatus());
             cbLevel.setValue(student.getNivel());
             cbGender.setValue(student.getGenero());
@@ -209,7 +228,7 @@ public class EditStudentController implements Initializable {
         if (cbGender.getValue() == null) missingFields.append("Género, ");
         if (cbScholarship.getValue() == null) missingFields.append("Beca, ");
         if (cbGrade.getValue() == null) missingFields.append("Grado, ");
-        if (cbGroup.getValue() == null || cbGroup.getValue().isBlank()) missingFields.append("Grupo, ");
+        if (cbGroup.getValue() == null) missingFields.append("Grupo, ");
         if (dpBirthDate.getValue() == null) missingFields.append("Fecha de nacimiento, ");
 
         if (missingFields.length() > 0) {
@@ -268,9 +287,7 @@ public class EditStudentController implements Initializable {
             servicioAlumnos.editStudent(alumno);
 
             //reload the table from the students frame
-            MainFrameController mainFrame = MainFrameController.getInstance();
-            ManageStudentController controller = (ManageStudentController) mainFrame.getCenter();
-            controller.loadTable();
+            mediador.refreshManageStudentsScreen();
 
             closeScreen();
 
