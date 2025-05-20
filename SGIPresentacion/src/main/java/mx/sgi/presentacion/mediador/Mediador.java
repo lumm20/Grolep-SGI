@@ -201,7 +201,7 @@ public class Mediador {
 
     public void openRegisterUserScreen(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterStudent.fxml"));
             Parent root = loader.load();
 
             // Crear una nueva escena
@@ -222,7 +222,7 @@ public class Mediador {
 
     public void openEditUserScreen(){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditUser.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditStudent.fxml"));
             Parent root = loader.load();
 
             // Crear una nueva escena
@@ -261,4 +261,47 @@ public class Mediador {
             e.printStackTrace();
         }
     }
+
+    public void openRegisterCycleScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterCycle.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Registro de ciclo escolar");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openEditCycleScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditCycle.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Edicion de ciclo escolar");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
 }

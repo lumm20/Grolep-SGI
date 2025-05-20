@@ -25,21 +25,16 @@ import org.controlsfx.control.Notifications;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Random;
+import java.util.List;
 import java.util.ResourceBundle;
 
-public class EditUserController implements Initializable {
+public class EditStudentController implements Initializable {
+
     @FXML
     private MFXTextField txfBadge;
 
     @FXML
     private MFXTextField txfAverage;
-
-    @FXML
-    private MFXTextField txfGrade;
-
-    @FXML
-    private MFXTextField txfGroup;
 
     @FXML
     private MFXTextField txfName;
@@ -66,6 +61,12 @@ public class EditUserController implements Initializable {
     @FXML
     private MFXComboBox<BecaDTO> cbScholarship;
 
+    @FXML
+    private MFXComboBox<Integer> cbGrade;
+
+    @FXML
+    private MFXComboBox<String> cbGroup;
+
 
     @FXML
     private MFXDatePicker dpBirthDate;
@@ -82,6 +83,8 @@ public class EditUserController implements Initializable {
         loadGenderComboBox();
         loadSchoolarshipComboBox();
         setUpBatchField();
+        loadGroupComboBox();
+        setUpLevelComboBox();
         loadStudentFields();
     }
 
@@ -127,6 +130,39 @@ public class EditUserController implements Initializable {
         });
     }
 
+    private void loadGroupComboBox(){
+        List<String> groups = List.of("A", "B");
+        cbGroup.setItems(FXCollections.observableArrayList(groups));
+    }
+
+    private void setUpLevelComboBox(){
+        try {
+            List<Integer> gradesPreescolar = List.of(2, 3);
+            List<Integer> gradesPrimary = List.of(1, 2, 3, 4, 5, 6);
+
+            cbLevel.selectedItemProperty().addListener((obs, oldLevel, newLevel) -> {
+                if (newLevel == null) {
+                    cbGrade.setItems(FXCollections.emptyObservableList());
+                    cbGrade.setValue(null); // Limpia selección
+                    return;
+                }
+
+                ObservableList<Integer> grupos;
+                switch (newLevel) {
+                    case Preescolar -> grupos = FXCollections.observableArrayList(gradesPreescolar);
+                    case Primaria -> grupos = FXCollections.observableArrayList(gradesPrimary);
+                    default -> grupos = FXCollections.emptyObservableList();
+                }
+
+                cbGrade.setItems(grupos);
+                cbGrade.setValue(null);
+            });
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("no");
+        }
+    }
+
+
 
     public void loadStudentFields() {
 
@@ -136,8 +172,6 @@ public class EditUserController implements Initializable {
         txfBadge.setText(student.getMatricula());
         txfName.setText(student.getNombre());
         txfAverage.setText(String.valueOf(student.getPromedio()));
-        txfGrade.setText(String.valueOf(student.getGrado()));
-        txfGroup.setText(student.getGrupo());
         txfPhone.setText(student.getTelefono());
         txfMail.setText(student.getCorreo());
         txfTutor.setText(student.getTutor());
@@ -146,6 +180,8 @@ public class EditUserController implements Initializable {
         dpBirthDate.setValue(LocalDate.parse(student.getFechaNacimiento())); // Asegúrate del formato
 
         Platform.runLater(() -> {
+            cbGrade.setText(String.valueOf(student.getGrado()));
+            cbGroup.setText(student.getGrupo());
             cbStatus.setValue(student.getEstatus());
             cbLevel.setValue(student.getNivel());
             cbGender.setValue(student.getGenero());
@@ -153,22 +189,71 @@ public class EditUserController implements Initializable {
         });
     }
 
-
     private void setUpBatchField(){
         txfBadge.setDisable(true);
     }
 
 
+    //validacion y mas validacion jijoesu
+    private void validateEmptyFields() throws IllegalArgumentException {
+        StringBuilder missingFields = new StringBuilder();
+
+        if (txfName.getText().isBlank()) missingFields.append("Nombre, ");
+        if (txfAverage.getText().isBlank()) missingFields.append("Promedio, ");
+        if (txfPhone.getText().isBlank()) missingFields.append("Teléfono, ");
+        if (txfMail.getText().isBlank()) missingFields.append("Correo, ");
+        if (txfTutor.getText().isBlank()) missingFields.append("Tutor, ");
+
+        if (cbStatus.getValue() == null) missingFields.append("Estatus, ");
+        if (cbLevel.getValue() == null) missingFields.append("Nivel, ");
+        if (cbGender.getValue() == null) missingFields.append("Género, ");
+        if (cbScholarship.getValue() == null) missingFields.append("Beca, ");
+        if (cbGrade.getValue() == null) missingFields.append("Grado, ");
+        if (cbGroup.getValue() == null || cbGroup.getValue().isBlank()) missingFields.append("Grupo, ");
+        if (dpBirthDate.getValue() == null) missingFields.append("Fecha de nacimiento, ");
+
+        if (missingFields.length() > 0) {
+            String fields = missingFields.substring(0, missingFields.length() - 2);
+            throw new IllegalArgumentException("Los siguientes campos son obligatorios: " + fields + ".\n");
+        }
+    }
+
+    private void validateValidEntryFields() throws IllegalArgumentException {
+        // Validar promedio como número válido
+        try {
+            Double.parseDouble(txfAverage.getText());
+        } catch (NumberFormatException ne) {
+            throw new IllegalArgumentException("Ingrese un número de promedio válido.");
+        }
+
+        // Validar que el número de teléfono solo contenga dígitos (mínimo 7-10 caracteres comúnmente)
+        if (!txfPhone.getText().matches("\\d{7,10}")) {
+            throw new IllegalArgumentException("Ingrese un número de teléfono válido (solo números, entre 7 y 15 dígitos).");
+        }
+
+        // Validar formato de correo electrónico
+        String email = txfMail.getText();
+        String emailRegex = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$";
+        if (!email.matches(emailRegex)) {
+            throw new IllegalArgumentException("Ingrese un correo electrónico válido.");
+        }
+    }
+
+
+
     @FXML
     private void editStudent() {
         try {
+            validateEmptyFields();
+            validateValidEntryFields();
+
             // Construimos el DTO con los datos de la interfaz
             AlumnoRegistroDTO alumno = AlumnoRegistroDTO.builder()
                     .matricula(txfBadge.getText())
                     .nombre(txfName.getText())
                     .promedio(Double.parseDouble(txfAverage.getText()))
-                    .grado(Integer.parseInt(txfGrade.getText()))
-                    .grupo(txfGroup.getText())
+                    .grado(Integer.parseInt(String.valueOf(cbGrade.getValue())))
+                    .grupo(cbGroup.getValue())
                     .estatus(cbStatus.getValue())
                     .nivel(cbLevel.getValue())
                     .fechaNacimiento(dpBirthDate.getValue().toString()) // Asegúrate del formato
@@ -179,9 +264,10 @@ public class EditUserController implements Initializable {
                     .tutor(txfTutor.getText())
                     .build();
 
-            // Aquí puedes llamar a tu servicio para guardar el alumno
+            // we save it on the service
             servicioAlumnos.editStudent(alumno);
 
+            //reload the table from the students frame
             MainFrameController mainFrame = MainFrameController.getInstance();
             ManageStudentController controller = (ManageStudentController) mainFrame.getCenter();
             controller.loadTable();
@@ -193,8 +279,10 @@ public class EditUserController implements Initializable {
         } catch (ConexionServidorException e) {
             notify("Error","Error al registrar al alumno");
         }
+        catch (IllegalArgumentException e){
+            notify("Error", e.getMessage());
+        }
     }
-
 
     private void notify(String title, String message) {
         Notifications.create()
@@ -205,7 +293,6 @@ public class EditUserController implements Initializable {
                 .hideAfter(Duration.seconds(5))
                 .show();
     }
-
 
     private void closeScreen(){
         Stage stage = (Stage) txfBadge.getScene().getWindow(); // Obtener el Stage (ventana) actual

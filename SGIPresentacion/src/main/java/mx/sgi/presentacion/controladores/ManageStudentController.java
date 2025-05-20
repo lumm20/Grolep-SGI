@@ -49,6 +49,8 @@ public class ManageStudentController implements Initializable {
 
     private int listSize;
 
+    int limit = 8;
+
     //instance of the service.
     private ServicioAlumnos servicioAlumnos;
 
@@ -336,7 +338,8 @@ public class ManageStudentController implements Initializable {
         try {
             String name = txfStudentSearch.getText();
             int offset = Integer.parseInt(lblPage.getText());
-            List<AlumnoRegistroDTO> alumnos = servicioAlumnos.searchCompleteStudent(name, 9, offset);
+
+            List<AlumnoRegistroDTO> alumnos = servicioAlumnos.searchCompleteStudent(name, limit, offset);
             listSize = alumnos.size();
             tblStudents.setItems(FXCollections.observableArrayList(alumnos));
         } catch (ConexionServidorException e) {
@@ -353,14 +356,14 @@ public class ManageStudentController implements Initializable {
     private void previusPage(Event event){
         int actualPageNumber = Integer.parseInt(lblPage.getText());
 
-        String newPageNumber = String.valueOf(actualPageNumber - 1);
-        lblPage.setText(newPageNumber);
+        int newPageNumber = actualPageNumber - 1;
+        lblPage.setText(String.valueOf(newPageNumber));
 
         loadTable();
 
-        if (newPageNumber.equalsIgnoreCase("1")){
-            btnPreviousPage.setDisable(false);
-            btnNextPage.setDisable(true);
+        if (newPageNumber == 1) {
+            btnPreviousPage.setDisable(true);
+            btnNextPage.setDisable(false);
         }
     }
 
@@ -368,19 +371,19 @@ public class ManageStudentController implements Initializable {
     private void nextPage(Event event){
         int actualPageNumber = Integer.parseInt(lblPage.getText());
 
-        String newPageNumber = String.valueOf(actualPageNumber + 1);
-        lblPage.setText(newPageNumber);
+        int newPageNumber = actualPageNumber + 1;
+        lblPage.setText(String.valueOf(newPageNumber));
 
         loadTable();
 
-        if (listSize < 9){
+        if (listSize < limit){
             btnNextPage.setDisable(true);
             btnPreviousPage.setDisable(false);
         }
     }
 
     private void validateInitialPagination(){
-        if (listSize < 9){
+        if (listSize < limit){
             btnNextPage.setDisable(true);
         }
         btnPreviousPage.setDisable(true);

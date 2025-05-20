@@ -12,16 +12,11 @@
     <children>
         <Pane layoutX="16.0" layoutY="42.0" prefHeight="145.0" prefWidth="554.0" styleClass="pane">
             <children>
-                <MFXComboBox fx:id="cbStudent" floatMode="DISABLED" layoutX="38.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" style="-fx-border-color: #000000;" textLimit="40">
+                <MFXComboBox fx:id="cbStudent" allowEdit="true" floatMode="BORDER" floatingText="Nombre del alumno" layoutX="38.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" textLimit="40">
                     <font>
                         <Font name="Segoe UI" size="14.0" />
                     </font>
                 </MFXComboBox>
-            <MFXTextField fx:id="txfStudent" floatMode="BORDER" floatingText="Nombre del alumno" layoutX="38.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" textLimit="40">
-               <font>
-                  <Font name="Segoe UI" size="14.0" />
-               </font>
-            </MFXTextField>
             </children>
         </Pane>
         <Pane layoutX="16.0" layoutY="218.0" prefHeight="146.0" prefWidth="554.0" styleClass="pane">
@@ -55,16 +50,11 @@
         </Label>
       <Pane layoutX="16.0" layoutY="395.0" prefHeight="145.0" prefWidth="554.0" styleClass="pane">
          <children>
-            <MFXComboBox fx:id="cbCashier" allowEdit="true" floatMode="DISABLED" layoutX="51.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" style="-fx-border-color: #000000;" textLimit="40">
+            <MFXComboBox fx:id="cbCashier" allowEdit="true" floatMode="BORDER" floatingText="Nombre del cajero" layoutX="51.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" textLimit="40">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXComboBox>
-            <MFXTextField fx:id="txfCashier" floatMode="BORDER" floatingText="Nombre del cajero" layoutX="51.0" layoutY="48.0" prefHeight="49.0" prefWidth="360.0" textLimit="40">
-               <font>
-                  <Font name="Segoe UI" size="14.0" />
-               </font>
-            </MFXTextField>
          </children>
       </Pane>
       <Label alignment="CENTER" layoutX="70.0" layoutY="386.0" prefHeight="18.0" prefWidth="114.0" style="-fx-background-color: #ffffff;" text="Filtro por cajero">

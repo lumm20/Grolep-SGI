@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="SGIPresentacion" />
         <module name="data-access" />
+        <module name="SGIReportes" />
         <module name="SGINegocio" />
         <module name="SGIDTO" />
         <module name="notificaciones-whatsapp" />

@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="760.0" prefWidth="1090.0" styleClass="screen" stylesheets="@styles/GenerateReportStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mx.sgi.presentacion.controladores.ManageCyclesController">
     <children>
-        <MFXButton fx:id="btnResetFilters" buttonType="RAISED" depthLevel="LEVEL4" layoutX="581.0" layoutY="60.0" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #c0cbbf;" styleClass="clean-btn" text="Button">
+        <MFXButton fx:id="btnResetFilters" buttonType="RAISED" depthLevel="LEVEL4" layoutX="581.0" layoutY="60.0" onMouseClicked="#clearFilters" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #c0cbbf;" styleClass="clean-btn" text="Button">
             <font>
                 <Font name="Segoe UI" size="14.0" />
             </font>
@@ -19,7 +19,7 @@
                 <Cursor fx:constant="HAND" />
             </cursor>
         </MFXButton>
-        <MFXButton fx:id="btnRegisterCycle" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="870.0" layoutY="60.0" prefHeight="40.0" prefWidth="174.0" style="-fx-background-color: #1ce72b;" styleClass="clean-btn" AnchorPane.leftAnchor="870.0">
+        <MFXButton fx:id="btnRegisterCycle" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL4" layoutX="870.0" layoutY="60.0" onMouseClicked="#openRegisterCycleScreen" prefHeight="40.0" prefWidth="174.0" style="-fx-background-color: #1ce72b;" styleClass="clean-btn" AnchorPane.leftAnchor="870.0">
             <font>
                 <Font size="14.0" />
             </font>
@@ -32,18 +32,25 @@
                 <Font name="Segoe UI" size="30.0" />
             </font>
         </Label>
-        <MFXLegacyTableView fx:id="tblPayments" layoutX="27.0" layoutY="193.0" prefHeight="441.0" prefWidth="986.0" AnchorPane.bottomAnchor="92.60000000000002" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="193.0" />
-        <MFXDatePicker fx:id="dpBegin" floatMode="INLINE" floatingText="Inicio" layoutX="31.0" layoutY="56.0" prefHeight="38.0" prefWidth="182.0">
+        <MFXLegacyTableView fx:id="tblCycles" layoutX="14.0" layoutY="194.0" prefHeight="441.0" prefWidth="986.0" AnchorPane.bottomAnchor="91.59999999999991" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="40.40000000000009" AnchorPane.topAnchor="194.0" />
+        <MFXButton fx:id="btnPreviousPage" buttonType="RAISED" depthLevel="LEVEL4" layoutX="424.0" layoutY="699.0" onMouseClicked="#previusPage" prefHeight="34.0" prefWidth="54.0" style="-fx-background-color: #699af1;" AnchorPane.topAnchor="699.0" />
+        <Label fx:id="lblPage" alignment="CENTER" contentDisplay="CENTER" layoutX="495.0" layoutY="699.0" prefHeight="33.0" prefWidth="82.0" style="-fx-border-color: #5f5f5f; -fx-background-radius: 10px; -fx-border-radius: 10px;" text="1" AnchorPane.topAnchor="699.0">
             <font>
-                <Font name="Segoe UI" size="12.0" />
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <MFXButton fx:id="btnNextPage" buttonType="RAISED" depthLevel="LEVEL4" layoutX="598.0" layoutY="698.0" onMouseClicked="#nextPage" prefHeight="34.0" prefWidth="54.0" style="-fx-background-color: #699af1;" text="Button" />
+        <MFXDatePicker fx:id="dpBegin" allowEdit="false" floatMode="BORDER" floatingText="Inicio" layoutX="31.0" layoutY="56.0" prefHeight="45.0" prefWidth="182.0">
+            <font>
+                <Font name="Segoe UI" size="14.0" />
             </font>
         </MFXDatePicker>
-        <MFXDatePicker fx:id="dpEnd" floatMode="INLINE" floatingText="Fin" layoutX="245.0" layoutY="58.0" prefHeight="38.0" prefWidth="182.0">
+        <MFXDatePicker fx:id="dpEnd" allowEdit="false" floatMode="BORDER" floatingText="Fin" layoutX="237.0" layoutY="57.0" prefHeight="46.0" prefWidth="182.0">
             <font>
-                <Font name="Segoe UI" size="12.0" />
+                <Font name="Segoe UI" size="14.0" />
             </font>
         </MFXDatePicker>
-        <MFXButton fx:id="btnSearch" buttonType="RAISED" depthLevel="LEVEL4" layoutX="448.0" layoutY="60.0" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #699af1;" styleClass="clean-btn" text="Button">
+        <MFXButton fx:id="btnSearch" buttonType="RAISED" depthLevel="LEVEL4" layoutX="450.0" layoutY="60.0" onMouseClicked="#searchCycles" prefHeight="40.0" prefWidth="71.0" style="-fx-background-color: #699af1;" styleClass="clean-btn" text="Button">
             <font>
                 <Font name="Segoe UI" size="14.0" />
             </font>
