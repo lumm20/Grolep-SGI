@@ -124,11 +124,6 @@ public class ServicioPagos implements IServicioPagos {
                 .metodoPago(MetodosPagoDTO.Transferencia)
                 .tipoDescuento("Beca académica")
                 .montoDescuento(500.00)
-                .cicloEscolar(CicloEscolarDTO.builder()
-                        .id("2024-2025")
-                        .inicio("2024-08-01")
-                        .fin("2025-07-31")
-                        .build())
                 .usuario(new UsuarioDTO(1L, "admin", "admin@ejemplo.com","admin123", RolDTO.ADMIN))
                 .build();
 

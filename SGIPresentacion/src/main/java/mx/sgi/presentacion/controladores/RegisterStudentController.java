@@ -16,6 +16,7 @@ import mx.itson.sgi.dto.enums.Estatus;
 import mx.itson.sgi.dto.enums.Genero;
 import mx.itson.sgi.dto.enums.Nivel;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
+import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioAlumnos;
 import org.controlsfx.control.Notifications;
 import java.math.BigDecimal;
@@ -71,6 +72,8 @@ public class RegisterStudentController implements Initializable {
 
     private ServicioAlumnos servicioAlumnos;
 
+    Mediador mediador;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -86,6 +89,7 @@ public class RegisterStudentController implements Initializable {
 
     private void loadInstances(){
         servicioAlumnos = ServicioAlumnos.getInstance();
+        mediador = Mediador.getInstance();
     }
 
     private void loadStatusComboBox(){
@@ -258,6 +262,8 @@ public class RegisterStudentController implements Initializable {
 
             // Aquí puedes llamar a tu servicio para guardar el alumno
             servicioAlumnos.registerStudent(alumno);
+
+            mediador.refreshManageStudentsScreen();
 
             notify("Exito","El Alumno a sido registrado con exito");
 

@@ -37,9 +37,6 @@ public class PagoReporteDTO {
     private Double montoDescuento;
 
     @Expose
-    private CicloEscolarDTO cicloEscolar;
-
-    @Expose
     private UsuarioDTO usuario;
 
     @Expose

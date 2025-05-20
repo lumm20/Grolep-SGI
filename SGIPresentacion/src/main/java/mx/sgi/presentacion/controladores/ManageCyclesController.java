@@ -306,6 +306,7 @@ public class ManageCyclesController implements Initializable {
     }
 
     public void loadTable() {
+        System.out.println("Recargando tabla de ciclos");
 
         // Limpiamos columnas previas
         tblCycles.getColumns().clear();

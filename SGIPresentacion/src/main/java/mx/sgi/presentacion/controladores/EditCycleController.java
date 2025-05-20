@@ -11,6 +11,7 @@ import mx.itson.sgi.dto.CicloConDetallesDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.DetalleCicloDTO;
 import mx.sgi.presentacion.caches.CycleWithDetailsCache;
+import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioCicloEscolar;
 import org.controlsfx.control.Notifications;
 import java.net.URL;
@@ -48,6 +49,8 @@ public class EditCycleController implements Initializable {
 
     CicloConDetallesDTO cycleRetrived;
 
+    Mediador mediador;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,6 +61,7 @@ public class EditCycleController implements Initializable {
     private void loadInstances(){
         cyclesService = ServicioCicloEscolar.getInstance();
         cycleRetrived = CycleWithDetailsCache.getInstance();
+        mediador = Mediador.getInstance();
     }
 
     private void loadCycleFields(){
@@ -145,6 +149,9 @@ public class EditCycleController implements Initializable {
             CicloConDetallesDTO fullCycle = new CicloConDetallesDTO(cycle, details);
             System.out.println(fullCycle);
             cyclesService.editCycle(fullCycle);
+
+            mediador.refreshManageCyclesScreen();
+
         }
         catch (Exception ex) {
             notify("Error", ex.getMessage());

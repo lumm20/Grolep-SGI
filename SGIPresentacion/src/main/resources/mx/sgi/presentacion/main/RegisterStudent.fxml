@@ -47,11 +47,6 @@
       </Pane>
       <Pane layoutX="16.0" layoutY="266.0" prefHeight="342.0" prefWidth="554.0" styleClass="pane">
          <children>
-            <MFXDatePicker fx:id="dpBirthDate" floatMode="BORDER" floatingText="Fecha" layoutX="357.0" layoutY="38.0" prefHeight="43.0" prefWidth="154.0" textLimit="10">
-               <font>
-                  <Font name="Segoe UI" size="14.0" />
-               </font>
-            </MFXDatePicker>
             <MFXTextField fx:id="txfName" floatMode="BORDER" floatingText="Nombre" layoutX="28.0" layoutY="38.0" prefHeight="43.0" prefWidth="291.0" textLimit="40">
                <font>
                   <Font name="Segoe UI" size="14.0" />
@@ -82,6 +77,11 @@
                   <Font name="Segoe UI" size="14.0" />
                </font>
             </MFXTextField>
+            <MFXDatePicker fx:id="dpBirthDate" allowEdit="false" floatMode="BORDER" floatingText="Fecha de nacimiento" layoutX="345.0" layoutY="38.0" prefHeight="43.0" prefWidth="160.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </MFXDatePicker>
          </children>
       </Pane>
       <Label alignment="CENTER" layoutX="67.0" layoutY="28.0" prefHeight="28.0" prefWidth="153.0" style="-fx-background-color: #ffffff;" text="Informacion academica">
