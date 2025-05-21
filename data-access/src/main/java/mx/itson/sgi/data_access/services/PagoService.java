@@ -176,7 +176,7 @@ public class PagoService {
             if (filtro.getAlumno() != null && filtro.getAlumno().getMatricula() != null
                     && !filtro.getAlumno().getMatricula().isEmpty()) {
                 predicates.add(
-                        criteriaBuilder.equal(root.get("alumno").get("matricula"), filtro.getAlumno().getMatricula()));
+                        criteriaBuilder.like(root.get("alumno").get("nombre"), "%" + filtro.getAlumno().getNombre() + "%"));
             }
 
             // Filtro por método de pago

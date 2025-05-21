@@ -88,65 +88,87 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
         }  
     }
 
-    @Override
-    public List<CicloConDetallesDTO> getCompleteCycle(LocalDate begin, LocalDate end, int limit, int offset) throws ConexionServidorException {
-        // Primer ciclo escolar
-        CicloEscolarDTO ciclo1 = CicloEscolarDTO.builder()
-                .id("24-25")
-                .inicio("2024-08-01")
-                .fin("2025-07-01")
+  @Override
+    public List<CicloConDetallesDTO> getCompleteCycle(LocalDate begin, LocalDate end, int limit, int offset)
+            throws ConexionServidorException {
+        String token = null;
+        if (UsuarioCache.getSession() != null) {
+            token = UsuarioCache.getSession().getToken();
+        }
+        if (token == null || token.isEmpty()) {
+            throw new ConexionServidorException("No hay sesión activa o el token es nulo. Por favor, inicie sesión.");
+        }
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8081/SGI/api/cycles"))
+                .GET()
+                .header("Authorization", "Bearer " + token)
                 .build();
-
-        DetalleCicloDTO detalle1 = DetalleCicloDTO.builder()
-                .id(1L)
-                .idCicloEscolar("24-25")
-                .cuotaInscripcion(1500.0)
-                .cuotaColegiatura(2500.0)
-                .cuotaLibros(1200.0)
-                .cuotaEventos(500.0)
-                .cuotaAcademias(800.0)
-                .cuotaUniforme(1000.0)
-                .build();
-
-        CicloConDetallesDTO cicloConDetalles1 = new CicloConDetallesDTO(ciclo1, detalle1);
-
-        // Segundo ciclo escolar
-        CicloEscolarDTO ciclo2 = CicloEscolarDTO.builder()
-                .id("25-26")
-                .inicio("2025-08-01")
-                .fin("2026-07-01")
-                .build();
-
-        DetalleCicloDTO detalle2 = DetalleCicloDTO.builder()
-                .id(2L)
-                .idCicloEscolar("25-26")
-                .cuotaInscripcion(1600.0)
-                .cuotaColegiatura(2600.0)
-                .cuotaLibros(1300.0)
-                .cuotaEventos(550.0)
-                .cuotaAcademias(850.0)
-                .cuotaUniforme(1100.0)
-                .build();
-
-        CicloConDetallesDTO cicloConDetalles2 = new CicloConDetallesDTO(ciclo2, detalle2);
-
-        // Agregamos ambos a una lista
-        List<CicloConDetallesDTO> listaCiclos = new ArrayList<>();
-        listaCiclos.add(cicloConDetalles1);
-        listaCiclos.add(cicloConDetalles2);
-
-        return listaCiclos;
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("el cuerpo: "+response.body()+" el status: "+response.statusCode());
+            if (response.statusCode() == 200) {
+                System.out.println(response.body());
+                List<CicloConDetallesDTO> result = new Gson().fromJson(response.body(),
+                        new com.google.gson.reflect.TypeToken<List<CicloConDetallesDTO>>() {
+                        }.getType());
+                return result != null ? result : new ArrayList<>();
+            } else {
+                throw new ConexionServidorException(
+                        "Error al obtener los ciclos completos: " + response.statusCode() + " - " + response.body());
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.",
+                    e);
+        }
     }
 
     @Override
     public void registerCycle(CicloConDetallesDTO cycle) throws ConexionServidorException {
-        System.out.println("registrado");
+        String token = UsuarioCache.getSession().getToken();
+        String json = new Gson().toJson(cycle);
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8081/SGI/api/cycles"))
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 201 && response.statusCode() != 200) {
+                throw new ConexionServidorException(
+                        "Error al registrar el ciclo: " + response.statusCode() + " - " + response.body());
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.",
+                    e);
+        }
     }
-
 
     @Override
     public void editCycle(CicloConDetallesDTO cycle) throws ConexionServidorException {
-        System.out.println("editado");
+        String token = UsuarioCache.getSession().getToken();
+        String json = new Gson().toJson(cycle);
+        String id = cycle.getCicloEscolar() != null ? cycle.getCicloEscolar().getIDString() : null;
+        System.out.println("el id es: " + cycle.getCicloEscolar().getIDString());
+        if (id == null) {
+            throw new ConexionServidorException("No se puede editar: el id es nulo.");
+        }
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:8081/SGI/api/cycles/" + id))
+                .header("Authorization", "Bearer " + token)
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(json))
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new ConexionServidorException(
+                        "Error al editar el ciclo: " + response.statusCode() + " - " + response.body());
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new ConexionServidorException("No se pudo conectar con el servidor. Por favor, intente más tarde.",
+                    e);
+        }
     }
 
 }

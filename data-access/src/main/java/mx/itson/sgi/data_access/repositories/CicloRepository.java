@@ -1,5 +1,6 @@
 package mx.itson.sgi.data_access.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,7 @@ public interface CicloRepository extends CrudRepository<CicloEscolar,String>{
     Optional<CicloEscolar> findByFechaInicioAndFechaFin(LocalDate fechaInicio, LocalDate fechaFin);
     @Query(value = "call sp_obtener_ciclo_actual()", nativeQuery = true)
     Optional<CicloEscolar> findCicloActual();
+    
+    // Buscar ciclos cuyo inicio sea mayor o igual a fechaInicio y fin menor o igual a fechaFin
+    List<CicloEscolar> findByFechaInicioGreaterThanEqualAndFechaFinLessThanEqual(LocalDate fechaInicio, LocalDate fechaFin);
 }

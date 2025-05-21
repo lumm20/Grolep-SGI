@@ -314,6 +314,34 @@ public class CicloEscolarService {
         return cicloConDetallesDTO;
     }
 
+    public List<CicloConDetallesDTO> obtenerCiclosConDetallesPorFechas(String begin, String end) {
+        LocalDate fechaInicio = LocalDate.parse(begin);
+        LocalDate fechaFin = LocalDate.parse(end);
+        List<CicloEscolar> ciclos = repository.findByFechaInicioGreaterThanEqualAndFechaFinLessThanEqual(fechaInicio, fechaFin);
+        List<CicloConDetallesDTO> ciclosConDetalles = new ArrayList<>();
+        for (CicloEscolar ciclo : ciclos) {
+            Optional<DetalleCiclo> detalleOpt = detalleCicloRepository.findByCicloEscolarId(ciclo.getId());
+            DetalleCicloDTO detalleDTO = null;
+            if (detalleOpt.isPresent()) {
+                DetalleCiclo detalle = detalleOpt.get();
+                detalleDTO = new DetalleCicloDTO();
+                detalleDTO.setId(detalle.getId());
+                detalleDTO.setIdCicloEscolar(detalle.getCicloEscolar().getId());
+                detalleDTO.setCuotaInscripcion(detalle.getCuotaInscripcion());
+                detalleDTO.setCuotaColegiatura(detalle.getCuotaColegiatura());
+                detalleDTO.setCuotaLibros(detalle.getCuotaLibros());
+                detalleDTO.setCuotaEventos(detalle.getCuotaEventos());
+                detalleDTO.setCuotaAcademias(detalle.getCuotaAcademias());
+                detalleDTO.setCuotaUniforme(detalle.getCuotaUniforme());
+            }
+            CicloEscolarDTO cicloDTO = new CicloEscolarDTO(ciclo.getFechaInicio().toString(), ciclo.getFechaFin().toString());
+            cicloDTO.setId(ciclo.getId());
+            CicloConDetallesDTO cicloConDetallesDTO = new CicloConDetallesDTO(cicloDTO, detalleDTO);
+            ciclosConDetalles.add(cicloConDetallesDTO);
+        }
+        return ciclosConDetalles;
+    }
+
     private Double obtenerMontoBasePorConcepto(Concepto concepto, DetalleCiclo detalle) {
         switch (concepto) {
             case LIBROS:

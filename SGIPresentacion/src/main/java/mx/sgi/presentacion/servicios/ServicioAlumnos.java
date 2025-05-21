@@ -80,14 +80,14 @@ public class ServicioAlumnos implements IServicioAlumnos {
     public List<AlumnoRegistroDTO> searchCompleteStudent(String name, int limit, int offset)
             throws ConexionServidorException {
         String token = UsuarioCache.getSession().getToken();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8081/SGI/api/students/byName/" + name+"?offset="+offset+"&limit="+limit))
-                .GET()
-                .header("Authorization", "Bearer " + token)
-                .build();
-        HttpResponse<String> response = null;
         try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            String encodedName = java.net.URLEncoder.encode(name, java.nio.charset.StandardCharsets.UTF_8);
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8081/SGI/api/students/byName/" + encodedName + "?offset=" + offset + "&limit=" + limit))
+                    .GET()
+                    .header("Authorization", "Bearer " + token)
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
                 return new Gson().fromJson(response.body(), new TypeToken<List<AlumnoRegistroDTO>>() {
                 }.getType());
@@ -178,12 +178,12 @@ public class ServicioAlumnos implements IServicioAlumnos {
 
     public void  registerStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException {
         String token = UsuarioCache.getSession().getToken();
+        String json = new Gson().toJson(alumno);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8081/SGI/api/students"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + token)
-                .POST(HttpRequest.BodyPublishers.ofString(new GsonBuilder().
-                excludeFieldsWithoutExposeAnnotation().create().toJson(alumno)))
+                .POST(HttpRequest.BodyPublishers.ofString(json))
                 .build();
         HttpResponse<String> response = null;
         try {
@@ -198,17 +198,20 @@ public class ServicioAlumnos implements IServicioAlumnos {
     }
 
     public void editStudent(AlumnoRegistroDTO alumno) throws ConexionServidorException {
+        System.out.println("el alumno a editar es: "+alumno);
         String token = UsuarioCache.getSession().getToken();
+        String json = new Gson().toJson(alumno);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:8081/SGI/api/students"))
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + token)
-                .PUT(HttpRequest.BodyPublishers.ofString(new GsonBuilder().
-                excludeFieldsWithoutExposeAnnotation().create().toJson(alumno)))
+                .PUT(HttpRequest.BodyPublishers.ofString(json))
                 .build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("Status: " + response.statusCode());
+            System.out.println("Body: " + response.body());
             if (response.statusCode() == 200) {
                 AlumnoRegistroDTO alumnoNuevo = new Gson().fromJson(response.body(),AlumnoRegistroDTO.class);
                 System.out.println(alumnoNuevo);
