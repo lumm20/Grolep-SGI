@@ -78,7 +78,7 @@ public class TicketController implements Initializable {
     @FXML
     private Separator separadorDescuento;
     @FXML
-    private JFXButton btnConfirmar;
+    private MFXButton btnConfirmar;
     
     @FXML
     private AnchorPane footerPane;

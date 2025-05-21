@@ -78,27 +78,37 @@ public class Mediador {
     public void abrirPantallaTicket() throws ConexionServidorException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/Ticket.fxml"));
+            System.out.println("1");
             Parent root = loader.load();
+            System.out.println("2");
             // Crear una nueva escena
             Scene scene = new Scene(root);
-
+            System.out.println("3");
+            
             // Crear un nuevo Stage (ventana)
             Stage nuevaVentana = new Stage();
-            nuevaVentana.initModality(Modality.APPLICATION_MODAL);
+            System.out.println("4");
+            // nuevaVentana.initModality(Modality.APPLICATION_MODAL);
             nuevaVentana.setTitle("GROLEP SGI v1.0");
+            System.out.println("5");
             nuevaVentana.setScene(scene);
-
+            System.out.println("6");
             // (Opcional) Si deseas evitar que el usuario redimensione la ventana
             nuevaVentana.setResizable(false);
+            System.out.println("7");
 
             // Mostrar la nueva ventana
             //cuando hay desconexion aqui manda una excepcion
-            nuevaVentana.showAndWait();
 
-            TicketController controller = loader.getController();
-            System.out.println("Aqui deberia tomar la excepcion y lanzarla");
+            // nuevaVentana.showAndWait();
+            nuevaVentana.show();
+
+            // TicketController controller = loader.getController();
+            // System.out.println("Aqui deberia tomar la excepcion y lanzarla");
             //controller.confirmarPago(); //esta linea daba error nulo
         } catch (IOException e) {
+            System.err.println("error: "+e);
+            e.printStackTrace();
             throw new ConexionServidorException("Error al abrir la ventana de confirmación del pago.", e);
         }catch (RuntimeException e) {
             System.err.println("Error durante la ejecución de la ventana: " + e.getMessage());

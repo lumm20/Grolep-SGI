@@ -29,5 +29,8 @@ public class DetallesAdeudoCache {
         detalles = detallesNuevo;
     }
 
+    public static void limpiarCache(){
+        detalles = null;
+    }
 
 }

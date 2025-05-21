@@ -330,8 +330,7 @@ public class PayamentsController implements Initializable {
      */
     private void establecerMetodosDePago() {
         // Definir la lista de métodos de pago
-        List<String> listaMetodosPago = Arrays.asList("Efectivo", "Tarjeta", "Transferencia"); // Ajusta según los
-                                                                                               // métodos de pago
+        List<String> listaMetodosPago = Arrays.asList("Efectivo", "Tarjeta", "Transferencia"); 
 
         // Convertir la lista a un ObservableList
         ObservableList<String> observableList = FXCollections.observableArrayList(listaMetodosPago);
@@ -359,7 +358,7 @@ public class PayamentsController implements Initializable {
                     // String cicloTxt = anioInicio + " - " + anioFin;
                     for (CicloEscolarDTO cicloEscolarDTO : observableList) {
                         if (cicloEscolarDTO.getId().equals(cicloEscolar.getId())) {
-//                            cmbxCicloEscolar.getSelectionModel().select(cicloEscolarDTO);
+                           cmbxCicloEscolar.getSelectionModel().selectItem(cicloEscolarDTO);
                             break;
                         }
                     }
@@ -521,8 +520,10 @@ public class PayamentsController implements Initializable {
         txfMontoInscripcion.setText("");
         txfMontoUniforme.setText("");
         txfMontoLibros.setText("");
+        txfAlumnos.setText("");
     }
 
+    @FXML
     private void cleanup(){
         // txfMontoVencido.setDisable(false);
         txfMontoAcademias.setDisable(true);
@@ -533,12 +534,9 @@ public class PayamentsController implements Initializable {
         txfMontoLibros.setDisable(true);
 
         // txfMontoVencido.setText("");
-        txfMontoAcademias.setText("");
-        txfMontoColegiatura.setText("");
-        txfMontoEventos.setText("");
-        txfMontoInscripcion.setText("");
-        txfMontoUniforme.setText("");
-        txfMontoLibros.setText("");
+        cleanupTxtFields();
+        AlumnoCache.limpiarCache();
+        DetallesAdeudoCache.limpiarCache();
 
         lblAdeudoVencido.setText("0000.00");
         lblAdeudoActual.setText("0000.00");
