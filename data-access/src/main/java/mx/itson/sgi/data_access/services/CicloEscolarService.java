@@ -14,11 +14,13 @@ import mx.itson.sgi.data_access.entities.Alumno;
 import mx.itson.sgi.data_access.entities.CicloEscolar;
 import mx.itson.sgi.data_access.entities.Concepto;
 import mx.itson.sgi.data_access.entities.Cuota;
+import mx.itson.sgi.data_access.entities.CuotaMensual;
 import mx.itson.sgi.data_access.entities.DetalleCiclo;
 import mx.itson.sgi.data_access.repositories.AlumnoRepository;
 import mx.itson.sgi.data_access.repositories.CicloRepository;
 import mx.itson.sgi.data_access.repositories.CuotaRepository;
 import mx.itson.sgi.data_access.repositories.DetalleCicloRepository;
+import mx.itson.sgi.data_access.repositories.CuotaMensualRepository;
 import mx.itson.sgi.dto.CicloConDetallesDTO;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.DetalleCicloDTO;
@@ -37,6 +39,9 @@ public class CicloEscolarService {
 
     @Autowired
     private AlumnoRepository alumnoRepository;
+
+    @Autowired
+    private CuotaMensualRepository cuotaMensualRepository;
 
     public CicloEscolar obtenerCicloEscolarPorId(String id) {
         Optional<CicloEscolar> optional = repository.findById(id);
@@ -89,7 +94,7 @@ public class CicloEscolarService {
             System.out.println(dtos);
             return dtos;
         }
-        return new ArrayList<CicloEscolarDTO>();
+        return dtos;
     }
 
     @Transactional
@@ -146,6 +151,24 @@ public class CicloEscolarService {
                     Double montoBase = obtenerMontoBasePorConcepto(concepto, detalle);
                     Cuota cuota = new Cuota(montoBase, ciclo, alumno, concepto);
                     cuotaRepository.save(cuota);
+                    // Si es colegiatura, crear cuotas mensuales
+                    if (concepto == Concepto.COLEGIATURA) {
+                        LocalDate fechaInicio = ciclo.getFechaInicio();
+                        LocalDate fechaFin = ciclo.getFechaFin();
+                        LocalDate mes = fechaInicio.withDayOfMonth(1);
+                        while (!mes.isAfter(fechaFin.withDayOfMonth(1))) {
+                            CuotaMensual cuotaMensual = new CuotaMensual();
+                            cuotaMensual.setMontoBase(montoBase);
+                            cuotaMensual.setCiclo(ciclo);
+                            cuotaMensual.setAlumno(alumno);
+                            cuotaMensual.setConcepto(Concepto.COLEGIATURA);
+                            cuotaMensual.setMes(mes);
+                            cuotaMensual.setMontoPagado(0.0);
+                            cuotaMensual.setAdeudo(montoBase);
+                            cuotaMensualRepository.save(cuotaMensual);
+                            mes = mes.plusMonths(1);
+                        }
+                    }
                 }
             }
 
