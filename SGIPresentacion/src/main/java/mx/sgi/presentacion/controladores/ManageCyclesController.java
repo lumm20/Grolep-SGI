@@ -127,6 +127,8 @@ public class ManageCyclesController implements Initializable {
 
     @FXML
     private void clearFilters(){
+        dpBegin.setValue(null);
+        dpEnd.setValue(null);
         dpBegin.clear();
         dpEnd.clear();
         loadTable();

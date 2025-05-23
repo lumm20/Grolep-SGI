@@ -90,7 +90,9 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
 
     @Override
     public List<CicloConDetallesDTO> getCompleteCycle(LocalDate begin, LocalDate end, int limit, int offset) throws ConexionServidorException {
-        // Primer ciclo escolar
+
+        System.out.println("Inicio: " + begin + " Fin: " + end + "Limite:" + limit + " offset: " + offset );
+
         CicloEscolarDTO ciclo1 = CicloEscolarDTO.builder()
                 .id("24-25")
                 .inicio("2024-08-01")
