@@ -110,6 +110,10 @@ public class ServicioPagos implements IServicioPagos {
      * @throws ConexionServidorException
      */
     public List<PagoReporteDTO> getPaymentsForReport(FiltroPagoDTO filtros) throws ConexionServidorException {
+
+        System.out.println("Alumno a cosultar: " + filtros.getAlumno());
+        System.out.println("Usuario a consultar " + filtros.getUsuario());
+
         List<PagoReporteDTO> pagos = new ArrayList<>();
 
         PagoReporteDTO pago = PagoReporteDTO.builder()

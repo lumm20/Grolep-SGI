@@ -147,30 +147,37 @@ public class ReportFiltersController implements Initializable {
     }
 
     private void validateEntryFields() throws Exception{
-        double minimum = Double.parseDouble(txfMinimum.getText());
-        double maximum = Double.parseDouble(txfMaximum.getText());
 
-        if (minimum > maximum){
-            throw new Exception("El valor minimo no puede superar al maximo");
-        }
-        if (minimum < 0){
-            throw new Exception("El valor minimo no puede ser negativo");
-        }
-        if (maximum < 0){
-            throw new Exception("El valor maximo no puede ser negativo");
+        if (!txfMinimum.getText().isEmpty() &&  !txfMaximum.getText().isEmpty()){
+            double minimum = Double.parseDouble(txfMinimum.getText());
+            double maximum = Double.parseDouble(txfMaximum.getText());
+
+            if (minimum > maximum){
+                throw new Exception("El valor minimo no puede superar al maximo");
+            }
+            if (minimum < 0){
+                throw new Exception("El valor minimo no puede ser negativo");
+            }
+            if (maximum < 0){
+                throw new Exception("El valor maximo no puede ser negativo");
+            }
         }
     }
 
     private void validateEntyFieldsFormat() throws Exception{
         try{
-            Double.parseDouble(txfMinimum.getText());
+            if (!txfMinimum.getText().isEmpty()){
+                Double.parseDouble(txfMinimum.getText());
+            }
         }
         catch (NumberFormatException ne){
             throw new Exception("Ingrese un numero valido en el campo de minimo");
         }
 
         try{
-            Double.parseDouble(txfMaximum.getText());
+            if (!txfMaximum.getText().isEmpty()){
+                Double.parseDouble(txfMaximum.getText());
+            }
         }
         catch (NumberFormatException ne){
             throw new Exception("Ingrese un numero valido en el campo de maximo");
@@ -184,6 +191,7 @@ public class ReportFiltersController implements Initializable {
     @FXML
     private void closeScreen(){
         try {
+
             validateEntryFields();
             validateEntyFieldsFormat();
 
@@ -196,6 +204,7 @@ public class ReportFiltersController implements Initializable {
 
             Stage stage = (Stage) txfMinimum.getScene().getWindow();
             stage.close();
+
         }
         catch (Exception ex){
             notify("Error", ex.getMessage());
