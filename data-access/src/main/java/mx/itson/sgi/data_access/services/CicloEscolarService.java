@@ -317,7 +317,7 @@ public class CicloEscolarService {
     public List<CicloConDetallesDTO> obtenerCiclosConDetallesPorFechas(String begin, String end) {
         LocalDate fechaInicio = LocalDate.parse(begin);
         LocalDate fechaFin = LocalDate.parse(end);
-        List<CicloEscolar> ciclos = repository.findByFechaInicioGreaterThanEqualAndFechaFinLessThanEqual(fechaInicio, fechaFin);
+        List<CicloEscolar> ciclos = repository.findByFechaFinGreaterThanEqualAndFechaInicioLessThanEqual(fechaInicio, fechaFin);
         List<CicloConDetallesDTO> ciclosConDetalles = new ArrayList<>();
         for (CicloEscolar ciclo : ciclos) {
             Optional<DetalleCiclo> detalleOpt = detalleCicloRepository.findByCicloEscolarId(ciclo.getId());

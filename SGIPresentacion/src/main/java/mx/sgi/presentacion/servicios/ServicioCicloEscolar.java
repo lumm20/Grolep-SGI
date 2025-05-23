@@ -98,8 +98,12 @@ public class ServicioCicloEscolar implements IServicioCicloEscolar {
         if (token == null || token.isEmpty()) {
             throw new ConexionServidorException("No hay sesión activa o el token es nulo. Por favor, inicie sesión.");
         }
+        String url = "http://localhost:8081/SGI/api/cycles";
+        if (begin != null && end != null) {
+            url += "?begin=" + begin.toString() + "&end=" + end.toString();
+        }
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8081/SGI/api/cycles"))
+                .uri(URI.create(url))
                 .GET()
                 .header("Authorization", "Bearer " + token)
                 .build();

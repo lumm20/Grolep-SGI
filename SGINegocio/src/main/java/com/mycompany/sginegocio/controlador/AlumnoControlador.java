@@ -147,6 +147,7 @@ public class AlumnoControlador {
     }
 
     public List<AlumnoRegistroDTO> obtenerAlumnosPorNombreCompleto(String nombre, int page, int size) {
+        nombre = nombre.replace("+", " ");
         Page<Alumno> pageResult = service.buscarAlumnosCompletosPorNombre(nombre, page-1,  size);
         List<Alumno> alumnos = pageResult.getContent();
         List<AlumnoRegistroDTO> dtos = new ArrayList<>();

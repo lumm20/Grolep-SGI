@@ -19,4 +19,7 @@ public interface CicloRepository extends CrudRepository<CicloEscolar,String>{
     
     // Buscar ciclos cuyo inicio sea mayor o igual a fechaInicio y fin menor o igual a fechaFin
     List<CicloEscolar> findByFechaInicioGreaterThanEqualAndFechaFinLessThanEqual(LocalDate fechaInicio, LocalDate fechaFin);
+    
+    // Buscar ciclos que intersectan el rango de fechas: fechaFin >= begin AND fechaInicio <= end
+    List<CicloEscolar> findByFechaFinGreaterThanEqualAndFechaInicioLessThanEqual(LocalDate begin, LocalDate end);
 }

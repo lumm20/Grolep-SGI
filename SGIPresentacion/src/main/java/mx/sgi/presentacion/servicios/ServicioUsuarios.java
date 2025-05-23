@@ -99,18 +99,20 @@ public class ServicioUsuarios implements IServicioUsuarios {
      */
     public List<UsuarioDTO> getUserByName(String name) throws ConexionServidorException {
         try {
-            List<UsuarioDTO> allUsers = Arrays.asList(
-                    new UsuarioDTO(1L, "Carlos Martínez", "carlos@example.com", "1234", RolDTO.ADMIN),
-                    new UsuarioDTO(2L, "Ana López", "ana@example.com", "5678", RolDTO.CAJERO),
-                    new UsuarioDTO(3L, "Juan Pérez", "juan@example.com", "abcd", RolDTO.CAJERO),
-                    new UsuarioDTO(4L, "Carla Gómez", "carla@example.com", "pass", RolDTO.CAJERO),
-                    new UsuarioDTO(5L, "Antonio Rivera", "antonio@example.com", "admin", RolDTO.ADMIN)
-            );
-
-            return allUsers.stream()
-                    .filter(u -> u.getNombre() != null && u.getNombre().toLowerCase().contains(name.toLowerCase()))
-                    .collect(Collectors.toList());
-
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8081/SGI/api/users"))
+                    .GET()
+                    .header("Content-Type", "application/json")
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                List<UsuarioDTO> allUsers = Arrays.asList(new Gson().fromJson(response.body(), UsuarioDTO[].class));
+                return allUsers.stream()
+                        .filter(u -> u.getNombre() != null && u.getNombre().toLowerCase().contains(name.toLowerCase()))
+                        .collect(Collectors.toList());
+            } else {
+                throw new ConexionServidorException("Error al obtener usuarios: " + response.statusCode());
+            }
         } catch (Exception e) {
             throw new ConexionServidorException("Error al filtrar usuarios por nombre", e);
         }
