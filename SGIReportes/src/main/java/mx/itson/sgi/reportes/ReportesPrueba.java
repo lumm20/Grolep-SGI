@@ -3,7 +3,8 @@ package mx.itson.sgi.reportes;
 import mx.itson.sgi.dto.AlumnoConsultaDTO;
 import mx.itson.sgi.dto.DetallePagoDTO;
 import mx.itson.sgi.dto.MetodosPagoDTO;
-import mx.itson.sgi.dto.PagoDTO;
+import mx.itson.sgi.dto.PagoReporteDTO;
+import mx.itson.sgi.reportes.generador.GeneradorReportes;
 import net.sf.jasperreports.engine.JRException;
 
 import java.io.FileNotFoundException;
@@ -13,9 +14,9 @@ import java.util.List;
 
 public class ReportesPrueba {
     public static void main(String[] args) throws JRException, FileNotFoundException {
-        List<PagoDTO> pagoList = new ArrayList<>();
+        List<PagoReporteDTO> pagoList = new ArrayList<>();
 
-        PagoDTO pago1 = new PagoDTO();
+        PagoReporteDTO pago1 = new PagoReporteDTO();
         pago1.setMontoTotal(500.0);
         pago1.setFolio("PAY123");
         LocalDateTime fecha1 = LocalDateTime.now();
@@ -42,12 +43,10 @@ public class ReportesPrueba {
 
         pago1.setTipoDescuento("General");
         pago1.setMontoDescuento(50.0);
-        pago1.setIdCicloEscolar("C2023-1");
-        pago1.setIdUsuario(1L);
 
         pagoList.add(pago1);
 
-        PagoDTO pago2 = new PagoDTO();
+        PagoReporteDTO pago2 = new PagoReporteDTO();
         pago2.setMontoTotal(700.0);
         pago2.setFolio("PAY456");
         LocalDateTime fecha2 = LocalDateTime.now();
@@ -74,12 +73,10 @@ public class ReportesPrueba {
 
         pago2.setTipoDescuento(null);
         pago2.setMontoDescuento(null);
-        pago2.setIdCicloEscolar("C2023-2");
-        pago2.setIdUsuario(2L);
 
         pagoList.add(pago2);
 
-        PagoDTO pago3 = new PagoDTO();
+        PagoReporteDTO pago3 = new PagoReporteDTO();
         pago3.setMontoTotal(300.0);
         pago3.setFolio("PAY789");
         LocalDateTime fecha3 = LocalDateTime.now();
@@ -102,12 +99,10 @@ public class ReportesPrueba {
 
         pago3.setTipoDescuento(null);
         pago3.setMontoDescuento(null);
-        pago3.setIdCicloEscolar("C2023-1");
-        pago3.setIdUsuario(3L);
 
         pagoList.add(pago3);
 
-        PagoDTO pago4 = new PagoDTO();
+        PagoReporteDTO pago4 = new PagoReporteDTO();
         pago4.setMontoTotal(800.0);
         pago4.setFolio("PAY101");
         LocalDateTime fecha4 = LocalDateTime.now();
@@ -138,11 +133,10 @@ public class ReportesPrueba {
 
         pago4.setTipoDescuento("Primavera");
         pago4.setMontoDescuento(80.0);
-        pago4.setIdCicloEscolar("C2023-2");
-        pago4.setIdUsuario(4L);
 
         pagoList.add(pago4);
 
-        String destino = "C:";
+        String destino = "C:\\Users\\juventino\\Downloads\\prueba\\pd.pdf";
+        new GeneradorReportes().generarReportes(pagoList,destino);
     }
 }
