@@ -1,5 +1,7 @@
 package mx.itson.sgi.dto;
 
+import com.google.gson.annotations.Expose;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,13 +10,18 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode
 public class UsuarioDTO {
 
+    @Expose
 	private Long id;
     // @Expose
+    @Expose
     private String nombre;
+    @Expose
     private String contra;
     // @Expose
+    @Expose
     private RolDTO rol;
     // @Expose
+    @Expose
     private String correo;
 
     /**
