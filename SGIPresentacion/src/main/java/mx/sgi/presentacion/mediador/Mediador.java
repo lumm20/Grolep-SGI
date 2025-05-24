@@ -10,9 +10,7 @@ import javafx.stage.Stage;
 import mx.itson.sgi.dto.CicloEscolarDTO;
 import mx.itson.sgi.dto.vistas.TicketRegistrarDTO;
 import mx.sgi.presentacion.caches.TicketRegistrarCache;
-import mx.sgi.presentacion.controladores.MainFrameController;
-import mx.sgi.presentacion.controladores.PayamentsController;
-import mx.sgi.presentacion.controladores.TicketController;
+import mx.sgi.presentacion.controladores.*;
 import mx.sgi.presentacion.excepciones.ConexionServidorException;
 
 /**
@@ -80,27 +78,37 @@ public class Mediador {
     public void abrirPantallaTicket() throws ConexionServidorException {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/Ticket.fxml"));
+            System.out.println("1");
             Parent root = loader.load();
+            System.out.println("2");
             // Crear una nueva escena
             Scene scene = new Scene(root);
-
+            System.out.println("3");
+            
             // Crear un nuevo Stage (ventana)
             Stage nuevaVentana = new Stage();
-            nuevaVentana.initModality(Modality.APPLICATION_MODAL);
+            System.out.println("4");
+            // nuevaVentana.initModality(Modality.APPLICATION_MODAL);
             nuevaVentana.setTitle("GROLEP SGI v1.0");
+            System.out.println("5");
             nuevaVentana.setScene(scene);
-
+            System.out.println("6");
             // (Opcional) Si deseas evitar que el usuario redimensione la ventana
             nuevaVentana.setResizable(false);
+            System.out.println("7");
 
             // Mostrar la nueva ventana
             //cuando hay desconexion aqui manda una excepcion
-            nuevaVentana.showAndWait();
 
-            TicketController controller = loader.getController();
-            System.out.println("Aqui deberia tomar la excepcion y lanzarla");
+            // nuevaVentana.showAndWait();
+            nuevaVentana.show();
+
+            // TicketController controller = loader.getController();
+            // System.out.println("Aqui deberia tomar la excepcion y lanzarla");
             //controller.confirmarPago(); //esta linea daba error nulo
         } catch (IOException e) {
+            System.err.println("error: "+e);
+            e.printStackTrace();
             throw new ConexionServidorException("Error al abrir la ventana de confirmación del pago.", e);
         }catch (RuntimeException e) {
             System.err.println("Error durante la ejecución de la ventana: " + e.getMessage());
@@ -109,19 +117,6 @@ public class Mediador {
         }
     }
 
-    /**
-     *
-     */
-    public void refrescarPantallaPagos(){
-        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
-        PayamentsController pantallaPrincipal = PayamentsController.getInstance();
-
-        String matricula = ticket.getAlumno().getMatricula();
-        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
-
-        pantallaPrincipal.cleanupTxtFields();
-        pantallaPrincipal.establecerCuotas(matricula, cicloEscolar);
-    }
 
     /**
      *  Method that sets the initial center frame and the initial left frame
@@ -199,5 +194,135 @@ public class Mediador {
         }
     }
 
+    public void openRegisterUserScreen(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterStudent.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Registrar Estudiante");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openEditUserScreen(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditStudent.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Editar Estudiante");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openAddFiltersScreen(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/ReportFilters.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Filtros de busqueda");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openRegisterCycleScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/RegisterCycle.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Registro de ciclo escolar");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+    public void openEditCycleScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/mx/sgi/presentacion/main/EditCycle.fxml"));
+            Parent root = loader.load();
+
+            // Crear una nueva escena
+            Scene scene = new Scene(root);
+            // Crear un nuevo Stage (ventana)
+            Stage newScreen = new Stage();
+
+            newScreen.setTitle("Edicion de ciclo escolar");
+            newScreen.setScene(scene);
+            newScreen.setResizable(false);
+            newScreen.show();
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar la pantalla de registro de estudiantes");
+            e.printStackTrace();
+        }
+    }
+
+
+    public void refreshManageStudentsScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        ManageStudentController controller = (ManageStudentController) mainFrame.getCenter();
+        controller.loadTable();
+    }
+
+    public void refreshManageCyclesScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        ManageCyclesController controller = (ManageCyclesController) mainFrame.getCenter();
+        controller.loadTable();
+    }
+
+    public void refreshPaymentScreen(){
+        MainFrameController mainFrame = MainFrameController.getInstance();
+        PayamentsController controller = (PayamentsController) mainFrame.getCenter();
+
+        TicketRegistrarDTO ticket = TicketRegistrarCache.getInstance();
+
+        String matricula = ticket.getAlumno().getMatricula();
+        CicloEscolarDTO cicloEscolar = ticket.getCiclo();
+
+        controller.cleanupTxtFields();
+        controller.establecerCuotas(matricula, cicloEscolar);
+    }
 
 }

@@ -19,7 +19,7 @@ end$$
 delimiter ;
 -- -----------------------------------------------------------
 delimiter $$
-drop procedure if exists sp_obtener_cuotas_alumnos;
+drop procedure if exists sp_obtener_cuotas_alumno;
 create procedure sp_obtener_cuotas_alumno(in matricula varchar(20), in id_ciclo varchar(10))
 begin
 	call sp_monto_total_colegiaturas(matricula,id_ciclo,@monto_total);

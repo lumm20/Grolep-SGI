@@ -11,6 +11,11 @@ public class BecaDTO implements Serializable {
     BigDecimal descuento; //indica cuanto descuento da
 
     /**
+     * Constructor por defecto
+     */
+    public BecaDTO() {}
+
+    /**
      * Contructor completo
      *
      * @param tipo

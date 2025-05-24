@@ -1,17 +1,27 @@
 package mx.itson.sgi.dto;
 
+import com.google.gson.annotations.Expose;
+
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode
 public class UsuarioDTO {
 
+    @Expose
 	private Long id;
     // @Expose
+    @Expose
     private String nombre;
+    @Expose
     private String contra;
     // @Expose
+    @Expose
     private RolDTO rol;
     // @Expose
+    @Expose
     private String correo;
 
     /**
@@ -47,8 +57,7 @@ public class UsuarioDTO {
         this.contra = contra;
     }
 
-    public String toString(){
-        return "{id: "+id+", nombre: "+nombre+", correo: "+correo+", rol: "+rol+"}";
-    }
+    @Override
+    public String toString() { return nombre;}
 }
 

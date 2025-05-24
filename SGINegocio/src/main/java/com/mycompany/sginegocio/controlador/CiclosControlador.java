@@ -31,4 +31,8 @@ public class CiclosControlador {
     public CicloConDetallesDTO obtenerCiclosConDetallesPorId(String id) {
         return cicloEscolarService.obtenerCicloConDetallesPorId(id);
     }
+
+    public List<CicloConDetallesDTO> obtenerCiclosConDetallesPorFechas(String begin, String end) {
+        return cicloEscolarService.obtenerCiclosConDetallesPorFechas(begin, end);
+    }
 }

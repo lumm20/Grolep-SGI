@@ -16,6 +16,7 @@ module mx.sgi.presentacion.main.sgipresentacion {
     requires mx.itson.sgi.dto;
     requires MaterialFX;
     requires org.kordamp.ikonli.materialdesign;
+    requires mx.itson.sgi.reportes;
 
     opens mx.sgi.presentacion.main to javafx.fxml;
     exports mx.sgi.presentacion.main;

@@ -70,10 +70,10 @@ public class CuotaService {
                 (String)cuota[1],
                 (String)cuota[2],
                 (String)cuota[3],
-                (Double)cuota[4],
-                (Double)cuota[5]
+                (Double)cuota[4] != null ? (Double)cuota[4] : 0.0,
+                (Double)cuota[5] != null ? (Double)cuota[5] : 0.0
             )).collect(Collectors.toList());
-            System.out.println(dto);
+            System.out.println("dto obtenido"+dto);
             return dto;
         }
         return null;

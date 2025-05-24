@@ -4,6 +4,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -186,7 +187,7 @@
                             </font></TextField>
             <Separator layoutX="14.0" layoutY="56.0" prefHeight="1.0" prefWidth="606.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
             <Separator layoutX="14.0" layoutY="108.0" prefHeight="1.0" prefWidth="606.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
-            <MFXButton fx:id="btnDetalles" buttonType="RAISED" depthLevel="LEVEL4" layoutX="25.0" layoutY="172.0" prefHeight="31.0" prefWidth="62.0" text="Button">
+            <MFXButton fx:id="btnDetalles" buttonType="RAISED" depthLevel="LEVEL4" layoutX="25.0" layoutY="172.0" prefHeight="31.0" prefWidth="62.0" text="Button" onAction="#mostrarDetalles">
                <font>
                   <Font name="Segoe UI" size="12.0" />
                </font>
@@ -231,13 +232,18 @@
                                 <Font size="15.0" />
                             </font>
                         </Label>
+                        <Label fx:id="lblTipoDescuento" layoutX="166.0" layoutY="108.0" prefHeight="28.0" prefWidth="106.0" text="0.00">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </Label>
                         <Label layoutX="17.0" layoutY="18.0" prefHeight="28.0" prefWidth="69.0" text="Subtotal:">
                             <font>
                                 <Font name="Segoe UI Bold" size="15.0" />
                             </font>
                         </Label>
                         <Separator layoutX="10.0" layoutY="96.0" prefHeight="1.0" prefWidth="299.0" style="-fx-background-color: #5f5f5f;" styleClass="separa" />
-            <MFXComboBox fx:id="cmbxMetodoPago" floatMode="DISABLED" layoutX="46.0" layoutY="301.0" prefHeight="40.0" prefWidth="218.0" promptText="Ciclo escolar" styleClass="combo-box">
+            <MFXComboBox fx:id="cmbxMetodoPago" floatMode="DISABLED" layoutX="46.0" layoutY="301.0" prefHeight="40.0" prefWidth="218.0" promptText="Metodo pago" styleClass="combo-box">
                <font>
                   <Font name="Segoe UI" size="14.0" />
                </font>
@@ -249,30 +255,26 @@
                         <Font name="System Bold" size="16.0" />
                     </font>
                 </Label>
-      <MFXButton fx:id="btnLimpiarFiltroAlumnos" buttonType="RAISED" depthLevel="LEVEL4" layoutX="483.0" layoutY="24.0" prefHeight="40.0" prefWidth="62.0">
+      <MFXButton fx:id="btnLimpiarFiltroAlumnos" buttonType="RAISED" depthLevel="LEVEL4" layoutX="483.0" layoutY="24.0" prefHeight="40.0" prefWidth="62.0" onAction="#cleanup">
          <font>
             <Font name="Segoe UI" size="12.0" />
          </font>
       </MFXButton>
-      <MFXComboBox fx:id="cmbxCicloEscolar" floatMode="DISABLED" layoutX="793.0" layoutY="24.0" prefHeight="40.0" prefWidth="158.0" promptText="Ciclo escolar" styleClass="combo-box">
+      <MFXComboBox fx:id="cmbxCicloEscolar" floatMode="DISABLED" layoutX="793.0" layoutY="24.0" prefHeight="40.0" prefWidth="158.0" promptText="Ciclo escolar" styleClass="combo-box" onAction="#ConsultarAdeudosConCicloEscolar">
          <font>
             <Font name="Segoe UI" size="14.0" />
          </font>
       </MFXComboBox>
-      <MFXComboBox fx:id="cmbxAlumnos" floatMode="DISABLED" layoutX="27.0" layoutY="30.0" prefHeight="40.0" prefWidth="438.0">
-         <font>
-            <Font name="Segoe UI" size="18.0" />
-         </font>
-      </MFXComboBox>
-      <MFXTextField fx:id="txfAlumnos" floatMode="DISABLED" layoutX="27.0" layoutY="20.0" prefHeight="50.0" prefWidth="438.0" promptText="Busqueda de alumno" styleClass="input-field">
-         <font>
-            <Font name="Segoe UI" size="14.0" />
-         </font>
-      </MFXTextField>
-      <MFXButton fx:id="btnRegistrar" buttonType="RAISED" depthLevel="LEVEL4" layoutX="808.0" layoutY="515.0" prefHeight="51.0" prefWidth="128.0" style="-fx-background-color: #73f030;" text="Registrar">
+      <ComboBox fx:id="cmbxAlumnos" layoutX="55.0" layoutY="24.0" prefHeight="40.0" prefWidth="358.0" style="-fx-background-radius: 10px;" />
+      <MFXButton fx:id="btnRegistrar" buttonType="RAISED" depthLevel="LEVEL4" layoutX="808.0" layoutY="515.0" prefHeight="51.0" prefWidth="128.0" style="-fx-background-color: #73f030;" text="Registrar" onAction="#registrarPago">
          <font>
             <Font name="Segoe UI" size="15.0" />
          </font>
       </MFXButton>
+      <MFXTextField fx:id="txfAlumnos" floatMode="DISABLED" layoutX="52.0" layoutY="15.0" prefHeight="51.0" prefWidth="365.0" promptText="Busqueda de alumno" styleClass="input-field">
+         <font>
+            <Font name="Segoe UI" size="14.0" />
+         </font>
+      </MFXTextField>
             </children>
         </AnchorPane>

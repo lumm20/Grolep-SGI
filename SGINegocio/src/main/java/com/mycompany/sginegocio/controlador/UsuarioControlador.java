@@ -63,4 +63,8 @@ public class UsuarioControlador {
                 throw new UserException("User with that email already exists", UserException.EMAIL_CONFLICT);
         }
     }
+
+    public List<UsuarioDTO> obtenerUsuarios() {
+        return service.obtenerUsuarios();
+    }
 }

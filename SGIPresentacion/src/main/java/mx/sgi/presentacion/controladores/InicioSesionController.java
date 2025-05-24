@@ -6,6 +6,8 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import mx.itson.sgi.dto.AuthenticationResponse;
+import mx.sgi.presentacion.caches.UsuarioCache;
 import mx.sgi.presentacion.interfaces.IServicioUsuarios;
 import mx.sgi.presentacion.mediador.Mediador;
 import mx.sgi.presentacion.servicios.ServicioUsuarios;
@@ -65,27 +67,26 @@ public class InicioSesionController implements Initializable{
             String id = txfId.getText();
             String contrena = psfPassword.getText();
 
-            //mandamos los datos al servicio
-//            AuthenticationResponse usuario = servicioUsuarios.loginSec(id, contrena);
+            // mandamos los datos al servicio
+            AuthenticationResponse usuario = servicioUsuarios.loginSec(id, contrena);
 
-//            System.out.println(usuario.toString());
+            System.out.println(usuario.toString());
 
-//            if(usuario.getToken() != null){
-//                //guardamos al usuario en la instancia global
-//                // UsuarioCache.setInstance(usuario);
-//                UsuarioCache.setSession(usuario);
-    
-                //hacemos el cambio de pantalla
+            if (usuario.getToken() != null) {
+                // guardamos al usuario en la instancia global
+                // UsuarioCache.setInstance(usuario);
+                UsuarioCache.setSession(usuario);
+
+                // hacemos el cambio de pantalla
                 loadInitialScreen();
-                
-    
-                //cerramos la ventana de inicio de sesion
+
+                // cerramos la ventana de inicio de sesion
                 Stage stage = (Stage) txfId.getScene().getWindow(); // Obtener el Stage (ventana) actual
                 stage.close(); // Cerrar la ventana de inicio de sesiónS
-                
-//            }else{
-//                notifyError(usuario.getError());
-//            }
+
+            } else {
+                notifyError(usuario.getError());
+            }
 
         }
         catch(Exception ex){

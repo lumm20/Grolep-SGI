@@ -56,11 +56,11 @@ public class StudentDataInitializer {
                 .estatus(Estatus.Activo)
                 .nivel(Nivel.Primaria)
                 .fechaNacimiento(LocalDate.of(2008, 5, 20))
-                .telefono("5551112233")
+                .telefono("5522102938")
                 .genero(Genero.Masculino)
-                .correo("carlos.rodriguez@example.com")
-                .tutor("Luis Rodríguez")
-                .telefonoPadre("5551234567")
+                .correo("jesus.vega@example.com")
+                .tutor("Jose Vega")
+                .telefonoPadre("5551223987")
                 .beca(new Beca(TipoBeca.DEPORTIVA, 0.0))
                 .cuotas(new ArrayList<>())      // evita null
                 .compras(new ArrayList<>())     // evita null
@@ -68,7 +68,7 @@ public class StudentDataInitializer {
         alumnos.add(alumnoRepository.save(alumno2));
 
         Alumno alumno3 = Alumno.builder()
-                .matricula("A20220001")
+                .matricula("A20220003")
                 .nombre("Maria Martinez Chavez")
                 .promedio(8.7)
                 .grado(3)
@@ -76,11 +76,11 @@ public class StudentDataInitializer {
                 .estatus(Estatus.Egresado)
                 .nivel(Nivel.Preescolar)
                 .fechaNacimiento(LocalDate.of(2008, 5, 20))
-                .telefono("5551112233")
+                .telefono("5558362265")
                 .genero(Genero.Masculino)
-                .correo("carlos.rodriguez@example.com")
-                .tutor("Luis Rodríguez")
-                .telefonoPadre("5551234567")
+                .correo("maria.martinez@example.com")
+                .tutor("Enrique Martinez")
+                .telefonoPadre("5577392011")
                 .beca(new Beca(TipoBeca.NINGUNA, 0.0))
                 .cuotas(new ArrayList<>())      // evita null
                 .compras(new ArrayList<>())     // evita null

@@ -173,7 +173,7 @@
          </children>
       </AnchorPane>
       
-      <MFXButton layoutX="127.0" layoutY="685.0" onAction="#confirmarPago" prefHeight="44.0" prefWidth="133.0" style="-fx-background-color: #3fea37; -fx-background-radius: 10px;" text="Confirmar" AnchorPane.topAnchor="685.0">
+      <MFXButton fx:id="btnConfirmar" layoutX="127.0" layoutY="685.0" onAction="#confirmarPago" prefHeight="44.0" prefWidth="133.0" style="-fx-background-color: #3fea37; -fx-background-radius: 10px;" text="Confirmar" AnchorPane.topAnchor="685.0">
          <font>
             <Font size="14.0" />
          </font>

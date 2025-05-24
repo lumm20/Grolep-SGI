@@ -47,8 +47,15 @@ public class APICiclos {
     }
 
     @GetMapping
-    public ResponseEntity<?> obtenerCiclosEscolares() {
-        List<CicloConDetallesDTO> ciclos = cicloControlador.obtenerCiclosConDetalles();
+    public ResponseEntity<?> obtenerCiclosEscolares(
+            @RequestParam(required = false) String begin,
+            @RequestParam(required = false) String end) {
+        List<CicloConDetallesDTO> ciclos;
+        if (begin != null && end != null) {
+            ciclos = cicloControlador.obtenerCiclosConDetallesPorFechas(begin, end);
+        } else {
+            ciclos = cicloControlador.obtenerCiclosConDetalles();
+        }
         if (ciclos != null && !ciclos.isEmpty()) {
             return ResponseEntity.ok().body(ciclos);
         }
@@ -66,4 +73,6 @@ public class APICiclos {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener el ciclo escolar");
         }
     }
+
+    
 }
